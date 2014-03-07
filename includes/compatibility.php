@@ -18,9 +18,11 @@ CMLUtils::_append( "_seo", array(
 function cml_yoast_seo_strings( $types ) {
   if( defined( 'WPSEO_VERSION' ) ) {
     $options = get_wpseo_options();
+
     foreach ( $options as $key => $opt ) {
-      if( strpos( $key, "title-" ) !== false ||
-         strpos( $key, "metadesc-" ) !== false ) {
+      if( ( strpos( $key, "title-" ) !== false ||
+         strpos( $key, "metadesc-" ) !== false ) &&
+         ! empty( $opt ) ) {
         /*
          * add strings to my table if they doesn't exists
          */
@@ -52,9 +54,14 @@ function cml_yoast_translate_options() {
       /*
        * add strings to my table if they doesn't exists
        */
-      $wpseo_front->options[ $key ] = CMLTranslations::get( CMLLanguage::get_current_id(),
+      $value = CMLTranslations::get( CMLLanguage::get_current_id(),
                                                            "_$key",
-                                                           "_YOAST" );
+                                                           "_YOAST",
+                                                           true );
+      
+      if( empty( $value ) ) continue;
+
+      $wpseo_front->options[ $key ] = $value;
     }
   }
 }
