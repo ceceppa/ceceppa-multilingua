@@ -8,7 +8,7 @@ echo '<div class="cml-box-shadow"></div>';
  * Redirect mode
  */
 function cml_admin_options_redirect() {
-  $_cml_settings = $GLOBALS[ '_cml_settings' ];
+  $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
   $redirect = $_cml_settings[ 'cml_option_redirect' ];
   ?>
@@ -182,7 +182,7 @@ function cml_admin_options_url_mode() {
 }
 
 function cml_admin_options_categories_tags() {
-  $_cml_settings = $GLOBALS[ '_cml_settings' ];
+  $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
 ?>
   <div id="minor-publishing">
@@ -217,7 +217,7 @@ function cml_admin_options_categories_tags() {
 }
 
 function cml_admin_options_show_notice() {
-  $_cml_settings = $GLOBALS[ '_cml_settings' ];
+  $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
 ?>
   <div id="minor-publishing">

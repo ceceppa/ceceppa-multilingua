@@ -69,4 +69,6 @@
   $_cml_settings[ 'cml_change_date_format' ] = get_option( "cml_change_date_format", 1 );
   $_cml_settings[ 'cml_show_float_items_style' ] = get_option( "cml_show_float_items_style", 1 );
   $_cml_settings[ 'cml_show_html_items_style' ] = get_option( "cml_show_html_items_style", 1 );
+  
+  $GLOBALS[ '_cml_settings' ] = & $_cml_settings;
 ?>

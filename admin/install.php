@@ -213,6 +213,7 @@ function cml_do_install() {
   //Copy category translation from "_cats" to "_relations"
   require_once ( CML_PLUGIN_ADMIN_PATH . "admin-taxonomies.php" );
   _cml_copy_taxonomies_to_translations();
+  cml_generate_mo_from_translations( "", false );
 
   //(Re)generate settings
   cml_generate_settings_php();

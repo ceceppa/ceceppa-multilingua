@@ -143,6 +143,9 @@ require_once CML_PLUGIN_INCLUDES_PATH . "widgets.php";
 //debug
 //require_once( "debug.php" );
 
+//3rd party compatibility
+require_once( CML_PLUGIN_INCLUDES_PATH . 'compatibility.php' );
+
 /*
  *
  * Ceceppa Multilingua "core" class
@@ -187,7 +190,7 @@ class CeceppaML {
     add_filter( 'pre_post_link', array( & $this, 'pre_post_link' ), 0, 3 );
     add_filter( 'post_link', array( & $this, 'translate_post_link' ), 0, 3 );
     add_filter( 'post_type_link', array( & $this, 'translate_post_link' ), 0, 3 );
-    //add_filter( 'page_link', array( & $this, 'translate_post_link' ), 0, 3 );
+    add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
 
     //Switch language in menu
     add_action( 'admin_bar_menu', array( & $this, 'add_bar_menu' ), 1000 );
@@ -346,18 +349,6 @@ EOT;
       return $permalink;
     }
 
-    //Page
-    //$is_page = false;
-    //if( ! is_object( $post ) ) {
-    //  $post = get_post( $post );
-    //
-    //  $lang = CMLLanguage::get_id_by_post_id( $post->ID );
-    //  $this->force_category_lang = $lang;
-    //  $this->_force_post_lang = $lang;
-    //
-    //  $is_page = true;
-    //}
-    //
     /*
      * I have to unforce category lang
      */
@@ -417,9 +408,6 @@ EOT;
       $permalink = untrailingslashit( $permalink );
     }
 
-    if( $is_page && $this->_url_mode > PRE_LANG ) {
-    }
-
     $this->unset_category_lang();
     unset( $this->_force_post_lang );
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
@@ -427,6 +415,19 @@ EOT;
     return $permalink;
   }
 
+  function translate_page_link( $permalink, $page_id, $leavename ) {
+    $lang = CMLLanguage::get_by_post_id( $page_id );
+
+    $clean = CMLUtils::clear_url( $permalink );    
+    $url = CMLUtils::home_url();
+
+    //Change slug in url instead of append ?lang arg
+    $link = str_replace( trailingslashit( $url ), "", $clean );
+    
+    $home = CMLUtils::get_home_url( $lang->cml_language_slug );
+    return trailingslashit( $home ) . $link;
+  }
+  
   function translate_category_url( $url ) {
     $homeUrl = untrailingslashit( $this->_homeUrl );
     $plinks = explode( "/", str_replace( $homeUrl, "", $this->_request_url ) );

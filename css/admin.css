@@ -1512,3 +1512,7 @@ th#cml_flags.cml-zoomed a {
 iframe.cml-iframe {
   border: 1px solid #ddd;
 }
+
+.cml-valign-bottom {
+  vertical-align: bottom !important;
+}

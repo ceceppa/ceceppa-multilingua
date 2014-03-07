@@ -180,6 +180,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 * Now you can group comments also for pages
 * You can translate the plugin in your language
 * The plugin will automatically set categories or page parent from original post/page.
+* Added compatibility with "Google XML Sitemap"
 
 = 1.3.68 =
 * Fixed "Filter posts"

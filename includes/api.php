@@ -155,13 +155,14 @@ class CMLLanguage {
 
   /*
    * return all enabled languages except current one
-   * 
+   *
+   * @param boolean $only_enableds return only enabled languages
    * @return stdObject
    */
-  public static function get_others() {
+  public static function get_others( $only_enableds = true ) {
     if( empty( self::$_all_languages ) ) self::get_all();
     
-    $langs = self::$_all_enabled;
+    $langs = ( $only_enableds ) ? self::$_all_enabled : self::$_all_languages;
     unset( $langs[ self::get_current_id() ] );
     
     return $langs;
@@ -436,6 +437,39 @@ class CMLTranslations {
   /** @ignore */
   private static $_keys = array();
 
+  /**
+   * @ignore
+   *
+   * add new string to my table :)
+   */
+  public static function add( $key, $default, $type ) {
+    global $wpdb;
+
+    $default = bin2hex( $default );
+    foreach( CMLLanguage::get_no_default() as $lang ) {
+      $query = sprintf( "SELECT id FROM %s WHERE cml_text = '%s' AND cml_lang_id = %d AND cml_type = '%s'",
+                        CECEPPA_ML_TRANSLATIONS,
+                        bin2hex( strtolower( $key ) ),
+                        $lang->id,
+                        $type );
+  
+      $record = $wpdb->get_var( $query );
+      if( empty( $record ) ) {
+        $wpdb->insert( CECEPPA_ML_TRANSLATIONS,
+                      array(
+                            'cml_text' => bin2hex( strtolower( $key ) ),
+                            'cml_lang_id' => $lang->id,
+                            'cml_translation' => $default,
+                            'cml_type' => $type
+                            ),
+                      array(
+                        '%s', '%d', '%s', '%s',
+                      )
+                     );
+      }
+    }
+  }
+  
   /**
    * Store custom translation in database.
    *
@@ -1114,11 +1148,12 @@ class CMLUtils {
    * 
    * @ignore
    */
-  public static function clear_url() {
+  public static function clear_url( $url = null ) {
     global $wp_rewrite;
 
     if( self::get_url_mode() != PRE_PATH 
-        || self::$_clean_applied == true ) {
+        || ( self::$_clean_applied == true &&
+        null === $url ) ) {
       return self::$_language_detected;
     }
 
@@ -1128,31 +1163,50 @@ class CMLUtils {
                                         "", self::$_url );
     }
 
-    /*
-     * remove all parameters in url
-     */
-    self::$_clean_url = preg_replace( "/\?.*/", "", self::$_url );
-    self::$_clean_request = self::$_request_url;
+    if( null === $url ) {
+      $_url = self::$_url;
+      $request_url = self::$_request_url;
+      
+      /*
+       * remove all parameters in url
+       */
+      self::$_clean_url = preg_replace( "/\?.*/", "", $_url );
+      self::$_clean_request = $request_url;
+    } else {
+      $_url = $url;
+      $request_url = str_replace( trailingslashit( self::home_url() ),
+                                        "", $url );
+    }
 
-    $url = self::$_request_url;
+    $_url = $request_url;
     $base_url = str_replace( "http://" . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
 
-    if( preg_match( "#^([a-z]{2})(/.*)?$#i", $url, $match ) ) {
-      self::$_language_detected = CMLLanguage::get_id_by_slug( $match[1] );
-      if( empty( self::$_language_detected ) ) return null;
+    if( preg_match( "#^([a-z]{2})(/.*)?$#i", $_url, $match ) ) {
+      $lang = CMLLanguage::get_id_by_slug( $match[1] );
+      if( empty( $lang ) ) {
+        return $url;
+      }
 
-      CMLLanguage::set_current( self::$_language_detected );
-  
-      $url = substr( $url, 3 );
-      $url = preg_replace( "/\?.*/", "", $url );
+      $_url = substr( $_url, 3 );
+      $_url = preg_replace( "/\?.*/", "", $_url );
 
-      self::$_clean_url = trailingslashit( self::$_home_url ) . $url;
-      self::$_clean_request = $base_url . "/" . $url;
+      if( null === $url ) {
+        self::$_language_detected = $lang;
+
+        CMLLanguage::set_current( self::$_language_detected );
+
+        self::$_clean_url = trailingslashit( self::$_home_url ) . $_url;
+        self::$_clean_request = trailingslashit( $base_url ) . $_url;
+      } else {
+        $_url = trailingslashit( CMLUtils::home_url() ) . $_url;
+      }
     }
     
-    self::$_clean_applied = true;
-    
-    return self::$_language_detected;
+    if( null === $url ) {
+      self::$_clean_applied = true;
+    }
+
+    return ( null === $url ) ? self::$_language_detected : $_url;
   }
 
   /**
@@ -1193,6 +1247,17 @@ class CMLUtils {
    */
   public static function _get( $key ) {
     return isset( self::$_vars[ $key ] ) ? self::$_vars[ $key ] : null;
+  }
+  
+  /**
+   * @ignore
+   */
+  public static function _append( $key, $value ) {
+    if( ! isset( self::$_vars[ $key ] ) ) {
+      self::$_vars[ $key ] = array();
+    }
+    
+    self::$_vars[ $key ][] = $value;
   }
 }
 ?>

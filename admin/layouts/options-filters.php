@@ -212,7 +212,7 @@ function cml_admin_options_translate_menu() {
         <?php _e( 'Force items language ', 'ceceppaml' ) ?>
       </dt>
         <dd>
-          <?php _e( 'If an item doesn\'t have a translation into current language, you can force its language so the site will remains in current language', 'ceceppaml' ); ?><br />
+          <?php _e( "If an item doesn't exists in current language, the plugin will add ?lang parameter to force item in current language", 'ceceppaml' ); ?><br />
         </dd>
         
       <dt>

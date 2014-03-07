@@ -282,8 +282,8 @@ EOT;
             $ret = $po->search( $s );
           }
 
-          if( strcasecmp( $ret, $string ) == 0 ) $ret = __( $string );  //Cerco anche tra le traduzioni di wordpress
-          $done = !( strcasecmp( $ret, $string ) == 0 );
+          if( strcasecmp( stripslashes( $ret ), stripslashes( $string ) ) == 0 ) $ret = __( $string );  //Cerco anche tra le traduzioni di wordpress
+          $done = !( strcasecmp( stripslashes( $ret ), stripslashes( $string ) ) == 0 );
 
           //Translation cannot be empty
           if( empty( $ret ) ) $ret = $string;
@@ -326,28 +326,28 @@ EOT;
         else
           $class = "to-translate string-incomplete";
       
-          echo "<tr class=\"$alternate row-domain string-$class\">";
-          echo $td;
-          echo "</tr>";
-    
-          echo "<tr class=\"$alternate row-details row-hidden \">";
-          echo "<td colspan=\"" . ( count( $langs ) + 1 ) ."\">";
-        
-          foreach( $langs as $lang ) {
-            $done = $trans[ $lang->id ][ $i ][ 'done' ] == 1;
-        
-            echo "<div class=\"ceceppaml-trans-fields\">";
-            echo '<img src="' . CMLLanguage::get_flag_src( $lang->id ) . '" class="available-lang" />';
-            echo "&nbsp;<textarea name=\"string[" . $lang->id . "][]\">" . esc_html( stripslashes( $trans[ $lang->id ][ $i ][ 'string' ] ) ) . "</textarea>";
-            
-            $done = ( $done )  ? __( 'Translation complete', 'ceceppaml' ) : __( 'Translation not complete', 'ceceppaml' );
-            echo "</div>";
-          }
+        echo "<tr class=\"$alternate row-domain string-$class\">";
+        echo $td;
+        echo "</tr>";
+  
+        echo "<tr class=\"$alternate row-details row-hidden \">";
+        echo "<td colspan=\"" . ( count( $langs ) + 1 ) ."\">";
+      
+        foreach( $langs as $lang ) {
+          $done = $trans[ $lang->id ][ $i ][ 'done' ] == 1;
+      
+          echo "<div class=\"ceceppaml-trans-fields\">";
+          echo '<img src="' . CMLLanguage::get_flag_src( $lang->id ) . '" class="available-lang" />';
+          echo "&nbsp;<textarea name=\"string[" . $lang->id . "][]\">" . esc_html( stripslashes( $trans[ $lang->id ][ $i ][ 'string' ] ) ) . "</textarea>";
+          
+          $done = ( $done )  ? __( 'Translation complete', 'ceceppaml' ) : __( 'Translation not complete', 'ceceppaml' );
+          echo "</div>";
+        }
 
-          echo "</td>";
-          echo "</tr>";
-    
-          $i++;
+        echo "</td>";
+        echo "</tr>";
+  
+        $i++;
       } //$strings as $s 
   
     } // $keys as $d 

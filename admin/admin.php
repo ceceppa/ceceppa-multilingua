@@ -53,17 +53,21 @@ class CMLAdmin extends CeceppaML {
      *
      * translate_home option can be used by external plugins to allow home url translation
     */
-    if( "options-general.php" == $pagenow &&
-       "google-sitemap-generator/sitemap.php" == $_GET[ 'page' ] ) {
-      CMLUtils::_set( "translate_home", 1 );
+    $seo = CMLUtils::_get( '_seo' );
+    if( is_array( $seo ) ) {
+      foreach( $seo as $s ) {
+        if( $s[ 'pagenow' ] == $pagenow ) {
+          if( isset( $s[ 'page' ] ) && $s[ 'page' ] != $_GET[ 'page' ] ) {
+            break;
+          }
+
+          CMLUtils::_set( "translate_home", 1 );
+        }
+      }
     }
 
     if( in_array( $pagenow, array( "post.php", "post-new.php", "edit.php" ) )
         || CMLUtils::_get( "translate_home", 1 ) ) {
-      /*
-       * Google XML Sitemaps
-       */
-
       /*
        * I need to force home url to post language or
        * wp show permalink in according to current language :O

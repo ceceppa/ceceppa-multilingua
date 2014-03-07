@@ -7,7 +7,7 @@
 	<title>Class CMLLanguage</title>
 
 	<script type="text/javascript" src="resources/combined.js?2354491673"></script>
-	<script type="text/javascript" src="elementlist.js?3577985044"></script>
+	<script type="text/javascript" src="elementlist.js?4270564774"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -40,6 +40,7 @@
 			<ul>
 				<li><a href="function-cml_dropdown_langs.html">cml_dropdown_langs</a></li>
 				<li><a href="function-cml_get_browser_lang.html">cml_get_browser_lang</a></li>
+				<li><a href="function-cml_get_menu.html">cml_get_menu</a></li>
 				<li><a href="function-cml_get_notice.html">cml_get_notice</a></li>
 				<li><a href="function-cml_get_the_link.html">cml_get_the_link</a></li>
 				<li><a href="function-cml_is_homepage.html">cml_is_homepage</a></li>
@@ -129,7 +130,7 @@
 	<li>[cml_date_format] =&gt; j M Y</li>
 </ul>
 <br />
-		<b>Located at</b> <a href="source-class-CMLLanguage.html#8-427" title="Go to source code">api.php</a><br />
+		<b>Located at</b> <a href="source-class-CMLLanguage.html#8-428" title="Go to source code">api.php</a><br />
 	</div>
 
 
@@ -367,7 +368,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_others">#</a>
-		<code><a href="source-class-CMLLanguage.html#161-168" title="Go to source code">get_others</a>( )</code>
+		<code><a href="source-class-CMLLanguage.html#162-169" title="Go to source code">get_others</a>( <span>mixed <var>$only_enableds</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -396,7 +397,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_slugs">#</a>
-		<code><a href="source-class-CMLLanguage.html#170-188" title="Go to source code">get_slugs</a>( )</code>
+		<code><a href="source-class-CMLLanguage.html#171-189" title="Go to source code">get_slugs</a>( )</code>
 
 		<div class="description short">
 			
@@ -443,7 +444,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_current">#</a>
-		<code><a href="source-class-CMLLanguage.html#190-199" title="Go to source code">get_current</a>( )</code>
+		<code><a href="source-class-CMLLanguage.html#191-200" title="Go to source code">get_current</a>( )</code>
 
 		<div class="description short">
 			
@@ -480,7 +481,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_current_id">#</a>
-		<code><a href="source-class-CMLLanguage.html#201-208" title="Go to source code">get_current_id</a>( )</code>
+		<code><a href="source-class-CMLLanguage.html#202-209" title="Go to source code">get_current_id</a>( )</code>
 
 		<div class="description short">
 			
@@ -517,7 +518,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_current_slug">#</a>
-		<code><a href="source-class-CMLLanguage.html#210-215" title="Go to source code">get_current_slug</a>( )</code>
+		<code><a href="source-class-CMLLanguage.html#211-216" title="Go to source code">get_current_slug</a>( )</code>
 
 		<div class="description short">
 			
@@ -550,7 +551,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_name">#</a>
-		<code><a href="source-class-CMLLanguage.html#217-230" title="Go to source code">get_name</a>( <span>int/string <var>$lang</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#218-231" title="Go to source code">get_name</a>( <span>int/string <var>$lang</var></span> )</code>
 
 		<div class="description short">
 			
@@ -592,7 +593,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_slug">#</a>
-		<code><a href="source-class-CMLLanguage.html#232-247" title="Go to source code">get_slug</a>( <span>int/string <var>$lang</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#233-248" title="Go to source code">get_slug</a>( <span>int/string <var>$lang</var></span> )</code>
 
 		<div class="description short">
 			
@@ -634,7 +635,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_by_id">#</a>
-		<code><a href="source-class-CMLLanguage.html#249-261" title="Go to source code">get_by_id</a>( <span>int/string <var>$id</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#250-262" title="Go to source code">get_by_id</a>( <span>int/string <var>$id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -676,7 +677,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_by_slug">#</a>
-		<code><a href="source-class-CMLLanguage.html#263-280" title="Go to source code">get_by_slug</a>( <span>string <var>$slug</var></span>, <span>boolean <var>$empty</var> = <span class="php-keyword1">false</span> </span> )</code>
+		<code><a href="source-class-CMLLanguage.html#264-281" title="Go to source code">get_by_slug</a>( <span>string <var>$slug</var></span>, <span>boolean <var>$empty</var> = <span class="php-keyword1">false</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -721,7 +722,7 @@ $slug doesn't exists return empty array</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_id_by_slug">#</a>
-		<code><a href="source-class-CMLLanguage.html#282-293" title="Go to source code">get_id_by_slug</a>( <span>string <var>$slug</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#283-294" title="Go to source code">get_id_by_slug</a>( <span>string <var>$slug</var></span> )</code>
 
 		<div class="description short">
 			
@@ -763,7 +764,7 @@ $slug doesn't exists return empty array</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_id_by_locale">#</a>
-		<code><a href="source-class-CMLLanguage.html#295-310" title="Go to source code">get_id_by_locale</a>( <span>string <var>$locale</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#296-311" title="Go to source code">get_id_by_locale</a>( <span>string <var>$locale</var></span> )</code>
 
 		<div class="description short">
 			
@@ -805,7 +806,7 @@ $slug doesn't exists return empty array</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_flag">#</a>
-		<code><a href="source-class-CMLLanguage.html#312-327" title="Go to source code">get_flag</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$size</var> = <span class="php-quote">&quot;small&quot;</span> </span> )</code>
+		<code><a href="source-class-CMLLanguage.html#313-328" title="Go to source code">get_flag</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$size</var> = <span class="php-quote">&quot;small&quot;</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -849,7 +850,7 @@ $slug doesn't exists return empty array</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_flag_src">#</a>
-		<code><a href="source-class-CMLLanguage.html#329-355" title="Go to source code">get_flag_src</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$size</var> = CML_FLAG_TINY </span> )</code>
+		<code><a href="source-class-CMLLanguage.html#330-356" title="Go to source code">get_flag_src</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$size</var> = CML_FLAG_TINY </span> )</code>
 
 		<div class="description short">
 			
@@ -896,7 +897,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_flag_img">#</a>
-		<code><a href="source-class-CMLLanguage.html#357-371" title="Go to source code">get_flag_img</a>( <span>int/string <var>$lang</var></span>, <span>string <var>$size</var> = CML_FLAG_TINY </span> )</code>
+		<code><a href="source-class-CMLLanguage.html#358-372" title="Go to source code">get_flag_img</a>( <span>int/string <var>$lang</var></span>, <span>string <var>$size</var> = CML_FLAG_TINY </span> )</code>
 
 		<div class="description short">
 			
@@ -940,7 +941,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_by_post_id">#</a>
-		<code><a href="source-class-CMLLanguage.html#382-391" title="Go to source code">get_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#383-392" title="Go to source code">get_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -982,7 +983,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_id_by_post_id">#</a>
-		<code><a href="source-class-CMLLanguage.html#393-402" title="Go to source code">get_id_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#394-403" title="Go to source code">get_id_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1024,7 +1025,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_is_default">#</a>
-		<code><a href="source-class-CMLLanguage.html#404-411" title="Go to source code">is_default</a>( )</code>
+		<code><a href="source-class-CMLLanguage.html#405-412" title="Go to source code">is_default</a>( )</code>
 
 		<div class="description short">
 			

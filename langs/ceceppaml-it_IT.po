@@ -112,8 +112,8 @@ msgstr "Come utilizzare le traduzioni salvate nella pagina \"Le mie traduzioni\"
 msgid "Suppose that our default language is <strong>\"English\"</strong>, and we have:"
 msgstr "Supponiamo che la nostra lingua predefinita sia <strong>\"English\"</strong>, ed abbiamo:"
 
-msgid "If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", we must write:"
-msgstr "If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", we must write:"
+msgid "If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", we have to write:"
+msgstr "Se vogliamo tradurre la parola <strong>\"Hello\"</strong> in \"Italiano\", dobbiamo scrivere:"
 
 msgid "This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list"
 msgstr "This shortcode return an <ul>...</ul> list"
@@ -197,13 +197,13 @@ msgid "Don't overwrite \"ceceppaml.css\" in plugin path, because it will be over
 msgstr "Non sovrascrivere il file \"ceceppaml.css\" presente nel percorso del plugin, perché verrà sovrascritto da"
 
 msgid "In \"My Languages\" box are listed your languages."
-msgstr "In \"My Languages\" box are listed your languages."
+msgstr "Nel riquadro \"Le mie lingue\" sono elencate tutte le tue lingue."
 
 msgid "For add new language click on item listed in \"Available languages\", and click on wanted flag to add it."
-msgstr "For add new language click on item listed in \"Available languages\", and click on wanted flag to add it."
+msgstr "Per aggiungere una nuova lingua clicca su una voce dell'elenco \"Lingue disponibili\", e clicca sulla bandiera desiderata per aggiungerla."
 
 msgid "You can also use search box to search a language, or click on \"Add custon\" button to add custom one."
-msgstr "You can also use search box to search a language, or click on \"Add custon\" button to add custom one."
+msgstr "Puoi anche utilizzare la casella di ricerca per cercare una lingua, o cliccare su \"Aggiungi personalizzata\" per aggiungerne una personalizzata."
 
 msgid "Name"
 msgstr "Nome"
@@ -487,6 +487,12 @@ msgstr "Se la traduzione è completa e vuoi condividerla con noi, scaricala:"
 msgid "and send it <%s>to me</a>, add also your name or nickname"
 msgstr "e <%s>inviamela</a>, aggiungi anche il tuo nome o nickname"
 
+msgid "If you like the plugin and you want translate it in your language, you can do from this page."
+msgstr "Se ti piace il plugin e vuoi tradurlo nella tua lingua, puoi farlo da questa pagina."
+
+msgid "After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks"
+msgstr "Dopo aver cliccato il pulsante \"Salva le modifiche\", segui le istruzioni e inviami la traduzione, grazie"
+
 msgid "Ceceppa Multilingua in your language"
 msgstr "Ceceppa Multilingua nella tua lingua"
 
@@ -580,17 +586,17 @@ msgstr "Le voci delle pagine e delle categorie verranno sostituite con le loro t
 msgid "Force items language "
 msgstr "Forza la lingua delle voci"
 
-msgid "If an item doesn't have a translation into current language, you can force its language so the site will remains in current language"
-msgstr "If an item doesn't have a translation into current language, you can force its language so the site will remains in current language"
+msgid "If an item doesn't exists in current language, the plugin will add ?lang parameter to force item in current language"
+msgstr "Se la voce non esiste nella lingua corrente, il plugin aggiungerà il parametro ?lang per forzare la lingua della voce."
 
 msgid "If the plugin doesn't translate correctly menu items when switching language, "
-msgstr "If the plugin doesn't translate correctly menu items when switching language, "
+msgstr "Se il plugin non traduce correttamente le voci del menù quando cambi lingua,"
 
 msgid "add items in all languages to menu and enable this option"
 msgstr "aggiungi gli elementi in tutte le lingue al menù e attiva questa opzione"
 
 msgid "The plugin will remove elements that doesn't exists in current language from menu"
-msgstr "The plugin will remove elements that doesn't exists in current language from menu"
+msgstr "Il plugin rimuoverà gli elementi dal menù che non esistono nella lingua corrente"
 
 msgid "Filter posts:"
 msgstr "Filtra articoli:"
@@ -608,7 +614,7 @@ msgid "Translate menu"
 msgstr "Traduci menù"
 
 msgid "Automatically redirects the browser depending on the visitor's language."
-msgstr "Automatically redirects the browser depending on the visitor's language."
+msgstr "Reindirizza automaticamente il browser in accordo con la lingua del visitatore."
 
 msgid "Automatically redirects the default language."
 msgstr "Reindirizza automaticamente alla lingua predefinita."
@@ -635,19 +641,19 @@ msgid "The plugin add the slug of default language"
 msgstr "Il plugin aggiunge l'abbreviazione della lingua predefinita"
 
 msgid "The plugin doesn't add language slug to url for default language"
-msgstr "The plugin doesn't add language slug to url for default language"
+msgstr "Il plugin non aggiunge l'abbreviazione della lingua per quella di default"
 
 msgid "The plugin does nothing, doesn't modify the home url.<br /> The content of site will be in default language"
-msgstr "The plugin does nothing, doesn't modify the home url.<br /> The content of site will be in default language"
+msgstr "Il plugin non fa nulla, non modifica l'url della home.<br />Il contenuto del sito sarà nella lingua predefinita"
 
 msgid "Default language will be used if visitor language isn't available"
-msgstr "Default language will be used if visitor language isn't available"
+msgstr "La lingua predefinita viene utilizzato se la lingua del visitatore non è disponibile"
 
 msgid "Use Pre-Path Mode"
 msgstr "Usa modalità Pre-Path"
 
 msgid "This mode doesn't work with default permalink!!!"
-msgstr "This mode doesn't work with default permalink!!!"
+msgstr "Questa modalità non funziona con la struttura permalink predefinita!!!"
 
 msgid "Ignore for default language"
 msgstr "Ignora per la lingua predefinita"
@@ -1001,7 +1007,7 @@ msgid "Failed to open stream %s: Permission denied"
 msgstr "Impossibile aprire %s: Permesso negato"
 
 msgid "Something goes wrong :'(. I don't know where to store .mo file"
-msgstr "Something goes wrong :'(. I don't know where to store .mo file"
+msgstr "Qualcosa è andato storto :'(. Non so dove salvare il file .mo"
 
 msgid "Failed to create folder: %s"
 msgstr "Fallita la creazione della cartella: %s"

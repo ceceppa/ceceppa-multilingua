@@ -9,15 +9,6 @@ function cml_do_update() {
 
   $dbVersion = & $GLOBALS[ 'cml_db_version' ];
   
-  if( $dbVersion <= 25 ) {
-    $menu = get_option( 'cml_add_items_to' );
-    if( ! is_array( $menu ) ) {
-      update_option( "cml_add_items_to", array( $menu ) );
-      
-      cml_generate_settings_php();
-    }
-  }
-
   if( $dbVersion <= 24 ) {
     $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL",
                        CECEPPA_ML_TABLE );
@@ -46,6 +37,36 @@ function cml_do_update() {
     }
 
     cml_fix_update_post_meta();
+  }
+
+  if( $dbVersion <= 25 ) {
+    $menu = get_option( 'cml_add_items_to' );
+    if( ! is_array( $menu ) ) {
+      update_option( "cml_add_items_to", array( $menu ) );
+      
+      cml_generate_settings_php();
+    }
+  }
+
+  if( $dbVersion <= 26 ) {
+    $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
+    foreach( $rows as $row ) {
+      //In CECEPPA_ML_CATS categories are stored in lowercase, I update them from wp options
+      $cat = get_option( "cml_category_" . $row->cml_cat_id . "_lang_" . $row->cml_cat_lang_id, $row->translation );
+      delete_option( "cml_category_" . $row->cml_cat_id . "_lang_" . $row->cml_cat_lang_id );
+      
+      if( empty( $cat ) ) continue;
+
+      $wpdb->update( CECEPPA_ML_CATS,
+                    array(
+                      'cml_cat_translation' => bin2hex( $cat ),
+                    ),
+                    array(
+                      'id' => $row->id,
+                    ),
+                    array( "%s" ),
+                    array( "%d" ) );
+    }
   }
 
   //CML < 1.4

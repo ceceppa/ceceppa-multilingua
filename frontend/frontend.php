@@ -1188,6 +1188,12 @@ EOT;
         add_filter( 'term_link', array( &$this, 'translate_term_link' ), 0, 3 );
     }
 
+    CMLUtils::_set( "_real_language", ( ! isset( $this->_fake_language_id ) ) ?
+                                            CMLLanguage::get_current_id() :
+                                            $this->_fake_language_id );
+
+    do_action( 'cml_language_detected' );
+
     //Switch wordpress menu
     $this->change_menu();
   }
@@ -1337,7 +1343,7 @@ EOT;
         }
       } else {
         $cats = @$wp_query->query[ 'tag' ];
-        $url = trailingslashit( $wp_query->query[ 'category_name' ] );
+        $url = trailingslashit( @$wp_query->query[ 'category_name' ] );
         if( empty( $cats ) && false !== strpos( $url, "/tag/" ) ) {
           $cats = str_replace( $url, "", CMLUtils::get_clean_url() );
         }

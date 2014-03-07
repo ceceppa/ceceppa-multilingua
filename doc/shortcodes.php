@@ -67,7 +67,7 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
       <p style="padding-left: 20px">
 	<?php _e('Suppose that our default language is <strong>"English"</strong>, and we have:', 'ceceppaml') ?><br />
 	<img src="<?php echo CML_PLUGIN_URL . "/images/example.png" ?>" /><br />
-	<?php _e('If we want to translate the word <strong>"Hello"</strong> in "Italian", we must write:', 'ceceppaml') ?><br />
+	<?php _e('If we want to translate the word <strong>"Hello"</strong> in "Italian", we have to write:', 'ceceppaml') ?><br />
 	<p style="padding-left: 40px">
 	  <i>[cml_translate string="Hello" in="it"]</i>
 	</p>

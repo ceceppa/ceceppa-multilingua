@@ -30,7 +30,7 @@ Usage:
 Example:
 How to use the translations stored in "My Translations" page
 Suppose that our default language is <strong>"English"</strong>, and we have:
-If we want to translate the word <strong>"Hello"</strong> in "Italian", we must write:
+If we want to translate the word <strong>"Hello"</strong> in "Italian", we have to write:
 This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list
 This shortcode is available also as function with same name and paramaters
 My translations
@@ -155,6 +155,8 @@ Ensure that folder %s if writable
 Thanks for translated Ceceppa Multilingua in your language.
 If translation is complete and you want to share it with us, download it:
 and send it <%s>to me</a>, add also your name or nickname
+If you like the plugin and you want translate it in your language, you can do from this page.
+After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks
 Ceceppa Multilingua in your language
 If you want to customize widget titles you have to assign a title for each of them in "Appearance" -> "Widgets"
 Title
@@ -186,7 +188,7 @@ Hide items that doesn't exists in current language
 Items will be changed with their translation
 Page and category items will replace with their translation, if exists
 Force items language 
-If an item doesn\'t have a translation into current language, you can force its language so the site will remains in current language
+If an item doesn't exists in current language, the plugin will add ?lang parameter to force item in current language
 If the plugin doesn\'t translate correctly menu items when switching language, 
 add items in all languages to menu and enable this option
 The plugin will remove elements that doesn\'t exists in current language from menu

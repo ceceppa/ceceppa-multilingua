@@ -34,6 +34,16 @@ function cml_translate_cml() {
       echo '</p></div>';
     }
 
+  } else {
+    $msg = __( "If you like the plugin and you want translate it in your language, you can do from this page.", "ceceppaml" ) . "<br />";
+    $msg .= __( "After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks", "ceppaml" ) . " :)";
+echo <<< EOT
+    <div class="updated">
+      <p>
+        $msg
+      </p>
+    </div>
+EOT;
   }
   //Translate Ceceppa Multilingua :)
   $parser = new CMLParser( "Ceceppa Multilingua", "en", CML_PLUGIN_PATH, CML_PLUGIN_LANGUAGES_PATH, "ceceppaml", false, "cml-plugin" );

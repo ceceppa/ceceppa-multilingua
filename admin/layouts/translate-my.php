@@ -23,6 +23,9 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
     <table class="wp-list-table widefat wp-ceceppaml">
       <thead>
       <tr>
+        <th>
+          <?php _e( 'Group', 'ceceppaml' ); ?>
+        </th>
 	  <th>
       <?php
         echo CMLLanguage::get_flag_img( CMLLanguage::get_default_id() );
@@ -44,8 +47,20 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
       </th>
       </tr>
       </thead>
-<?php 
-  $results = $wpdb->get_results( "SELECT min(id) as id, UNHEX(cml_text) as cml_text, cml_type FROM " . CECEPPA_ML_TRANSLATIONS . " WHERE cml_type in ('S', 'N' ) GROUP BY cml_text ORDER BY cml_type ");
+<?php
+  $types = array(
+                 "S" => "My",
+                 "N" => "Notice",
+                );
+  
+  //3rd parth
+  $types = apply_filters( 'cml_my_translations', $types );
+  $keys = array_keys( $types );
+
+  $query = "SELECT min(id) as id, UNHEX(cml_text) as cml_text, cml_type FROM " . CECEPPA_ML_TRANSLATIONS .
+                                " WHERE cml_type in ( '" . join( "', '", $keys ) . "' ) GROUP BY cml_text ORDER BY cml_type ";
+
+  $results = $wpdb->get_results( $query );
 
   $c = 0;
   $size = 100 / (count($langs) + 1);
@@ -59,39 +74,51 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
       $alternate = @empty($alternate) ? "alternate" : "";
       echo "<tr class=\"${alternate}\">";
 
-      echo "<td style=\"height:2.5em;width: $size%\">\n";
+      echo '<td class="cml-valign-bottom">';
       echo "\t<input type=\"hidden\" name=\"id[]\" value=\"$result->id\" />\n";
       echo "\t<input type=\"hidden\" name=\"types[]\" value=\"$result->cml_type\" />\n";
       echo "\t<input type=\"hidden\" name=\"string[]\" value=\"$title\" />\n";
+      echo $types[ $result->cml_type ];
+      echo "</td>\n";
+      echo "<td style=\"height:2.5em;width: $size%\">\n";
 
       $t = $title;
       $style = "";
       if( $result->cml_type == "N" ) {
         echo "<span>";
-        echo ( $title == "_notice_post" ) ? __( "Post notice:", "ceceppaml" ) :
-                                                __( "Page notice:", "ceceppaml" );
+        if( $result->cml_type == "N" ) {
+          echo ( $title == "_notice_post" ) ? __( "Post notice:", "ceceppaml" ) :
+                                                  __( "Page notice:", "ceceppaml" );
+        }
         echo "</span>";
 
         $default = CMLLanguage::get_default_id();
         $v = CMLTranslations::get( CMLLanguage::get_default_id(),
-                                   $title, "N", true, true );
+                                   $title, $result->cml_type, true, true );
 
         echo "<input type=\"hidden\" name=\"lang_id[$c][0]\" value=\"$default\" />\n";
         echo "<input type=\"text\" name=\"value[$c][0]\" value=\"$v\"  style=\"width: 100%\" /></td>\n";
         
         $i++;
       } else {
-        echo stripslashes( $t );
+        if( "_" != $t[0] ) {
+          echo stripslashes( $t );
+        } else {
+          echo stripslashes( substr( $t, 1 ) );
+        }
       }
 
       echo "</td>";
 
       foreach( $langs as $lang ) {
-        $d = CMLTranslations::get( $lang->id, $title, $result->cml_type, false, true );
+        $d = CMLTranslations::get( $lang->id, $title, $result->cml_type, true, true );
         $d = str_replace( "\"", "&quot;", stripslashes( $d ) );
         echo "<td>\n";
         
-        if( $result->cml_type == "N" ) echo "<br />";
+        if( $result->cml_type == "N" ) {
+          echo "<br />";
+        }
+
         echo "<input type=\"hidden\" name=\"lang_id[$c][$i]\" value=\"$lang->id\" />\n";
         echo "<input type=\"text\" name=\"value[$c][$i]\" value=\"$d\"  style=\"width: 100%\" /></td>\n";
     

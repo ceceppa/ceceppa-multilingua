@@ -16,7 +16,9 @@ function cml_generate_settings_php() {
   $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
 
   update_option( "cml_use_settings_gen", false );
-  if( empty( $_cml_setttings ) ) return;
+  if( empty( $_cml_setttings ) ) {
+    return;
+  }
 
   //reload languages
   CMLLanguage::reload();

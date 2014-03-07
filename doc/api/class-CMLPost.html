@@ -7,7 +7,7 @@
 	<title>Class CMLPost</title>
 
 	<script type="text/javascript" src="resources/combined.js?2354491673"></script>
-	<script type="text/javascript" src="elementlist.js?3577985044"></script>
+	<script type="text/javascript" src="elementlist.js?4270564774"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
 
 </head>
@@ -40,6 +40,7 @@
 			<ul>
 				<li><a href="function-cml_dropdown_langs.html">cml_dropdown_langs</a></li>
 				<li><a href="function-cml_get_browser_lang.html">cml_get_browser_lang</a></li>
+				<li><a href="function-cml_get_menu.html">cml_get_menu</a></li>
 				<li><a href="function-cml_get_notice.html">cml_get_notice</a></li>
 				<li><a href="function-cml_get_the_link.html">cml_get_the_link</a></li>
 				<li><a href="function-cml_is_homepage.html">cml_is_homepage</a></li>
@@ -102,7 +103,7 @@ its id</p>
 		
 		
 
-		<b>Located at</b> <a href="source-class-CMLPost.html#589-969" title="Go to source code">api.php</a><br />
+		<b>Located at</b> <a href="source-class-CMLPost.html#629-1011" title="Go to source code">api.php</a><br />
 	</div>
 
 
@@ -120,7 +121,7 @@ its id</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_language_by_id">#</a>
-		<code><a href="source-class-CMLPost.html#599-617" title="Go to source code">get_language_by_id</a>( <span>int/string <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#639-657" title="Go to source code">get_language_by_id</a>( <span>int/string <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -164,7 +165,7 @@ its id</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_language_id_by_id">#</a>
-		<code><a href="source-class-CMLPost.html#619-662" title="Go to source code">get_language_id_by_id</a>( <span>integer <var>$post_id</var></span>, <span>boolean <var>$meta</var> = <span class="php-keyword1">false</span> </span> )</code>
+		<code><a href="source-class-CMLPost.html#659-702" title="Go to source code">get_language_id_by_id</a>( <span>integer <var>$post_id</var></span>, <span>boolean <var>$meta</var> = <span class="php-keyword1">false</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -210,7 +211,7 @@ information by post meta, or I'll lost "all languages" ( = 0 ) information.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_language_slug_by_id">#</a>
-		<code><a href="source-class-CMLPost.html#664-675" title="Go to source code">get_language_slug_by_id</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#704-715" title="Go to source code">get_language_slug_by_id</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -252,7 +253,7 @@ information by post meta, or I'll lost "all languages" ( = 0 ) information.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_translation">#</a>
-		<code><a href="source-class-CMLPost.html#677-702" title="Go to source code">get_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#717-740" title="Go to source code">get_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -298,7 +299,7 @@ information by post meta, or I'll lost "all languages" ( = 0 ) information.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_translations">#</a>
-		<code><a href="source-class-CMLPost.html#704-801" title="Go to source code">get_translations</a>( <span>integer <var>$post_id</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span> </span> )</code>
+		<code><a href="source-class-CMLPost.html#742-839" title="Go to source code">get_translations</a>( <span>integer <var>$post_id</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -390,7 +391,7 @@ Array (
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_language">#</a>
-		<code><a href="source-class-CMLPost.html#803-815" title="Go to source code">set_language</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#841-853" title="Go to source code">set_language</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -432,7 +433,7 @@ Array (
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_translation">#</a>
-		<code><a href="source-class-CMLPost.html#817-834" title="Go to source code">set_translation</a>( <span>integer <var>$post_id</var></span>, <span>int/string <var>$linked_lang</var></span>, <span>integer <var>$linked_post</var></span>, <span>integer <var>$post_lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+		<code><a href="source-class-CMLPost.html#855-872" title="Go to source code">set_translation</a>( <span>integer <var>$post_id</var></span>, <span>int/string <var>$linked_lang</var></span>, <span>integer <var>$linked_post</var></span>, <span>integer <var>$post_lang</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -483,7 +484,7 @@ database</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_translations">#</a>
-		<code><a href="source-class-CMLPost.html#836-869" title="Go to source code">set_translations</a>( <span>mixed <var>$post_id</var></span>, <span>mixed <var>$translations</var></span>, <span>mixed <var>$post_lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+		<code><a href="source-class-CMLPost.html#874-907" title="Go to source code">set_translations</a>( <span>mixed <var>$post_id</var></span>, <span>mixed <var>$translations</var></span>, <span>mixed <var>$post_lang</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -537,7 +538,7 @@ the other one, you have to "break" them using set_language method first.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_update_meta">#</a>
-		<code><a href="source-class-CMLPost.html#875-886" title="Go to source code">update_meta</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#913-924" title="Go to source code">update_meta</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -566,17 +567,17 @@ the other one, you have to "break" them using set_language method first.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_posts_by_language">#</a>
-		<code><a href="source-class-CMLPost.html#888-906" title="Go to source code">get_posts_by_language</a>( <span>int/slug <var>$lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+		<code><a href="source-class-CMLPost.html#926-944" title="Go to source code">get_posts_by_language</a>( <span>int/slug <var>$lang</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 		<div class="description short">
 			
-<p>get indexes of posts that exists in specified language</p>
+<p>get indexes of posts that exists in selected language</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>get indexes of posts that exists in specified language</p>
+<p>get indexes of posts that exists in selected language</p>
 
 
 
@@ -609,7 +610,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__update_posts_by_language">#</a>
-		<code><a href="source-class-CMLPost.html#912-914" title="Go to source code">_update_posts_by_language</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$ids</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#950-952" title="Go to source code">_update_posts_by_language</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$ids</var></span> )</code>
 
 		<div class="description short">
 			
@@ -631,24 +632,34 @@ language</dd>
 
 		<td class="attributes"><code>
 			 public static
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_posts_by_languages">#</a>
-		<code><a href="source-class-CMLPost.html#919-924" title="Go to source code">get_posts_by_languages</a>( )</code>
+		<code><a href="source-class-CMLPost.html#954-966" title="Go to source code">get_posts_by_languages</a>( )</code>
 
 		<div class="description short">
 			
+<p>return all posts by languages.</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>return all posts by languages.</p>
+
+<p>The key of array is the language id</p>
 
 
 
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
 
 
 
@@ -667,7 +678,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_has_translation">#</a>
-		<code><a href="source-class-CMLPost.html#926-943" title="Go to source code">has_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#968-985" title="Go to source code">has_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -707,7 +718,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_has_translations">#</a>
-		<code><a href="source-class-CMLPost.html#945-958" title="Go to source code">has_translations</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#987-1000" title="Go to source code">has_translations</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
