@@ -180,7 +180,6 @@ function cml_get_page_by_path($page_path, $output = OBJECT, $post_type = array('
 function cml_get_the_link( $result, $linked = true, $only_existings = false, $queried = false ) {
   global $wpCeceppaML, $_cml_settings;
 
-  echo "kk".cml_is_homepage();
   if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {
     //current page is homepage?
     $link = CMLUtils::get_home_url( $result->cml_language_slug );
