@@ -33,7 +33,7 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
         echo CMLLanguage::get_default()->cml_language ?>
       </th>
 <?php
-	  $langs = cml_get_languages( false, true );
+      $langs = CMLLanguage::get_no_default();
 	  foreach( $langs as $lang ) {
         echo "<th>";
         echo CMLLanguage::get_flag_img( $lang->id );
@@ -84,11 +84,13 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
 
       $t = $title;
       $style = "";
-      if( $result->cml_type == "N" ) {
+      if( $result->cml_type == "N" || $result->cml_type[0] == "_" ) {
         echo "<span>";
         if( $result->cml_type == "N" ) {
           echo ( $title == "_notice_post" ) ? __( "Post notice:", "ceceppaml" ) :
                                                   __( "Page notice:", "ceceppaml" );
+        } else {
+          echo "<b>" . stripslashes( substr( $t, 1 ) ) . "</b>";
         }
         echo "</span>";
 
@@ -115,7 +117,7 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
         $d = str_replace( "\"", "&quot;", stripslashes( $d ) );
         echo "<td>\n";
         
-        if( $result->cml_type == "N" ) {
+        if( $result->cml_type == "N" || "_" == $result->cml_type[0] ) {
           echo "<br />";
         }
 
@@ -141,8 +143,10 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
     </table>
     <div style="text-align:right">
       <p class="submit" style="float: right">
-	<input type="button" class="button button-secondaty" name="add" value="<?php _e('Add', 'ceceppaml') ?>" onclick="addRow(<?php echo count($langs) . ", '" . join(",", $lid) ?>')" />
-	<?php submit_button( __('Update', 'ceceppaml'), "button-primary", "action", false, 'class="button button-primary"' ); ?>
+      <?php if( isset( $lid ) && ! empty( $lid ) ) : ?>
+      <input type="button" class="button button-secondaty" name="add" value="<?php _e('Add', 'ceceppaml') ?>" onclick="addRow(<?php echo count($langs) . ", '" . join(",", $lid) ?>')" />
+      <?php endif; ?>
+      <?php submit_button( __('Update', 'ceceppaml'), "button-primary", "action", false, 'class="button button-primary"' ); ?>
       </p>
   </div>
 </form>

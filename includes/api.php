@@ -446,7 +446,7 @@ class CMLTranslations {
     global $wpdb;
 
     $default = bin2hex( $default );
-    foreach( CMLLanguage::get_no_default() as $lang ) {
+    foreach( CMLLanguage::get_all() as $lang ) {
       $query = sprintf( "SELECT id FROM %s WHERE cml_text = '%s' AND cml_lang_id = %d AND cml_type = '%s'",
                         CECEPPA_ML_TRANSLATIONS,
                         bin2hex( strtolower( $key ) ),
