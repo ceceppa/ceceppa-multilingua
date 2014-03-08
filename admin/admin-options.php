@@ -21,6 +21,8 @@ case 3:
   if( isset( $_GET[ 'erase' ] ) && intval( $_GET[ 'erase' ] == 2 ) ) {
     global $wpdb;
 
+    //Do uninstall
+
     /*
      * remove all post meta
      */
@@ -57,6 +59,9 @@ case 3:
     delete_option( "cml_erased" );
     delete_option( "_cml_update_existings_posts" );
     delete_option( "cml_show_wizard" );
+
+    delete_option( "cml_translated_fields_yoast" );
+    delete_option( "cml_translated_fields_aioseo" );
 
     /*
      * restore helps

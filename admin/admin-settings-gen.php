@@ -176,6 +176,6 @@ EOT;
   }
   
   $css = join( "\n", $tiny ) . "\n" . join( "\n", $small );
-  file_put_contents( CML_PLUGIN_CACHE_PATH . "cml_flags.css", $css );
+  @file_put_contents( CML_PLUGIN_CACHE_PATH . "cml_flags.css", $css );
 }
 ?>

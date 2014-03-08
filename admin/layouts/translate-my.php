@@ -24,7 +24,7 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
       <thead>
       <tr>
         <th>
-          <?php _e( 'Group', 'ceceppaml' ); ?>
+          <?php _e( 'Group name', 'ceceppaml' ); ?>
         </th>
 	  <th>
       <?php
@@ -58,7 +58,7 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
   $keys = array_keys( $types );
 
   $query = "SELECT min(id) as id, UNHEX(cml_text) as cml_text, cml_type FROM " . CECEPPA_ML_TRANSLATIONS .
-                                " WHERE cml_type in ( '" . join( "', '", $keys ) . "' ) GROUP BY cml_text ORDER BY cml_type ";
+                                " WHERE cml_type in ( '" . join( "', '", $keys ) . "' ) GROUP BY cml_text ORDER BY cml_type, UNHEX( cml_text ) ";
 
   $results = $wpdb->get_results( $query );
 
@@ -90,7 +90,10 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
           echo ( $title == "_notice_post" ) ? __( "Post notice:", "ceceppaml" ) :
                                                   __( "Page notice:", "ceceppaml" );
         } else {
-          echo "<b>" . stripslashes( substr( $t, 1 ) ) . "</b>";
+          $type = strtolower( $result->cml_type );
+          $titolo = str_replace( $type, "", $t );
+
+          echo "<b>" . stripslashes( substr( $titolo, 1 ) ) . "</b>";
         }
         echo "</span>";
 
@@ -128,7 +131,7 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
       } //$langs as $lang;
 ?>
     <td>
-      <?php if( $result->cml_type == 'S' ) :  ?>
+      <?php if( $result->cml_type == 'S' || "_" == $result->cml_type[0] ) :  ?>
       <input type="checkbox" name="remove[<?php echo $result->id ?>]" value="1">
       <?php endif; ?>
     </td>
@@ -166,7 +169,6 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
       $type = $_POST[ 'types' ][ $i ];
 
       $id = $ids[ $i ];
-      if( ! empty( $delete ) && ( @isset( $delete[ $id ] ) || @ $delete[ $id ] == 1 ) ) continue;
 
       for( $j = 0; $j < count( $_POST[ 'value' ][ $i ] ); $j++ ) {
         $value = $_POST['value'][$i][$j];
@@ -176,6 +178,16 @@ if( isset( $_POST[ 'add' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "s
           CMLTranslations::set( $lang_id, $string, $value, $type );
         } //endif;
       } //endfor;
+
+      if( ! empty( $delete ) && ( @isset( $delete[ $id ] ) || @ $delete[ $id ] == 1 ) ) {
+        $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
+                      array( "id" => $id ),
+                      array( "%d" ) );
+
+        $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
+                      array( "cml_text" => strtolower( bin2hex( strtolower( $string ) ) ) ),
+                      array( "%s" ) );
+      }
 
     } //endfor;
     

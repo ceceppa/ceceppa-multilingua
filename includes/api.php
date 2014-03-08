@@ -438,11 +438,23 @@ class CMLTranslations {
   private static $_keys = array();
 
   /**
-   * @ignore
+   * This function can be used by 3rd part plugin/theme to allow translation of its strings.
+   * Added string can be translated in "My Languages" page.
    *
-   * add new string to my table :)
+   * @example
+   * Full example is provided here:<br />
+   *  http://www.alessandrosenese.eu/en/ceceppa-multilingua/extend-plugin-theme-compatibility/
+   *
+   * @param string $key used to store/get your own value from database. To avoid duplicated key use your own
+   *                        prefix for your key. Example: "_yoast_rssafter"
+   * @param string $default default value to use
+   * @param string $group The group name of your own strings, this name will be displayed in "My Translations" page
+   *                      in "Group" column. Group name should be preceded by "_" symbol.<br />
+   *                      Example: "_YOAST"
+   *
+   * @return void
    */
-  public static function add( $key, $default, $type ) {
+  public static function add( $key, $default, $group ) {
     global $wpdb;
 
     $default = bin2hex( $default );
@@ -451,7 +463,7 @@ class CMLTranslations {
                         CECEPPA_ML_TRANSLATIONS,
                         bin2hex( strtolower( $key ) ),
                         $lang->id,
-                        $type );
+                        $group );
   
       $record = $wpdb->get_var( $query );
       if( empty( $record ) ) {
@@ -460,7 +472,7 @@ class CMLTranslations {
                             'cml_text' => bin2hex( strtolower( $key ) ),
                             'cml_lang_id' => $lang->id,
                             'cml_translation' => $default,
-                            'cml_type' => $type
+                            'cml_type' => $group
                             ),
                       array(
                         '%s', '%d', '%s', '%s',
@@ -545,6 +557,10 @@ class CMLTranslations {
    */
   public static function get( $lang, $string, $type = "", $return_empty = false, $ignore_po = false ) {
     global $wpdb;
+
+    if( "_" == $type[ 0 ] && ! $return_empty ) {
+      $return_empty = true;
+    }
 
     //C = Category
     $s = ( $type == "C" ) ? strtolower( $string ) : $string;

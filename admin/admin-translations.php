@@ -31,7 +31,8 @@ $page = $_GET[ 'page' ];
         if( isset( $_POST[ 'action' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) {
           global $wpdb;
 
-          $wpdb->delete( CECEPPA_ML_TRANSLATIONS, array( "cml_type" => "W" ) );
+          CMLTranslations::delete( "W" );
+          //$wpdb->delete( CECEPPA_ML_TRANSLATIONS, array( "cml_type" => "W" ) );
 
           $strings = $_POST[ 'strings' ];
           $count = count( $strings );

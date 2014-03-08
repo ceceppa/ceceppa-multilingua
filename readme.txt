@@ -45,6 +45,11 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 - "CML: Recent Posts" - The most recent posts on your site
 - "CML: Text" - You can write arbitrary text or HTML separately for each language
 
+= 3rd part compatible plugins =
+- Wordpress SEO by YOAST
+- Google XML Sitemaps
+
+= Let's start =
 Ceceppa Multilingua supports infinite language, which can be easily added/modified/deleted via the comfortable Configuration Page.
 All you need to do is activate the plugin, configure categories and start writing the content!
 
@@ -58,12 +63,10 @@ For more Information visit the [Plugin Homepage](http://www.alessandrosenese.eu/
 Flags directory are downloaded from [Flags](http://blog.worldofemotions.com/danilka/)
 
 = Icons =
-Some icons from [Icons](http://www.iconfinder.com/)
-Directions icon from [Deviantart](http://emey87.deviantart.com/)
+Some icons from [Icons](http://www.iconmonstr.com/)
 
 = jQuery plugins =
 Tooltip plugin for Jquery [Tipsy](http://onehackoranother.com/projects/jquery/tipsy/)
-jQuery image dropdown [DD](http://www.marghoobsuleman.com/jquery-image-dropdown)
 
 = Php gettext =
 Php-gettext by Danilo Shegan [php-gettext] https://launchpad.net/php-gettext/
@@ -181,6 +184,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 * You can translate the plugin in your language
 * The plugin will automatically set categories or page parent from original post/page.
 * Added compatibility with "Google XML Sitemap"
+* Added compatibility with "Wordpress SEO by YOAST"
 
 = 1.3.68 =
 * Fixed "Filter posts"

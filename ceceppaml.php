@@ -423,8 +423,10 @@ EOT;
 
     //Change slug in url instead of append ?lang arg
     $link = str_replace( trailingslashit( $url ), "", $clean );
-    
-    $home = CMLUtils::get_home_url( $lang->cml_language_slug );
+
+    $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
+    $home = CMLUtils::get_home_url( $slug );
+
     return trailingslashit( $home ) . $link;
   }
   
@@ -470,7 +472,8 @@ EOT;
    *
    */
   function translate_home_url( $url, $path, $origin_scheme, $blog_id ) {
-    if( isset( $GLOBALS[ '_cml_no_translate_home_url' ] ) ) {
+    if( isset( $GLOBALS[ '_cml_no_translate_home_url' ] )
+       || ! apply_filters( 'cml_translate_home_url', true, $this->_url ) ) {
       return $url;
     }
 
