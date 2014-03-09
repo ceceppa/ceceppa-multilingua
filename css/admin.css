@@ -46,6 +46,11 @@ label.cml-disabled {
   text-transform: uppercase;
 }
 
+  .cml-separator-li {
+    background: #222;
+    min-height: 24px;
+  }
+
 .hndle > span > .cml-checkbox {
   margin-left: -25px;
   margin-bottom: 0;
@@ -1234,6 +1239,10 @@ margin-bottom: 10px;
     float: left !important;
   }
 
+  .ceceppa-form-translations .tablenav.top {
+    display: none;    
+  }
+
 tr.row-open,
 tr.row-open + tr {
   background: #DBEAFF !important;
@@ -1516,4 +1525,27 @@ iframe.cml-iframe {
 
 .cml-valign-bottom {
   vertical-align: bottom !important;
+}
+
+.cml-tab-wrapper {
+   margin: 0 0 5px 0 !important;
+   padding-bottom: 0 !important;
+}
+
+
+.manage-column.column-group {
+  width: 120px;
+}
+
+  .cml-myt-flag img {
+    opacity: 0.6;
+  }
+
+.manage-column.column-remove {
+  width: 20px;
+  cursor: pointer;
+}
+
+form.ceceppa-form-translations table tbody tr:hover td {
+  background: #FFFFEB;
 }

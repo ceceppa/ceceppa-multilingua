@@ -108,7 +108,7 @@ class CMLLanguage {
         if( $l->cml_default == 1 )
           self::$_default_language = $l;
         else
-          $others[] = $l;
+          $others[ $l->id ] = $l;
 
         if( $l->cml_enabled == 1 ) $enableds[$l->id] = $l;
       }
@@ -403,12 +403,22 @@ class CMLLanguage {
   }
   
   /**
-   * Is current language the default one?
+   * Is $lang the default one?
    *
+   * @param int/string $lang ( optional ) id/slug. check if $lang is the default language, if null is passed
+   *                        current language will be assumed
    * @return boolean
    */
-  public static function is_default() {
-    return CMLLanguage::get_current_id() == CMLLanguage::get_default_id();
+  public static function is_default( $lang = null) {
+    if( null == $lang ) {
+      $lang = CMLLanguage::get_current_id();
+    } else {
+      if( ! is_numeric( $lang ) ) {
+        $lang = CMLLanguage::get_id_by_slug( $lang );
+      }
+    }
+
+    return $lang == CMLLanguage::get_default_id();
   }
  
   /**

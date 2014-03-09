@@ -68,9 +68,9 @@ class CMLFrontend extends CeceppaML {
     if( $this->_url_mode == PRE_NONE )
       add_filter( 'term_link', array( &$this, 'translate_term_link' ), 0, 3 );
 
-    //change translation with its index
+    //change category/tag translation with its original name
     if( $this->_url_mode != PRE_LANG ) {
-      add_action('pre_get_posts', array(&$this, 'revert_category_translation'), 0);
+      add_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name'), 0, 1 );
     }
 
     //Show notice?
@@ -1315,98 +1315,110 @@ EOT;
   /*
    *
    */
-  function revert_category_translation( $wp_query ) {
-    //Se non è una categoria è inutile che viene qui :)
-    if ( is_archive() || ! $wp_query->is_main_query() ) {
+  function change_taxonomy_name( $wp_query ) {
+    if( isset( $this->_change_taxonomy_applied ) ) return;
+    
+    //For default language I do nothing
+    if( CMLLanguage::is_default() ) {
+      $this->_change_taxonomy_applied = true;
+      
+      return;
+    }
+
+    /*
+     * This hook was called twice, first time "category_name" contains url
+     * and if I change 'name' parameter wp ignore it :(
+     */
+    if ( isset( $wp_query->query[ 'category_name' ] ) && false !== strpos( $wp_query->query[ 'category_name' ], "http" ) ) {
+      return;
+    }
+
+    //Only tags and categories
+    if ( is_archive() ) {
       if( ! is_tag() && ! is_category() ) {
+        $this->_change_taxonomy_applied = true;
+      
         return;
       }
     }
 
+    global $wpdb;
+
+    if( is_category() ) {
+      $cat = @$wp_query->query[ 'category_name' ];
+
+      $cats = explode( "/", $cat );
+      if( ! is_array( $cats ) ) {
+        $cats = array( $cat );
+      }
+    } else {
+      $cats = @$wp_query->query[ 'tag' ];
+      $cats = array( $cats );
+    }
+    
     /*
-      * Wow, ho trovato un modo per tradurre il link delle categorie :D :D :
-      * Se l'utente sta visualizzando la categoria, verifico se il nome della categoria è una traduzione
-      * nella query di wordpress imposto cambio il nome della categoria in quello non tradotto...
-      * Così nell'url l'utente verdà il percorso alla categoria tradotto :)
-      *
-      * Magari sarà poco etico... ma funziona :)
-      */
-    if( ! isset( $this->_change_category_applied ) ) {
-      global $wpdb;
+     * search for original category name in CECEPPA_ML_CATS table
+     */
+    foreach( $cats as $cat ) {
+      if( empty( $cat ) ) continue;
+
+      $name = "";
 
       if( is_category() ) {
-        $cat = @$wp_query->query[ 'category_name' ];
-
-        $cats = explode( "/", $cat );
-        if( ! is_array( $cats ) ) {
-          $cats = array( $cat );
-        }
+        //Is $cat a translation?
+        $term = term_exists( $cat, 'category' );
       } else {
-        $cats = @$wp_query->query[ 'tag' ];
-        $url = trailingslashit( @$wp_query->query[ 'category_name' ] );
-        if( empty( $cats ) && false !== strpos( $url, "/tag/" ) ) {
-          $cats = str_replace( $url, "", CMLUtils::get_clean_url() );
-        }
-        
-        $cats = array( $cats );
+        $term = term_exists( sanitize_title( $cat ), 'post_tag' );
       }
 
-      foreach( $cats as $cat ) {
-        if( empty( $cat ) ) continue;
+      if( empty( $term ) ) {
+        /*
+         * wp pass me category name in lowercase,
+         * I don't know how user stored it ( upper, lower or...), so
+         * I have to convert HEX in lowercase before compare
+         */
+        $cat = strtolower( str_replace("-", " ", $cat) );
+        $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE HEX( LOWER( CAST( UNHEX( cml_cat_translation ) as CHAR(100) ) ) ) IN ('%s', '%s')",
+                         CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
+                         strtolower( bin2hex( sanitize_title( $cat ) ) ) );
 
-        if( is_category() ) {
-          $term = term_exists( $cat, 'category' );
-        } else {
-          $term = term_exists( sanitize_title( $cat ), 'post_tag' );
-        }
+        $row = $wpdb->get_row( $query );
 
-        if( empty( $term ) ) {
-          /*
-           * wp pass me category name in lowercase,
-           * I don't know how user stored it ( upper, lower or...), so
-           * I have to convert HEX in lowercase before compare
-           */
-          $cat = strtolower( str_replace("-", " ", $cat) );
-          $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE HEX( LOWER( CAST( UNHEX( cml_cat_translation ) as CHAR(100) ) ) ) IN ('%s', '%s')",
-                           CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
-                           strtolower( bin2hex( sanitize_title( $cat ) ) ) );
-
-          $row = $wpdb->get_row( $query );
-
-          $name = ( ! empty( $row ) ) ? strtolower( $row->cml_cat_name ) : "";
-          CMLUtils::_set( '_reverted', ! empty( $row ) ? $row->cml_cat_id : 0 );
-        }
-        
-        $n = empty( $name ) ? $cat : $name;
-        $new[] = sanitize_title( $n );
-      } //endforeach;
-
-      if( isset( $new ) ) {
-        if( is_category() ) {
-          $wp_query->query[ 'category_name' ] = join( "/", $new );
-          $wp_query->query_vars[ 'category_name' ] = end( $new );
-        } else {
-          $wp_query->query[ 'tag' ] = end( $new );
-          $wp_query->query_vars[ 'tag' ] = end( $new );
-          $wp_query->query_vars[ 'tag_slug__in' ] = $new;
-        }
-      
-        $taxquery = array(
-                    "taxonomy" => ( is_category() ) ? "category" : "post_tag",
-                    "terms" => array( join( "/", $new ) ),
-                    "include_children" => 1,
-                    "field" => "slug",
-                    "operator" => "IN",
-                    );
-        $wp_query->tax_query->queries[ 0 ] = $taxquery;
+        $name = ( ! empty( $row ) ) ? strtolower( $row->cml_cat_name ) : "";
+        CMLUtils::_set( '_reverted', ! empty( $row ) ? $row->cml_cat_id : 0 );
       }
 
-      $this->_change_category_applied = true;
-    } //endif;
+      $n = empty( $name ) ? $cat : $name;
+      $new[] = sanitize_title( $n );
+    } //endforeach;
+
+    //Nothing to change
+    if( ! isset( $new ) ) {
+      return;
+    }
+
+    if( is_category() ) {
+      $wp_query->query[ 'category_name' ] = join( "/", $new );
+      $wp_query->query_vars[ 'category_name' ] = end( $new );
+    } else {
+      $wp_query->query[ 'tag' ] = end( $new );
+      $wp_query->query_vars[ 'tag' ] = end( $new );
+      $wp_query->query_vars[ 'tag_slug__in' ][0] = end( $new );
+    }
+
+    $taxquery = array(
+                "taxonomy" => ( is_category() ) ? "category" : "post_tag",
+                "terms" => array( join( "/", $new ) ),
+                "include_children" => 1,
+                "field" => "slug",
+                "operator" => "IN",
+                );
+
+    $wp_query->tax_query->queries[ 0 ] = $taxquery;
+
+    remove_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name' ), 0, 1 );
 
     $this->_change_category_applied = true;
-    
-    remove_action( 'pre_get_posts', array( & $this, 'revert_category_translation' ), 0 );
   }
 
   function show_notice( $content ) {

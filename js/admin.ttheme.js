@@ -69,10 +69,11 @@ jQuery( document ).ready( function( $ ) {
 
 
 function showStrings( id, what ) {
-  if( what == undefined )
+  if( what == undefined ) {
     what = ".row-domain";
-  else
+  } else {
     what = ".string-" + what;
+  }
 
   jQuery( 'h2.tab-strings a' ).removeClass( 'nav-tab-active' );
   jQuery( jQuery( 'h2.tab-strings a' ).get( id ) ).addClass( 'nav-tab-active' );
@@ -80,8 +81,9 @@ function showStrings( id, what ) {
   console.log( what );
   jQuery( 'table.ceceppaml-theme-translations tbody tr' + what ).show();
   
-  if( what != undefined || what != "" )
+  if( what != undefined || what != "" ) {
     jQuery( 'table.ceceppaml-theme-translations tbody tr' ).not( what ).hide();
+  }
 }
 
 function updateInfo() {

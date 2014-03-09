@@ -271,7 +271,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       } //endif;
     }
     
-    if( $queried && ( $is_tag || false !== strpos( CMLUtils::get_clean_url(), "/tag/" ) ) ) {
+    if( $queried && ( $is_tag && false !== strpos( CMLUtils::get_clean_url(), "/tag/" ) ) ) {
       if( ! empty( $q ) ) {
         $term_id = $q->term_id;
       } else {

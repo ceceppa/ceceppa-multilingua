@@ -38,6 +38,7 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 - Redirects the browser depending on the user's language.
 - Different post filter method
 - Filter search in accordingly to current language
+- Compatibile with wpml-config.xml ( experimental )
 
 = Widgets =
 
@@ -176,7 +177,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 * Added help in Settings and Show flags pages
 * Now you can translate widget title from widget container itself
 * Now you can filter widgets by language
-* In menu, Now you can assign "Navigation label" for each languages
+* In menu, Now you can assign different "Navigation label" and "Title attribute" for each languages
 * In menu, for Link item, you can set different url for each language
 * Added uninstall tab in "Settings" page to uninstall all plugin data
 * Added new flags style "Combo"
@@ -185,6 +186,8 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 * The plugin will automatically set categories or page parent from original post/page.
 * Added compatibility with "Google XML Sitemap"
 * Added compatibility with "Wordpress SEO by YOAST"
+* Added compatibility with "All in One SEO pack"
+* Added experimental support to "wpxml-config.xml"
 
 = 1.3.68 =
 * Fixed "Filter posts"

@@ -93,20 +93,6 @@ function cml_yoast_seo_strings( $types ) {
     $xml = WPSEO_PATH . "wpml-config.xml";
     new CML_WPML_Parser( $xml, "_YOAST", $options );
 
-    //equivalent code
-    //foreach ( $options as $key => $opt ) {
-    //  if( ( strpos( $key, "title-" ) !== false ||
-    //     strpos( $key, "metadesc-" ) !== false ) &&
-    //     ! empty( $opt ) ) {
-    //    /*
-    //     * add strings to my table if they doesn't exists
-    //     */
-    //    CMLTranslations::add( "_yoast_$key", $opt, "_YOAST" );
-    //  }
-    //}
-    //
-    //CMLTranslations::add( "_yoast_rssafter", $options[ 'rssafter' ], "_YOAST" );
-
     $types[ "_YOAST" ] = "YOAST";
   }
   

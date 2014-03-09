@@ -155,7 +155,7 @@ class Po
                 $entry['flags'] = array_map('trim', explode(',', substr($line, 2)));
             } else if ($line[0] !== '#') {
                 // non-comment
-                list($key, $rest) = explode(' ', $line, 2);
+                @list($key, $rest) = @explode(' ', $line, 2);
                 switch ($key) {
                     case 'msgid':
                     case 'msgid_plural':

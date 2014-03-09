@@ -250,6 +250,11 @@ Change wordpress language:
 When you add a language the plugin will try to download corresponding WordPress language files. If for, some reason, it fails you can try to download them at: 
 You then would have to upload these files to the '/wp-content/languages/' directory
 If your language is not available on previous link you have to install it manually. For more information
+Group name
+String
+Translation
+Post notice:
+Page notice:
 This procedure will erase all plugin data from database
 Following tables will be dropped
 This procedure cannot be undone!!!
@@ -262,9 +267,8 @@ Uninstall the plugin:
 Are you sure?
 You can use this translation with shortcode "cml_translate".
 Click here to see the shortcode page
-Remove
-Post notice:
-Page notice:
+All strings
+Plugin strings
 Filters
 Actions
 Uninstall
@@ -319,7 +323,6 @@ No translable strings founds in %s
 Failed to open %s path
 Available languages: 
 Main language:
-All strings
 To translate
 Incomplete
 Translated

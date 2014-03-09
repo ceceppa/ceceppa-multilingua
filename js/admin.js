@@ -4,6 +4,9 @@ jQuery(document).ready( function($) {
   $( '.tipsy-e' ).tipsy( { gravity: 'e', html: true, fade: true } );
   $( '.tipsy-s' ).tipsy( { gravity: 's', html: true, fade: false, offset: 5 } );
 
+  //Menu "captions"
+  $( '.wp-submenu > li > a > .cml-separator' ).parents( 'li' ).addClass( 'cml-separator-li' );
+
   //jQuery( '.inside .cml-description' ).fadeOut();
   $( '.hndle .cml-help' ).click( function() {
     $( this ).toggleClass( 'active' );
@@ -129,4 +132,3 @@ function cml_move_widget_titles( ) {
     jQuery( this ).find( 'p:first-child' ).after( jQuery( this ).find( '.cml-widget-titles' ) );
   });
 }
-

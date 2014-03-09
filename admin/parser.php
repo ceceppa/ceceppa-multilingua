@@ -121,13 +121,16 @@ EOT;
     while( ( $file = readdir ( $res ) ) == TRUE )
       if( $file != "." && $file != ".." )
         if( is_dir ( "${dir}${file}" ) ) {
+          if( "." == $file[0] ) continue;
+
           $path = "${dir}${file}";
           $files = $this->get_all_files_from( $path, $ext, $files );
         } else {
           $info = pathinfo( "$dir\/$file" );
   
-          if( strtolower( $info['extension'] ) == strtolower( $ext ) )
+          if( strtolower( $info['extension'] ) == strtolower( $ext ) ) { 
             $files[] = "${dir}${file}";
+          }
         }//endif;
         
     closedir($res); 
