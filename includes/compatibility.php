@@ -13,7 +13,7 @@ class CML_WPML_Parser {
   protected $group = null;
   protected $options = null;
 
-  function __construct( $filename, $group, $options = null ) {
+  function __construct( $filename, $group, $options = null, $generate_style = false ) {
     $xml = file_get_contents( $filename );
 
     $parser = xml_parser_create();
@@ -24,8 +24,9 @@ class CML_WPML_Parser {
     
     $this->options = $options;
     $this->group = $group;
-    $this->parse();
-    
+    $this->style = $generate_style;
+
+    $this->parse();    
   }
   
   function parse() {
@@ -81,49 +82,52 @@ class CML_WPML_Parser {
           $add_text = false;
         }
       }
-      
-      /* language switcher */
-        //print_r( $value );
-      if( $is_switcher_style ) {
-        if( ! isset( $value[ 'attributes' ][ 'value' ] ) ) continue;
-        $value = $value[ 'attributes' ][ 'value' ];
 
-        switch( $value[ 'attributes' ][ 'name' ] ) {
-        case 'font-current-normal':
-          $style[] = "#cml-lang > li > a { color: $value; } ";
-          break;
-        case 'font-current-hover':
-          $style[] = "#cml-lang > li > a:hover { color: $value; } ";
-          break;
-        case 'background-current-normal':
-          $style[] = "#cml-lang > li { background-color: $value; } ";
-          break;
-        case 'background-current-hover':
-          $style[] = "#cml-lang > li:hover { background-color: $value; } ";
-          break;
-        case 'font-other-normal':
-          $style[] = "#cml-lang > li > ul a { color: $value; } ";
-          break;
-        case 'font-other-hover':
-          $style[] = "#cml-lang > li > ul a:hover { color: $value; } ";
-          break;
-        case 'background-other-normal':
-          $style[] = "#cml-lang > li > ul li { background-color: $value; } ";
-          break;
-        case 'background-other-hover':
-          $style[] = "#cml-lang > li > ul li:hover { background-color: $value; } ";
-          break;
-        case 'border':
-          $style[] = "#cml-lang { border-color: $value; } ";
-          break;
+      /* language switcher */
+      if( $this->style && $is_switcher_style ) {
+        if( isset( $value[ 'value' ] ) ) {
+          $v = $value[ 'value' ];
+  
+          switch( $value[ 'attributes' ][ 'name' ] ) {
+          case 'font-current-normal':
+            $style[] = "#cml-lang > li > a { color: $v; } ";
+            break;
+          case 'font-current-hover':
+            $style[] = "#cml-lang > li > a:hover { color: $v; } ";
+            break;
+          case 'background-current-normal':
+            $style[] = "#cml-lang > li > a { background-color: $v; } ";
+            break;
+          case 'background-current-hover':
+            $style[] = "#cml-lang > li > a:hover { background-color: $v; } ";
+            break;
+          case 'font-other-normal':
+            $style[] = "#cml-lang > li > ul a { color: $v; } ";
+            break;
+          case 'font-other-hover':
+            $style[] = "#cml-lang > li > ul a:hover { color: $v; } ";
+            break;
+          case 'background-other-normal':
+            $style[] = "#cml-lang > li > ul li { background-color: $v; } ";
+            break;
+          case 'background-other-hover':
+            $style[] = "#cml-lang > li > ul li:hover { background-color: $v; } ";
+            break;
+          case 'border':
+            $style[] = "#cml-lang { border-color: $v; } ";
+            break;
+          }
         }
       }
 
-      if( "language-switcher-settings" == $value[ 'tag' ] ) {
+      if( isset( $value[ 'attributes' ][ 'name' ] ) &&
+         "icl_lang_sel_config" == $value[ 'attributes' ][ 'name' ] ) {
         if( 'open' == $value[ 'type' ] ) {
           $is_switcher_style = true;
         }
-
+      }
+      
+      if( $is_switcher_style ) {
         //Done
         if( 'close' == $value[ 'type' ] ) {
           $is_switcher_style = false;
@@ -131,13 +135,19 @@ class CML_WPML_Parser {
       }
       
       if( "icl_additional_css" == @$value[ 'attributes' ][ 'name' ] ) {
-        $style[] = str_replace( "#lang_sel", "#cml_lang", $value[ 'attributes' ][ 'value' ] );
+        $style[] = str_replace( "#cml-langlang_sel", "#cml-lang", $value[ 'value' ] );
       }
     }
 
-    //if( ! empty( $style ) ) {
-      //file_put_contents( join( "\n", $styles ), 
-    //}
+    if( $this->style ) {
+      file_put_contents( CML_UPLOAD_DIR . "combo_style.css", join( "\n", $style ) );
+  
+      if( ! empty( $style ) ) {
+        echo '<div class="updated"><p>';
+        echo CML_UPLOAD_DIR . "combo_style.css " . __( 'generated from "wpml-config.xml"', 'ceceppaml' );
+        echo '</div>';
+      }
+    }
 
     update_option( "cml_translated_fields" . strtolower( $this->group ), join( ",", $this->names ) );
   }
@@ -293,7 +303,7 @@ function cml_get_strings_from_theme_wpml_config( $groups ) {
   $name = strtolower( $theme->get( 'Name' ) );
 
   if( file_exists( $filename ) ) {
-    new CML_WPML_Parser( $filename, "_$name", null );
+    new CML_WPML_Parser( $filename, "_$name", null, true );
 
     update_option( "cml_theme_${name}_use_wpml_config", 1 );
     
@@ -303,6 +313,6 @@ function cml_get_strings_from_theme_wpml_config( $groups ) {
   return $groups;
 }
 
-add_filter( 'cml_my_translations', 'cml_get_strings_from_theme_wpml_config' );
+add_filter( 'cml_my_translations', 'cml_get_strings_from_theme_wpml_config', 99 );
 //add_action( 'wp_loaded', 'cml_check_theme_wpml_config', 10 );
 ?>

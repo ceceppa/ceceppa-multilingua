@@ -249,6 +249,9 @@ class CeceppaML {
     if( file_exists( CML_UPLOAD_DIR . "ceceppaml.css" ) )
         wp_enqueue_style( 'ceceppaml-custom-style', CML_UPLOAD_URL . "ceceppaml.css" );
 
+    //wpml-config combo style
+    if( file_exists( CML_UPLOAD_DIR . "combo_style.css" ) )
+        wp_enqueue_style( 'ceceppaml-wpml-combo-style', CML_UPLOAD_URL . "combo_style.css" );
   }
   
   function add_bar_menu() {

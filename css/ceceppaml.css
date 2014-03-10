@@ -1,4 +1,4 @@
-ul.cml-lang-sel {
+#cml-lang {
   display: inline-block;
   vertical-align: top;
   margin: 0 !important;
@@ -10,23 +10,23 @@ ul.cml-lang-sel {
   list-style: none !important;
 }
 
-  ul.cml-lang-sel > li {
+  #cml-lang > li {
     height: 30px;
     overflow: hidden;
     margin: 0;
   }
   
-  ul.cml-lang-sel > li:before {
+  #cml-lang > li:before {
     content: '' !important;
     display: none !important;
   }
 
-  ul.cml-lang-sel > li > a {
+  #cml-lang > li > a {
     background: #fff url(../images/down.png) center right no-repeat;
     border:1px solid #ccc;
   }
   
-  ul.cml-lang-sel > li a {
+  #cml-lang > li a {
     border:1px solid #ccc;
     color: #444;
     display: inline-block;
@@ -43,24 +43,24 @@ ul.cml-lang-sel {
     list-style: none !important;
   }
   
-    ul.cml-lang-sel > li > ul {
+    #cml-lang > li > ul {
       background: #fafafa;
       margin: 0 !important;
       padding: 0 !important;
       width: 160px;
     }
     
-    ul.cml-lang-sel > li > ul a {
+    #cml-lang > li > ul a {
       border-top: none;
     }
     
-    ul.cml-lang-sel > li > ul > li {
+    #cml-lang > li > ul > li {
       margin: 0 !important;
       height: 28px;
       line-height: 18px;
     }
 
-    ul.cml-lang-sel > li > ul a:hover {
+    #cml-lang > li > ul a:hover {
       background: #eee;
     }
 
@@ -74,7 +74,7 @@ ul.cml-lang-sel {
       background: #fff;
     }
     
-    ul.cml-lang-sel li.item-hidden {
+    #cml-lang li.item-hidden {
       display: none !important;
     }
 
