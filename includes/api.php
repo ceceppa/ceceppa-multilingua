@@ -422,6 +422,25 @@ class CMLLanguage {
   }
  
   /**
+   * check if $lang is the current language
+   *
+   * @param int/string $lang language id/slug to compare
+   *
+   * @return boolean
+   */
+  public static function is_current( $lang ) {
+    if( null == $lang ) {
+      $lang = CMLLanguage::get_current_id();
+    } else {
+      if( ! is_numeric( $lang ) ) {
+        $lang = CMLLanguage::get_id_by_slug( $lang );
+      }
+    }
+    
+    return $lang == CMLLanguage::get_current_id();
+  }
+
+  /**
    * @ignore
    * 
    * set current language
@@ -674,7 +693,16 @@ class CMLPost {
   public static function get_language_by_id( $post_id ) {
     if( empty( self::$_indexes ) ) self::_load_indexes();
 
-    foreach( CMLLanguage::get_all() as $lang ) {
+    /*
+     * search in current language first.
+     * because if post exists in multiple languages, included current one,
+     * I have to return current language id, not random :)
+     */
+    if( @in_array( $post_id, self::$_indexes[ CMLLanguage::get_current_id() ] ) ) {
+      return CMLLanguage::get_current();
+    }
+
+    foreach( CMLLanguage::get_others() as $lang ) {
       if( @in_array( $post_id, self::$_indexes[ $lang->id ] ) )
         return $lang;
     }

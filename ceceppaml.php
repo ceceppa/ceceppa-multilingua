@@ -189,7 +189,7 @@ class CeceppaML {
      */
     add_filter( 'pre_post_link', array( & $this, 'pre_post_link' ), 0, 3 );
     add_filter( 'post_link', array( & $this, 'translate_post_link' ), 0, 3 );
-    add_filter( 'post_type_link', array( & $this, 'translate_post_link' ), 0, 3 );
+    add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
     add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
 
     //Switch language in menu
@@ -370,7 +370,7 @@ EOT;
         /*
          * when hook get_page_link, wordpress pass me only post id, not full object
          */
-        $post_title = ( ! $is_page ) ?
+        $post_title = ( ! isset( $post->post_name ) ) ?
           $post->post_title : $post->post_name;
           //: $wpdb->get_var( "SELECT post_title FROM $wpdb->posts WHERE id = $post" );
 
@@ -408,6 +408,10 @@ EOT;
       $permalink = untrailingslashit( $permalink );
     }
 
+    if( isset( $post->post_name ) ) {
+      $permalink = $this->translate_page_link( $permalink, $post, $leavename );
+    }
+
     $this->unset_category_lang();
     unset( $this->_force_post_lang );
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
@@ -416,7 +420,15 @@ EOT;
   }
 
   function translate_page_link( $permalink, $page_id, $leavename ) {
+    if( is_object( $page_id ) ) {
+      $page_id = $page_id->ID;
+    }
+
     $lang = CMLLanguage::get_by_post_id( $page_id );
+
+    if( CMLLanguage::is_current( $lang->id ) ) {
+      return $permalink;
+    }
 
     $clean = CMLUtils::clear_url( $permalink );    
     $url = CMLUtils::home_url();

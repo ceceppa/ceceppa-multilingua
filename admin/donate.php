@@ -66,6 +66,11 @@ function cml_support_box_content() {
         <?php printf( __( 'Subscribe to official <%s>Google + page</a>,', 'ceceppaml' ), 'a href="https://plus.google.com/u/0/b/104807878923864213031/104807878923864213031/posts" target="_blank"' ) ?> <br />
         <?php _e( 'I use to announce development versions and then, test the new versions and report bugs before the final release.', 'ceceppaml' ) ?>
       </li>
+      <li>
+        <a href="https://github.com/ceceppa/ceceppa-multilingua" target="_blank">
+          <?php _e( 'Development code is available on github', 'ceceppaml' ) ?>
+        </a>
+      </li>
     </ul>
   </div>
 <?php
