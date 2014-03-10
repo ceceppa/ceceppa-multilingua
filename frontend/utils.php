@@ -267,6 +267,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         $cat_id = ( isset( $cat[ 'term_id' ] ) ) ? $cat[ 'term_id' ] : ( $cat[ count($cat) - 1 ]->term_id );
 
         //Mi recupererà il link tradotto dal mio plugin ;)
+        CMLUtils::_set( '_force_category_lang', $result->id );
         $link = get_category_link( $cat_id );
       } //endif;
     }

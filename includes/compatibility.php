@@ -218,6 +218,8 @@ function cml_yoast_translate_options() {
  */
 function cml_yoast_translate_home_url( $translate, $url ) {
   if( defined( 'WPSEO_VERSION' ) && preg_match( "/.*xsl|.*xml/", $url ) ) {
+    CMLUtils::_set( '_is_sitemap', 1 );
+
     return false;
   }
   
@@ -277,6 +279,8 @@ function cml_aioseo_translate_options() {
 
 function cml_aioseo_translate_home_url( $translate, $url ) {
   if( defined( 'AIOSEOP_VERSION' ) && preg_match( "/.*xsl|.*xml/", $url ) ) {
+    CMLUtils::_set( '_is_sitemap', 1 );
+
     return false;
   }
 
@@ -305,6 +309,11 @@ function cml_get_strings_from_theme_wpml_config( $groups ) {
   if( file_exists( $filename ) ) {
     new CML_WPML_Parser( $filename, "_$name", null, true );
 
+    echo '<div class="updated"><p>';
+    echo __( 'Your theme is designed for WPML', 'ceceppaml' ) . '<br />';
+    _e( 'Support for theme compatible with WPML is experimental and could not works correctly, if you need help contact me.', 'ceceppaml' );
+    echo '</p></div>';
+
     update_option( "cml_theme_${name}_use_wpml_config", 1 );
     
     $groups[ "_$name" ] = sprintf( "%s: %s", __( 'Theme' ), $theme->get( 'Name' ) );
@@ -313,6 +322,41 @@ function cml_get_strings_from_theme_wpml_config( $groups ) {
   return $groups;
 }
 
+/*
+ * current theme has wpml-config.xml?
+ */
+function cml_translate_theme_strings() {
+  $theme = wp_get_theme();
+  $name = strtolower( $theme->get( 'Name' ) );
+  
+  CMLUtils::_set( "theme-name", $name );
+
+  if( ! get_option( "cml_theme_${name}_use_wpml_config", 0 ) ) {
+    return;
+  }
+  
+  $names = get_option( "cml_translated_fields_{$name}", array() );
+  if( empty( $names ) ) return;
+
+  $names = explode( ",", $names );
+  foreach( $names as $name ) {
+    @add_filter( "option_$name", cml_translate_theme_option( $name, $value ), 10 );
+  }
+}
+
+/*
+ *
+ */
+function cml_translate_theme_option( $name, $value ) {
+  $theme = CMLUtils::_get( "theme-name" );
+
+  $v = CMLTranslations::get( CMLLanguage::get_current_id(),
+                            "_{$theme}_{$name}",
+                            "_{$theme}" );
+
+  return ( ! empty( $v ) ) ? $v : $value;
+}
+
 add_filter( 'cml_my_translations', 'cml_get_strings_from_theme_wpml_config', 99 );
-//add_action( 'wp_loaded', 'cml_check_theme_wpml_config', 10 );
+add_action( 'wp_loaded', 'cml_translate_theme_strings', 10 );
 ?>

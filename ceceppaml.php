@@ -435,6 +435,10 @@ EOT;
 
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
 
+    $this->unset_category_lang();
+    unset( $this->_force_post_lang );
+    unset( $GLOBALS[ '_cml_force_home_slug' ] );
+
     return $this->convert_url( $permalink, $slug );
   }
   

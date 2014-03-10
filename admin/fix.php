@@ -10,7 +10,7 @@ function cml_do_update() {
   $dbVersion = & $GLOBALS[ 'cml_db_version' ];
   
   if( $dbVersion <= 24 ) {
-    $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf16 COLLATE utf16_general_ci NULL DEFAULT NULL",
+    $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL",
                        CECEPPA_ML_TABLE );
 
     $queries[] = sprintf( "UPDATE %s SET cml_flag_path = 0", CECEPPA_ML_TABLE );

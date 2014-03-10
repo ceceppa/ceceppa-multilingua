@@ -360,6 +360,7 @@ class CMLFrontend extends CeceppaML {
 
     $display = $_cml_settings[ "cml_show_in_menu_as" ];
 
+    $this->_force_post_lang = $lang->id;
     $this->unset_category_lang();
 
     $url = cml_get_the_link( $lang, true, false, true );
@@ -669,6 +670,10 @@ EOT;
          && isset( $this->_force_category_lang ) ) {
         $lang_id = $this->_force_category_lang;
       }
+    }
+
+    if( null !== CMLUtils::_get( '_force_category_lang' ) ) {
+      $lang_id = CMLUtils::_get( '_force_category_lang' );
     }
 
     /*
@@ -1472,6 +1477,8 @@ EOT;
   }
 
   function filter_get_pages( $pages ) {
+    if( CMLUtils::_get( '_is_sitemap' ) ) return;
+
     foreach( $pages as $key => $page ) {
       if( CMLLanguage::get_id_by_post_id( $page->ID ) !=
           CMLLanguage::get_current_id() ) {
@@ -1491,7 +1498,10 @@ EOT;
   function filter_posts_by_language( $wp_query ) {
     global $wpdb, $_cml_settings;
  
-    if( isset( $this->_looking_id_post ) ) return;
+    if( isset( $this->_looking_id_post ) ||
+       CMLUtils::_get( '_is_sitemap' ) ) {
+      return;
+    }
 
     $use_language = CMLLanguage::get_current_id();
     
@@ -1606,7 +1616,11 @@ EOT;
   function hide_translations( $wp_query ) {
     global $wpdb, $_cml_settings;
 
-    if( isset( $this->_looking_id_post ) ) return;
+    if( isset( $this->_looking_id_post ) ||
+       CMLUtils::_get( '_is_sitemap' ) ) {
+      return;
+    }
+
     if( $wp_query != null && ( is_page() || is_single() || isCrawler() ) ) return;
     if( is_preview() || isset( $_GET['preview'] ) ) return;
 

@@ -126,19 +126,21 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation ) {
             "cml_cat_name" => bin2hex( $name ),
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
+			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
             ),
-		  array("id" => $r_id),
-		  array('%s', '%d', '%s'),
-		  array("%d"));
+		  array( "id" => $r_id ),
+		  array( '%s', '%d', '%s', '%s' ),
+		  array( "%d" ) );
   } else {
     $wpdb->insert( CECEPPA_ML_CATS,
 		  array(
             "cml_cat_name" => bin2hex( $name ),
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
+			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
 			"cml_cat_id" => $id,
             ),
-		  array('%s', '%d', '%s', '%d') );
+		  array('%s', '%d', '%s', '%s', '%d') );
   }
   
   _cml_copy_taxonomies_to_translations();

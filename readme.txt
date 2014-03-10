@@ -38,7 +38,7 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 - Redirects the browser depending on the user's language.
 - Different post filter method
 - Filter search in accordingly to current language
-- Compatibile with wpml-config.xml ( experimental )
+- Compatible with wpml-config.xml ( experimental )
 
 = Widgets =
 
