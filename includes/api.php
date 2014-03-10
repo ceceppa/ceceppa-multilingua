@@ -1130,7 +1130,7 @@ class CMLUtils {
       $link = CMLUtils::home_url() . $slug;
       break;
     case PRE_DOMAIN:
-      $link = cml_prepend_slug_to_url( $slug );
+      $link = CMLUtils::home_url();
       break;
     default:
       $link = CMLUtils::home_url() . "?lang=$slug";

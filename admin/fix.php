@@ -48,7 +48,29 @@ function cml_do_update() {
     }
   }
 
+  if( $dbVersion <= 27 ) {
+    $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_translation_slug` VARCHAR( 100 ) NOT NULL",
+                     CECEPPA_ML_CATS );
+    $wpdb->query( $query );
+
+    $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
+    foreach( $rows as $row ) {
+      $slug = sanitize_title( strtolower( $row->translation ) );
+
+      $wpdb->update( CECEPPA_ML_CATS,
+                    array(
+                      'cml_cat_translation_slug' => bin2hex( $slug ),
+                    ),
+                    array(
+                      'id' => $row->id,
+                    ),
+                    array( "%s" ),
+                    array( "%d" ) );
+    }
+  }
+
   if( $dbVersion <= 26 ) {
+    
     $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
     foreach( $rows as $row ) {
       //In CECEPPA_ML_CATS categories are stored in lowercase, I update them from wp options

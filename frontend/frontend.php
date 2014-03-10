@@ -69,7 +69,7 @@ class CMLFrontend extends CeceppaML {
       add_filter( 'term_link', array( &$this, 'translate_term_link' ), 0, 3 );
 
     //change category/tag translation with its original name
-    if( $this->_url_mode != PRE_LANG ) {
+    if( ! empty( $this->_permalink_structure ) ) {
       add_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name'), 0, 1 );
     }
 
@@ -676,7 +676,7 @@ EOT;
      * from "cml_get_the_link", because I need category term in post language,
      * not current
      */
-    if( $lang_id == CMLLanguage::get_default_id() ) {
+    if( CMLLanguage::is_default( $lang_id ) ) {
       return $term_name;
     }
 
@@ -1147,21 +1147,21 @@ EOT;
     
     //language detected?
     if( ! isset( $this->_language_detected_id ) || isset( $_GET[ 'lang' ] ) ) {
-      if( empty( $lang ) ) {
+      if( empty( $lang ) &&
+          $this->_url_mode != PRE_LANG ) {
         $lang = $this->get_language_by_url();
         $this->_language_detected_id = $lang;
       }
-  
+
       if( $this->_url_mode == PRE_LANG &&
          isset( $_GET[ 'lang' ] ) &&
          empty( $lang ) ) {
-        $this->_language_detected_id = $lang;
-
         $lang = CMLLanguage::get_id_by_slug( esc_attr( $_GET[ 'lang' ] ) );
       }
 
       //?lang=##
-      if( array_key_exists( "lang", $_GET ) ) {
+      if( array_key_exists( "lang", $_GET ) &&
+          isset( $this->_language_detected_id ) ) {
         $flang = esc_attr( $_GET[ 'lang' ] );
         $flang = CMLLanguage::get_id_by_slug( $flang );
 
@@ -1203,10 +1203,14 @@ EOT;
 
     //it.example.com
     if( PRE_DOMAIN == $this->_url_mode ) {
-      preg_match( "/^([a-z]{2})/", $this->_url, $matches );
+      preg_match( "/^http.*\/\/([a-z]{2})\./", $this->_url, $matches );
 
-      if( !empty($matches) ) {
-        $lang = $matches[0];
+      if( ! empty( $matches ) ) {
+        $lang = end( $matches );
+        
+        $lang = CMLLanguage::get_id_by_slug( $lang );
+      } else {
+        $lang = CMLLanguage::get_default_id();
       }
     }
 
@@ -1355,7 +1359,7 @@ EOT;
       $cats = @$wp_query->query[ 'tag' ];
       $cats = array( $cats );
     }
-    
+
     /*
      * search for original category name in CECEPPA_ML_CATS table
      */
@@ -1378,7 +1382,7 @@ EOT;
          * I have to convert HEX in lowercase before compare
          */
         $cat = strtolower( str_replace("-", " ", $cat) );
-        $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE HEX( LOWER( CAST( UNHEX( cml_cat_translation ) as CHAR(100) ) ) ) IN ('%s', '%s')",
+        $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE cml_cat_translation_slug IN ('%s', '%s')",
                          CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
                          strtolower( bin2hex( sanitize_title( $cat ) ) ) );
 
@@ -1416,7 +1420,7 @@ EOT;
 
     $wp_query->tax_query->queries[ 0 ] = $taxquery;
 
-    remove_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name' ), 0, 1 );
+    //remove_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name' ), 0, 1 );
 
     $this->_change_category_applied = true;
   }

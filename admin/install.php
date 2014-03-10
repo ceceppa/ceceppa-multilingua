@@ -27,7 +27,7 @@ function cml_install_create_tables() {
     id INT(11) NOT NULL AUTO_INCREMENT,
     cml_default INT(1),
     cml_flag VARCHAR(100),
-    cml_language TEXT CHARACTER SET utf16 COLLATE utf16_unicode_ci NOT NULL,
+    cml_language TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
     cml_language_slug TEXT,
     cml_locale TEXT,
     cml_enabled INT,

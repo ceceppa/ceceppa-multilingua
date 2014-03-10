@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $wpdb;
 
-define( 'CECEPPA_DB_VERSION', 26 );
+define( 'CECEPPA_DB_VERSION', 27 );
 
 define( 'CECEPPA_ML_TABLE', $wpdb->base_prefix . 'ceceppa_ml' );
 define( 'CECEPPA_ML_CATS', $wpdb->base_prefix . 'ceceppa_ml_cats' );
@@ -430,16 +430,43 @@ EOT;
       return $permalink;
     }
 
-    $clean = CMLUtils::clear_url( $permalink );    
-    $url = CMLUtils::home_url();
-
-    //Change slug in url instead of append ?lang arg
-    $link = str_replace( trailingslashit( $url ), "", $clean );
-
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
-    $home = CMLUtils::get_home_url( $slug );
 
-    return trailingslashit( $home ) . $link;
+    return $this->convert_url( $permalink, $slug );
+  }
+  
+  /*
+   * change ( wrong? ) language slug in url
+   */
+  function convert_url( $permalink, $slug ) {
+    switch( $this->_url_mode ) {
+    case PRE_LANG:
+      return add_query_arg( array( "lang" => $slug ), $permalink );
+      break;
+    case PRE_PATH:
+      $url = CMLUtils::home_url();
+
+      $clean_url = CMLUtils::clear_url( $permalink );
+    
+      //Change slug in url instead of append ?lang arg
+      $link = str_replace( trailingslashit( $url ), "", $clean_url );
+  
+      $home = CMLUtils::get_home_url( $slug );
+  
+      return trailingslashit( $home ) . $link;
+      break;
+    case PRE_DOMAIN:
+      if( preg_match( "/^(.*\/\/)([a-z]{2})\./", $permalink, $match ) ) {
+        $url = preg_replace( "/^(.*\/\/)([a-z]{2})\./", $match[1] . "$slug.", $permalink );
+      } else {
+        preg_match( "/^(.*\/\/)/", $permalink, $match );
+
+        $url = preg_replace( "/^(.*\/\/)/", end( $match ) . "$slug.", $permalink );
+      }
+
+      return $url;
+      break;
+    }
   }
   
   function translate_category_url( $url ) {
@@ -543,6 +570,18 @@ EOT;
       return $link;
     }
     
+    if( $this->_url_mode == PRE_DOMAIN ) {
+      if( preg_match( "/^(.*\/\/)([a-z]{2})\./", $url, $match ) ) {
+        $url = preg_replace( "/^(.*\/\/)([a-z]{2})\./", $match[1] . "$slug.", $url );
+      } else {
+        preg_match( "/^(.*\/\/)/", $url, $match );
+
+        $url = preg_replace( "/^(.*\/\/)/", end( $match ) . "$slug.", $url );
+      }
+
+      return trailingslashit( $url ) . $path;
+    }
+
     return $url;
   }
 }

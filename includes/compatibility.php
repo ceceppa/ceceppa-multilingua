@@ -1,22 +1,19 @@
 <?php
 /*
- * Google XML Sitemap
+ * simple wpml-config.xml parser
  *
- * http://wordpress.org/plugins/google-sitemap-generator/
+ * this class extract:
+ *
+ *  *) admin-texts to allow user to translate them in "My translations" page
+ *  *) language-switcher-settings to extract "Combo" style :)
+ * 
  */
-add_filter( 'cml_translate_home_url', 'cml_yoast_translate_home_url', 10, 2 );
-CMLUtils::_append( "_seo", array(
-                                'pagenow' => "options-general.php",
-                                'page' => "google-sitemap-generator/sitemap.php",
-                               )
-                );
-
 class CML_WPML_Parser {
   protected $values;
   protected $group = null;
   protected $options = null;
 
-  function __construct( $filename, $group, $options ) {
+  function __construct( $filename, $group, $options = null ) {
     $xml = file_get_contents( $filename );
 
     $parser = xml_parser_create();
@@ -34,6 +31,8 @@ class CML_WPML_Parser {
   function parse() {
     $add_text = false;
     $key = null;
+    $style = array();
+    $is_switcher_style = false;
 
     /*
      * for now I check only for "admin-texts"
@@ -46,13 +45,21 @@ class CML_WPML_Parser {
           if( isset( $value[ 'attributes' ] ) ) {
             $name = $value[ 'attributes' ][ 'name' ];
             
-            if( isset( $this->options[ $name ] ) ) {
-              $v = $this->options[ $name ];
+            if( is_array( $this->options ) ) {
+              if( isset( $this->options[ $name ] ) ) {
+                $v = $this->options[ $name ];
+              } else {
+                $v = "";
+              }
+              
+              $add = ! empty( $v );
             } else {
-              $v = "";
+              $v = get_option( $name );
+              
+              $add = true;
             }
             
-            if( ! empty( $v ) ) {
+            if( $add ) {
               CMLTranslations::add( strtolower( $this->group ) . "_" . $name,
                                     $v,
                                     $this->group );
@@ -63,6 +70,7 @@ class CML_WPML_Parser {
         }
       }
 
+      /* translable strings */
       if( "admin-texts" == $value[ 'tag' ] ) {
         if( 'open' == $value[ 'type' ] ) {
           $add_text = true;
@@ -71,14 +79,81 @@ class CML_WPML_Parser {
         //Done
         if( 'close' == $value[ 'type' ] ) {
           $add_text = false;
+        }
+      }
+      
+      /* language switcher */
+        //print_r( $value );
+      if( $is_switcher_style ) {
+        if( ! isset( $value[ 'attributes' ][ 'value' ] ) ) continue;
+        $value = $value[ 'attributes' ][ 'value' ];
+
+        switch( $value[ 'attributes' ][ 'name' ] ) {
+        case 'font-current-normal':
+          $style[] = "#cml-lang > li > a { color: $value; } ";
+          break;
+        case 'font-current-hover':
+          $style[] = "#cml-lang > li > a:hover { color: $value; } ";
+          break;
+        case 'background-current-normal':
+          $style[] = "#cml-lang > li { background-color: $value; } ";
+          break;
+        case 'background-current-hover':
+          $style[] = "#cml-lang > li:hover { background-color: $value; } ";
+          break;
+        case 'font-other-normal':
+          $style[] = "#cml-lang > li > ul a { color: $value; } ";
+          break;
+        case 'font-other-hover':
+          $style[] = "#cml-lang > li > ul a:hover { color: $value; } ";
+          break;
+        case 'background-other-normal':
+          $style[] = "#cml-lang > li > ul li { background-color: $value; } ";
+          break;
+        case 'background-other-hover':
+          $style[] = "#cml-lang > li > ul li:hover { background-color: $value; } ";
+          break;
+        case 'border':
+          $style[] = "#cml-lang { border-color: $value; } ";
           break;
         }
       }
+
+      if( "language-switcher-settings" == $value[ 'tag' ] ) {
+        if( 'open' == $value[ 'type' ] ) {
+          $is_switcher_style = true;
+        }
+
+        //Done
+        if( 'close' == $value[ 'type' ] ) {
+          $is_switcher_style = false;
+        }
+      }
+      
+      if( "icl_additional_css" == @$value[ 'attributes' ][ 'name' ] ) {
+        $style[] = str_replace( "#lang_sel", "#cml_lang", $value[ 'attributes' ][ 'value' ] );
+      }
     }
+
+    //if( ! empty( $style ) ) {
+      //file_put_contents( join( "\n", $styles ), 
+    //}
 
     update_option( "cml_translated_fields" . strtolower( $this->group ), join( ",", $this->names ) );
   }
 }
+
+/*
+ * Google XML Sitemap
+ *
+ * http://wordpress.org/plugins/google-sitemap-generator/
+ */
+add_filter( 'cml_translate_home_url', 'cml_yoast_translate_home_url', 10, 2 );
+CMLUtils::_append( "_seo", array(
+                                'pagenow' => "options-general.php",
+                                'page' => "google-sitemap-generator/sitemap.php",
+                               )
+                );
 
 /*
  * Yoast
@@ -205,4 +280,29 @@ add_filter( 'cml_my_translations', 'cml_aioseo_strings' );
 add_action( 'wp_loaded', 'cml_aioseo_translate_options' );
 add_filter( 'cml_translate_home_url', 'cml_aioseo_translate_home_url', 10, 2 );
 
+/*
+ * Theme file has wpml-config.xml?
+ */
+function cml_get_strings_from_theme_wpml_config( $groups ) {
+  update_option( "cml_theme_use_wpml_config", 0 );
+
+  $theme = wp_get_theme();
+
+  $root = trailingslashit( $theme->theme_root ) . $theme->template;
+  $filename = "$root/wpml-config.xml";
+  $name = strtolower( $theme->get( 'Name' ) );
+
+  if( file_exists( $filename ) ) {
+    new CML_WPML_Parser( $filename, "_$name", null );
+
+    update_option( "cml_theme_${name}_use_wpml_config", 1 );
+    
+    $groups[ "_$name" ] = sprintf( "%s: %s", __( 'Theme' ), $theme->get( 'Name' ) );
+  }
+  
+  return $groups;
+}
+
+add_filter( 'cml_my_translations', 'cml_get_strings_from_theme_wpml_config' );
+//add_action( 'wp_loaded', 'cml_check_theme_wpml_config', 10 );
 ?>

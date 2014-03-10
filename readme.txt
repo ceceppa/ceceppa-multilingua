@@ -187,7 +187,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 * Added compatibility with "Google XML Sitemap"
 * Added compatibility with "Wordpress SEO by YOAST"
 * Added compatibility with "All in One SEO pack"
-* Added experimental support to "wpxml-config.xml"
+* Added experimental support to "wpml-config.xml" ( for plugins and themes )
 
 = 1.3.68 =
 * Fixed "Filter posts"
