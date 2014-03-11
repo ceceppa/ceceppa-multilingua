@@ -164,10 +164,10 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 1. Language configuration
 2. List of all posts with their translations
 3. Translate widget's title
-4. Plugin configuration
-5. Link to the article
-6. Menus configuration
-7. Wordpress in your language
+4. Filter widget by language
+5. Plugin configuration
+6. Link posts
+7. Menus configuration
 8. Translate your theme
 
 == Changelog ==

@@ -205,12 +205,11 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       }
       $q = & $GLOBALS[ '_cml_get_queried_object' ];
       
-      $is_category = isset( $q->term_id );
+      $is_category = isset( $q->taxonomy ) && "category" == $q->taxonomy;
       $is_single = isset( $q->ID );
       $is_page = $is_single;
       $the_id = ( $is_single ) ? $q->ID : 0;
-      $is_tag = isset( $q->term_taxonomy_id );
-      if( $is_tag ) $is_category = false;
+      $is_tag = isset( $q->taxonomy ) && "post_tag" == $q->taxonomy;
 
       if( empty( $q ) ) {
         $is_404 = is_404();

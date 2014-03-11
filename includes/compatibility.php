@@ -403,7 +403,7 @@ function cml_get_strings_from_wpml_config( $groups ) {
 /*
  * current theme has wpml-config.xml?
  */
-function cml_translate_theme_strings() {
+function cml_translate_wpml_strings() {
   if( is_admin() ) return;
 
   $theme = wp_get_theme();
@@ -411,10 +411,21 @@ function cml_translate_theme_strings() {
   
   CMLUtils::_set( "theme-name", $name );
 
-  if( ! get_option( "cml_theme_${name}_use_wpml_config", 0 ) ) {
-    return;
+  if( get_option( "cml_theme_${name}_use_wpml_config", 0 ) ) {
+    cml_change_wpml_settings_values( $theme, $name );
   }
   
+  //Not officially supported plugin
+  $plugins = get_option( '_cml_wpml_config_paths', "" );
+  $plugins = explode( ",", $plugins );  
+  foreach( $plugins as $plugin ) {
+    $path = str_replace( WP_CONTENT_DIR . "/plugins/", "", $plugin);
+
+    cml_change_wpml_settings_values( $path, $path );
+  }
+}
+
+function cml_change_wpml_settings_values( $group, $name ) {
   $names = get_option( "cml_translated_fields_{$name}", array() );
   if( empty( $names ) ) return;
 
@@ -424,84 +435,20 @@ function cml_translate_theme_strings() {
   }
 
   $options = & $GLOBALS[ $options ];
+  $names = explode( "/", $names );
   foreach( $options as $key => $value ) {
+    if( ! in_array( $key, $names ) ) continue;
+
     $v = CMLTranslations::get( CMLLanguage::get_current_id(),
-                              "_{$theme}_{$name}",
-                              "_{$theme}" );
+                              "_{$group}_{$key}",
+                              "_{$group}" );
                               
     if( empty( $v ) ) continue;
 
     $options[ $key ] = $v;                            
   }
-
-/*
-  $names = explode( ",", $names );
-  foreach( $names as $name ) {
-    $value = get_option( $name );
-
-    //wp hook don't pass me the option key, so I have to retrive default value before apply filter
-    @add_filter( "option_$name", cml_translate_theme_option( $name, $value ), 10 );
-  }*/
-
-  //Not officially supported plugin
-  $plugins = get_option( '_cml_wpml_config_paths', "" );
-  $plugins = explode( ",", $plugins );  
-  foreach( $plugins as $plugin ) {
-    $path = str_replace( WP_CONTENT_DIR . "/plugins/", "", $plugin);
-
-    $names = get_option( "cml_translated_fields_{$path}", "" );
-    if( empty( $names ) ) continue;
-
-    $options = get_option( "cml_translated_fields_{$path}_key", "" );
-    if( empty( $options ) ) {
-      continue;
-    }
-
-    $options = & $GLOBALS[ $options ];
-    foreach( $options as $key => $value ) {
-      $v = CMLTranslations::get( CMLLanguage::get_current_id(),
-                                "_{$path}_{$name}",
-                                "_{$path}" );
-                                
-      if( empty( $v ) ) continue;
-
-      $options[ $key ] = $v;                            
-    }
-/*
-    $names = explode( ",", $names );
-    foreach( $names as $name ) {
-      $value = get_option( $name );
-      
-      //wp hook don't pass me the option key, so I have to retrive default value before apply filter
-      @add_filter( "option_$name", cml_translate_wp_option( $path, $name, $value ), 10, 3 );
-    }*/
-  }
 }
 
-// /*
-//  * translate theme/(not supported) plugins
-//  */
-// function cml_translate_theme_option( $name, $value ) {
-//   $theme = CMLUtils::_get( "theme-name" );
-// 
-//   $v = CMLTranslations::get( CMLLanguage::get_current_id(),
-//                             "_{$theme}_{$name}",
-//                             "_{$theme}" );
-// 
-//   return ( ! empty( $v ) ) ? $v : $value;
-// }
-// 
-// /*
-//  * translate theme/(not supported) plugins
-//  */
-// function cml_translate_wp_option( $group, $name, $value ) {
-//   $v = CMLTranslations::get( CMLLanguage::get_current_id(),
-//                             "_{$group}_{$name}",
-//                             "_{$group}" );
-// 
-//   return ( ! empty( $v ) ) ? $v : $value;
-// }
-
 add_filter( 'cml_my_translations', 'cml_get_strings_from_wpml_config', 99 );
-add_action( 'wp_loaded', 'cml_translate_theme_strings', 10 );
+add_action( 'wp_loaded', 'cml_translate_wpml_strings', 10 );
 ?>

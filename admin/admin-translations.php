@@ -50,6 +50,7 @@ $page = $_GET[ 'page' ];
           cml_generate_mo_from_translations( "W" );
         }
 
+        require_once ( CML_PLUGIN_FRONTEND_PATH . 'utils.php' );
         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-widget-titles.php' );
         break;
       case 2:
