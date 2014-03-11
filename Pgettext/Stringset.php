@@ -73,7 +73,7 @@ class Stringset
      */
     public function sort()
     {
-        usort($this->set, function ($first, $second) {
+/*        usort($this->set, function ($first, $second) {
             $ids = strcmp($first['id'], $second['id']);
             if ($ids === 0) {
                 if ($first['context'] === null && $second['context'] === null) {
@@ -89,6 +89,7 @@ class Stringset
                 return $ids;
             }
         });
+*/
     }
 
     /**

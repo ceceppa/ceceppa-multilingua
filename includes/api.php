@@ -680,7 +680,7 @@ class CMLPost {
   /** @ignore */
   private static $_indexes = null;
   /** @ignore */
-  private static $_posts_meta = null;
+  private static $_posts_meta = array();
 
   /**
    * return language object by post id
@@ -858,6 +858,8 @@ class CMLPost {
     if( ! isset( self::$_posts_meta[ $post_id ] ) || $force ) {
       //if( ! CECEPPA_ML_MIGRATED ) return cml_old_get_linked_posts( $id );
       if( empty( $GLOBALS[ '_cml_language_columns' ] ) ) {
+        require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
+
         cml_generate_lang_columns();
       }
     
@@ -876,7 +878,7 @@ class CMLPost {
     
       $row = $wpdb->get_row( $query, ARRAY_A );
       unset( $row[ "id" ] );
-    
+
       $keys = @array_filter( $row );
       $keys = @array_replace( $keys, $_conv );
       $others = @array_filter( is_array( $row ) ? $row : array() );

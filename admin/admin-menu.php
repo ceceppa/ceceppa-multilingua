@@ -93,10 +93,12 @@ class CML_Nav_Menu_Item_Custom_Fields {
 
         self::$options[ 'fields' ] = array_merge( $fields, self::$options[ 'fields' ] );
       }
- 
-      add_filter( 'wp_edit_nav_menu_walker', function () {
-          return 'CML_Walker_Nav_Menu_Edit';
-      });
+
+      //doesn't works with php < 5.3.0 :(
+//       add_filter( 'wp_edit_nav_menu_walker', function () {
+//           return 'CML_Walker_Nav_Menu_Edit';
+//       });
+      add_filter( 'wp_edit_nav_menu_walker', 'cml_return_nav_walker' );
       add_filter( 'cml_nav_menu_item_additional_fields', array( __CLASS__, '_add_fields' ), 10, 5 );
       add_action( 'save_post', array( __CLASS__, '_save_post' ) );
 	}
@@ -129,8 +131,12 @@ class CML_Nav_Menu_Item_Custom_Fields {
 
           $field[ 'id' ] = $item->ID;
           $k = ( $item->object == 'custom' ) ? 'custom_tpl' : 'item_tpl';
+          
+          //php < 5.3.0
+          $func = create_function( '$key', 'return "{{$key}}";' );
           $new_fields .= str_replace(
-              array_map( function( $key ){ return '{' . $key . '}'; }, array_keys( $field ) ),
+//               array_map( function( $key ){ return '{' . $key . '}'; }, array_keys( $field ) ),
+              array_map( $func, array_keys( $field ) ),
               array_values( array_map( 'esc_attr', $field ) ),
               self::$options[ $k ]
           );
@@ -256,6 +262,11 @@ class CML_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 		}
 		$output .= $item_output;
 	}
+}
+
+//Added for compatibility with php < 5.3.0
+function cml_return_nav_walker() {
+  return 'CML_Walker_Nav_Menu_Edit';
 }
 
 CML_Nav_Menu_Item_Custom_Fields::setup();

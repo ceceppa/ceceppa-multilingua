@@ -38,7 +38,7 @@ class Po
             } else {
                 throw new Exception("Cannot write to file");
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
     }

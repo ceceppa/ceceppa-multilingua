@@ -1718,7 +1718,7 @@ EOT;
     }
 
     if( $this->_redirect_browser == 'default' ) {
-      $location = CMLUtils::get_home_url( $this->_default_language_slug );
+      $location = CMLUtils::get_home_url( CMLLanguage::get_default_slug() );
     }
 
     if( $this->_redirect_browser == "others" ) {

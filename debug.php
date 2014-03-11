@@ -188,7 +188,7 @@ EOT;
       echo "\nis_category(): " . is_category();
       
       echo "\n\n<b>Linked pages:</b>\n";
-      print_r( cml_get_linked_posts( get_the_ID() ) );
+      print_r( CMLPost::get_translations( get_the_ID() ) );
       echo "</pre>";
     }
   }
