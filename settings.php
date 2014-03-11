@@ -51,7 +51,7 @@
   $_cml_settings[ 'cml_option_notice_post' ] = get_option("cml_option_notice_post");
   $_cml_settings[ 'cml_option_notice_before' ] = stripslashes( get_option('cml_option_notice_before', '<h5 class="cml-notice">') );
   $_cml_settings[ 'cml_option_notice_after' ] = get_option('cml_option_notice_after', '</h5>');
-  $_cml_settings[ 'cml_add_items_as' ] = get_option("cml_add_items_as");
+  $_cml_settings[ 'cml_add_items_as' ] = get_option("cml_add_items_as", 1);
   $_cml_settings[ 'cml_show_in_menu_size' ] = get_option("cml_show_in_menu_size", "small");
   $_cml_settings[ 'cml_show_in_menu_as' ] = get_option("cml_show_in_menu_as", 1);
   $_cml_settings[ 'cml_append_flags_to' ] = get_option("cml_append_flags_to");

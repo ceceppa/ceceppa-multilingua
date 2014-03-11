@@ -12,17 +12,16 @@ function cml_install_create_tables() {
    */
   $table_name = CECEPPA_ML_TABLE;
   $first_time = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name;
-  if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name)
-  {
+  if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     /**
-  * Tabella contenente le lingue da gestire
-  *
-  *  cml_default     - indica se è la lingua predefinita
-  *  cml_flag        - bandiera della lingua
-  *  cml_language    - nome della nuova lingua
-  *  cml_category_id - categoria base a cui è collegata la nuova lingua
-  *  cml_category    - descrizione della categoria a cui è collegata la lingua 
-  */
+    * Tabella contenente le lingue da gestire
+    *
+    *  cml_default     - indica se è la lingua predefinita
+    *  cml_flag        - bandiera della lingua
+    *  cml_language    - nome della nuova lingua
+    *  cml_category_id - categoria base a cui è collegata la nuova lingua
+    *  cml_category    - descrizione della categoria a cui è collegata la lingua 
+    */
     $sql = "CREATE TABLE $table_name (
     id INT(11) NOT NULL AUTO_INCREMENT,
     cml_default INT(1),
@@ -78,14 +77,18 @@ function cml_install_create_tables() {
     $query = "CREATE TABLE  $table_name (
               `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
               cml_cat_id INT NOT NULL,
-              cml_cat_name VARCHAR(10000) NOT NULL ,
+              cml_cat_name VARCHAR(1000) NOT NULL ,
               `cml_cat_lang_id` INT NOT NULL ,
-              `cml_cat_translation` VARCHAR(10000)) ENGINE=InnoDB CHARACTER SET=utf8;";
+              `cml_cat_translation` VARCHAR(1000),
+              `cml_cat_translation_slug` VARCHAR(1000) ) ENGINE=InnoDB CHARACTER SET=utf8;";
 
     dbDelta($query);
   }
   
-  update_option( "cml_show_wizard", $first_time );
+  if( $first_time ) {
+    update_option( "cml_show_wizard", 1 );
+  }
+
   update_option( "cml_is_first_time", $first_time );
 }
 
@@ -217,6 +220,9 @@ function cml_do_install() {
 
   //(Re)generate settings
   cml_generate_settings_php();
+  
+  //look for wpml-config.xml
+  update_option( '_cml_scan_folders', 1 );
 }
 
 ?>

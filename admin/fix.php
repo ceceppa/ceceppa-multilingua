@@ -48,27 +48,6 @@ function cml_do_update() {
     }
   }
 
-  if( $dbVersion <= 27 ) {
-    $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_translation_slug` VARCHAR( 100 ) NOT NULL",
-                     CECEPPA_ML_CATS );
-    $wpdb->query( $query );
-
-    $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
-    foreach( $rows as $row ) {
-      $slug = sanitize_title( strtolower( $row->translation ) );
-
-      $wpdb->update( CECEPPA_ML_CATS,
-                    array(
-                      'cml_cat_translation_slug' => bin2hex( $slug ),
-                    ),
-                    array(
-                      'id' => $row->id,
-                    ),
-                    array( "%s" ),
-                    array( "%d" ) );
-    }
-  }
-
   if( $dbVersion <= 26 ) {
     
     $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
@@ -82,6 +61,27 @@ function cml_do_update() {
       $wpdb->update( CECEPPA_ML_CATS,
                     array(
                       'cml_cat_translation' => bin2hex( $cat ),
+                    ),
+                    array(
+                      'id' => $row->id,
+                    ),
+                    array( "%s" ),
+                    array( "%d" ) );
+    }
+  }
+  
+  if( $dbVersion < 27 ) {
+    $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_translation_slug` VARCHAR( 100 ) NOT NULL",
+                     CECEPPA_ML_CATS );
+    $wpdb->query( $query );
+
+    $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
+    foreach( $rows as $row ) {
+      $slug = sanitize_title( strtolower( $row->translation ) );
+
+      $wpdb->update( CECEPPA_ML_CATS,
+                    array(
+                      'cml_cat_translation_slug' => bin2hex( $slug ),
                     ),
                     array(
                       'id' => $row->id,
@@ -329,10 +329,14 @@ function cml_update_all_posts_language() {
                             'post_type' => get_post_types(),
                             'orderby' => 'title',
                             'numberposts' => -1,
+                            'posts_per_page' => 999999,
                             'status' => 'publish, draft, private'));
-
+  
+  $did = CMLLanguage::get_default_id();
   foreach($posts as $post) {
-    CMLPost::set_language( CMLLanguage::get_default_id(),
+    echo "$post->ID,";
+
+    CMLPost::set_language( $did,
                           $post->ID );
   } //endforeach;
 }

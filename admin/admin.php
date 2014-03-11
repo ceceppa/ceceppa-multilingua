@@ -42,10 +42,16 @@ class CMLAdmin extends CeceppaML {
 
     /*
      * Wizard?
-     */  
+     */
     if( get_option( "cml_show_wizard" ) || isset( $_GET[ 'cml-restore-wizard' ] ) ) {
       add_action( 'admin_notices', array( & $this, 'wizard' ) );
     }
+
+    //Scan folders for wpml-config.xml?
+    add_action( 'plugins_loaded', array( & $this, 'scan_plugin_folders' ), 10 );
+
+    //When new plugin is activate I execute scan again :)
+    add_action( 'activated_plugin', array( & $this, 'plugin_activated' ), 10 );
 
     /*
      * I need it to let user to see translated post also in admin panel,
@@ -89,7 +95,7 @@ class CMLAdmin extends CeceppaML {
      * update existsings post to default language?
      */
     if( isset( $_GET[ 'cml_update_existings_posts' ] ) ) {
-     add_action( 'plugins_loaded', array( & $this, 'update_all_posts_language' ) );
+     add_action( 'admin_footer', array( & $this, 'update_all_posts_language' ) );
     }
 
     /*
@@ -263,6 +269,12 @@ class CMLAdmin extends CeceppaML {
       $this->add_pointers_to_settings_page();
 
       return;
+    }
+
+    if( isset( $_GET[ 'page' ] ) && "ceceppaml-language-page" == $_GET[ 'page' ] ) {
+      cml_add_pointer( "#contextual-help-link", __( 'Help', 'ceceppaml' ),
+                      __( 'Click here to show the meaning of language fields', 'ceceppaml' ),
+                      array( "edge" => "top", 'align' => 'right' ) );
     }
 
     //Add pointers
@@ -582,6 +594,21 @@ EOT;
     } //endswitch;
 
     return $item;
+  }
+  
+  /*
+   * scan plugins folders
+   */
+  function plugin_activated() {
+    delete_option( '_cml_wpml_config' );
+
+    update_option( '_cml_scan_folders', 1 );
+  }
+
+  function scan_plugin_folders() {
+    if( 1 == get_option( '_cml_scan_folders' ) ) {
+      cml_admin_scan_plugins_folders();
+    }
   }
 }
 ?>

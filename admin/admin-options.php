@@ -59,6 +59,8 @@ case 3:
     delete_option( "cml_erased" );
     delete_option( "_cml_update_existings_posts" );
     delete_option( "cml_show_wizard" );
+    delete_option( '_cml_wpml_config' );
+    delete_option( '_cml_scan_folders' );
 
     delete_option( "cml_translated_fields_yoast" );
     delete_option( "cml_translated_fields_aioseo" );

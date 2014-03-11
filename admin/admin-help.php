@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 function cml_admin_help_widgets( ) {
   $text = "Ceceppa Multilingua: <strong>" . __( 'Tip', 'ceceppaml' ) . "</strong><br /><br />";

@@ -23,9 +23,7 @@ class CMLFrontend extends CeceppaML {
     add_action( 'wp_enqueue_scripts', array( &$this, 'frontend_scripts' ) );
 
     //Change wordpress locale & right to left
-    if( $_cml_settings[ "cml_option_change_locale" ] == 1 ) {
-      add_filter( 'locale', array( & $this, 'setlocale' ), 0, 1 );
-    }
+    add_filter( 'locale', array( & $this, 'setlocale' ), 0, 1 );
     add_action('plugins_loaded', array( &$this, 'setup_rtl' ), 1);
 
     //redirect browser
@@ -222,6 +220,10 @@ class CMLFrontend extends CeceppaML {
 	  wp_register_style( 'ceceppaml-flying', CML_UPLOAD_URL . 'float.css' );
 	else
 	  wp_register_style( 'ceceppaml-flying', CML_PLUGIN_URL . 'css/float.css');
+      
+    //wpml-config combo style
+    if( file_exists( CML_UPLOAD_DIR . "combo_style.css" ) )
+        wp_enqueue_style( 'ceceppaml-wpml-combo-style', CML_UPLOAD_URL . "combo_style.css" );
   }
 
   /*
@@ -360,6 +362,9 @@ class CMLFrontend extends CeceppaML {
 
     $display = $_cml_settings[ "cml_show_in_menu_as" ];
 
+    if( isset( $this->_force_post_lang ) )
+      $old = $this->_force_post_lang;
+
     $this->_force_post_lang = $lang->id;
     $this->unset_category_lang();
 
@@ -377,6 +382,12 @@ $item = <<< EOT
       </a>
 EOT;
     
+    if( isset( $old ) ) {
+      $this->_force_post_lang = $old;
+    } else {
+      unset( $this->_force_post_lang );
+    }
+
     if( $close ) $item .= "</li>";
     
     return $item;
@@ -674,6 +685,9 @@ EOT;
 
     if( null !== CMLUtils::_get( '_force_category_lang' ) ) {
       $lang_id = CMLUtils::_get( '_force_category_lang' );
+
+      unset( $this->_force_category_lang );
+      unset( $this->_force_post_lang );
     }
 
     /*
@@ -694,7 +708,7 @@ EOT;
       $lang_id = CMLLanguage::get_current_id();
     }
 
-    if( $lang_id != CMLLanguage::get_current_id() ) {
+    if( ! CMLLanguage::is_current( $lang_id ) ) {
       //If post language != current language I can't get translation from ".mo"
       $name = CMLTranslations::get( $lang_id, $term_name, "C", false, true );
     } else {
@@ -1104,8 +1118,9 @@ EOT;
             $settings[ $basename ] = get_option( 'widget_' . $basename );
 
         if ( isset( $settings[$basename][$suffix] ) ) {
-            if ( false === $this->filter_widget( $settings[$basename][$suffix] ) )
-                unset( $sidebars_widgets[$area][$position] );
+            if ( false === $this->filter_widget( $settings[$basename][$suffix] ) ) {
+              unset( $sidebars_widgets[$area][$position] );
+            }
         }
       }
     }
@@ -1139,7 +1154,7 @@ EOT;
   function update_current_language() {
     global $wpdb, $_cml_settings;
 
-    //Elready detected?
+    //Already detected?
     if( isset( $this->_language_detected ) ) {
       return;
     }
@@ -1189,8 +1204,9 @@ EOT;
     if( ! CMLLanguage::is_default() || isset( $this->_fake_language_id ) ) {
       add_filter( 'widget_title', array( & $this, 'widget_title' ), 0, 1 );
       
-      if( isset( $this->_fake_language_id ) )
+      if( isset( $this->_fake_language_id ) ) {
         add_filter( 'term_link', array( &$this, 'translate_term_link' ), 0, 3 );
+      }
     }
 
     CMLUtils::_set( "_real_language", ( ! isset( $this->_fake_language_id ) ) ?
@@ -1240,7 +1256,9 @@ EOT;
             } else {
               $this->clear_url();
               
-              $url = $this->_clean_request;
+              if( $this->_url_mode != PRE_NONE ) {
+                $url = CMLUtils::get_clean_request();
+              }
             }
           }
 
@@ -1326,7 +1344,7 @@ EOT;
    */
   function change_taxonomy_name( $wp_query ) {
     if( isset( $this->_change_taxonomy_applied ) ) return;
-    
+
     //For default language I do nothing
     if( CMLLanguage::is_default() ) {
       $this->_change_taxonomy_applied = true;
@@ -1503,7 +1521,7 @@ EOT;
       return;
     }
 
-    $use_language = CMLLanguage::get_current_id();
+    $use_language = CMLUtils::_get( '_real_language' ); //CMLLanguage::get_current_id();
     
     //lang parameters
     if( isset( $wp_query->query[ 'lang' ] ) ) {
@@ -1672,10 +1690,11 @@ EOT;
     if( empty( $this->_permalink_structure ) || end( $structure ) == "%post_id%" ) {
       preg_match('/([0-9]+)$/', $url, $matches );
 
-      if( !empty( $matches ) )
-	return end( $matches );
+      if( !empty( $matches ) ) {
+        return end( $matches );
+      }
     } //endif;
-    
+
     return null;
   }
 
@@ -1726,7 +1745,13 @@ EOT;
    * change wordpress locale
    */
   function setlocale( $locale ) {
+    global $_cml_settings;
+
     $this->update_current_language();
+
+    if( ! $_cml_settings[ "cml_option_change_locale" ] ) {
+      return $locale;
+    }
 
     if( ! isset( $this->_fake_language_id ) ) {
       return CMLLanguage::get_current()->cml_locale;

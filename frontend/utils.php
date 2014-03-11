@@ -210,6 +210,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       $is_page = $is_single;
       $the_id = ( $is_single ) ? $q->ID : 0;
       $is_tag = isset( $q->term_taxonomy_id );
+      if( $is_tag ) $is_category = false;
 
       if( empty( $q ) ) {
         $is_404 = is_404();
@@ -269,6 +270,8 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         //Mi recupererà il link tradotto dal mio plugin ;)
         CMLUtils::_set( '_force_category_lang', $result->id );
         $link = get_category_link( $cat_id );
+        
+        CMLUtils::_del( '_force_category_lang' );
       } //endif;
     }
     
@@ -278,15 +281,22 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       } else {
         $term_id = CMLUtils::_get( "_reverted" );
       }
-      
+
       if( ! empty( $term_id ) ) {
+        CMLUtils::_set( '_force_category_lang', $result->id );
+
         $link = get_tag_link( $term_id );
+
+        CMLUtils::_del( '_force_category_lang' );
       }
     }
 
     if( is_paged() ) {
       $link = add_query_arg( array( "lang" => $result->cml_language_slug ) );
     }
+
+    unset( $GLOBALS[ '_cml_force_home_slug' ] );
+    $wpCeceppaML->unset_category_lang();
 
     /* Controllo se è stata impostata una pagina statica,
 	perché così invece di restituire il link dell'articolo collegato
@@ -332,10 +342,6 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     }
   }
 
-  unset( $GLOBALS[ '_cml_force_home_slug' ] );
-
-  $wpCeceppaML->unset_category_lang();
-
   return $link;
 }
 
@@ -348,21 +354,6 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 function cml_use_static_page() {
   return (get_option("page_for_posts") > 0) ||
 	  (get_option("page_on_front") > 0);
-}
-
-/**
- * @ignore
- * @internal
- *
- * prepend slug to url
- */
-function prepend_slug_to_url( $slug ) {
-  global $wpCeceppaML;
-
-  $url = explode( ".", $wpCeceppaML->get_url() );
-  $url[ 0 ] = $slug;
- 
-  return "http://" . join( ".", $url );
 }
 
 /**

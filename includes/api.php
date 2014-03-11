@@ -542,6 +542,7 @@ class CMLTranslations {
     global $wpdb;
 
     if( ! is_numeric( $lang ) ) $lang = CMLLanguage::get_id_by_slug( $lang );
+    $original = trim( $original );
 
     $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
                     array( "cml_text" => bin2hex( $original ),
@@ -591,6 +592,8 @@ class CMLTranslations {
       $return_empty = true;
     }
 
+    $string = trim( $string );
+
     //C = Category
     $s = ( $type == "C" ) ? strtolower( $string ) : $string;
 
@@ -602,11 +605,9 @@ class CMLTranslations {
 
     if( CML_GET_TRANSLATIONS_FROM_PO &&
        ! $ignore_po &&
-         file_exists( "cmltrans-" . CMLLanguage::get_current()->cml_locale ) ) {
+       1 == CMLUtils::_get( '_po_loaded' ) ) {
+         //file_exists( CML_PLUGIN_CACHE_PATH . "cmltrans-" . CMLLanguage::get_current()->cml_locale . ".mo" ) ) {
       $ret = __( $s, 'cmltrans' );
-      //if( $ret == $s ) { //Failed?
-        //return $string;
-      //}
     }
 
     if( ! is_numeric( $lang ) ) {
@@ -1303,6 +1304,13 @@ class CMLUtils {
     return isset( self::$_vars[ $key ] ) ? self::$_vars[ $key ] : null;
   }
   
+  /**
+   *@ignore
+   */
+  public static function _del( $key ) {
+    unset( self::$_vars[ $key ] );
+  }
+
   /**
    * @ignore
    */

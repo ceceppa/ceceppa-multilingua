@@ -193,7 +193,7 @@ function cml_admin_save_options_actions() {
   update_option( "cml_modification_mode_default", intval( @$_POST[ 'url-mode-default' ] ) );
 
   //Translate categories url
-  @update_option('cml_option_translate_categories', intval( $_POST['categories'] ) );
+  //@update_option('cml_option_translate_categories', intval( $_POST['categories'] ) );
 
   //Notices
   @update_option("cml_option_notice", sanitize_title( $_POST['notice'] ) );
@@ -203,11 +203,14 @@ function cml_admin_save_options_actions() {
   @update_option("cml_option_notice_post", intval( $_POST['notice-post'] ) );
   @update_option("cml_option_notice_page", intval( $_POST['notice-page'] ) );
 
-  //Date format
-  @update_option('cml_change_date_format', intval( $_POST['date-format'] ) );
-
-  //Change locale
-  update_option("cml_option_change_locale", intval( @$_POST['change-locale'] ) );
+  //I don't have to save this settings in "wizard" mode
+  if( ! isset( $_POST[ 'wstep' ] ) ) {
+    //Date format
+    @update_option('cml_change_date_format', intval( $_POST['date-format'] ) );
+  
+    //Change locale
+    update_option("cml_option_change_locale", intval( @$_POST['change-locale'] ) );
+  }
 
   $lstep = "";
   if( isset( $_POST[ 'wstep' ] ) ) {
@@ -227,24 +230,27 @@ function cml_admin_save_options_filters() {
   //Filter posts
   @update_option("cml_option_filter_posts", intval($_POST['filter-posts']));
 
-  //Filter translations
-  @update_option("cml_option_filter_translations", intval($_POST['filter-translations']));
-
-  //Filter query
-  @update_option("cml_option_filter_query", intval($_POST['filter-query']));
-    
-  //Filter search
-  @update_option("cml_option_filter_search", intval($_POST['filter-search']));
-  @update_option("cml_option_filter_form_class", esc_html($_POST['filter-form']));
-
-  //Translate menu items?
-  @update_option( "cml_option_action_menu", intval( $_POST['action-menu'] ) );
-  @update_option( 'cml_option_menu_hide_items', intval( $_POST[ 'menu-hide-items' ] ) );
-  @update_option( 'cml_option_action_menu_force', intval( $_POST[ 'force-menu' ] ) );
-
-  //Comments ( group / ungroup )
-  @update_option('cml_option_comments', sanitize_title( $_POST['comments'] ) );
+  //I don't have to save this settings in "wizard" mode
+  if( ! isset( $_POST[ 'wstep' ] ) ) {
+    //Filter translations
+    @update_option("cml_option_filter_translations", intval($_POST['filter-translations']));
   
+    //Filter query
+    @update_option("cml_option_filter_query", intval($_POST['filter-query']));
+      
+    //Filter search
+    @update_option("cml_option_filter_search", intval($_POST['filter-search']));
+    @update_option("cml_option_filter_form_class", esc_html($_POST['filter-form']));
+  
+    //Translate menu items?
+    @update_option( "cml_option_action_menu", intval( $_POST['action-menu'] ) );
+    @update_option( 'cml_option_menu_hide_items', intval( $_POST[ 'menu-hide-items' ] ) );
+    @update_option( 'cml_option_action_menu_force', intval( $_POST[ 'force-menu' ] ) );
+  
+    //Comments ( group / ungroup )
+    @update_option('cml_option_comments', sanitize_title( $_POST['comments'] ) );
+  }
+
   $lstep = "";
   if( isset( $_POST[ 'wstep' ] ) ) {
     $lstep = "&wstep=" . intval( $_POST[ 'wstep' ] );

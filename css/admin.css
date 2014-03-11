@@ -3,6 +3,7 @@ body.toplevel_page_ceceppaml-language-page {
 }
 
 .cml-zoomed {
+  background: #fff;
   opacity: 1 !important;
   z-index: 1001 !important;
   position: relative;
@@ -1207,7 +1208,7 @@ margin-bottom: 10px;
     height: 28px;
   }
   
-  .tablenav ul.cml-lang-sel {
+  .tablenav ul#cml-lang {
     position: absolute;
   }
   
@@ -1445,7 +1446,7 @@ div.cml-ex-indent {
     display: none;
   }
 
-ul.cml-lang-sel > li > ul {
+ul#cml-lang > li > ul {
   margin-top: -4px !important;
 }
 

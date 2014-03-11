@@ -244,7 +244,6 @@ function cml_admin_options_flags_append() {
 function cml_admin_options_flags_menu() {
   $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
-  $redirect = $_cml_settings[ 'cml_option_redirect' ];
   ?>
   <div id="minor-publishing">
     <div>
@@ -276,7 +275,7 @@ function cml_admin_options_flags_menu() {
 	      $locations = get_nav_menu_locations();
 
 	      $menu = array();
-	      $sel = get_option( 'cml_add_items_to' );
+	      $sel = get_option( 'cml_add_items_to', array() );
 
 	      foreach( $locations as $key => $location ) {
             if( FALSE !== strpos( $key, "cml_" ) ) continue;

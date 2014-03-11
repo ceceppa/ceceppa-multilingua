@@ -157,7 +157,7 @@ class CeceppaML {
   protected $_url = null;
   protected $_homeUrl = null;
   protected $_base_url = null;
-  public $_request_url = null;
+  protected $_request_url = null;
   protected $_permalink_structure = null;
   protected $_category_url_mode = null;
 
@@ -176,12 +176,12 @@ class CeceppaML {
     //Activate?
     register_activation_hook( __FILE__, array( & $this, 'activated' ) );
 
+    //Initialize the plugin
+    add_action( 'init', array( &$this, 'init' ), 0 );
+
     //Scripts & Styles
     add_action( 'wp_enqueue_scripts', array( &$this, 'register_scripts' ) );
     add_action( 'admin_enqueue_scripts', array( &$this, 'register_scripts' ) );
-
-    //Initialize the plugin
-    add_action( 'init', array( &$this, 'init' ), 0 );
 
     /*
      * I need to force category language, becase I need category in
@@ -189,8 +189,11 @@ class CeceppaML {
      */
     add_filter( 'pre_post_link', array( & $this, 'pre_post_link' ), 0, 3 );
     add_filter( 'post_link', array( & $this, 'translate_post_link' ), 0, 3 );
-    add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
-    add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
+    
+    if( $this->_url_mode > PRE_LANG ) {
+      add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
+      add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
+    }
 
     //Switch language in menu
     add_action( 'admin_bar_menu', array( & $this, 'add_bar_menu' ), 1000 );
@@ -200,7 +203,7 @@ class CeceppaML {
 
     //Category doesn't works correctly with "none" of "Url Modification mode"
     $this->_category_url_mode = $this->_url_mode;
-    if( $this->_category_url_mode == PRE_NONE && ! $_cml_settings[ 'cml_option_translate_categories' ] )
+    if( $this->_category_url_mode == PRE_NONE ) //&& ! $_cml_settings[ 'cml_option_translate_categories' ] )
       $this->_category_url_mode = PRE_LANG;
   }
 
@@ -219,9 +222,6 @@ class CeceppaML {
   function init() {
     global $_cml_settings;
 
-    //translate term link?
-    $this->_translate_term_link = $_cml_settings[ "cml_option_translate_categories" ];
-
     //Languages
     load_plugin_textdomain( 'ceceppaml', false, dirname( plugin_basename( __FILE__ ) ) . '/langs/' );
 
@@ -230,8 +230,9 @@ class CeceppaML {
       register_nav_menus( array( "cml_menu_$result->cml_language_slug" => $result->cml_language ) );
     }
 
-    if( CML_GET_TRANSLATIONS_FROM_PO )
-      load_plugin_textdomain( 'cmltrans', false, dirname( plugin_basename( __FILE__ ) ) . '/cache/' );
+    if( CML_GET_TRANSLATIONS_FROM_PO ) {
+      CMLUtils::_set( '_po_loaded', load_plugin_textdomain( 'cmltrans', false, dirname( plugin_basename( __FILE__ ) ) . '/cache/' ) );
+    }
   }
 
   /*
@@ -248,10 +249,6 @@ class CeceppaML {
     //user custom style
     if( file_exists( CML_UPLOAD_DIR . "ceceppaml.css" ) )
         wp_enqueue_style( 'ceceppaml-custom-style', CML_UPLOAD_URL . "ceceppaml.css" );
-
-    //wpml-config combo style
-    if( file_exists( CML_UPLOAD_DIR . "combo_style.css" ) )
-        wp_enqueue_style( 'ceceppaml-wpml-combo-style', CML_UPLOAD_URL . "combo_style.css" );
   }
   
   function add_bar_menu() {
@@ -428,6 +425,10 @@ EOT;
     }
 
     $lang = CMLLanguage::get_by_post_id( $page_id );
+
+    if( ! is_object( $lang ) ) {
+      $lang = CMLLanguage::get_default();
+    }
 
     if( CMLLanguage::is_current( $lang->id ) ) {
       return $permalink;
