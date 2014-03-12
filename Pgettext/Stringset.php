@@ -67,30 +67,30 @@ class Stringset
         );
     }
 
+    private function usortfn( $first, $second ) {
+            $ids = strcmp($first['id'], $second['id']);
+            if ($ids === 0) {
+                if ($first['context'] === null && $second['context'] === null) {
+                    return 0;
+                } else if ($first['context'] === null) {
+                    return -1;
+                } else if ($second['context'] === null) {
+                    return 1;
+                } else {
+                    return strcmp($first['context'], $second['context']);
+                }
+            } else {
+                return $ids;
+            }
+    }
+
     /**
      * Sort the entries in lexical order.
      * @return void
      */
     public function sort()
     {
-      $func = create_function( '$first, $second', '
-            $ids = strcmp($first[\'id\'], $second[\'id\']);
-            if ($ids === 0) {
-                if ($first[\'context\'] === null && $second[\'context\'] === null) {
-                    return 0;
-                } else if ($first[\'context\'] === null) {
-                    return -1;
-                } else if ($second[\'context\'] === null) {
-                    return 1;
-                } else {
-                    return strcmp($first[\'context\'], $second[\'context\']);
-                }
-            } else {
-                return $ids;
-            }
-      ' );
-      
-      usort( $this->set, $func( $first, $second ) );
+      usort( $this->set, array( & $this, 'usortfn' ) );
 /*        usort($this->set, function ($first, $second) {
             $ids = strcmp($first['id'], $second['id']);
             if ($ids === 0) {

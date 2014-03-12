@@ -189,7 +189,9 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         $args[ 's' ] = esc_attr( $_GET[ 's' ] );
       }
 
-      $args[ 'lang' ] = $result->cml_language_slug;
+      if( CMLUtils::get_url_mode() <= PRE_LANG ) {
+        $args[ 'lang' ] = $result->cml_language_slug;
+      }
 
       $link = add_query_arg( $args, trailingslashit( $link ) );
     }

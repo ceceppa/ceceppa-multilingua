@@ -325,7 +325,6 @@ function cml_aioseo_translate_options() {
   if( empty( $names ) ) return;
 
   $names = explode( ",", $names );
-
   foreach( $aioseop_options as $key => $opt ) {
     if( in_array( $key, $names ) ) {
       $value = CMLTranslations::get( CMLLanguage::get_current_id(),
