@@ -192,9 +192,10 @@ class CeceppaML {
      */
     add_filter( 'pre_post_link', array( & $this, 'pre_post_link' ), 0, 3 );
     add_filter( 'post_link', array( & $this, 'translate_post_link' ), 0, 3 );
+    add_filter( 'post_type_link', array( & $this, 'translate_post_link' ), 0, 3 );
     
     if( $this->_url_mode > PRE_LANG ) {
-      add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
+//       add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
       add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
     }
 
@@ -545,40 +546,9 @@ EOT;
     }
     
     if( $this->_url_mode == PRE_LANG ) {
-      if( ! empty( $path ) && "?" == $path[ 0 ] ) {
-        $path = substr( $path, 1 );
-      }
-
-      $home = CMLUtils::home_url();
-      if( "/" === $path ) {
-        $path = "";
-      }
-
-      if( ! empty( $path ) ) {
-        if( "/" != $path[ 0 ] ) {
-          $home = trailingslashit( $home );
-        }
-        
-        $path = trailingslashit( $path );
-      } else {
-        $home = trailingslashit( $home );
-      }
-
-      /*
-       * for ?lang method I have no add language slug to page link or I'll
-       * get wrong url like:
-       *
-       * www.example.com/demo/?lang=en/2/
-       */
-      if( ! isset( $this->_numpage_slug ) ) {
-        $link = add_query_arg( array(
-                                    "lang" => untrailingslashit( $slug ),
-                                    ), $home . $path );
-      } else {
-        $link = $home . $path;
-      }
-      
-      return $link;
+      return add_query_arg( array( 
+                            'lang' => $slug,
+                            ), $url );
     }
     
     if( $this->_url_mode == PRE_DOMAIN ) {

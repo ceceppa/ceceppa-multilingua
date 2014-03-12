@@ -172,6 +172,11 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 
 == Changelog ==
 
+= 1.4.3 =
+* Fixed url mode "?lang"
+* Fixed Widget filter
+* Fixed "Warning" with YOAST plugin
+
 = 1.4.2 =
 * Added missing file "php-compatibility.php"
 

@@ -365,7 +365,7 @@ function cml_get_browser_lang() {
 
   global $wpdb;
 
-  $browser_langs = explode( ";", $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+  $browser_langs = @explode( ";", $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
   $lang = null;
 
   //Se la lingua del browser coincide con una di quella attuale della pagina, ignoro tutto

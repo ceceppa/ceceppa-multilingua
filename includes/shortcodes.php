@@ -81,6 +81,7 @@ function cml_do_shortcode($attrs) {
 function cml_show_available_langs( $args ) {
   $args[ 'only_existings' ] = true;
   $args[ 'sort' ] = false;
+  $args[ 'queried' ] = false;
 
   return cml_show_flags( $args );
 }
@@ -98,6 +99,10 @@ function cml_shortcode_other_langs_available( $attrs ) {
 }
 
 function cml_shortcode_show_flags($attrs) {
+  if( ! isset( $args[ 'queried' ] ) ) {
+    $args[ 'queried' ] = false;
+  }
+
   return cml_show_flags( $attrs ); 
 }
 

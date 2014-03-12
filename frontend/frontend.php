@@ -178,7 +178,6 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'bloginfo', array( & $this, 'translate_bloginfo' ), 0, 1 );
     
     //Filter widgets by language
-    add_action( 'widget_display_callback', array( & $this, 'filter_widget' ) );
     add_filter( 'sidebars_widgets', array( & $this, 'filter_widgets' ), 0, 1 );
     
     //Next and Prev post
@@ -1137,8 +1136,10 @@ EOT;
   function filter_widget( $instance ) {
     global $post, $wp_query;
 
-    if ( empty( $instance['cml-conditions'] ) || empty( $instance['cml-conditions']['langs'] ) )
-      return $instance;
+    if ( empty( $instance['cml-conditions'] ) 
+          || empty( $instance['cml-conditions']['langs'] ) ) {
+      return true;
+    }
 
     //In which language it'is visible or hidden?
     $langs = $instance['cml-conditions']['langs'];

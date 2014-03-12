@@ -69,9 +69,7 @@ class CMo
      */
     public static function toString(Stringset $set, $add_hash_table = true)
     {
-      if (version_compare(phpversion(), '5.3.0', '>') ) {
         $set->sort();
-      }
 
         if ($add_hash_table) {
             $hash_table_size = self::nextPrime((int)(($set->size() * 4) / 3));
