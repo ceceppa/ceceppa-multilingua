@@ -19,10 +19,10 @@ function cml_is_homepage( $url = null ) {
   //Controllo se è stata impostata una pagina "statica" se l'id di questa è = a quello della statica
   if( cml_use_static_page() ) {
     global $wp_query;
-    $static_id = get_option( "page_for_posts" ) + get_option( "page_on_front" );
+    $static_id = array( get_option( "page_for_posts" ), get_option( "page_on_front" ) );
 
     $lang_id = CMLLanguage::get_current_id();
-    
+
     /*
      * on some site get_queried_object_id isn't available on start
      * and I get:
@@ -48,18 +48,17 @@ function cml_is_homepage( $url = null ) {
           $GLOBALS[ '_cml_get_queried_object_id' ] = $the_id;
         }
       }
-      
     } else {
       $the_id = $GLOBALS[ '_cml_get_queried_object_id' ];
     }
 
     if( ! empty( $the_id ) ) {
-      if( $the_id == $static_id ) return true;	//Yes, it is :)
+      if( in_array( $the_id, $static_id ) ) return true;	//Yes, it is :)
 
       //Is a translation of front page?
       $linked = CMLPost::get_translation( CMLLanguage::get_current_id(), $the_id  );
-      if( !empty($linked) ) {
-        return $linked == $static_id;
+      if( ! empty( $linked ) ) {
+        return in_array( $linked, $static_id );
       }
     }
   }
@@ -243,6 +242,15 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
       if( ! empty( $linked_id ) ) {
         $link = get_permalink( $linked_id );
+
+        if( $queried && 
+            CMLUtils::_get( '_real_language' ) != CMLLanguage::get_current_id()
+            && $linked_id == $the_id ) {
+
+          if( CMLUtils::get_url_mode() == PRE_PATH ) {
+            $link = $wpCeceppaML->convert_url( $link, CMLLanguage::get_current_slug() );
+          }
+        }
       }
     }
 

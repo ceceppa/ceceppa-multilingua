@@ -160,7 +160,7 @@ EOT;
       print_r( CMLUtils::home_url() );
       
       echo "\n wpCeceppaML->_request_url: ";
-      print_r( $wpCeceppaML->_request_url );
+//       print_r( $wpCeceppaML->_request_url );
       
       echo "\n wpCeceppaML->_permalink_structure: ";
       print_r( CMLUtils::get_permalink_structure() );

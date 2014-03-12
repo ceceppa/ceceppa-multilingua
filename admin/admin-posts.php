@@ -84,7 +84,7 @@ function cml_admin_post_meta_box( $tag ) {
 function _cml_admin_post_meta_translation( $type, $lang, $linked_id ) {
   $args = array('numberposts' => -1, 'order' => 'ASC', 'orderby' => 'title', 'posts_per_page' => -1,
       'post_type' => $type,
-      'post__in' => CMLPost::get_posts_by_language( $lang ),
+      'post__not_in' => CMLPost::get_posts_by_language( $lang ),
       'status' => 'publish,inherit,pending,private,future,draft');
   
   $posts = new WP_Query( $args );

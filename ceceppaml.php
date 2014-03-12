@@ -144,7 +144,7 @@ require_once( CML_PLUGIN_INCLUDES_PATH . "functions.php" );
 require_once CML_PLUGIN_INCLUDES_PATH . "widgets.php";
 
 //debug
-//require_once( "debug.php" );
+// require_once( "debug.php" );
 
 //3rd party compatibility
 require_once( CML_PLUGIN_INCLUDES_PATH . 'compatibility.php' );

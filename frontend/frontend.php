@@ -1576,19 +1576,19 @@ EOT;
      * If lang=## parameter exists in $_GET, probably I'm forcing language for current
      * post, so I have to add that post id to $posts array, or wp will return 404
      */
-    //if( isset( $_GET[ 'lang' ] ) &&
-    //    isset( $this->_fake_language_id ) &&
-    //    ! isset( $this->_include_current ) ) {
-    //  $this->_looking_id_post = true;
-    //  $id = cml_get_page_id_by_path( $this->_clean_url );
-    //
-    //  unset( $this->_looking_id_post );
-    //
-    //  $posts[] = $id;
-    //  CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
-    //  
-    //  $this->_include_current = true;
-    //}
+    if( isset( $_GET[ 'lang' ] ) &&
+       isset( $this->_fake_language_id ) &&
+       ! isset( $this->_include_current ) ) {
+     $this->_looking_id_post = true;
+     $id = cml_get_page_id_by_path( $this->_clean_url );
+    
+     unset( $this->_looking_id_post );
+    
+     $posts[] = $id;
+     CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
+     
+     $this->_include_current = true;
+    }
 
     /*
      * If user choosed to don't show some post with post__not_in, I have to diff $posts
