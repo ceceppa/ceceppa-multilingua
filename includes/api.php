@@ -865,7 +865,7 @@ class CMLPost {
     
       $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
       $_conv = & $GLOBALS[ '_cml_language_keys' ];
-    
+
       $query = "SELECT ";
       foreach( $_conv as $key => $label ) {
         $select[] = "$key as $label";
@@ -975,8 +975,6 @@ class CMLPost {
     $meta = array( "lang" => $lang,
                     "translations" => CMLPost::get_translations( $post_id, true ) );
 
-    //print_r( $meta );
-    //die();
     update_post_meta( $post_id, "_cml_meta", $meta );
   }
 
@@ -1065,6 +1063,73 @@ class CMLPost {
     }
   }
 
+  /**
+   * @ignore
+   *
+   * Remove extra "-##" add by wordpress when more than one post has
+   * same titles, but ONLY on translations.
+   */
+  public static function remove_extra_number( $permalink, $post ) {
+    global $wpdb;
+
+    $removed = false;
+
+    if( is_object( $post ) && CMLPost::has_translations( $post->ID ) ) {
+      //Remove last "/"
+      $url = untrailingslashit( $permalink );
+      $url = str_replace( CMLUtils::home_url(), "", $url );
+  
+      /*
+       * Post/page link contains "-d"
+       */
+      preg_match_all( "/-\d+/", $url, $out );
+  
+      /*
+       * if true I have to check if it was added by "wordpress" :)
+       */
+      if( count( $out[ 0 ] ) > 0 ) {
+        /*
+         * when hook get_page_link, wordpress pass me only post id, not full object
+         */
+        $post_title = $post->post_title; //( ! isset( $post->post_name ) ) ?
+          //$post->post_title : $post->post_name;
+          // $a = $wpdb->get_var( "SELECT post_title FROM $wpdb->posts WHERE id = $post->ID" );
+
+        /*
+         * got how many number occourrences ( -d ) are in the "real title"
+         */
+        preg_match_all( "/\d+/", $post_title, $pout );
+
+        /*
+         * compare occourrences between permalink and title,
+         * if title contains more one, I remove it :)
+         */
+        //Remove autoinserted -## from url
+        if( count( $pout[0] ) < count( $out[ 0 ] ) ) {
+          $permalink = trailingslashit( preg_replace( "/-\d*$/", "",
+                                                     untrailingslashit( $permalink ) ) );
+
+          $removed = true;
+        }
+      }
+
+      if( $removed &&
+          CMLUtils::get_url_mode() == PRE_NONE ) {
+        $post_id = is_object( $post ) ? $post->ID : $post;
+
+        $lang = CMLLanguage::get_by_post_id( $post_id );
+        if( empty( $lang ) ) {
+          $lang = CMLLanguage::get_current();
+        }
+
+        $permalink = add_query_arg( array(
+                                          "lang" => $lang->cml_language_slug,
+                                          ), $permalink );
+      }
+    }
+
+    return $permalink;
+  }
 }
 
 /**

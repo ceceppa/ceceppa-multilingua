@@ -207,11 +207,11 @@ function cml_do_install() {
     cml_install_first_time();
   }
 
-  //I need this to manage post relations
-  cml_generate_lang_columns();
-
   //Do fixes
   cml_do_update();
+
+  //I need this to manage post relations
+  cml_generate_lang_columns();
 
   //Copy category translation from "_cats" to "_relations"
   require_once ( CML_PLUGIN_ADMIN_PATH . "admin-taxonomies.php" );
@@ -220,7 +220,7 @@ function cml_do_install() {
 
   //(Re)generate settings
   cml_generate_settings_php();
-  
+
   //look for wpml-config.xml
   update_option( '_cml_scan_folders', 1 );
 }

@@ -1550,3 +1550,7 @@ iframe.cml-iframe {
 form.ceceppa-form-translations table tbody tr:hover td {
   background: #FFFFEB;
 }
+
+select.cml_linked_post {
+  max-width: 230px;
+}

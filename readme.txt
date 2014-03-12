@@ -12,7 +12,7 @@ Adds userfriendly multilingual content management and translation support into W
 
 == Description ==
 
-I create Ceceppa Multilingua to let Wordpress have an easy to use interface for managing a fully multilingual web site.
+I created Ceceppa Multilingua to let Wordpress have an easy to use interface for managing a fully multilingual web site.
 With "Ceceppa Multilingua" you can write your posts and pages in multiple language. Here are some features:
 
 = Features =
@@ -48,17 +48,22 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 
 = 3rd part compatible plugins =
 - Wordpress SEO by YOAST
+- All in one SEO pack
 - Google XML Sitemaps
+
 
 = Let's start =
 Ceceppa Multilingua supports infinite language, which can be easily added/modified/deleted via the comfortable Configuration Page.
 All you need to do is activate the plugin, configure categories and start writing the content!
 
 = About =
-For more Information visit the [Plugin Homepage](http://www.alessandrosenese.eu/interessi/progetti/wp-progetti/ceceppa-multilingua-per-wordpress/)
+For more Information visit the [Plugin Homepage](http://www.alessandrosenese.eu/myworks/ceceppa-multilingua/)
+[Setting up a WordPress multilingual site with Ceceppa Multilingua](http://www.alessandrosenese.eu/en/ceceppa-multilingua/documentation)
+[Contribute](http://www.alessandrosenese.eu/en/ceceppa-multilingua/contribute)
+[Developers](http://www.alessandrosenese.eu/en/ceceppa-multilingua/developers)
 
 = Demo =
-[Plugin demo](http://www.youtube.com/watch?v=fAPIQonud-E).
+(old version)[Plugin demo](http://www.youtube.com/watch?v=fAPIQonud-E).
 
 = Flags =
 Flags directory are downloaded from [Flags](http://blog.worldofemotions.com/danilka/)
@@ -171,6 +176,13 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 8. Translate your theme
 
 == Changelog ==
+
+= 1.4.4 =
+* Fixed issue when category slug is different from its name
+* Fixed custom menu url for non default language
+* Fixed "Force language items"
+* Fixed post relations with more 2 languages
+* Fixed "remove extra -##" for all url mode 
 
 = 1.4.3 =
 * Fixed url mode "?lang"

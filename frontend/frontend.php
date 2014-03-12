@@ -49,8 +49,9 @@ class CMLFrontend extends CeceppaML {
     * I remove "-##" from the end of permalink, but I have to inform wordpress
     * which is the corrent "post_name"
     */
-    if( ! empty( $this->_permalink_structure ) )
+    if( ! empty( $this->_permalink_structure ) ) {
       add_action( 'pre_get_posts', array( & $this, 'is_duplicated_post_title' ), 0, 1 );
+    }
 	
     //Translate term
     add_filter( 'get_term', array( & $this, 'translate_term' ), 10, 2 );
@@ -92,7 +93,7 @@ class CMLFrontend extends CeceppaML {
 
       if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "bottom" ||
           $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" ) {
-          add_filter( "the_content", array( &$this, 'add_flags_on_content' ), 0, 1 );
+          add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
       } else {
           add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
       }
@@ -278,25 +279,25 @@ class CMLFrontend extends CeceppaML {
   function add_flags_on_content( $content ) {
     global $_cml_settings;
     
-      if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $content;
-      if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
-      if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-         cml_is_custom_post_type() ) return $content;
+    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $content;
+    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
+    if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
+       cml_is_custom_post_type() ) return $content;
 
-      $size = $_cml_settings['cml_option_flags_on_size'];
-      $args = array(
-                    "class" => "cml_flags_on_top",
-                    "size" => $size,
-                    "sort" => true,
-                    );
-      $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
-                            cml_shortcode_other_langs_available( $args ) :
-                            cml_show_available_langs( $args );
+    $size = $_cml_settings['cml_option_flags_on_size'];
+    $args = array(
+                  "class" => "cml_flags_on_top",
+                  "size" => $size,
+                  "sort" => true,
+                  );
+    $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
+                          cml_shortcode_other_langs_available( $args ) :
+                          cml_show_available_langs( $args );
 
-      if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" )
-        return $flags . $content;
-      else
-        return $content . $flags;
+    if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" )
+      return $flags . $content;
+    else
+      return $content . $flags;
   }
 
   /*
@@ -311,6 +312,8 @@ class CMLFrontend extends CeceppaML {
 
     //In which menu add flags?
     $to = $_cml_settings[ 'cml_add_items_to' ];
+
+    if( ! empty( $to ) && ! is_array( $to ) ) $to = array( $to );
     if( ! empty( $to ) && ! in_array( $args->theme_location, $to ) ) return $items;
 
     $langs = CMLLanguage::get_enableds();
@@ -654,6 +657,10 @@ EOT;
    * translate single category name
    */
   function translate_term_name( $term_name, $lang_id = null, $post_id = null ) {
+    if( 1 === CMLUtils::_get( '_no_translate_term' ) ) {
+      return $term_name;
+    }
+ 
     if( isset( $this->_force_post_lang ) ) {
       $lang_id = $this->_force_post_lang;
     }
@@ -695,6 +702,8 @@ EOT;
      * not current
      */
     if( CMLLanguage::is_default( $lang_id ) ) {
+      //I have not translate "slug" for default language
+      CMLUtils::_set( '_no_translate_term', 1 );
       return $term_name;
     }
 
@@ -731,7 +740,12 @@ EOT;
       }
 
       $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id );
-      $term->slug = sanitize_title( strtolower( $term->name ) );
+
+      if( null === CMLUtils::_get( '_no_translate_term' ) ) {
+        $term->slug = sanitize_title( strtolower( $term->name ) );
+      }
+
+      CMLUtils::_del( '_no_translate_term' );
 
       $t[] = $term;
     }
@@ -802,6 +816,8 @@ EOT;
    * for post I change the name and link with its translation
    */
   function translate_menu_item( $item ) {
+    global $_cml_settings;
+
     //Se l'utente ha scelto un menu differente per la lingua corrente
     //non devo applicare nessun tipo di filtro agli elementi del menu, esco :)
     //Questo è vero solo per le pagine... altrimenti non mi traduce il nome delle categorie
@@ -845,9 +861,20 @@ EOT;
 
           //If using static page, ensure that isn't a translation of it...
           $url = get_permalink( $page_id );
+          $url = CMLPost::remove_extra_number( $url, $item );
 
           unset( $this->_force_category_lang );
           unset( $this->_force_post_lang );
+        } else {
+          //I need to set correct page slug
+          $lang = CMLPost::get_language_id_by_id( $item->ID );
+          if( ! CMLLanguage::is_current( $lang ) ) {
+            $item->url = $this->convert_url( $item->url, CMLLanguage::get_current_slug() );
+
+            if( $_cml_settings[ 'cml_option_action_menu_force' ] ) {
+              $item->url = add_query_arg( array( 'lang' => CMLLanguage::get_current_slug() ), $item->url );
+            }
+          }
         }
 
         /*
@@ -866,10 +893,10 @@ EOT;
     
           //custom label for
           $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
-          if( isset( $this->_fake_language_id ) ) {
-            $this->_force_category_lang = $lang_id;
-            $this->_force_post_lang = $lang_id;
-          }
+          // if( isset( $this->_fake_language_id ) ) {
+          //   $this->_force_category_lang = $lang_id;
+          //   $this->_force_post_lang = $lang_id;
+          // }
 
           //Get term
           $term = get_term( $item->object_id, $item->object );
@@ -882,10 +909,10 @@ EOT;
                                                 $item->attr_title;
           $item->url = $url;
 
-          if( isset( $this->_fake_language_id ) ) {
-            unset( $this->_force_post_lang );
-            unset( $this->_force_category_lang );
-          }
+          // if( isset( $this->_fake_language_id ) ) {
+          //   unset( $this->_force_post_lang );
+          //   unset( $this->_force_category_lang );
+          // }
         }
       break;
       case 'custom':
@@ -898,8 +925,8 @@ EOT;
         $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
                                               $item->attr_title;
 
-        if( ! @empty( $customs[ 'url' ] ) ) {
-          $item->url = $customs[ 'url' ];
+        if( ! @empty( $customs[ 'url_value' ] ) ) {
+          $item->url = $customs[ 'url_value' ];
         }
 
         /* is homepage url? */
@@ -956,7 +983,7 @@ EOT;
 
   /*
    * WP Trick: Change the "post_name" of $query object wich 
-   *
+   * I need this function when i remove extra -## from permalink
    */
   function is_duplicated_post_title( $query ) {
     global $wpdb;
@@ -975,16 +1002,18 @@ EOT;
     $url = remove_query_arg( "lang", $this->_clean_url );
     if( $this->_url_mode != PRE_LANG ) {
       $id = @url_to_postid( $url );
-    } else {
+    } 
+
+    if( empty( $id ) ) {
       $id = @cml_get_page_id_by_path( $url );
     }
-    
+
     if( $id > 0 ) {      
       unset( $this->_looking_id_post );
       remove_action( 'pre_get_posts', array( &$this, 'is_duplicated_post_title' ), 0, 1 );
 
       //Linked posts
-      $linked = CMLPost::get_translation( CMLLanguage::get_current_id(), $id );
+      $linked = CMLPost::get_translation( CMLUtils::_get( '_real_language' ), $id );
       if( empty( $linked ) ) {
         return;
       }
@@ -1416,6 +1445,15 @@ EOT;
         CMLUtils::_set( '_reverted', ! empty( $row ) ? $row->cml_cat_id : 0 );
       }
 
+      if( ! empty( $name ) ) {
+        $where = is_category() ? "category" : "taxonomy";
+        CMLUtils::_set( '_no_translate_term', 1 );
+        $term = get_term_by( 'id', $row->cml_cat_id, $where );
+        
+        $name = $term->slug;
+        CMLUtils::_del( '_no_translate_term' );
+      }
+      
       $n = empty( $name ) ? $cat : $name;
       $new[] = sanitize_title( $n );
     } //endforeach;

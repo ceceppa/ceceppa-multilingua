@@ -242,13 +242,13 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
       if( ! empty( $linked_id ) ) {
         $link = get_permalink( $linked_id );
+        $link = CMLPost::remove_extra_number( $link, get_post( $linked_id ) );
 
-        if( $queried && 
-            CMLUtils::_get( '_real_language' ) != CMLLanguage::get_current_id()
+        if( CMLUtils::_get( '_real_language' ) != CMLLanguage::get_current_id()
             && $linked_id == $the_id ) {
 
           if( CMLUtils::get_url_mode() == PRE_PATH ) {
-            $link = $wpCeceppaML->convert_url( $link, CMLLanguage::get_current_slug() );
+            $link = $wpCeceppaML->convert_url( $link, $result->cml_language_slug );
           }
         }
       }
@@ -324,8 +324,8 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          * return translation, if exists :)
          */
         if( is_single() || is_page() ) {
-          $l = cml_get_linked_post( $the_id, cml_get_default_language_id() );
-          //if( ! empty( $l ) ) return get_permalink( $l );
+          $l = cml_get_linked_post( $the_id, CMLLanguage::get_default_id() );
+          // if( ! empty( $l ) ) return get_permalink( $l );
         }
 
         /*

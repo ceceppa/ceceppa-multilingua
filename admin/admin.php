@@ -448,7 +448,7 @@ class CMLAdmin extends CeceppaML {
     }
 
 
-    if( $pagenow == "edit.php" || $pagenow == "post.php" ) {
+    if( in_array( $pagenow, array( "edit.php", "post.php", "edit-tags.php" ) ) ) {
       $lang = CMLPost::get_language_id_by_id( get_the_ID() );
     } else {
       $lang = CMLLanguage::get_current_id();
@@ -457,10 +457,6 @@ class CMLAdmin extends CeceppaML {
     $term->name = CMLTranslations::get( $lang,
                                        $term->name, "C", false, true );
     
-    if( "edit-tags.php" != $pagenow ) {
-      $term->slug = sanitize_title( $term->name );
-    }
-
     return $term;
   }
 

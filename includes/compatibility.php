@@ -434,6 +434,8 @@ function cml_change_wpml_settings_values( $group, $name ) {
   }
 
   $options = & $GLOBALS[ $options ];
+  if( ! is_array( $options ) ) return;
+
   $names = explode( "/", $names );
   foreach( $options as $key => $value ) {
     if( ! in_array( $key, $names ) ) continue;
