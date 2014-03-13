@@ -1564,15 +1564,24 @@ ul.cml-dropdown-me ul li > span.title {
   padding-left: 10px;
 }
 
-ul.cml-dropdown-me ul img {
-  border-radius: 14px;
-  box-shadow: 0 0 2px rgba(0,0,0,1);
+ul.cml-dropdown-me ul .img {
   display: inline-block;
   vertical-align: middle;
-  height: 12px;
-  width: 12px;
+  border-radius: 14px;
+  box-shadow: 0 0 2px rgba(0,0,0,1);
   opacity: 0.5;
+  width: 12px;
+  height: 12px;
+  position: relative;
+  overflow: hidden;;
 }
+
+  ul.cml-dropdown-me ul img {
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    top: 0;
+  }
 
 .cml-quickedit-none {
   opacity: 0.7;
@@ -1582,3 +1591,42 @@ ul.cml-dropdown-me ul img {
   .cml-quickedit-none:hover {
     opacity: 1;
   }
+
+/* Tags */
+ul.cml-tagslist > li {
+   display: inline-block;
+   padding: 10px;
+}
+
+ul.cml-tagslist .button-mini {
+  height: 20px !important;
+  width: 10px !important;
+  position: absolute;
+  transition: all 0.2s ease;
+  opacity: 0.3;
+  margin-left: 2px;
+}
+ul.cml-tagslist .button-mini img {
+  height: 10px;
+  position: relative;
+  top: -4px;
+  left: -4px;
+}
+  ul.cml-tagslist li:hover .button-mini {
+    opacity: 1;
+  }
+
+  ul.cml-tagslist .title {
+    display: inline-block;
+    margin-right: 0;
+    padding-left: 5px;
+  }
+
+ul.cml-tagslist .button-mini.button-confirm {
+  height: 28px !important;
+}
+
+ul.cml-tagslist .button-mini.button-confirm img {
+  top: 0;
+  left: -6px;
+}

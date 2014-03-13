@@ -103,7 +103,7 @@ its id</p>
 		
 		
 
-		<b>Located at</b> <a href="source-class-CMLPost.html#675-1068" title="Go to source code">api.php</a><br />
+		<b>Located at</b> <a href="source-class-CMLPost.html#675-1147" title="Go to source code">api.php</a><br />
 	</div>
 
 
@@ -538,7 +538,7 @@ the other one, you have to "break" them using set_language method first.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_update_meta">#</a>
-		<code><a href="source-class-CMLPost.html#970-981" title="Go to source code">update_meta</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#970-979" title="Go to source code">update_meta</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -567,7 +567,7 @@ the other one, you have to "break" them using set_language method first.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_posts_by_language">#</a>
-		<code><a href="source-class-CMLPost.html#983-1001" title="Go to source code">get_posts_by_language</a>( <span>int/slug <var>$lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+		<code><a href="source-class-CMLPost.html#981-999" title="Go to source code">get_posts_by_language</a>( <span>int/slug <var>$lang</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -610,7 +610,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__update_posts_by_language">#</a>
-		<code><a href="source-class-CMLPost.html#1007-1009" title="Go to source code">_update_posts_by_language</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$ids</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#1005-1007" title="Go to source code">_update_posts_by_language</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$ids</var></span> )</code>
 
 		<div class="description short">
 			
@@ -639,7 +639,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_posts_by_languages">#</a>
-		<code><a href="source-class-CMLPost.html#1011-1023" title="Go to source code">get_posts_by_languages</a>( )</code>
+		<code><a href="source-class-CMLPost.html#1009-1021" title="Go to source code">get_posts_by_languages</a>( )</code>
 
 		<div class="description short">
 			
@@ -678,7 +678,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_has_translation">#</a>
-		<code><a href="source-class-CMLPost.html#1025-1042" title="Go to source code">has_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#1023-1040" title="Go to source code">has_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -718,7 +718,7 @@ language</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_has_translations">#</a>
-		<code><a href="source-class-CMLPost.html#1044-1057" title="Go to source code">has_translations</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLPost.html#1042-1055" title="Go to source code">has_translations</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -736,6 +736,50 @@ language</dd>
 				<div class="list"><dl>
 					<dt><var>$post_id</var></dt>
 					<dd><code>integer</code><br>$post_id - post id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_translation" id="_is_translation">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_translation">#</a>
+		<code><a href="source-class-CMLPost.html#1057-1069" title="Go to source code">is_translation</a>( <span>integer <var>$post1</var></span>, <span>integer <var>$post2</var></span> )</code>
+
+		<div class="description short">
+			
+<p>check if $post1 is translation of $post2</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>check if $post1 is translation of $post2</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post1</var></dt>
+					<dd><code>integer</code><br>$post1 post id</dd>
+					<dt><var>$post2</var></dt>
+					<dd><code>integer</code><br>$post2 post id</dd>
 				</dl></div>
 
 				<h4>Returns</h4>

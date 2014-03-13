@@ -344,6 +344,10 @@ class CMLLanguage {
     if( $lang == null ) $lang = self::get_default_id();
     if( ! is_numeric( $lang ) ) $lang = self::get_id_by_slug( $lang );
 
+    if( ! isset( self::$_all_languages[ $lang ] ) ) {
+      return "";
+    }
+
     $lang = self::$_all_languages[ $lang ];
     $flag = $lang->cml_flag;
 
@@ -870,6 +874,20 @@ class CMLPost {
       foreach( $_conv as $key => $label ) {
         $select[] = "$key as $label";
       }
+
+      /*
+       * something happend that $_conv is empty and that couse a warning
+       * and I can't store post relations properly.
+       */
+      if( empty( $select ) ) {
+        $keys = array_keys( CMLLanguage::get_all() );
+        $langs = array_keys( CMLLanguage::get_slugs() );
+
+        foreach( $keys as $k => $v ) {
+          $select[] = "lang_{$v} as " . $langs[ $k ];
+        }
+      }
+
       $query .= join( ",", $select ) . " FROM " . CECEPPA_ML_RELATIONS . " WHERE ";
       foreach( $_cml_language_columns as $l ) {
         $where[] = "$l = $post_id";

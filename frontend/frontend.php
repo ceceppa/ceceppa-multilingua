@@ -158,7 +158,7 @@ class CMLFrontend extends CeceppaML {
 
     //Translate menu items    
     if( $_cml_settings[ "cml_option_action_menu" ] ) {
-      add_filter('wp_setup_nav_menu_item', array( &$this, 'translate_menu_item' ), 0 );
+      add_filter('wp_setup_nav_menu_item', array( &$this, 'translate_menu_item' ), 0, 1 );
     }
 
     //For menu I need to force category lang for get url translated :)
@@ -840,20 +840,21 @@ EOT;
         $page_id = CMLPost::get_translation( $lang_id,
                                             $item->object_id );
 
+        //custom label for
+        $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        if(  isset( $customs[ 'title' ] ) &&
+            ! empty( $customs[ 'title' ] ) ) {
+          $item->title = $customs[ 'title' ];
+        }
+
         if( ! empty( $page_id ) ) {
-          //custom label for
-          $custom = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, false );
+          $title = get_the_title( $page_id );
 
-          //Su un sito mi è capitato che get_the_title() restituisse una stringa vuota,
-          //nonstante l'id della pagina fosse corretto
-          $page = get_post( $page_id );
-          if( empty( $page ) || ! is_object( $page ) ) return $item;
-
-          $item->ID = $page_id;
-          $item->title = ( @empty( $custom[ 'titles' ] ) ) ? $page->post_title : $custom[ 'titles' ];
-          $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $custom[ 'attr_title' ] :
+          // $item->ID = $page_id;
+          $item->title = ( @empty( $customs[ 'title' ] ) ) ? $title : $customs[ 'title' ];
+          $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
                                                 $item->attr_title;
-          $item->post_title = $page->post_title;
+          $item->post_title = $title;
           $item->object_id = $page_id;
 
           $this->_force_category_lang = $lang_id;
@@ -861,21 +862,23 @@ EOT;
 
           //If using static page, ensure that isn't a translation of it...
           $url = get_permalink( $page_id );
-          $url = CMLPost::remove_extra_number( $url, $item );
+          // $url = CMLPost::remove_extra_number( $url, $item );
 
           unset( $this->_force_category_lang );
           unset( $this->_force_post_lang );
-        } else {
-          //I need to set correct page slug
-          $lang = CMLPost::get_language_id_by_id( $item->ID );
-          if( ! CMLLanguage::is_current( $lang ) ) {
-            $item->url = $this->convert_url( $item->url, CMLLanguage::get_current_slug() );
+        }
 
-            if( $_cml_settings[ 'cml_option_action_menu_force' ] ) {
-              $item->url = add_query_arg( array( 'lang' => CMLLanguage::get_current_slug() ), $item->url );
-            }
+        //I need to set correct page slug
+        $lang = CMLPost::get_language_id_by_id( $item->object_id );
+        if( ! CMLLanguage::is_current( $lang ) ) {
+          $item->url = $this->convert_url( $item->url, CMLLanguage::get_current_slug() );
+
+          if( $_cml_settings[ 'cml_option_action_menu_force' ] ) {
+            $item->url = add_query_arg( array( 'lang' => CMLLanguage::get_current_slug() ), $item->url );
           }
         }
+
+        $url = CMLPost::remove_extra_number( $item->url, $item->object_id );
 
         /*
          * on a site happend that $url was empty :O

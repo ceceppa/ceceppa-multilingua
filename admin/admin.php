@@ -153,8 +153,18 @@ class CMLAdmin extends CeceppaML {
       $languages[] = $lang;
     }
 
+    $tags = get_tags();
+    $names = array();
+    foreach( $tags as $tag ) {
+      $names[] = array( 
+                      'id' => $tag->term_id,
+                      'label' => $tag->name,
+                      );
+    }
+
     //For ajax 
-    $secret = array( 'secret' => wp_create_nonce( "ceceppaml-nonce" ),
+    $secret = array( 
+                    'secret' => wp_create_nonce( "ceceppaml-nonce" ),
                     'languages' => json_encode( $languages ),
                     'unloadmsg' => __( "The changes you made will be lost if you navigate away from this page.", 'ceceppaml' ),
                     'lessmsg' => __( "Less", "ceceppaml" ),
@@ -162,7 +172,9 @@ class CMLAdmin extends CeceppaML {
                     'deletemsg' => __( "Delete", "ceceppaml" ),
                     'restoremsg' => __( "Restore", "ceceppaml" ),
                     'custommsg' => __( "Custom", "ceceppaml" ),
-                    'dateformat' => get_option( 'date_format' ) );
+                    'dateformat' => get_option( 'date_format' ),
+                    'tags' => json_encode( $names),
+                    );
     wp_localize_script( 'ceceppaml-admin-script', 'ceceppaml_admin', $secret );
 
     //Styles

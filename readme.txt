@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -177,9 +177,16 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 
 == Changelog ==
 
+= 1.4.5 =
+* Fixed Georgian flag
+* Fixed language change in "quick edit"
+* Fixed custom "Navigation label" 
+* Fixed dropdown menu style with Customizr
+* Improved "parser" to translate "Theme" and "Plugin"
+
 = 1.4.4 =
-* Fixed issue when category slug is different from its name
-* Fixed custom menu url for non default language
+* Fixed issue when category slug is different from name
+* Fixed custom menu url item for non default language
 * Fixed "Force language items"
 * Fixed post relations with more 2 languages
 * Fixed "remove extra -##" for all url mode 

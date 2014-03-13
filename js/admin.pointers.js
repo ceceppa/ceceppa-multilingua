@@ -16,15 +16,15 @@ function wptuts_open_pointer( i, valid ) {
     $target = jQuery( pointer.target );
     
     if ( $target.length <= 0 ) {
-      jQuery( '.cml-box-shadow' ).fadeOut();
+      // jQuery( '.cml-box-shadow' ).fadeOut();
       
       return;
     }
 
     if ( ! $target.hasClass( "column-cml_flags" ) ) {
-      jQuery( '.cml-box-shadow' ).show();
-      jQuery( '.cml-box-shadow' ).offset( { left: 0, top: 0 } );
-      jQuery( '.cml-box-shadow' ).width( jQuery( document ).width() ).height( jQuery( document ).height() );
+      // jQuery( '.cml-box-shadow' ).show();
+      // jQuery( '.cml-box-shadow' ).offset( { left: 0, top: 0 } );
+      // jQuery( '.cml-box-shadow' ).width( jQuery( document ).width() ).height( jQuery( document ).height() );
     }
 
     $target.addClass( 'cml-zoomed' );

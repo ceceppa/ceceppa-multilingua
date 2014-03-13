@@ -74,8 +74,8 @@ function cml_admin_quick_edit_box_posts( $post_type ) {
       wp_reset_postdata();
     ?>
       </select>
-      <a name="none_<?php $lang->cml_language_slug ?>" class="button cml-quickedit-none" href="javascript:unsetTranslation( '<?php echo $lang->cml_language_slug ?>' )">
-        <?php _e( 'None', 'ceceppaml' ) ?>
+      <a name="none_<?php echo $lang->cml_language_slug ?>" class="button cml-quickedit-none" href="javascript:unsetTranslation( '<?php echo $lang->cml_language_slug ?>' )" title="<?php _e( 'Remove translation', 'ceceppaml' ) ?>">
+        <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>none.png" border="0" />
       </a>
       </span>
     </label>

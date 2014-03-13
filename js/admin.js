@@ -98,7 +98,7 @@ jQuery(document).ready( function($) {
     $ul = $( this ).parents( 'ul.cml-dropdown-me' );
     $ul.find( 'input[type="text"]' ).val( $( this ).find( 'span.title' ).html() );
     
-    $ul.find( 'input[type="text"]' ).attr( "original", $( this ).find( 'span' ).html() );
+    $ul.find( 'input[type="text"]' ).attr( "original", $( this ).find( 'span.title' ).html() );
     $ul.find( '> li input[type="hidden"]' ).val( $( this ).attr( 'cml-trans' ) );
 
     $ul.find( 'ul' ).hide();
@@ -126,6 +126,54 @@ jQuery(document).ready( function($) {
   });
   
   $( 'iframe.cml-iframe' ).height( $( document ).height() - 100 );
+
+  //Post tags
+  $( '#ceceppaml-tags-meta-box input[name="search"]' ).autocomplete( {
+    source: $.parseJSON( ceceppaml_admin.tags ), minLength : 0,
+    select: function( event, ui ) {
+      $clone = $( '#ceceppaml-tags-meta-box .cml-tagslist li.cml-first' ).clone();
+      $clone.removeClass( 'cml-hidden cml-first' );
+      $clone.find( '.title' ).html( ui.item.label.toLowerCase() );
+
+      $clone.find( 'input.field' ).val( ui.item.id );
+      $clone.find( 'input.cml-input' ).val( ui.item.label );
+
+      $( '#ceceppaml-tags-meta-box .cml-tagslist' ).append( $clone );
+      $clone.focus();
+      $clone.find( '.tipsy-s' ).tipsy( { gravity: 's', html: true, fade: false, offset: 5 } );
+
+      setTimeout( function() {
+        $( '#ceceppaml-tags-meta-box input[name="search"]' ).val( "" );
+        $( '#ceceppaml-tags-meta-box input[name="search"]' ).trigger( 'focus' );
+      }, 100);
+    }
+  }).on('focus', function(event) {
+    $(this).autocomplete("search", "");
+  });
+
+  $( 'body' ).on( 'click', '#ceceppaml-tags-meta-box .ntdelbutton', function() {
+    $( this ).parents( 'li' ).remove();
+  });
+
+  $( 'body' ).on( 'click', '#ceceppaml-tags-meta-box ul li span.title', function() {
+    $li = $( this ).parents( 'li' );
+
+    $li.find( '.title' ).hide();
+    $li.find( '.cml-input' ).removeClass( 'cml-hidden' );
+    $li.find( '.cml-input' ).select();
+    $li.find( '.button-confirm' ).show();
+    $li.find( '.button-add' ).hide();
+  });  
+
+  $( 'body' ).on( 'click', '#ceceppaml-tags-meta-box .button-confirm', function() {
+    $li = $( this ).parents( 'li' );
+
+    $li.find( '.title' ).html( $li.find( '.cml-input' ).val() );
+    $li.find( '.title' ).show();
+    $li.find( '.cml-input' ).addClass( 'cml-hidden' );
+    $li.find( '.button-confirm' ).hide();
+    $li.find( '.button-add' ).show();
+  });
 });
 
 

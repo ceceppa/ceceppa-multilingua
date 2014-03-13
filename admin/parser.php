@@ -70,12 +70,32 @@ Class CMLParser {
       $content = file_get_contents( $filename );
       
       //Scan for all l10n functions
-      preg_match_all ( '/(_e|__|_n|_x|_ex|_nx|esc_attr__|esc_attr_e|esc_attr_x|esc_html__|esc_html_e|esc_html_x)\((.*?)\)/', $content, $matches );
+      // preg_match_all ( '/(_e|__|_n|_x|_ex|_nx|esc_attr__|esc_attr_e|esc_attr_x|esc_html__|esc_html_e|esc_html_x)\((.*?)\)/', $content, $matches );
+      preg_match_all ( '/(_e|__|_n|_x|_ex|_nx|esc_attr__|esc_attr_e|esc_attr_x|esc_html__|esc_html_e|esc_html_x)(\(.*\))/', $content, $matches );
 
       //Preg_match return 'string', 'textdomain'
       $m = end( $matches );
       $domain = 0;
       foreach( $m as $line ) {
+        /*
+         * To grab only text in __( ) I count brackets occourrencies
+         * each ( increase $brackets, while each ) decrease.
+         * When reach 0 means that extra text isn't rubbish
+         */
+        $brackets = 0;
+        for( $i = 0; $i < strlen( $line ); $i++ ) {
+          if( "(" == $line[ $i ] ) $brackets++;
+          if( ")" == $line[ $i ] ) {
+            $brackets--;
+
+            //Remove extra text after last function bracket
+            if( 0 == $brackets ) {
+              $line = substr( $line, 1, $i - 1 );
+            }
+          }
+        }
+
+        //Divide "text" from "domain"
         preg_match_all( '/^[\'\"](.*)[\'\"][,](.*)[\'\"]$/', trim( $line ), $string );
     
         if( count( $string ) > 1 ) {
@@ -159,7 +179,8 @@ EOT;
 
     $available = __( 'Available languages: ', 'ceceppaml' );
     $main = __( 'Main language:', 'ceceppaml' );
-    
+    $tipsy = __( 'If theme language is one of your language, choose it so that plugin will exclude it from translation table.', 'ceceppaml' );
+
     $self = $_SERVER['PHP_SELF'];
     $page = $_GET['page'];
     $tab = isset( $_GET[ 'tab' ] ) ? intval( $_GET[ 'tab' ] ) : 0;
@@ -183,7 +204,7 @@ echo <<< EOT
     $nonce
 
     <div class="cml-tablenav">
-      <div class="alignleft">
+      <div class="alignleft tipsy-s" title="$tipsy">
         $main&nbsp;&nbsp;
 EOT;
       cml_dropdown_langs( "shadow", $this->_default_lang, false, true, __( 'None', 'ceceppaml' ), "", false );
@@ -428,6 +449,7 @@ EOT;
 
       for( $i = 0; $i <= count( $originals ); $i++ ) {
         if( ! isset( $originals[ $i ] ) ) continue;
+        if( empty( $strings[ $i ] ) ) continue;
     
         $o = str_replace( "\"", '\"', stripslashes( $originals[$i] ) );
         $s = str_replace( "\"", '\"', stripslashes( $strings[$i] ) );

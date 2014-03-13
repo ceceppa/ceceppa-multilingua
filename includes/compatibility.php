@@ -221,7 +221,6 @@ function cml_admin_scan_plugins_folders() {
  *
  * http://wordpress.org/plugins/google-sitemap-generator/
  */
-add_filter( 'cml_translate_home_url', 'cml_yoast_translate_home_url', 10, 2 );
 CMLUtils::_append( "_seo", array(
                                 'pagenow' => "options-general.php",
                                 'page' => "google-sitemap-generator/sitemap.php",
