@@ -432,6 +432,8 @@ EOT;
       return $url;
       break;
     }
+
+    return $permalink;
   }
   
   function translate_category_url( $url ) {

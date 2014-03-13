@@ -227,7 +227,7 @@ class CMLLanguage {
     if( empty( self::$_default_language ) ) self::get_default();
     if( ! is_numeric( $lang ) ) $lang = self::get_id_by_slug( $lang );
 
-    return self::$_all_languages[ $lang ]->cml_language;
+    return isset( self::$_all_languages[ $lang ] ) ? self::$_all_languages[ $lang ]->cml_language : "";
   }
 
   /**
@@ -1052,6 +1052,20 @@ class CMLPost {
     }
 
     return ! empty( self::$_posts_meta[ $post_id ][ 'linked' ] );
+  }
+
+  /**
+   * check if $post1 is translation of $post2
+   *
+   * @param int $post1 post id
+   * @param int $post2 post id
+   *
+   * @return boolean
+   */
+  public static function is_translation( $post1, $post2 ) {
+    $translations = CMLPost::get_translations( $post1 );
+
+    return in_array( $post2, $translations[ 'indexes' ] );
   }
 
   /** @ignore */

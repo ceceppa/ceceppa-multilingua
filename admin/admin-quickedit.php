@@ -48,7 +48,7 @@ function cml_admin_quick_edit_box_posts( $post_type ) {
    * ask to cml_admin_filter_all_posts_query() function to
    * ignore "filter"
    */
-  $GLOBALS[ '_cml_no_filter_query' ] = true;
+  CMLUtils::_set( '_cml_no_filter_query', 1 );
   $posts = new WP_Query( $args );
 
   foreach( $langs as $lang ) {
@@ -73,13 +73,16 @@ function cml_admin_quick_edit_box_posts( $post_type ) {
       
       wp_reset_postdata();
     ?>
-      </span>
       </select>
+      <a name="none_<?php $lang->cml_language_slug ?>" class="button cml-quickedit-none" href="javascript:unsetTranslation( '<?php echo $lang->cml_language_slug ?>' )">
+        <?php _e( 'None', 'ceceppaml' ) ?>
+      </a>
+      </span>
     </label>
   <?php
   } //endforeach;
   
-  unset( $GLOBALS[ '_cml_no_filter_query' ] );
+  CMLUtils::_del( '_cml_no_filter_query' );
 }
 
 function cml_quick_edit_javascript() {
@@ -89,6 +92,11 @@ function cml_quick_edit_javascript() {
     ?>
     <script type="text/javascript">
     <!--
+    function unsetTranslation( lang ) {
+      console.log( 'select[name="linked_' + lang + '"]' );
+      jQuery( 'select[name="linked_' + lang + '"]' ).find( 'option' ).first().attr( 'selected', 'selected' )
+    }
+
     function set_inline_widget_set(widgetId, lang, keys, values, the_post_id) {
         // revert Quick Edit menu so that it refreshes properly
         inlineEditPost.revert();

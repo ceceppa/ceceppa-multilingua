@@ -82,6 +82,8 @@ function cml_admin_post_meta_box( $tag ) {
 }
 
 function _cml_admin_post_meta_translation( $type, $lang, $linked_id ) {
+  CMLUtils::_set( '_cml_no_filter_query', 1 );
+
   $args = array('numberposts' => -1, 'order' => 'ASC', 'orderby' => 'title', 'posts_per_page' => -1,
       'post_type' => $type,
       // 'post__not_in' => CMLPost::get_posts_by_language( $lang ),
@@ -101,7 +103,7 @@ echo <<< EOT
       <input type="hidden" name="linked_post[$lang]" value="$linked_id" />
       <ul>
         <li class="no-hide">
-          <span>$notrans</span>
+          <span><i>( $notrans )</i></span>
         </li>
 EOT;
   while( $posts->have_posts() ) {
@@ -112,7 +114,12 @@ EOT;
 	$lang_id = CMLPost::get_language_id_by_id( $id );
 
 	echo "<li cml-trans=\"$id\">";
-    echo "<span>" . get_the_title( $id ) . "</span>";
+    echo '<span class="img">';
+    echo CMLLanguage::get_flag_img( $lang_id );
+    echo '</span>';
+    echo '<span class="title">';
+    echo get_the_title( $id );
+    echo "</span>";
     echo "</li>";
   }
 
@@ -122,7 +129,9 @@ echo <<< EOT
   </ul>
 EOT;
 
+  CMLUtils::_del( '_cml_no_filter_query', 1 );
 }
+
 /* 
  * Salvo il collegamento tra i post
  */
@@ -142,19 +151,19 @@ function cml_admin_save_extra_post_fields( $term_id ) {
   else
     $post_lang = intval( $_POST[ 'cml-lang' ] );
 
-  foreach( CMLLanguage::get_all() as $lang ) {
-    if( $lang->id == $post_lang ) continue;
-
-    //Set language of current post
-    $linked = intval( @$_POST[ 'linked_post' ][ $lang->id ] );
-
-    CMLPost::set_translation( $post_id, $lang->id, $linked, $post_lang );
-  }
-
   /*
    * Quickedit?
    */
-  if( isset( $_POST[ 'cml-quick' ] ) ) {
+  if( ! isset( $_POST[ 'cml-quick' ] ) ) {
+    foreach( CMLLanguage::get_all() as $lang ) {
+      if( $lang->id == $post_lang ) continue;
+
+      //Set language of current post
+      $linked = intval( @$_POST[ 'linked_post' ][ $lang->id ] );
+
+      CMLPost::set_translation( $post_id, $lang->id, $linked, $post_lang );
+    }
+  } else {
     $langs = CMLLanguage::get_all();
 
     $current = CMLPost::get_language_id_by_id( $post_id );
@@ -164,12 +173,12 @@ function cml_admin_save_extra_post_fields( $term_id ) {
       $key = "linked_$lang->cml_language_slug";
 
       if( isset( $_POST[ $key ] ) ) {
-        $lid = $_POST[ $key ];
+        $lid = intval( $_POST[ $key ] );
         $linked_lang = CMLLanguage::get_id_by_post_id( $lid );
 
         //Change also the language of linked lang
         if( $linked_lang != $lang->id ) {
-          CMLPost::set_translation( $lid, 0, 0, $lang->id );
+        //   CMLPost::set_translation( $lid, 0, 0, $lang->id );
           
           $linked_lang = $lang->id;
         }
@@ -277,8 +286,8 @@ function cml_admin_filter_all_posts_query( $query ) {
   global $pagenow, $wpdb;
   
   //$this->_no_filter_query is set when the function "quick_edit_box_posts" is called,
-  //I have to exit from that function all WP_Query return only items in current language...
-  if( isset( $GLOBALS[ '_cml_no_filter_query' ] ) ) return;
+  //I have to exit from that function or all WP_Query return only items in current language...
+  if( null !== CMLUtils::_get( '_cml_no_filter_query' ) ) return;
 
   if ( ! array_key_exists('post_type', $_GET) )
       $post_type = 'post';

@@ -124,7 +124,8 @@ function cml_migrate_database_add_item( $lang, $pid, $llang, $lpid ) {
    * if $llang == 0 break relations
    */
   $old_lang = CMLPost::get_language_id_by_id( $pid );
-  if( 0 == $llang || $old_lang != $lang ) {
+  //$pid != $lpid because same post can be assigned to multiple languages
+  if( 0 == $llang || ( $old_lang != $lang && $pid != $lpid ) ) {
     foreach( $_cml_language_columns as $col ) {
       $wpdb->query( sprintf( "
         UPDATE %s SET %s = 0 WHERE %s = %d",

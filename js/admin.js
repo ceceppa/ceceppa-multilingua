@@ -73,14 +73,16 @@ jQuery(document).ready( function($) {
     
     $( this ).parents( 'ul.cml-dropdown-me' ).find( 'ul > li' ).show();
   }).keyup( function() {
-    $li = $( this ).parents( 'ul.cml-dropdown-me' ).find( 'ul li' );
+    $li = $( this ).parents( 'ul.cml-dropdown-me' ).find( 'ul > li' );
     $val = $( this ).val();
 
-    $li.each( function() {
-      $span = $( this ).find( "span" );
-      var display = $span.html().toLowerCase().indexOf( $val );
+    $li.each( function( $i ) {
+      $span = $( this ).find( ".title" );
+      if( $span.length > 0 ) {
+        var display = $span.html().toLowerCase().indexOf( $val );
 
-      $( this ).css( "display", ( display >= 0 ) ? "block" : "none" );
+        $( this ).css( "display", ( display >= 0 ) ? "block" : "none" );
+      }
     });
   });
   
@@ -94,7 +96,7 @@ jQuery(document).ready( function($) {
 
   $( '.cml-dropdown-me > li ul li' ).click( function() {
     $ul = $( this ).parents( 'ul.cml-dropdown-me' );
-    $ul.find( 'input[type="text"]' ).val( $( this ).find( 'span' ).html() );
+    $ul.find( 'input[type="text"]' ).val( $( this ).find( 'span.title' ).html() );
     
     $ul.find( 'input[type="text"]' ).attr( "original", $( this ).find( 'span' ).html() );
     $ul.find( '> li input[type="hidden"]' ).val( $( this ).attr( 'cml-trans' ) );
