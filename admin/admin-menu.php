@@ -98,7 +98,7 @@ class CML_Nav_Menu_Item_Custom_Fields {
 //       add_filter( 'wp_edit_nav_menu_walker', function () {
 //           return 'CML_Walker_Nav_Menu_Edit';
 //       });
-      add_filter( 'wp_edit_nav_menu_walker', 'cml_return_nav_walker' );
+      add_filter( 'wp_edit_nav_menu_walker', 'cml_return_nav_walker', 99, 2 );
       add_filter( 'cml_nav_menu_item_additional_fields', array( __CLASS__, '_add_fields' ), 10, 5 );
       add_action( 'save_post', array( __CLASS__, '_save_post' ) );
 	}
@@ -266,7 +266,7 @@ class CML_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 
 //Added for compatibility with php < 5.3.0
 function cml_return_nav_walker() {
-  return 'CML_Walker_Nav_Menu_Edit';
+	return 'CML_Walker_Nav_Menu_Edit';
 }
 
 CML_Nav_Menu_Item_Custom_Fields::setup();

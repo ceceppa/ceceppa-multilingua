@@ -1023,7 +1023,7 @@ display: none !important;
   }
 
   .ceceppaml-theme-translations th:nth-child(n+2) {
-    width: 20px;
+    width: 50%;
   }
 
   h2 .textdomain img {
@@ -1051,16 +1051,16 @@ display: none !important;
   .ceceppaml-trans-fields input {
     display: inline-block;
     vertical-align: middle;
+    opacity: 0.8;
   }
   
   .ceceppaml-trans-fields input[type="text"],
   .ceceppaml-trans-fields textarea {
-    width: 95%;
+    width: 90%;
     margin-right: 10px;
   }
   
   .ceceppaml-theme-translations tr.row-domain:hover {
-    cursor: pointer;
     background: #FFFFE5;
   }
   .ceceppaml-theme-translations tr.row-hidden {

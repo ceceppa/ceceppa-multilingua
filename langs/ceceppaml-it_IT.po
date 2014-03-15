@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hueman\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-11 18:21+0100\n"
-"PO-Revision-Date: 2014-03-13 17:13+0100\n"
+"POT-Creation-Date: 2013-08-20 13:57+0100\n"
+"PO-Revision-Date: 2013-08-20 14:01+0100\n"
 "Last-Translator: Alessandro Senese <senesealessandro@gmail.com>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -12,2051 +12,1225 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: CeceppaMultilingua 1.4\n"
 "X-Poedit-SearchPath-0: ..\n"
 "X-Poedit-SearchPath-1: ../inc\n"
 
-#: ../debug.php:45 ../admin/admin-languages.php:22
-#: ../admin/layouts/language-files.php:86
-msgid "Languages"
-msgstr "Lingue"
-
-#: ../debug.php:46
-msgid "Post relations"
-msgstr "Relazioni tra i post"
-
-#: ../debug.php:47 ../admin/admin.php:346 ../admin/admin.php:349
-#: ../admin/admin-posts.php:26
-msgid "Translations"
-msgstr "Traduzioni"
-
-#: ../ceceppaml.php:274
-msgid "Manage languages"
-msgstr "Gestisci lingue"
-
-#: ../includes/widgets.php:23
-msgid "CML: Recent Posts"
-msgstr "CML: Articoli recenti"
-
-#: ../includes/widgets.php:24
-msgid "The most recent posts on your site"
-msgstr "I post più recenti del tuo sito"
-
-#: ../includes/widgets.php:110 ../includes/widgets.php:221
-#: ../includes/widgets.php:365
-msgid "Title:"
-msgstr "Titolo:"
-
-#: ../includes/widgets.php:115
-msgid "Number of posts to show:"
-msgstr "Numero di post da mostrare"
-
-#: ../includes/widgets.php:127
-msgid "CML: Language Chooser"
-msgstr "CML: Selettore lingua"
-
-#: ../includes/widgets.php:128
-msgid "Show the list of available languages"
-msgstr "Visualizza la lista delle lingue disponibili"
-
-#: ../includes/widgets.php:227
-msgid "Show:"
-msgstr "Visualizza:"
-
-#: ../includes/widgets.php:235 ../admin/layouts/options-flags.php:336
-msgid "Flag only"
-msgstr "solo Bandiera"
-
-#: ../includes/widgets.php:241 ../admin/layouts/options-flags.php:330
-msgid "Name only"
-msgstr "solo Nome"
-
-#: ../includes/widgets.php:247 ../admin/layouts/options-flags.php:324
-msgid "Flag + name"
-msgstr "Bandiera + Nome"
-
-#: ../includes/widgets.php:253 ../admin/admin-help.php:104
-#: ../admin/layouts/options-flags.php:348
-#: ../admin/layouts/languages-item.php:131
-msgid "Language slug"
-msgstr "Abbreviazione lingua"
-
-#: ../includes/widgets.php:259 ../admin/layouts/options-flags.php:342
-msgid "Flag + Language slug"
-msgstr "Bandiera + Abbreviazione linuga"
-
-#: ../includes/widgets.php:265 ../admin/layouts/options-flags.php:391
-msgid "List"
-msgstr "Elenco"
-
-#: ../includes/widgets.php:273
-msgid "Flag's size:"
-msgstr "Dimensione bandiere:"
-
-#: ../includes/widgets.php:281 ../admin/layouts/options-flags.php:366
-msgid "Small"
-msgstr "Piccola"
-
-#: ../includes/widgets.php:287 ../admin/layouts/options-flags.php:373
-msgid "Tiny"
-msgstr "Piccolissima"
-
-#: ../includes/widgets.php:295
-msgid "Css ClassName:"
-msgstr "Nome della classe css:"
-
-#: ../includes/widgets.php:309
-msgid "CML: Text"
-msgstr "CML: Testo"
-
-#: ../includes/widgets.php:310
-msgid "You can write arbitrary text or HTML separately for each language"
-msgstr "Puoi scrivere del testo oppure codice HTML separato per ogni lingua"
-
-#: ../includes/compatibility.php:155
-msgid "generated from \"wpml-config.xml\""
-msgstr "generato da \"wpml-config.xml\""
-
-#: ../includes/compatibility.php:186
-msgid ""
-"Current plugins contains WPML Language Configuration Files ( wpml-config."
-"xml )"
-msgstr ""
-"I plugin elencati contengono  il file di configurazione della lingua di WPML "
-"( wpml-config.xml )"
-
-#: ../includes/compatibility.php:193
-msgid "officially supported"
-msgstr "supportato ufficialmente"
-
-#: ../includes/compatibility.php:210
-#, php-format
-msgid ""
-"Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</"
-"a> page"
-msgstr ""
-"Adesso puoi tradurre \"Admin texts/ wp_options\" nella pagina <%s>\"Le mie "
-"traduzioni\"</a>"
-
-#: ../includes/compatibility.php:213
-msgid ""
-"Support to wpml-config.xml is experimental and could not works correctly"
-msgstr ""
-"Il supporto ai file wpml-config.xml è sperimentale e potrebbe non funzionare "
-"correttamente"
-
-#: ../includes/compatibility.php:378
-msgid "Your theme is designed for WPML"
-msgstr "Il tuo tema è stato progettato per WPML"
-
-#: ../includes/compatibility.php:379
-msgid ""
-"Support for theme compatible with WPML is experimental and could not works "
-"correctly, if you need help contact me."
-msgstr ""
-"Il supporto per i temi compatibili con WPML è sperimentale e potrebbe non "
-"funzionare correttamente, se hai bisogno di aiuto contattami."
-
-#: ../includes/compatibility.php:384 ../admin/admin-translations.php:18
-#: ../admin/admin.php:182
-msgid "Theme"
-msgstr "Tema"
-
-#: ../includes/compatibility.php:397 ../admin/admin.php:181
-msgid "Plugin"
-msgstr "Plugin"
-
-#: ../doc/shortcodes.php:11 ../admin/admin.php:194
 msgid "Shortcodes"
 msgstr "Shortcode"
 
-#: ../doc/shortcodes.php:16 ../doc/shortcodes.php:24
 msgid "Translate strings in different languages"
 msgstr "Traduci le stringhe in lingue differenti"
 
-#: ../doc/shortcodes.php:17
 msgid "How to use the translations saved in \"My Translations\" page"
-msgstr ""
-"Come utilizzare le traduzioni salvate nella pagina \"Le mie traduzioni\""
+msgstr "Come utilizzare le traduzioni salvate nella pagina \"Le mie traduzioni\""
 
-#: ../doc/shortcodes.php:18 ../doc/shortcodes.php:79
-msgid ""
-"Execute another shortcode and pass parameters in according to current "
-"language"
-msgstr ""
-"Esegue un'altro shortcode passandogli i parametri in base alla lingua "
-"corrente"
+msgid "Execute another shortcode and pass parameters in according to current language"
+msgstr "Esegue un'altro shortcode passandogli i parametri in base alla lingua corrente"
 
-#: ../doc/shortcodes.php:19 ../doc/shortcodes.php:106
 msgid "How to show all available languages"
 msgstr "Come visualizzare tutte le lingue disponibili"
 
-#: ../doc/shortcodes.php:20 ../doc/shortcodes.php:148
 msgid "How to show in which language is available current page/post"
-msgstr ""
-"Come visualizzare in quale lingua è disponibile l'articolo/pagina corrente"
+msgstr "Come visualizzare in quale lingua è disponibile l'articolo/pagina corrente"
 
-#: ../doc/shortcodes.php:21 ../doc/shortcodes.php:174
 msgid "How to show flags only when translation exists"
 msgstr "Come visualizzare le bandiere solo quando esistono traduzioni"
 
-#: ../doc/shortcodes.php:31 ../doc/shortcodes.php:56 ../doc/shortcodes.php:86
-#: ../doc/shortcodes.php:115 ../doc/shortcodes.php:156
-#: ../doc/shortcodes.php:182
 msgid "Usage:"
 msgstr "Utilizzo:"
 
-#: ../doc/shortcodes.php:41 ../doc/shortcodes.php:66 ../doc/shortcodes.php:98
-#: ../doc/shortcodes.php:138 ../doc/shortcodes.php:165
-#: ../doc/shortcodes.php:192
 msgid "Example:"
 msgstr "Esempio:"
 
-#: ../doc/shortcodes.php:49
 msgid "How to use the translations stored in \"My Translations\" page"
-msgstr ""
-"Come utilizzare le traduzioni salvate nella pagina \"Le mie traduzioni\""
+msgstr "Come utilizzare le traduzioni salvate nella pagina \"Le mie traduzioni\""
 
-#: ../doc/shortcodes.php:68
-msgid ""
-"Suppose that our default language is <strong>\"English\"</strong>, and we "
-"have:"
-msgstr ""
-"Supponiamo che la nostra lingua predefinita sia <strong>\"English\"</"
-"strong>, ed abbiamo:"
+msgid "Suppose that our default language is <strong>\"English\"</strong>, and we have:"
+msgstr "Supponiamo che la nostra lingua predefinita sia <strong>\"English\"</strong>, ed abbiamo:"
 
-#: ../doc/shortcodes.php:70
-msgid ""
-"If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", "
-"we have to write:"
-msgstr ""
-"Se vogliamo tradurre la parola <strong>\"Hello\"</strong> in \"Italiano\", "
-"dobbiamo scrivere:"
+msgid "If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", we have to write:"
+msgstr "Se vogliamo tradurre la parola <strong>\"Hello\"</strong> in \"Italiano\", dobbiamo scrivere:"
 
-#: ../doc/shortcodes.php:111 ../doc/shortcodes.php:153
-#: ../doc/shortcodes.php:179
 msgid "This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list"
 msgstr "Questo shortcode ritorna una lista <ul>...</ul>"
 
-#: ../doc/shortcodes.php:112
-msgid ""
-"This shortcode is available also as function with same name and paramaters"
-msgstr ""
-"Lo shortcode è disponibile anche come funzione con gli stessi parametri"
+msgid "This shortcode is available also as function with same name and paramaters"
+msgstr "Lo shortcode è disponibile anche come funzione con gli stessi parametri"
 
-#: ../admin/admin-translations.php:15 ../admin/admin.php:178
-#: ../admin/layouts/translate-my.php:14 ../admin/layouts/translate-my.php:33
-msgid "My translations"
-msgstr "Le mie traduzioni"
+msgid "Debug"
+msgstr "Debug"
 
-#: ../admin/admin-translations.php:16 ../admin/wizard.php:154
-#: ../admin/admin.php:179
-msgid "Widget titles"
-msgstr "Titoli dei widgets"
+msgid "Languages"
+msgstr "Lingue"
 
-#: ../admin/admin-translations.php:17 ../admin/admin.php:180
-msgid "Site Title"
-msgstr "Titolo del sito"
+msgid "Post relations"
+msgstr "Relazioni tra i post"
 
-#: ../admin/admin-translations.php:17 ../admin/admin.php:180
-#: ../admin/layouts/translate-sitename.php:21
-msgid "Tagline"
-msgstr "Motto"
+msgid "Translations"
+msgstr "Traduzioni"
 
-#: ../admin/admin-quickedit.php:16 ../admin/admin.php:336
-#: ../admin/admin-posts.php:23 ../admin/layouts/menu.php:23
-#: ../admin/layouts/menu.php:26
-msgid "All languages"
-msgstr "Tutte le lingue"
-
-#: ../admin/admin-quickedit.php:174
-msgid "Edit this item inline"
-msgstr "Modifica questo elemento inline"
-
-#: ../admin/admin-quickedit.php:176
-msgid "Quick&nbsp;Edit"
-msgstr "Modifica&nbsp;veloce"
-
-#: ../admin/admin-taxonomies.php:191 ../admin/admin-posts.php:198
-msgid "Language: "
-msgstr "Lingua:"
-
-#: ../admin/admin-settings-gen.php:103 ../admin/parser.php:407
-#, php-format
-msgid "Error writing file: %s"
-msgstr "Errore nella scrittura del file: %s"
-
-#: ../admin/admin-help.php:5 ../admin/admin-help.php:12
-#: ../admin/admin-help.php:28
-msgid "Tip"
-msgstr "Consigli"
-
-#: ../admin/admin-help.php:6
-msgid "You can translate widget titles, or filter its visibility by language"
-msgstr "Puoi tradurre i titoli dei widget, oppure filtrarli per lingua"
-
-#: ../admin/admin-help.php:13
-msgid ""
-"All items will be automatically translated when user switch between "
-"languages."
-msgstr ""
-"Tutte le voci vengono automaticamente tradotte quando l'utente cambia lingua"
-
-#: ../admin/admin-help.php:14
-msgid ""
-"Add only pages existing in your default language, not their translation."
-msgstr ""
-"Aggiungi solo elementi presenti nella lingua predefinita, non le sue "
-"traduzioni!"
-
-#: ../admin/admin-help.php:16
-msgid ""
-"You can customize navigation label in all language, or, for custom link, set "
-"different url for each language"
-msgstr ""
-"Puoi personalizzare le etichette di navigazione, oppure, per i Link "
-"personalizzati, impostare url differenti per ogni lingua"
-
-#: ../admin/admin-help.php:19
-msgid ""
-"If you need different items for each languages, you can create menu for each "
-"language"
-msgstr ""
-"Se hai bisogno di voci differenti per ogni lingua, puoi creare un menu per "
-"ognuna di esse"
-
-#: ../admin/admin-help.php:29
-msgid ""
-"Clicke here for translate the \"Site Title\" and \"Tagline\" in other "
-"languages"
-msgstr ""
-"Clicca qui per tradurre il titolo del sito e la Tagline in altre lingue"
-
-#: ../admin/admin-help.php:30
-msgid "Your theme must use the function: "
-msgstr "Il tuo tema deve utilizzare la funzione:"
-
-#: ../admin/admin-help.php:32
-msgid "not: "
-msgstr "non:"
-
-#: ../admin/admin-help.php:34
-msgid "Or Site/Tagline will not be translated!"
-msgstr "o il titolo/motto non verranno tradotti!"
-
-#: ../admin/admin-help.php:35
-msgid ""
-"N.B.: When make changes to Site Title or Tagline you have to update "
-"translations"
-msgstr ""
-"N.B.: Quando fai delle modifiche al Titolo del sito o al motto devi "
-"aggiornare anche le traduzioni"
-
-#: ../admin/admin-help.php:42
-#, php-format
-msgid ""
-"You can override flags style by creating new file in: <i>%s</i> named: <b>"
-"\"ceceppaml.css\"</b>"
-msgstr ""
-"Puoi sovrascrivere lo stile delle bandiere creando un nuovo file in: <i>%s</"
-"i> col nome: <b>\"ceceppaml.css\"</b>"
-
-#: ../admin/admin-help.php:46
-msgid ""
-"The class base is \"cml_flags\", and second class is added by each option"
-msgstr ""
-"La classe di base utilizzata  \"cml_flags\", e una seconda classe viene "
-"aggiunta da ogni opzione "
-
-#: ../admin/admin-help.php:48
-msgid ""
-"Each option will generate &lt;ul&gt; list and current language will have "
-"\"current\" class"
-msgstr ""
-"Ogni opzione genera una lista <ul> ed alla lingua corrente verrà assegnata "
-"la classe \"current\""
-
-#: ../admin/admin-help.php:49
-msgid "Class used by options:"
-msgstr "Classe utilizzata dall'opzione:"
-
-#: ../admin/admin-help.php:51 ../admin/layouts/options-flags.php:421
-msgid "Show flags:"
-msgstr "Visualizza bandiere:"
-
-#: ../admin/admin-help.php:52 ../admin/layouts/options-flags.php:423
-msgid "Add float div to website:"
-msgstr "Aggiungi un div volante al sito web:"
-
-#: ../admin/admin-help.php:53
-msgid ""
-"This option will generate &lt;div&gt; with id #flying-flags that will "
-"contain the &lt;ul&gt; list"
-msgstr ""
-"Questa opzione genererà un <div> con l'id #flying-flags che conterrà la "
-"lista <ul>"
-
-#: ../admin/admin-help.php:54 ../admin/layouts/options-flags.php:427
-msgid "Append flag to html element:"
-msgstr "Aggiungi la bandiera ad un elemento html"
-
-#: ../admin/admin-help.php:55
-msgid ""
-"Don't overwrite \"ceceppaml.css\" in plugin path, because it will be "
-"overwritten by next update"
-msgstr ""
-"Non sovrascrivere il file \"ceceppaml.css\" presente nel percorso del "
-"plugin, perché verrà sovrascritto da"
-
-#: ../admin/admin-help.php:94
-msgid "In \"My Languages\" box are listed your languages."
-msgstr "Nel riquadro \"Le mie lingue\" sono elencate tutte le tue lingue."
-
-#: ../admin/admin-help.php:95
-msgid ""
-"For add new language click on item listed in \"Available languages\", and "
-"click on wanted flag to add it."
-msgstr ""
-"Per aggiungere una nuova lingua clicca su una voce dell'elenco \"Lingue "
-"disponibili\", e clicca sulla bandiera desiderata per aggiungerla."
-
-#: ../admin/admin-help.php:96
-msgid ""
-"You can also use search box to search a language, or click on \"Add custon\" "
-"button to add custom one."
-msgstr ""
-"Puoi anche utilizzare la casella di ricerca per cercare una lingua, o "
-"cliccare su \"Aggiungi personalizzata\" per aggiungerne una personalizzata."
-
-#: ../admin/admin-help.php:98 ../admin/layouts/languages-item.php:123
-msgid "Name"
-msgstr "Nome"
-
-#: ../admin/admin-help.php:99
-msgid "it is the name of language."
-msgstr "è il nome della lingua."
-
-#: ../admin/admin-help.php:101 ../admin/layouts/languages-item.php:125
-#: ../admin/layouts/options-actions.php:361
-msgid "Date format"
-msgstr "Formato data"
-
-#: ../admin/admin-help.php:102
-msgid "you can use different date format for language."
-msgstr "puoi utilizzare un formato differente per la lingua."
-
-#: ../admin/admin-help.php:105
-msgid "this code will be used to build url. Example: it, en, ch, de"
-msgstr ""
-"questo codice è utilizzato per costruire l'url. Esempio: it, en, ch, de"
-
-#: ../admin/admin-help.php:107 ../admin/layouts/languages-item.php:133
-msgid "WP Locale"
-msgstr "WP Locale"
-
-#: ../admin/admin-help.php:108
-msgid "it is the code used by WordPress for each language."
-msgstr "è il codice utilizzato da Wordpress per ogni lingua."
-
-#: ../admin/admin-help.php:110 ../admin/layouts/languages-item.php:135
-msgid "Right to left"
-msgstr "da destra a sinistra"
-
-#: ../admin/admin-help.php:111
-msgid "it is used for right to left languages like Arabian, Hebrew and others."
-msgstr ""
-"è utilizzato per le lingue scritte da destra a sinistra come Arabo, Ebreo e "
-"altre."
-
-#: ../admin/admin-help.php:115
-msgid "The order of language items will be used for sort generated flags."
-msgstr ""
-"L'ordine delle lingue verrà utilizzato per ordinare le lingue \"generate\"."
-
-#: ../admin/admin-help.php:121
-msgid ""
-"When you choose to upload custom flags the plugin will create two copy of "
-"image Small ( 32x23 ) and Tiny ( 16x11 )."
-msgstr ""
-"Quando scegli di caricare delle bandiere personalizzate il plugin crea delle "
-"copie per la versione Piccola ( 32x23 ) e Piccolissima ( 16x11 )"
-
-#: ../admin/admin-help.php:123
-#, php-format
-msgid ""
-"If you don't like the quality of genearted images you can do manually for "
-"both size, and store it in %s, and later choose it from list."
-msgstr ""
-"Se non ti piace la qualità delle immagini generate puoi farlo manualmente "
-"per entrambe le dimensioni, e salvarle in %s, e selezionarle successivamente "
-"dall'elenco."
-
-#: ../admin/admin-help.php:127
-#, php-format
-msgid "Custom flags will be stored in: %s path."
-msgstr "Le bandiere personalizzate possono essere salvate nel percorso: %s."
-
-#: ../admin/admin-help.php:142
-msgid "Dismiss"
-msgstr "Rimuovi"
-
-#: ../admin/admin-utils.php:43
-msgid "No tables found!"
-msgstr "Nessuna tabella trovata!"
-
-#: ../admin/admin-utils.php:44
-msgid ""
-"If you have uninstalled the plugin, you can remove the plugin now, or "
-"deactivate and activete it again to rebuild tables."
-msgstr ""
-"Se hai disinstallato il plugin, ora puoi rimuoverlo, oppure puoi "
-"disattivarlo e riattivarlo per ricreare le tabelle."
-
-#: ../admin/admin-utils.php:46
-#, php-format
-msgid ""
-"If you haven't uninstalled the plugin, something goes wrong, please contact "
-"me <%s>here"
-msgstr ""
-"Se non hai disinstallato il plugin, qualcosa è andato storto, per favore "
-"contattami <%s> qui"
-
-#: ../admin/admin-options.php:85 ../admin/wizard.php:89
-msgid "Filters"
-msgstr "Filtri"
-
-#: ../admin/admin-options.php:86 ../admin/wizard.php:96
-msgid "Actions"
-msgstr "Azioni"
-
-#: ../admin/admin-options.php:89 ../admin/admin.php:284
-#: ../admin/layouts/languages.php:82
-msgid "Advanced"
-msgstr "Avanzate"
-
-#: ../admin/admin-options.php:90
-msgid "Uninstall"
-msgstr "Disinstalla"
-
-#: ../admin/migrate.php:256
-msgid "Update required, click here for update posts relations"
-msgstr ""
-"Aggiornamento richiesto, clicca qui per aggiornare la relazione tra i post"
-
-#: ../admin/donate.php:19
-msgid "Thanks for using Ceceppa Multilingua"
-msgstr "Grazie per l'utilizzo di Ceceppa Multilingua"
-
-#: ../admin/donate.php:27
-msgid ""
-"If you like this plugin, please donate to support development and maintenance"
-msgstr ""
-"Se hai gradito \"Ceceppa Multilingua\", sostieni con una donazione il suo "
-"sviluppo e il suo mantenimento "
-
-#: ../admin/donate.php:47
-#, php-format
-msgid "Rate Ceceppa Multilingua 5%s's on WordPress.org"
-msgstr "Valuta Ceceppa Multilingua con 5%s su WordPress.org"
-
-#: ../admin/donate.php:49
-msgid "Talk about it on your site and link back to the"
-msgstr "Parla del plugin sul tuo sito e aggiungi il link nella"
-
-#: ../admin/donate.php:50
-msgid "plugin page."
-msgstr "pagina del plugin."
-
-#: ../admin/donate.php:53
-msgid "I use Ceceppa Multilingua for WordPress and you should too"
-msgstr "Io uso Ceceppa Multilingua per WordPress e dovresti farlo anche tu"
-
-#: ../admin/donate.php:54
-msgid "Tweet about it."
-msgstr "Twitta il plugin."
-
-#: ../admin/donate.php:59
-msgid "Translate it in your language."
-msgstr "Traducilo nella tua lingua."
-
-#: ../admin/donate.php:63
-#, php-format
-msgid ""
-"Don't hesitate to report bugs or ask for new features on the <%s>support "
-"forum.</a>"
-msgstr ""
-"Non esitare a riportare bug o chiedere nuove caratteristiche sul <%s>forum "
-"di supporto.</a>"
-
-#: ../admin/donate.php:66
-#, php-format
-msgid "Subscribe to official <%s>Google + page</a>,"
-msgstr "Iscriviti alla pagina ufficiale su <%s>Google +</a>,"
-
-#: ../admin/donate.php:67
-msgid ""
-"I use to announce development versions and then, test the new versions and "
-"report bugs before the final release."
-msgstr ""
-"Qui annuncerò le versioni di sviluppo e potrai testarle, riportare bug prima "
-"della versione finale."
-
-#: ../admin/donate.php:71
-msgid "Development code is available on github"
-msgstr "Il codice di sviluppo è disponibile su github"
-
-#: ../admin/donate.php:83
-msgid "Setting up a WordPress multilingual site with Ceceppa Multilingua"
-msgstr "Imposta un sito WordPress multilingua con Ceceppa Multilingua"
-
-#: ../admin/donate.php:89
-msgid "About Ceceppa:"
-msgstr "Info su Ceceppa:"
-
-#: ../admin/donate.php:91
-msgid "Donate:"
-msgstr "Dona:"
-
-#: ../admin/donate.php:92
-msgid "Contribute:"
-msgstr "Contribuisci:"
-
-#: ../admin/donate.php:94
-msgid "Documentation:"
-msgstr "Documentazione:"
-
-#: ../admin/admin-ajax-save.php:29
-msgid "Security error"
-msgstr "Errore di sicurezza"
-
-#: ../admin/admin-ajax-save.php:143
-msgid "Invalid image: "
-msgstr "Immagine non valida:"
-
-#: ../admin/admin-languages.php:25
-msgid "Language files"
-msgstr "Pacchetti lingua"
-
-#: ../admin/admin-languages.php:26 ../admin/layouts/translate-cml.php:52
-msgid "Ceceppa Multilingua in your language"
-msgstr "Ceceppa Multilingua nella tua lingua"
-
-#: ../admin/wizard.php:14 ../admin/wizard.php:66 ../admin/wizard.php:72
 msgid "Manage your languages"
 msgstr "Gestisci le tue lingue"
 
-#: ../admin/wizard.php:20
 msgid "Choose filter and url style"
 msgstr "Scegli filtro e stile dell'url"
 
-#: ../admin/wizard.php:26
 msgid "Translate your site"
 msgstr "Traduci il tuo sito"
 
-#: ../admin/wizard.php:35
 msgid "Welcome to Ceceppa Multilingua"
 msgstr "Benvenuto in Ceceppa Multilingua"
 
-#: ../admin/wizard.php:37
 msgid "These wizard will guides you in basic configure of the plugin"
 msgstr "Verrai guidato tra le impostazioni base del plugin"
 
-#: ../admin/wizard.php:52
 msgid "Update your posts language"
 msgstr "Aggiorna la lingua dei tuoi post"
 
-#: ../admin/wizard.php:54 ../admin/layouts/options-advanced.php:55
-#, php-format
-msgid ""
-"Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages."
-msgstr ""
-"Clicca <a href=\"%s\">qui</a> per assegnare la lingua \"%s\" agli articoli/"
-"pagine esistenti."
+msgid "Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages."
+msgstr "Clicca <a href=\"%s\">qui</a> per assegnare la lingua \"%s\" agli articoli/pagine esistenti."
 
-#: ../admin/wizard.php:59
 msgid "detected language"
 msgstr "lingua trovata"
 
-#: ../admin/wizard.php:62
 msgid "was automatically added to your languages"
 msgstr "è stata automaticamente aggiunta alle tue lingue"
 
-#: ../admin/wizard.php:67
-#, php-format
 msgid "Click <%s>here</a> to manage languages"
 msgstr "Clicca <%s>qui</a> per gestire le lingue"
 
-#: ../admin/wizard.php:73
 msgid "Add your languages"
 msgstr "Aggiungi le tue lingue"
 
-#: ../admin/wizard.php:80 ../admin/wizard.php:128
 msgid "go to step"
 msgstr "vai allo step"
 
-#: ../admin/wizard.php:92
-msgid "Customize which posts show in according to current language"
-msgstr ""
-"Personalizza quali articoli visualizzare in accordo alla lingua corrente"
+msgid "Filters"
+msgstr "Filtri"
 
-#: ../admin/wizard.php:99
+msgid "Customize which posts show in according to current language"
+msgstr "Personalizza quali articoli visualizzare in accordo alla lingua corrente"
+
+msgid "Actions"
+msgstr "Azioni"
+
 msgid "Choose the style of your"
 msgstr "Scegli lo stile della tua"
 
-#: ../admin/wizard.php:103
 msgid "Homepage"
 msgstr "Pagina iniziale"
 
-#: ../admin/wizard.php:104 ../admin/layouts/options-actions.php:355
 msgid "Detect browser language and:"
 msgstr "Individua la lingua del browser e:"
 
-#: ../admin/wizard.php:107
 msgid "Links"
 msgstr "Link"
 
-#: ../admin/wizard.php:108 ../admin/layouts/options-actions.php:356
 msgid "Url Modification mode:"
 msgstr "Modalità di modifica della url:"
 
-#: ../admin/wizard.php:111
 msgid "Enable notices"
 msgstr "Attiva avvisi"
 
-#: ../admin/wizard.php:112 ../admin/layouts/options-actions.php:357
 msgid "Show notice"
 msgstr "Visualizza avviso"
 
-#: ../admin/wizard.php:119
-msgid ""
-"During Wizard will be shown only basic settings, click on \"Ceceppa "
-"Multilingua\" -> \"Settings\" for see all available options"
-msgstr ""
-"Durante la procedura guidata verranno visualizzate solo le impostazioni di "
-"base, clicca su \"Ceceppa Multilinuga\" -> \"Impostazioni\" per vedere tutte "
-"le opzioni disponibili"
+msgid "During Wizard will be shown only basic settings, click on \"Ceceppa Multilingua\" -> \"Settings\" for see all available options"
+msgstr "Durante la procedura guidata verranno visualizzate solo le impostazioni di base, clicca su \"Ceceppa Multilinuga\" -> \"Impostazioni\" per vedere tutte le opzioni disponibili"
 
-#: ../admin/wizard.php:124
 msgid "Don't forget to click on \"Save\" button before change tab."
-msgstr ""
-"Non dimenticarti di cliccare sul pulsante \"Salva\" prima di cambiare scheda."
+msgstr "Non dimenticarti di cliccare sul pulsante \"Salva\" prima di cambiare scheda."
 
-#: ../admin/wizard.php:138
 msgid "Now you can start to translate"
 msgstr "Ora puoi iniziare a tradurre"
 
-#: ../admin/wizard.php:143
 msgid "Your posts"
 msgstr "I tuoi articoli"
 
-#: ../admin/wizard.php:148
 msgid "Site Title/Tagline"
 msgstr "Titolo del sito/Motto"
 
-#: ../admin/wizard.php:160
+msgid "Widget titles"
+msgstr "Titoli dei widgets"
+
 msgid "Current theme"
 msgstr "Tema corrente"
 
-#: ../admin/wizard.php:166
 msgid "This plugin"
 msgstr "Il plugin"
 
-#: ../admin/wizard.php:175 ../admin/layouts/languages.php:108
 msgid "or"
 msgstr "oppure"
 
-#: ../admin/wizard.php:180
 msgid "Enable flags on your site/pages"
 msgstr "Abilita le bandiere sul tuo sito/pagine"
 
-#: ../admin/wizard.php:185
 msgid "Filter widgets by language"
 msgstr "Filtra i widgets per lingua"
 
-#: ../admin/wizard.php:190
 msgid "See all available options"
 msgstr "Visualizza tutte le opzioni disponibili"
 
-#: ../admin/wizard.php:198
 msgid "Done, close wizard"
 msgstr "Fatto, chiudi la configurazione guidata"
 
-#: ../admin/parser.php:54
-#, php-format
-msgid "No translable strings founds in %s"
-msgstr "Non è stata trovata alcuna stringa traducibile in %s"
-
-#: ../admin/parser.php:65
-#, php-format
-msgid "Failed to open %s path"
-msgstr "Impossibile accedere al percorso %s"
-
-#: ../admin/parser.php:160
-msgid "Available languages: "
-msgstr "Lingue disponibili:"
-
-#: ../admin/parser.php:161
-msgid "Main language:"
-msgstr "Lingua principale:"
-
-#: ../admin/parser.php:189 ../admin/admin-posts.php:92
-#: ../admin/layouts/options-actions.php:127
-msgid "None"
-msgstr "Nessuna"
-
-#: ../admin/parser.php:195 ../admin/layouts/translate-my.php:32
-msgid "All strings"
-msgstr "Tutte le stringhe"
-
-#: ../admin/parser.php:196
-msgid "To translate"
-msgstr "Da tradurre"
-
-#: ../admin/parser.php:197
-msgid "Incomplete"
-msgstr "Incompleto"
-
-#: ../admin/parser.php:198 ../admin/parser.php:320
-msgid "Translated"
-msgstr "Tradotte"
-
-#: ../admin/parser.php:201 ../admin/layouts/languages-item.php:151
-msgid "Save Changes"
-msgstr "Salva le modifiche"
-
-#: ../admin/parser.php:208 ../admin/layouts/options-filters.php:241
-msgid "Search"
-msgstr "Cerca"
-
-#: ../admin/parser.php:215
-msgid "Text"
-msgstr "Testo"
-
-#: ../admin/parser.php:320 ../admin/admin.php:176
-msgid "Translate"
-msgstr "Traduci"
-
-#: ../admin/parser.php:346
-msgid "Translation complete"
-msgstr "Traduzione completata"
-
-#: ../admin/parser.php:346
-msgid "Translation not complete"
-msgstr "Traduzione non completata"
-
-#: ../admin/parser.php:362
-#, php-format
-msgid "Failed to open stream %s: Permission denied"
-msgstr "Impossibile aprire %s: Permesso negato"
-
-#: ../admin/parser.php:377
-msgid "Something goes wrong :'(. I don't know where to store .mo file"
-msgstr "Qualcosa è andato storto :'(. Non so dove salvare il file .mo"
-
-#: ../admin/parser.php:383
-#, php-format
-msgid "Failed to create folder: %s"
-msgstr "Fallita la creazione della cartella: %s"
-
-#: ../admin/parser.php:457
-msgid "Generated files:"
-msgstr "File generati:"
-
-#: ../admin/admin.php:159
-msgid "The changes you made will be lost if you navigate away from this page."
-msgstr ""
-"Se si abbandona questa pagina i cambiamenti effettuati verranno persi ."
-
-#: ../admin/admin.php:160 ../admin/layouts/languages-item.php:146
-msgid "Less"
-msgstr "Meno"
-
-#: ../admin/admin.php:161 ../admin/layouts/languages-item.php:146
-msgid "More"
-msgstr "Altro"
-
-#: ../admin/admin.php:162 ../admin/layouts/languages-item.php:141
-msgid "Delete"
-msgstr "Cancella"
-
-#: ../admin/admin.php:163
-msgid "Restore"
-msgstr "Ripristina"
-
-#: ../admin/admin.php:164 ../admin/layouts/languages-item.php:110
-msgid "Custom"
-msgstr "Personalizzato"
-
-#: ../admin/admin.php:174
-msgid "Ceceppa Multilingua"
-msgstr "Ceceppa Multilingua"
-
-#: ../admin/admin.php:184 ../admin/admin-flags.php:12
-#: ../admin/admin-menu.php:264
-msgid "Flags"
-msgstr "Bandiere"
-
-#: ../admin/admin.php:186
-msgid "Show flags"
-msgstr "Visualizza bandiere"
-
-#: ../admin/admin.php:188 ../admin/admin.php:190 ../admin/admin.php:288
-#: ../admin/layouts/languages.php:84
-msgid "Settings"
-msgstr "Impostazioni"
-
-#: ../admin/admin.php:192
-msgid "Documentation"
-msgstr "Documentazione"
-
-#: ../admin/admin.php:194
-msgid "Shortcode"
-msgstr "Shortcode"
-
-#: ../admin/admin.php:195
-msgid "Api"
-msgstr "Api"
-
-#: ../admin/admin.php:275 ../admin/admin.php:323
-msgid "Help"
-msgstr "Aiuto"
-
-#: ../admin/admin.php:276
-msgid "Click here to show the meaning of language fields"
-msgstr "Clicca qui per visualizzare il significato dei campi della lingua"
-
-#: ../admin/admin.php:282 ../admin/layouts/languages.php:80
-msgid "Basic"
-msgstr "Base"
-
-#: ../admin/admin.php:282
-msgid "You can order languages, set the default one, enable/disable them "
-msgstr ""
-"Puoi ordinare le lingue, impostare quella predefinita, attivarle/disattivarle"
-
-#: ../admin/admin.php:283 ../admin/layouts/languages.php:81
-msgid "Intermediate"
-msgstr "Intermedie"
-
-#: ../admin/admin.php:283
-msgid "You can also edit language name and date format"
-msgstr "Puoi anche modificare il nome della lingua e il formato della data"
-
-#: ../admin/admin.php:284
-msgid "You can change flag and edit all language fields"
-msgstr "Puoi cambiare la bandiera e modificare tutti i campi della lingua"
-
-#: ../admin/admin.php:287
-msgid "Choose settings level"
-msgstr "Scegli il livello delle impostazioni"
-
-#: ../admin/admin.php:291
-msgid "This is the list of your languages."
-msgstr "Questa è la lista delle lingue disponibili."
-
-#: ../admin/admin.php:292
-msgid "Drag items for change its order."
-msgstr "Trascina le voci per cambiare l'ordine."
-
-#: ../admin/admin.php:294
-msgid "Flag"
-msgstr "Bandiera"
-
-#: ../admin/admin.php:295
-msgid "Click on flag for change or customize"
-msgstr "Clicca sulla bandiera per personalizzarla"
-
-#: ../admin/admin.php:298
-msgid "Click on heart for set default language"
-msgstr "Clicca sul quore per impostare la lingua come predefinita"
-
-#: ../admin/admin.php:301
-msgid "Click on &#10004; for set enable/disable language"
-msgstr "Clicca su ✔ per abilitare/disabilitare la lingua"
-
-#: ../admin/admin.php:303
-msgid "Your languages"
-msgstr "Le tue lingue"
-
-#: ../admin/admin.php:306
-msgid "Add language"
-msgstr "Aggiungi lingua"
-
-#: ../admin/admin.php:306
-msgid ""
-"List of all available languages.<br /> Click on item to choose flag and add "
-"it to your languages"
-msgstr ""
-"Lista delle lingue disponibili.<br /> Clicca su una voce per scegliere la "
-"bandiera e aggiungerla alle tue lingue"
-
-#: ../admin/admin.php:309 ../admin/layouts/languages.php:106
-msgid "Search language"
-msgstr "Cerca lingue"
-
-#: ../admin/admin.php:309
-msgid "Search the language from the availables and click for add it"
-msgstr "Cerca la lingua tra quelle disponibili e clicca per aggiungerla"
-
-#: ../admin/admin.php:312
-msgid "Add custom language"
-msgstr "Aggiungi una lingua personalizzata"
-
-#: ../admin/admin.php:312
-msgid "Click here for add custom language"
-msgstr "Clicca qui per aggiungere una lingua personalizzata"
-
-#: ../admin/admin.php:315
-msgid "Save languages"
-msgstr "Salva le lingue"
-
-#: ../admin/admin.php:315
-msgid "Click here for save changes"
-msgstr "Clicca qui per salvare le modifiche"
-
-#: ../admin/admin.php:318
-msgid "Theme language"
-msgstr "Lingua tema"
-
-#: ../admin/admin.php:318
-msgid ""
-"If theme language is one of your language, choose it so that plugin will "
-"exclude it from translation table."
-msgstr ""
-"Se il tema è scritto in una delle tue lingue, sceglila così il plugin la "
-"escluderà dalla tabella delle traduzioni."
-
-#: ../admin/admin.php:323
-msgid "Click here for show/hide help"
-msgstr "Clicca qui per visualizzare/nascondere l'aiuto"
-
-#: ../admin/admin.php:328 ../admin/admin.php:329
-msgid "Filter list"
-msgstr "Filtra la lista"
-
-#: ../admin/admin.php:328
-msgid "Filter list by language"
-msgstr "Filtra lista per lingua"
-
-#: ../admin/admin.php:329
-msgid "Click here to filter list by language"
-msgstr "Clicca qui per filtrare la lista per lingua"
-
-#: ../admin/admin.php:330
-msgid "Active language"
-msgstr "Lingua attiva"
-
-#: ../admin/admin.php:330
-msgid "This is the style of current language"
-msgstr "Questo è lo stile della lingua corrente"
-
-#: ../admin/admin.php:335
-msgid "Choose the language of current post/page."
-msgstr "Scegli la lingua degli articoli/pagine correnti"
-
-#: ../admin/admin.php:337
-msgid "means that post/page will available in all languages"
-msgstr "significa che l'articolo/pagina sarà disponibili in tutte le lingue"
-
-#: ../admin/admin.php:339
-msgid "Post/Page language"
-msgstr "Lingua dell'articolo/pagina"
-
-#: ../admin/admin.php:342
-msgid "Assign translations"
-msgstr "Assegna traduzioni"
-
-#: ../admin/admin.php:343
-msgid "Assign the same post to multiple languages."
-msgstr "Assegna lo stesso articolo a più lingue."
-
-#: ../admin/admin.php:344
-msgid "If you need you can assign post to multiple language"
-msgstr "Se ne hai bisogno puoi assegnare l'articolo a più lingue"
-
-#: ../admin/admin.php:345
-msgid ""
-"In this case you can't choose the option \"All languages\" from \"Language\" "
-"combo, so you have to choose one of it existing languages, isn't important "
-"which one."
-msgstr ""
-"In questo caso però non puoi scegliere l'opzione \"Tutte le lingue\" "
-"dall'elenco \"Lingue\", devi necessariamente scegliere una lingua, non "
-"importa quale."
-
-#: ../admin/admin.php:349
-msgid "Click here Add/Edit translation"
-msgstr "Clicca qui per aggiungere/modificare una traduzione"
-
-#: ../admin/admin.php:352
-msgid ""
-"Permalink will modified in according to current \"Url modification mode\" "
-"setting."
-msgstr ""
-"Il permalink verrà modificato in accordo all'opzione \"Modalità di modifica "
-"dell'url\"."
-
-#: ../admin/admin.php:353
-msgid ""
-"When two post/page has same title Wordpress automatically append a number -"
-"## to permalink, don't worry the plugin will remove it in fronted."
-msgstr ""
-"Quando due articoli/pagine hanno lo stesso titolo Wordpress aggiunge "
-"automaticamente un numero -## al permalink, non preoccuparti verrà rimosso "
-"dal plugin in frontend."
-
-#: ../admin/admin.php:354
-msgid "Permalink"
-msgstr "Permalink"
-
-#: ../admin/admin.php:358
-msgid ""
-"For each languages you can customize \"Navigation label\" or url, but you "
-"have to save menu first"
-msgstr ""
-"Per ogni lingua puoi personalizzare l'\"Etichetta di navigazione\" oppure "
-"l'url, ma è necessario salvare prima il menu"
-
-#: ../admin/admin.php:361
-msgid "Customize labels"
-msgstr "Personalizza le etichette"
-
-#: ../admin/admin.php:366
-msgid "Set menu to switch"
-msgstr "Scegli quale menu verrà cambiato"
-
-#: ../admin/admin.php:367
-msgid ""
-"Your theme support multiple menus, if you need to use different menu for "
-"each language you have to choose witch one switch"
-msgstr ""
-"Il tuo tema supporta menu multipli, se vuoi usare menu differenti per ogni "
-"lingua devi scegliere quello da cambiare"
-
-#: ../admin/admin.php:555
-msgid "No tables found, Ceceppa Multilingua can't works correctly."
-msgstr ""
-"Nessuna tabella trovata, Ceceppa Multilingua non può funzionare "
-"correttamente."
-
-#: ../admin/admin.php:556
-msgid "Disable and enable again the plugin for rebuild tables."
-msgstr "Disattiva e riattiva il plugin per ricostruire le tabelle"
-
-#: ../admin/admin-widgets.php:76
-msgid "Translate title in:"
-msgstr "Traduci titolo in"
-
-#: ../admin/admin-widgets.php:101
-msgid "Filter widget"
-msgstr "Filtra widget"
-
-#: ../admin/admin-widgets.php:107
-msgid "Show"
-msgstr "Visualizza"
-
-#: ../admin/admin-widgets.php:108
-msgid "Hide"
-msgstr "Nascondi"
-
-#: ../admin/admin-widgets.php:110
-msgid "If current language is: "
-msgstr "Se la lingua corrente è:"
-
-#: ../admin/admin-posts.php:16
-msgid "Language"
-msgstr "Lingua"
-
-#: ../admin/admin-posts.php:65
-msgid "Add translation"
-msgstr "Aggiungi traduzione"
-
-#: ../admin/admin-posts.php:65
-msgid "Edit"
-msgstr "Modifica"
-
-#: ../admin/admin-posts.php:232
-msgid "Edit post: "
-msgstr "Modifica articolo:"
-
-#: ../admin/admin-posts.php:237
-msgid "Translate to:"
-msgstr "Traduci in:"
-
-#: ../admin/admin-posts.php:247 ../admin/admin-posts.php:256
-msgid "Post data"
-msgstr "Dati articolo"
-
-#: ../admin/admin-posts.php:248
-msgid "Page data"
-msgstr "Dati pagina"
-
-#: ../admin/admin-posts.php:271
-msgid "Language:"
-msgstr "Lingua:"
-
-#: ../admin/admin-posts.php:272
-msgid "Show all languages"
-msgstr "Visualizza tutte le lingue"
-
-#: ../admin/admin-menu.php:88
-msgid "Navigation Label"
-msgstr "Etichetta di navigazione"
-
-#: ../admin/admin-menu.php:89
-msgid "Title Attribute"
-msgstr "Attributo Titolo"
-
-#: ../admin/admin-menu.php:222
 msgid "Select the name of your primary menu:"
 msgstr "Seleziona il nome del tuo menu principale"
 
-#: ../admin/admin-menu.php:240 ../admin/layouts/languages.php:98
 msgid "Save"
 msgstr "Salva"
 
-#: ../admin/install.php:121 ../admin/layouts/languages-item.php:60
-msgid "Default language"
-msgstr "Lingua predefinita"
+msgid "Flags"
+msgstr "Bandiere"
 
-#: ../admin/layouts/options-flags.php:16
-msgid "If translation of current post/page doesn't exists in flag language:"
-msgstr ""
-"Se la traduzione dell'articolo/pagine corrente non esiste nella lingua della "
-"bandiera: "
+msgid "No translable strings founds in %s"
+msgstr "Non è stata trovata alcuna stringa traducibile in %s"
 
-#: ../admin/layouts/options-flags.php:24 ../admin/layouts/options-flags.php:40
-msgid "Switch always to flag language"
-msgstr "Vai sempre alla lingua della bandiera"
+msgid "Failed to open %s path"
+msgstr "Impossibile accedere al percorso %s"
 
-#: ../admin/layouts/options-flags.php:30
-msgid "Go to homepage"
-msgstr "Vai alla pagina iniziale"
+msgid "Available languages: "
+msgstr "Lingue disponibili:"
 
-#: ../admin/layouts/options-flags.php:37
-msgid ""
-"Set the behavior of the flags when current page doesn't exists in flag "
-"language"
-msgstr ""
-"Scegli il comportamento delle bandiere quando la pagina corrente non è "
-"disponibile nella lingua della bandiera"
+msgid "Translate in:"
+msgstr "Traduci in:"
 
-#: ../admin/layouts/options-flags.php:44
-msgid ""
-"The plugin will add language slug ( ?lang=## ) to url when translation "
-"doesn't exists in flag language"
-msgstr ""
-"Il plugin aggiunge l'abbreviazione della lingua ( ?lang=## ) alla url quando "
-"la traduzione non esiste"
+msgid "Choose in which languages you want to translate: "
+msgstr "Scegli in quale lingua vuoi tradurre:"
 
-#: ../admin/layouts/options-flags.php:63
-msgid "Show flags on:"
-msgstr "Visualizza le bandiere su:"
+msgid "All strings"
+msgstr "Tutte le stringhe"
 
-#: ../admin/layouts/options-flags.php:74
-#: ../admin/layouts/options-actions.php:240
-msgid "Posts"
-msgstr "Articoli"
+msgid "To translate"
+msgstr "Da tradurre"
 
-#: ../admin/layouts/options-flags.php:81
-#: ../admin/layouts/options-actions.php:247
-msgid "Pages"
-msgstr "Pagine"
+msgid "Incomplete"
+msgstr "Incompleto"
 
-#: ../admin/layouts/options-flags.php:88
-msgid "Custom posts"
-msgstr "Custom posts"
+msgid "Translated"
+msgstr "Tradotte"
 
-#: ../admin/layouts/options-flags.php:96
-msgid "Loop"
-msgstr "Ciclo"
+msgid "Save Changes"
+msgstr "Salva le modifiche"
 
-#: ../admin/layouts/options-flags.php:103
-msgid "Where:"
-msgstr "Dove:"
+msgid "You have to choose in which language you want to translate: "
+msgstr "Devi scegliere la lingua in cui vuoi tradurre:"
 
-#: ../admin/layouts/options-flags.php:109
-msgid "Before the title"
-msgstr "Prima del titolo"
+msgid "Search"
+msgstr "Cerca"
 
-#: ../admin/layouts/options-flags.php:115
-msgid "After the title"
-msgstr "Dopo il titolo"
+msgid "Text"
+msgstr "Testo"
 
-#: ../admin/layouts/options-flags.php:121
-msgid "Before post/page content"
-msgstr "Prima del contenuto dell'articolo/pagina"
-
-#: ../admin/layouts/options-flags.php:126
-msgid "After post/page content"
-msgstr "Dopo il contenuto dell'articolo/pagina"
-
-#: ../admin/layouts/options-flags.php:137
-msgid "When:"
-msgstr "Quando:"
-
-#: ../admin/layouts/options-flags.php:144
-msgid "Show flags only on translated page."
-msgstr "Visualizza le bandiere solo sulle pagine tradotte."
-
-#: ../admin/layouts/options-flags.php:149
-msgid "Choose where show flags"
-msgstr "Scegli dove visualizzare le bandiere"
-
-#: ../admin/layouts/options-flags.php:174
-msgid " Custom css:"
-msgstr "Personalizza css:"
-
-#: ../admin/layouts/options-flags.php:184
-#: ../admin/layouts/options-flags.php:222
-#: ../admin/layouts/options-flags.php:301
-msgid " Display items as:"
-msgstr "Visualizza gli elementi come:"
-
-#: ../admin/layouts/options-flags.php:198
-msgid "Add a div, with #flying-flags, after the footer of the page."
-msgstr "Aggiunge un div, cib #flying-flags, dopo il \"footer\" della pagina."
-
-#: ../admin/layouts/options-flags.php:199
-msgid "Use the textarea for customize the style."
-msgstr "Utilizza l'area di testo per personalizzare lo stile"
-
-#: ../admin/layouts/options-flags.php:213
-msgid "Id or class of element to add flags:"
-msgstr "Id o classe dell'elemento dove aggiungere le bandiere:"
-
-#: ../admin/layouts/options-flags.php:217
-msgid "use # for id, or . for class"
-msgstr "usa # per l'id, oppure . per la classe"
-
-#: ../admin/layouts/options-flags.php:236
-msgid ""
-"Create a div with id #cml-lang, and append it to desired element throught "
-"append method of jQuery"
-msgstr ""
-"Crea un div con id #cml-lang, e lo append all'elemento html desiderato "
-"mediante il metodo \"append\" di jQuery"
-
-#: ../admin/layouts/options-flags.php:252
-msgid "Style"
-msgstr "Stile"
-
-#: ../admin/layouts/options-flags.php:258
-msgid "Add an item for each language"
-msgstr "Aggiungi un elemento per ogni lingua"
-
-#: ../admin/layouts/options-flags.php:264
-msgid "Add items in submenu"
-msgstr "Aggiungi gli elementi al sottomenu"
-
-#: ../admin/layouts/options-flags.php:271
-msgid "Add to"
-msgstr "Aggiungi a"
-
-#: ../admin/layouts/options-flags.php:311
-#: ../admin/layouts/options-advanced.php:44
-msgid ""
-"You can add flags to menu throught <b>Aspect -> Menu page</b>, or enabling "
-"this option."
-msgstr ""
-"Puoi aggiungere le bandiere al menu dalla pagina <b>Aspetto -> Menu </b>, o "
-"abilitando questa opzione."
-
-#: ../admin/layouts/options-flags.php:312
-#: ../admin/layouts/options-advanced.php:45
-msgid ""
-"Use this box for also customize the style of items added throught <b>Aspect -"
-"> Menu page</b>"
-msgstr ""
-"Utilizza questo riquadro per personalizzare anche gli elementi aggiunti "
-"tramite <b>Aspetto -> Menu</b>"
-
-#: ../admin/layouts/options-flags.php:360
-msgid "Flags size:"
-msgstr "Dimensione bandiere:"
-
-#: ../admin/layouts/options-flags.php:385
-msgid " Style:"
-msgstr "Stile:"
-
-#: ../admin/layouts/options-flags.php:406
-msgid "Combo"
-msgstr "Combo"
-
-#: ../admin/layouts/options-flags.php:418
-#: ../admin/layouts/options-advanced.php:80
-#: ../admin/layouts/options-filters.php:232
-#: ../admin/layouts/options-actions.php:351
-msgid "Show/Hide help"
-msgstr "Visualizza/Nascondi guida"
-
-#: ../admin/layouts/options-flags.php:420
-msgid "Translation not available:"
-msgstr "Traduzione non disponibile:"
-
-#: ../admin/layouts/options-flags.php:431
-msgid "Add flags to menu:"
-msgstr "Aggiungi le bandiere al menu:"
-
-#: ../admin/layouts/options-advanced.php:6
-msgid "Helps restored succesfully"
-msgstr "Aiuti ripristinati con successo"
-
-#: ../admin/layouts/options-advanced.php:22
-msgid "Start wizard"
-msgstr "Procedura guidata"
-
-#: ../admin/layouts/options-advanced.php:28
-msgid "Start wizard againg. Current settings will not be erased"
-msgstr ""
-"Avvia di nuovo la procedura guidata. Le impostazioni correnti non verranno "
-"cancellate"
-
-#: ../admin/layouts/options-advanced.php:38
-#: ../admin/layouts/options-advanced.php:84
-msgid "Restore helps"
-msgstr "Ripristina aiuti"
-
-#: ../admin/layouts/options-advanced.php:62
-msgid "Automatically assign default language to existing posts"
-msgstr "Assegna automaticamente la lingua predefinita agli articoli esistenti"
-
-#: ../admin/layouts/options-advanced.php:82
-msgid "Wizard"
-msgstr "Procedura guidata"
-
-#: ../admin/layouts/options-advanced.php:83
-msgid "Update language of existing posts"
-msgstr "Aggiorna la lingua degli articoli esistenti"
-
-#: ../admin/layouts/options-advanced.php:85
-msgid "Update post relations"
-msgstr "Aggiorna relazioni tra i post"
-
-#: ../admin/layouts/menu.php:13 ../admin/layouts/menu.php:16
-msgid "Current language"
-msgstr "Lingua corrente"
-
-#: ../admin/layouts/menu.php:33 ../admin/layouts/menu.php:36
-msgid "All languages except current"
-msgstr "Tutte le lingue tranne quella corrente"
-
-#: ../admin/layouts/languages.php:71
-msgid "You can change the flag only after adding language."
-msgstr "Puoi cambiare la bandiera solo dopo aver aggiunto la lingua."
-
-#: ../admin/layouts/languages.php:93
-msgid "Show help"
-msgstr "Visualizza aiuti"
-
-#: ../admin/layouts/languages.php:102
-msgid "My languages"
-msgstr "Le mie lingue"
-
-#: ../admin/layouts/languages.php:109
-msgid "Add custom"
-msgstr "Aggiungi personalizzata"
-
-#: ../admin/layouts/languages.php:112
-msgid "Available languages"
-msgstr "Lingue disponibili"
-
-#: ../admin/layouts/translate-theme.php:10
-msgid "Translations generated succesfully"
-msgstr "Traduzioni generate con successo"
-
-#: ../admin/layouts/translate-theme.php:22
-#, php-format
-msgid "Error generating translations, ensure that the folder %s is writable"
-msgstr ""
-"Errore durante la generazione delle traduzioni, assicurati che la cartella "
-"%s sia scrivibile"
-
-#: ../admin/layouts/languages-item.php:33
-msgid "Oops, something goes wrong"
-msgstr "Oops, qualcosa è andato storto"
-
-#: ../admin/layouts/languages-item.php:54
-msgid "Click for change or upload custom flag"
-msgstr "Clicca per cambiare o personalizzare la bandiera"
-
-#: ../admin/layouts/languages-item.php:61
-msgid "Enable/Disable language"
-msgstr "Attiva/Disattiva lingua"
-
-#: ../admin/layouts/languages-item.php:118
-msgid "Upload custom image"
-msgstr "Carica immagine personalizzata"
-
-#: ../admin/layouts/languages-item.php:127
-#, php-format
-msgid "Date format: %s. <br /> Click for edit"
-msgstr "Formato data: %s. <br /> Clicca per modificare"
-
-#: ../admin/layouts/languages-item.php:141
-msgid "Close"
-msgstr "Chiudi"
-
-#: ../admin/layouts/languages-item.php:144
-#: ../admin/layouts/translate-my.php:64
-msgid "Add"
-msgstr "Aggiungi"
-
-#: ../admin/layouts/translate-cml.php:14
-msgid "Something goes wring, cannot generate .mo files :("
-msgstr "Qualcosa è andato storto, non sono riuscito a generare i file .mo :("
-
-#: ../admin/layouts/translate-cml.php:15
-#, php-format
-msgid "Ensure that folder %s if writable"
-msgstr "Verifica che il percorso %s sia scrivibile"
-
-#: ../admin/layouts/translate-cml.php:19
-msgid "Thanks for translated Ceceppa Multilingua in your language."
-msgstr "Grazie per aver tradotto Ceceppa Multilingua nella tua lingua."
-
-#: ../admin/layouts/translate-cml.php:20
-msgid ""
-"If translation is complete and you want to share it with us, download it:"
-msgstr "Se la traduzione è completa e vuoi condividerla con noi, scaricala:"
-
-#: ../admin/layouts/translate-cml.php:33
-#, php-format
-msgid "and send it <%s>to me</a>, add also your name or nickname"
-msgstr "e <%s>inviamela</a>, aggiungi anche il tuo nome o nickname"
-
-#: ../admin/layouts/translate-cml.php:38
-msgid ""
-"If you like the plugin and you want translate it in your language, you can "
-"do from this page."
-msgstr ""
-"Se ti piace il plugin e vuoi tradurlo nella tua lingua, puoi farlo da questa "
-"pagina."
-
-#: ../admin/layouts/translate-cml.php:39
-msgid ""
-"After clicked on \"Save Changes\" button, follow the instructions and send "
-"me the translation, thanks"
-msgstr ""
-"Dopo aver cliccato il pulsante \"Salva le modifiche\", segui le istruzioni e "
-"inviami la traduzione, grazie"
-
-#: ../admin/layouts/translate-widget-titles.php:29
-msgid ""
-"If you want to customize widget titles you have to assign a title for each "
-"of them in \"Appearance\" -> \"Widgets\""
-msgstr ""
-"Se vuoi personalizzare i titoli dei widget è necessario assegnargli un "
-"titolo in \"Aspetto\" -> \"Widgets\""
-
-#: ../admin/layouts/translate-widget-titles.php:40
-msgid "Title"
-msgstr "Titolo"
-
-#: ../admin/layouts/translate-widget-titles.php:79
-msgid "Reset titles"
-msgstr "Resetta titoli"
-
-#: ../admin/layouts/translate-widget-titles.php:80
-#: ../admin/layouts/translate-my.php:66
-msgid "Update"
-msgstr "Aggiorna"
-
-#: ../admin/layouts/options-filters.php:32
-#: ../admin/layouts/options-filters.php:54
-msgid "Show only posts in current language"
-msgstr "Visualizza solo gli articoli nella lingua corrente"
-
-#: ../admin/layouts/options-filters.php:38
-#: ../admin/layouts/options-filters.php:61
-msgid "Show all posts, but hide their translation"
-msgstr "Visualizza tutti gli articoli, ma nascondi le loro traduzioni"
-
-#: ../admin/layouts/options-filters.php:44
-#: ../admin/layouts/options-filters.php:68
-msgid "Hide empty translations of posts and show in default language"
-msgstr ""
-"Nascondi le traduzioni vuote e visualizza invece gli articoli nella lingua "
-"predefinita"
-
-#: ../admin/layouts/options-filters.php:51
-msgid "Choose which posts show"
-msgstr "Visualizza quali articoli mostrare"
-
-#: ../admin/layouts/options-filters.php:57
-msgid "Show only the posts that exists in current language"
-msgstr "Visualizza solo gli articoli che esistono nella lingua corrente"
-
-#: ../admin/layouts/options-filters.php:64
-msgid "Show also posts that has no translation in current language."
-msgstr ""
-"Visualizza anche gli articoli che non hanno alcuna traduzione nella lingua "
-"corrente."
-
-#: ../admin/layouts/options-filters.php:71
-msgid ""
-"If a post doesn't have a translation in current language, post in \"default "
-"language\" will be shown"
-msgstr ""
-"Se un articolo non ha una traduzione nella lingua corrente, verrà "
-"visualizzato quello nella lingua predefinita"
-
-#: ../admin/layouts/options-filters.php:85
-msgid ""
-"Allows you to filter the result of some widgets to display only those "
-"records relating to the current language."
-msgstr ""
-"Permette di filtrare i risultati di alcuni widget e mostrare solo i record "
-"relativi alla lingua corrente"
-
-#: ../admin/layouts/options-filters.php:87
-msgid "Supported widgets:"
-msgstr "Widget supportati"
-
-#: ../admin/layouts/options-filters.php:89
-msgid "Least reads posts"
-msgstr "Articoli più letti"
-
-#: ../admin/layouts/options-filters.php:90
-msgid "Most commented"
-msgstr "Più commentati"
-
-#: ../admin/layouts/options-filters.php:98
-#: ../admin/layouts/options-filters.php:120
-msgid "Enable"
-msgstr "Abilitato"
-
-#: ../admin/layouts/options-filters.php:102
-msgid ""
-"If enabled the plugin filter the query of Least reads posts and Most "
-"commented"
-msgstr ""
-"Se attivato il plugin filtra le query de \"Articoli più letti\" e \"Più "
-"commentati\""
-
-#: ../admin/layouts/options-filters.php:104
-msgid "The others widget will be filtered only if they use the WP_Query class."
-msgstr "Gli altri widget verranno filtrati solo se usano la classe WP_Query"
-
-#: ../admin/layouts/options-filters.php:124
-msgid "Filter wordpress search query"
-msgstr "Filtra la query di ricerca di Wordpress"
-
-#: ../admin/layouts/options-filters.php:139
-#: ../admin/layouts/options-filters.php:155
-msgid "Group"
-msgstr "Raggruppati"
-
-#: ../admin/layouts/options-filters.php:145
-#: ../admin/layouts/options-filters.php:162
-msgid "Ungroup"
-msgstr "Separati"
-
-#: ../admin/layouts/options-filters.php:152
-msgid "When use is viewing a single post/page"
-msgstr "Quando l'utente sta visualizzando un singolo articolo/pagina"
-
-#: ../admin/layouts/options-filters.php:158
-msgid "Show also comments of its translation"
-msgstr "Visualizza anche i commenti delle traduzioni"
-
-#: ../admin/layouts/options-filters.php:165
-msgid "Each post shown only its comments"
-msgstr "Ogni post visualizza solo i suoi commenti"
-
-#: ../admin/layouts/options-filters.php:183
-msgid "Translate menu items"
-msgstr "Traduci le voci del menu"
-
-#: ../admin/layouts/options-filters.php:191
-msgid "Force language of items"
-msgstr "Forza la lingua per le voci"
-
-#: ../admin/layouts/options-filters.php:199
-#: ../admin/layouts/options-filters.php:219
-msgid "Hide items that doesn't exists in current language"
-msgstr "Nascondi voci che non esistono nella lingua corrente"
-
-#: ../admin/layouts/options-filters.php:205
-msgid "Items will be changed with their translation"
-msgstr "Gli elementi verranno cambiati con le loro traduzioni"
-
-#: ../admin/layouts/options-filters.php:208
-msgid "Page and category items will replace with their translation, if exists"
-msgstr ""
-"Le voci delle pagine e delle categorie verranno sostituite con le loro "
-"traduzioni, se esistono"
-
-#: ../admin/layouts/options-filters.php:212
-msgid "Force items language "
-msgstr "Forza la lingua delle voci"
-
-#: ../admin/layouts/options-filters.php:215
-msgid ""
-"If an item doesn't exists in current language, the plugin will add ?lang "
-"parameter to force item in current language"
-msgstr ""
-"Se la voce non esiste nella lingua corrente, il plugin aggiungerà il "
-"parametro ?lang per forzare la lingua richiesta."
-
-#: ../admin/layouts/options-filters.php:222
-msgid ""
-"If the plugin doesn't translate correctly menu items when switching "
-"language, "
-msgstr ""
-"Se il plugin non traduce correttamente le voci del menu quando cambi lingua,"
-
-#: ../admin/layouts/options-filters.php:223
-msgid "add items in all languages to menu and enable this option"
-msgstr ""
-"aggiungi gli elementi in tutte le lingue al menu e attiva questa opzione"
-
-#: ../admin/layouts/options-filters.php:224
-msgid ""
-"The plugin will remove elements that doesn't exists in current language from "
-"menu"
-msgstr ""
-"Il plugin rimuoverà gli elementi dal menu che non esistono nella lingua "
-"corrente"
-
-#: ../admin/layouts/options-filters.php:237
-msgid "Filter posts:"
-msgstr "Filtra articoli:"
-
-#: ../admin/layouts/options-filters.php:240
-msgid "Filter widgets"
-msgstr "Filtra widgets"
-
-#: ../admin/layouts/options-filters.php:242
-msgid "Comments"
-msgstr "Commenti"
-
-#: ../admin/layouts/options-filters.php:243
-msgid "Translate menu"
-msgstr "Traduci menu"
-
-#: ../admin/layouts/options-actions.php:20
-msgid ""
-"Automatically redirects the browser depending on the visitor's language."
-msgstr ""
-"Reindirizza automaticamente il browser secondo con la lingua del visitatore."
-
-#: ../admin/layouts/options-actions.php:26
-msgid "Automatically redirects the default language."
-msgstr "Reindirizza automaticamente alla lingua predefinita."
-
-#: ../admin/layouts/options-actions.php:32
-#: ../admin/layouts/options-actions.php:61
-msgid "Redirect only if visitor language is different from default one"
-msgstr ""
-"Reindirizza soltanto se la lingua del visitatore è differente da quella "
-"predefinita"
-
-#: ../admin/layouts/options-actions.php:38
-#: ../admin/layouts/options-actions.php:68
-msgid "Do nothing"
-msgstr "Non fare nulla"
-
-#: ../admin/layouts/options-actions.php:45
-msgid "Choose what to do when user visit your homepage"
-msgstr "Scegli cosa fare quando un utente visita la tua homepage"
-
-#: ../admin/layouts/options-actions.php:48
-msgid "Redirects the browser depending on the user's language."
-msgstr "Reindirizza il browser in base alla lingua dell'utente"
-
-#: ../admin/layouts/options-actions.php:51
-msgid "User will be redirected to their language, otherwise to default one"
-msgstr ""
-"L'utente verrà reindirizzato alla propria lingua, altrimenti a quella "
-"predefinita"
-
-#: ../admin/layouts/options-actions.php:54
-msgid "Automatically redirects to default language."
-msgstr "Reindirizza automaticamente alla lingua predefinita."
-
-#: ../admin/layouts/options-actions.php:57
-msgid "The plugin add the slug of default language"
-msgstr "Il plugin aggiunge l'abbreviazione della lingua predefinita"
-
-#: ../admin/layouts/options-actions.php:64
-msgid "The plugin doesn't add language slug to url for default language"
-msgstr ""
-"Il plugin non aggiunge l'abbreviazione della lingua per quella di default"
-
-#: ../admin/layouts/options-actions.php:71
-msgid ""
-"The plugin does nothing, doesn't modify the home url.<br /> The content of "
-"site will be in default language"
-msgstr ""
-"Il plugin non fa nulla, non modifica l'url della home.<br />Il contenuto del "
-"sito sarà nella lingua predefinita"
-
-#: ../admin/layouts/options-actions.php:77
-msgid "Default language will be used if visitor language isn't available"
-msgstr ""
-"La lingua predefinita viene utilizzato se la lingua del visitatore non è "
-"disponibile"
-
-#: ../admin/layouts/options-actions.php:95
-msgid "Use Pre-Path Mode"
-msgstr "Usa la modalità Pre-Path"
-
-#: ../admin/layouts/options-actions.php:98
-#: ../admin/layouts/options-actions.php:139
-msgid "This mode doesn't work with default permalink!!!"
-msgstr "Questa modalità non funziona con la struttura permalink predefinita!!!"
-
-#: ../admin/layouts/options-actions.php:107
-#: ../admin/layouts/options-actions.php:152
-msgid "Ignore for default language"
-msgstr "Ignora per la lingua predefinita"
-
-#: ../admin/layouts/options-actions.php:115
-msgid "Use Pre-Domain Mode"
-msgstr "Usa la modalità Pre-Dominio"
-
-#: ../admin/layouts/options-actions.php:121
-msgid "Append the suffix <strong>&amp;lang=</strong> to the url"
-msgstr "Aggiunge il suffisso <strong>&lang=</strong> alla url"
-
-#: ../admin/layouts/options-actions.php:134
-msgid "Choose the style of your links. Example:"
-msgstr "Scegli lo stile dei tuoi link. Esempio:"
-
-#: ../admin/layouts/options-actions.php:137
-msgid "Pre-Path"
-msgstr "Pre-Path"
-
-#: ../admin/layouts/options-actions.php:143
-msgid "Default, puts /[language slug]/ in front of URL"
-msgstr "Predefinito, pone /[abbreviazione lingua]/ davanti all'URL"
-
-#: ../admin/layouts/options-actions.php:152
-msgid "If you enable the option: "
-msgstr "Se abiliti l'opzione"
-
-#: ../admin/layouts/options-actions.php:153
-msgid "language slug will be added only to translations"
-msgstr "l'abbreviazione lingua verrà aggiunta solo alle traduzioni"
-
-#: ../admin/layouts/options-actions.php:159
-msgid "Default"
-msgstr "Predefinito"
-
-#: ../admin/layouts/options-actions.php:168
-msgid "Pre-Domain"
-msgstr "Pre-Domain"
-
-#: ../admin/layouts/options-actions.php:171
-msgid "Append suffix"
-msgstr "Aggiungi suffisso"
-
-#: ../admin/layouts/options-actions.php:194
-msgid "Translate categoriy url"
-msgstr "Traduci l'url per le categorie"
-
-#: ../admin/layouts/options-actions.php:198
-msgid "Translate the url for category links."
-msgstr "Traduci l'url per i link delle categorie"
-
-#: ../admin/layouts/options-actions.php:199
-msgid "Example"
-msgstr "Esempio"
-
-#: ../admin/layouts/options-actions.php:226
-msgid "When the post/page is available in visitor language:"
-msgstr "Quando un articolo/pagina è disponibile nella lingua del visitatore:"
-
-#: ../admin/layouts/options-actions.php:233
-msgid "Add notice to:"
-msgstr "Aggiungi avviso a:"
-
-#: ../admin/layouts/options-actions.php:255
-msgid "Ignore"
-msgstr "Ignora"
-
-#: ../admin/layouts/options-actions.php:261
-msgid "Where to show the alert"
-msgstr "Dove visualizzare l'avviso"
-
-#: ../admin/layouts/options-actions.php:265
-msgid "On the top of page/post"
-msgstr "All'inizio dell'articolo/pagina"
-
-#: ../admin/layouts/options-actions.php:269
-msgid "On the bottom of page/post"
-msgstr "Alla fine dell'articolo/pagina"
-
-#: ../admin/layouts/options-actions.php:275
-msgid "Cusomize notice:"
-msgstr "Personalizza avviso:"
-
-#: ../admin/layouts/options-actions.php:279
-#: ../admin/layouts/options-actions.php:304
-msgid "Click here for translate notice"
-msgstr "Clicca qui per tradurre l'avviso"
-
-#: ../admin/layouts/options-actions.php:285
-msgid "Before:"
-msgstr "Prima:"
-
-#: ../admin/layouts/options-actions.php:291
-msgid "After:"
-msgstr "Dopo:"
-
-#: ../admin/layouts/options-actions.php:301
-msgid ""
-"Notice visitor that post/page that is visiting is available in his language"
-msgstr "Avvisa l'utente che l'articolo/pagina è disponibile nella sua lingua"
-
-#: ../admin/layouts/options-actions.php:321
-msgid "Change date format"
-msgstr "Cambia il formato della data"
-
-#: ../admin/layouts/options-actions.php:325
-msgid "Apply date format defined in language item"
-msgstr "Applica il formato della data definito nella voce della lingua"
-
-#: ../admin/layouts/options-actions.php:341
-msgid "Set the language of wordpress, in according of selected language"
-msgstr "Imposta la lingua di wordpress in base alla lingua selezionata"
-
-#: ../admin/layouts/options-actions.php:345
-msgid "Change wordpress locale in according to current language."
-msgstr "Cambia il locale di wordpress alla lingua corrente"
-
-#: ../admin/layouts/options-actions.php:346
-msgid ""
-"If enabled language of all plugins and theme will switch in current "
-"language, if a translation exists"
-msgstr ""
-"Se attivo, la lingua del tema e di tutti i plugin verrà cambiata in quella "
-"corrente, se esistono le traduzioni"
-
-#: ../admin/layouts/options-actions.php:362
-msgid "Change wordpress language:"
-msgstr "Cambia la lingua di wordpress"
-
-#: ../admin/layouts/language-files.php:25
-msgid ""
-"When you add a language the plugin will try to download corresponding "
-"WordPress language files. If for, some reason, it fails you can try to "
-"download them at: "
-msgstr ""
-"Quando aggiungi una lingua il plugin proverà a scaricare i relativi "
-"pacchetti lingua per Wordpress. Se, per qualche motivo, qualcosa va storto "
-"puoi provare a scaricarli da:"
-
-#: ../admin/layouts/language-files.php:30
-msgid ""
-"You then would have to upload these files to the '/wp-content/languages/' "
-"directory"
-msgstr "e poi devi caricarli nella cartella '/wp-content/languages/'"
-
-#: ../admin/layouts/language-files.php:33
-msgid ""
-"If your language is not available on previous link you have to install it "
-"manually. For more information"
-msgstr ""
-"Se la la tua lingua non è disponibile nel link precedente devi installarla "
-"manualmente. Per maggiori informazioni"
-
-#: ../admin/layouts/class-mytranslations.php:51
-msgid "Group name"
-msgstr "Nome del gruppo"
-
-#: ../admin/layouts/class-mytranslations.php:52
-msgid "String"
-msgstr "Stringa"
-
-#: ../admin/layouts/class-mytranslations.php:53
 msgid "Translation"
 msgstr "Traduzioni"
 
-#: ../admin/layouts/class-mytranslations.php:173
+msgid "Translate"
+msgstr "Traduci"
+
+msgid "Translation complete"
+msgstr "Traduzione completata"
+
+msgid "Failed to open stream %s: Permission denied"
+msgstr "Impossibile aprire %s: Permesso negato"
+
+msgid "Failed to create folder: %s"
+msgstr "Fallita la creazione della cartella: %s"
+
+msgid "Error writing file: %s"
+msgstr "Errore nella scrittura del file: %s"
+
+msgid "Generated files:"
+msgstr "File generati:"
+
+msgid "Language"
+msgstr "Lingua"
+
+msgid "All languages"
+msgstr "Tutte le lingue"
+
+msgid "Add translation"
+msgstr "Aggiungi traduzione"
+
+msgid "None"
+msgstr "Nessuna"
+
+msgid "Language: "
+msgstr "Lingua:"
+
+msgid "Edit post: "
+msgstr "Modifica articolo:"
+
+msgid "Translate to:"
+msgstr "Traduci in:"
+
+msgid "This post is a translations, you have to translate existing tag instead of add new one."
+msgstr "Questo articolo è una traduzione, devi tradurre i tag esistenti invece di aggiungerne uno nuovo"
+
+msgid "Search existing tag:"
+msgstr "Cerca tra i tag esistenti:"
+
+msgid "Add new tag"
+msgstr "Aggiungi un nuovo tag"
+
+msgid "Confirm translation"
+msgstr "Conferma traduzione"
+
+msgid "Click to translate"
+msgstr "Clicck per tradurre"
+
+msgid "Post data"
+msgstr "Dati articolo"
+
+msgid "Page data"
+msgstr "Dati pagina"
+
+msgid "Tags"
+msgstr "Tags"
+
+msgid "Language:"
+msgstr "Lingua:"
+
+msgid "Show all languages"
+msgstr "Visualizza tutte le lingue"
+
+msgid "No tables found!"
+msgstr "Nessuna tabella trovata!"
+
+msgid "If you have uninstalled the plugin, you can remove the plugin now, or deactivate and activete it again to rebuild tables."
+msgstr "Se hai disinstallato il plugin, ora puoi rimuoverlo, oppure puoi disattivarlo e riattivarlo per ricreare le tabelle."
+
+msgid "If you haven't uninstalled the plugin, something goes wrong, please contact me <%s>here"
+msgstr "Se non hai disinstallato il plugin, qualcosa è andato storto, per favore contattami <%s> qui"
+
+msgid "Advanced"
+msgstr "Avanzate"
+
+msgid "Uninstall"
+msgstr "Disinstalla"
+
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr "Se si abbandona questa pagina i cambiamenti effettuati verranno persi ."
+
+msgid "Less"
+msgstr "Meno"
+
+msgid "More"
+msgstr "Altro"
+
+msgid "Delete"
+msgstr "Cancella"
+
+msgid "Restore"
+msgstr "Ripristina"
+
+msgid "Custom"
+msgstr "Personalizzato"
+
+msgid "Ceceppa Multilingua"
+msgstr "Ceceppa Multilingua"
+
+msgid "My translations"
+msgstr "Le mie traduzioni"
+
+msgid "Plugin"
+msgstr "Plugin"
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Show flags"
+msgstr "Visualizza bandiere"
+
+msgid "Settings"
+msgstr "Impostazioni"
+
+msgid "Documentation"
+msgstr "Documentazione"
+
+msgid "Api"
+msgstr "Api"
+
+msgid "Help"
+msgstr "Aiuto"
+
+msgid "Click here to show the meaning of language fields"
+msgstr "Clicca qui per visualizzare il significato dei campi della lingua"
+
+msgid "Basic"
+msgstr "Base"
+
+msgid "Intermediate"
+msgstr "Intermedie"
+
+msgid "Choose settings level"
+msgstr "Scegli il livello delle impostazioni"
+
+msgid "This is the list of your languages."
+msgstr "Questa è la lista delle lingue disponibili."
+
+msgid "Drag items for change its order."
+msgstr "Trascina le voci per cambiare l'ordine."
+
+msgid "Flag"
+msgstr "Bandiera"
+
+msgid "Click on flag for change or customize"
+msgstr "Clicca sulla bandiera per personalizzarla"
+
+msgid "Click on heart for set default language"
+msgstr "Clicca sul quore per impostare la lingua come predefinita"
+
+msgid "Click on &#10004; for set enable/disable language"
+msgstr "Clicca su ✔ per abilitare/disabilitare la lingua"
+
+msgid "Your languages"
+msgstr "Le tue lingue"
+
+msgid "Add language"
+msgstr "Aggiungi lingua"
+
+msgid "Search language"
+msgstr "Cerca lingue"
+
+msgid "Add custom language"
+msgstr "Aggiungi una lingua personalizzata"
+
+msgid "Save languages"
+msgstr "Salva le lingue"
+
+msgid "Theme language"
+msgstr "Lingua tema"
+
+msgid "Filter list"
+msgstr "Filtra la lista"
+
+msgid "Active language"
+msgstr "Lingua attiva"
+
+msgid "Choose the language of current post/page."
+msgstr "Scegli la lingua degli articoli/pagine correnti"
+
+msgid "means that post/page will available in all languages"
+msgstr "significa che l'articolo/pagina sarà disponibili in tutte le lingue"
+
+msgid "Post/Page language"
+msgstr "Lingua dell'articolo/pagina"
+
+msgid "Assign translations"
+msgstr "Assegna traduzioni"
+
+msgid "Assign the same post to multiple languages."
+msgstr "Assegna lo stesso articolo a più lingue."
+
+msgid "If you need you can assign post to multiple language"
+msgstr "Se ne hai bisogno puoi assegnare l'articolo a più lingue"
+
+msgid "In this case you can't choose the option \"All languages\" from \"Language\" combo, so you have to choose one of it existing languages, isn't important which one."
+msgstr "In questo caso però non puoi scegliere l'opzione \"Tutte le lingue\" dall'elenco \"Lingue\", devi necessariamente scegliere una lingua, non importa quale."
+
+msgid "Permalink will modified in according to current \"Url modification mode\" setting."
+msgstr "Il permalink verrà modificato in accordo all'opzione \"Modalità di modifica dell'url\"."
+
+msgid "When two post/page has same title Wordpress automatically append a number -## to permalink, don't worry the plugin will remove it in fronted."
+msgstr "Quando due articoli/pagine hanno lo stesso titolo Wordpress aggiunge automaticamente un numero -## al permalink, non preoccuparti verrà rimosso dal plugin in frontend."
+
+msgid "Permalink"
+msgstr "Permalink"
+
+msgid "For each languages you can customize \"Navigation label\" or url, but you have to save menu first"
+msgstr "Per ogni lingua puoi personalizzare l'\"Etichetta di navigazione\" oppure l'url, ma è necessario salvare prima il menu"
+
+msgid "Customize labels"
+msgstr "Personalizza le etichette"
+
+msgid "Set menu to switch"
+msgstr "Scegli quale menu verrà cambiato"
+
+msgid "Your theme support multiple menus, if you need to use different menu for each language you have to choose witch one switch"
+msgstr "Il tuo tema supporta menu multipli, se vuoi usare menu differenti per ogni lingua devi scegliere quello da cambiare"
+
+msgid "No tables found, Ceceppa Multilingua can't works correctly."
+msgstr "Nessuna tabella trovata, Ceceppa Multilingua non può funzionare correttamente."
+
+msgid "Disable and enable again the plugin for rebuild tables."
+msgstr "Disattiva e riattiva il plugin per ricostruire le tabelle"
+
+msgid "Tip"
+msgstr "Consigli"
+
+msgid "You can translate widget titles, or filter its visibility by language"
+msgstr "Puoi tradurre i titoli dei widget, oppure filtrarli per lingua"
+
+msgid "All items will be automatically translated when user switch between languages."
+msgstr "Tutte le voci vengono automaticamente tradotte quando l'utente cambia lingua"
+
+msgid "Add only pages existing in your default language, not their translation."
+msgstr "Aggiungi solo elementi presenti nella lingua predefinita, non le sue traduzioni!"
+
+msgid "You can customize navigation label in all language, or, for custom link, set different url for each language"
+msgstr "Puoi personalizzare le etichette di navigazione, oppure, per i Link personalizzati, impostare url differenti per ogni lingua"
+
+msgid "If you need different items for each languages, you can create menu for each language"
+msgstr "Se hai bisogno di voci differenti per ogni lingua, puoi creare un menu per ognuna di esse"
+
+msgid "Your theme must use the function: "
+msgstr "Il tuo tema deve utilizzare la funzione:"
+
+msgid "not: "
+msgstr "non:"
+
+msgid "Or Site/Tagline will not be translated!"
+msgstr "o il titolo/motto non verranno tradotti!"
+
+msgid "N.B.: When make changes to Site Title or Tagline you have to update translations"
+msgstr "N.B.: Quando fai delle modifiche al Titolo del sito o al motto devi aggiornare anche le traduzioni"
+
+msgid "You can override flags style by creating new file in: <i>%s</i> named: <b>\"ceceppaml.css\"</b>"
+msgstr "Puoi sovrascrivere lo stile delle bandiere creando un nuovo file in: <i>%s</i> col nome: <b>\"ceceppaml.css\"</b>"
+
+msgid "The class base is \"cml_flags\", and second class is added by each option"
+msgstr "La classe di base utilizzata  \"cml_flags\", e una seconda classe viene aggiunta da ogni opzione "
+
+msgid "Each option will generate &lt;ul&gt; list and current language will have \"current\" class"
+msgstr "Ogni opzione genera una lista <ul> ed alla lingua corrente verrà assegnata la classe \"current\""
+
+msgid "Class used by options:"
+msgstr "Classe utilizzata dall'opzione:"
+
+msgid "Show flags:"
+msgstr "Visualizza bandiere:"
+
+msgid "Add float div to website:"
+msgstr "Aggiungi un div volante al sito web:"
+
+msgid "This option will generate &lt;div&gt; with id #flying-flags that will contain the &lt;ul&gt; list"
+msgstr "Questa opzione genererà un <div> con l'id #flying-flags che conterrà la lista <ul>"
+
+msgid "Append flag to html element:"
+msgstr "Aggiungi la bandiera ad un elemento html"
+
+msgid "Don't overwrite \"ceceppaml.css\" in plugin path, because it will be overwritten by next update"
+msgstr "Non sovrascrivere il file \"ceceppaml.css\" presente nel percorso del plugin, perché verrà sovrascritto da"
+
+msgid "In \"My Languages\" box are listed your languages."
+msgstr "Nel riquadro \"Le mie lingue\" sono elencate tutte le tue lingue."
+
+msgid "For add new language click on item listed in \"Available languages\", and click on wanted flag to add it."
+msgstr "Per aggiungere una nuova lingua clicca su una voce dell'elenco \"Lingue disponibili\", e clicca sulla bandiera desiderata per aggiungerla."
+
+msgid "You can also use search box to search a language, or click on \"Add custon\" button to add custom one."
+msgstr "Puoi anche utilizzare la casella di ricerca per cercare una lingua, o cliccare su \"Aggiungi personalizzata\" per aggiungerne una personalizzata."
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "it is the name of language."
+msgstr "è il nome della lingua."
+
+msgid "Date format"
+msgstr "Formato data"
+
+msgid "you can use different date format for language."
+msgstr "puoi utilizzare un formato differente per la lingua."
+
+msgid "Language slug"
+msgstr "Abbreviazione lingua"
+
+msgid "this code will be used to build url. Example: it, en, ch, de"
+msgstr "questo codice è utilizzato per costruire l'url. Esempio: it, en, ch, de"
+
+msgid "WP Locale"
+msgstr "WP Locale"
+
+msgid "it is the code used by WordPress for each language."
+msgstr "è il codice utilizzato da Wordpress per ogni lingua."
+
+msgid "Right to left"
+msgstr "da destra a sinistra"
+
+msgid "it is used for right to left languages like Arabian, Hebrew and others."
+msgstr "è utilizzato per le lingue scritte da destra a sinistra come Arabo, Ebreo e altre."
+
+msgid "The order of language items will be used for sort generated flags."
+msgstr "L'ordine delle lingue verrà utilizzato per ordinare le lingue \"generate\"."
+
+msgid "When you choose to upload custom flags the plugin will create two copy of image Small ( 32x23 ) and Tiny ( 16x11 )."
+msgstr "Quando scegli di caricare delle bandiere personalizzate il plugin crea delle copie per la versione Piccola ( 32x23 ) e Piccolissima ( 16x11 )"
+
+msgid "If you don't like the quality of genearted images you can do manually for both size, and store it in %s, and later choose it from list."
+msgstr "Se non ti piace la qualità delle immagini generate puoi farlo manualmente per entrambe le dimensioni, e salvarle in %s, e selezionarle successivamente dall'elenco."
+
+msgid "Custom flags will be stored in: %s path."
+msgstr "Le bandiere personalizzate possono essere salvate nel percorso: %s."
+
+msgid "Security error"
+msgstr "Errore di sicurezza"
+
+msgid "Invalid image: "
+msgstr "Immagine non valida:"
+
+msgid "Language files"
+msgstr "Pacchetti lingua"
+
+msgid "Ceceppa Multilingua in your language"
+msgstr "Ceceppa Multilingua nella tua lingua"
+
+msgid "Remove translation"
+msgstr "Rimuovi traduzione"
+
+msgid "Group name"
+msgstr "Nome del gruppo"
+
+msgid "String"
+msgstr "Stringa"
+
 msgid "Post notice:"
 msgstr "Avviso articolo:"
 
-#: ../admin/layouts/class-mytranslations.php:177
 msgid "Page notice:"
 msgstr "Avviso pagina:"
 
-#: ../admin/layouts/options-uninstall.php:12
-msgid "This procedure will erase all plugin data from database"
-msgstr "Questa procedura cancella tutti i dati del plugin dal database"
-
-#: ../admin/layouts/options-uninstall.php:13
-msgid "Following tables will be dropped"
-msgstr "Le seguenti tabelle verranno cancellate"
-
-#: ../admin/layouts/options-uninstall.php:36
-msgid "This procedure cannot be undone!!!"
-msgstr "Questa procedura non può essere annullata!!! "
-
-#: ../admin/layouts/options-uninstall.php:41
-msgid ""
-"This procedure will remove ONLY plugin data, posts and other data will NOT "
-"be erased."
-msgstr ""
-"Questa procedura rimuove SOLO i dati del plugin, gli aarticoli e altri dati "
-"non verranno cancellati."
-
-#: ../admin/layouts/options-uninstall.php:46
-msgid "For recreate tables you have to disable and enable the plugin."
-msgstr "Per ricreare le tabelle devi disattivare e riattivare il plugin."
-
-#: ../admin/layouts/options-uninstall.php:52
-msgid "Yes, I read and I want to erase all data"
-msgstr "Si, ho letto e voglio cancellare tutti i dati"
-
-#: ../admin/layouts/options-uninstall.php:67
-msgid "Yes, I'm sure. DO IT!"
-msgstr "Si, sono sicuro. FALLO!"
-
-#: ../admin/layouts/options-uninstall.php:71
-msgid ""
-"Uninstall completed. Deactivate and activate the plugin to rebuild tables"
-msgstr ""
-"Disinstallazione completata. Disattivare e riattivare il plugin per ricreare "
-"le tabelle"
-
-#: ../admin/layouts/options-uninstall.php:81
-msgid "Uninstall the plugin:"
-msgstr "Disinstalla il plugin:"
-
-#: ../admin/layouts/options-uninstall.php:83
-msgid "Are you sure?"
-msgstr "Sei sicuro?"
-
-#: ../admin/layouts/translate-sitename.php:14
-msgid "Site title"
-msgstr "Titolo sito"
-
-#: ../admin/layouts/translate-my.php:15
 msgid "Notice"
 msgstr "Avviso"
 
-#: ../admin/layouts/translate-my.php:24
 msgid "You can use this translation with shortcode \"cml_translate\"."
 msgstr "Puoi utilizzare queste traduzioni con lo shortcode \"cml_translate\"."
 
-#: ../admin/layouts/translate-my.php:25
 msgid "Click here to see the shortcode page"
 msgstr "Clicca qui per vedere la pagina degli shortcode"
 
-#: ../admin/layouts/translate-my.php:34
 msgid "Plugin strings"
 msgstr "Stringhe del plugin"
 
-#~ msgid "Remove"
-#~ msgstr "Rimuovi"
+msgid "Add"
+msgstr "Aggiungi"
 
-#~ msgid "Debug"
-#~ msgstr "Debug"
+msgid "Update"
+msgstr "Aggiorna"
+
+msgid "Show only posts in current language"
+msgstr "Visualizza solo gli articoli nella lingua corrente"
+
+msgid "Show all posts, but hide their translation"
+msgstr "Visualizza tutti gli articoli, ma nascondi le loro traduzioni"
+
+msgid "Hide empty translations of posts and show in default language"
+msgstr "Nascondi le traduzioni vuote e visualizza invece gli articoli nella lingua predefinita"
+
+msgid "Choose which posts show"
+msgstr "Visualizza quali articoli mostrare"
+
+msgid "Show only the posts that exists in current language"
+msgstr "Visualizza solo gli articoli che esistono nella lingua corrente"
+
+msgid "Show also posts that has no translation in current language."
+msgstr "Visualizza anche gli articoli che non hanno alcuna traduzione nella lingua corrente."
+
+msgid "If a post doesn't have a translation in current language, post in \"default language\" will be shown"
+msgstr "Se un articolo non ha una traduzione nella lingua corrente, verrà visualizzato quello nella lingua predefinita"
+
+msgid "Allows you to filter the result of some widgets to display only those records relating to the current language."
+msgstr "Permette di filtrare i risultati di alcuni widget e mostrare solo i record relativi alla lingua corrente"
+
+msgid "Supported widgets:"
+msgstr "Widget supportati"
+
+msgid "Least reads posts"
+msgstr "Articoli più letti"
+
+msgid "Most commented"
+msgstr "Più commentati"
+
+msgid "Enable"
+msgstr "Abilitato"
+
+msgid "If enabled the plugin filter the query of Least reads posts and Most commented"
+msgstr "Se attivato il plugin filtra le query de \"Articoli più letti\" e \"Più commentati\""
+
+msgid "The others widget will be filtered only if they use the WP_Query class."
+msgstr "Gli altri widget verranno filtrati solo se usano la classe WP_Query"
+
+msgid "Filter wordpress search query"
+msgstr "Filtra la query di ricerca di Wordpress"
+
+msgid "Group"
+msgstr "Raggruppati"
+
+msgid "Ungroup"
+msgstr "Separati"
+
+msgid "When use is viewing a single post/page"
+msgstr "Quando l'utente sta visualizzando un singolo articolo/pagina"
+
+msgid "Show also comments of its translation"
+msgstr "Visualizza anche i commenti delle traduzioni"
+
+msgid "Each post shown only its comments"
+msgstr "Ogni post visualizza solo i suoi commenti"
+
+msgid "Translate menu items"
+msgstr "Traduci le voci del menu"
+
+msgid "Force language of items"
+msgstr "Forza la lingua per le voci"
+
+msgid "Hide items that doesn't exists in current language"
+msgstr "Nascondi voci che non esistono nella lingua corrente"
+
+msgid "Items will be changed with their translation"
+msgstr "Gli elementi verranno cambiati con le loro traduzioni"
+
+msgid "Page and category items will replace with their translation, if exists"
+msgstr "Le voci delle pagine e delle categorie verranno sostituite con le loro traduzioni, se esistono"
+
+msgid "Force items language "
+msgstr "Forza la lingua delle voci"
+
+msgid "If an item doesn't exists in current language, the plugin will add ?lang parameter to force item in current language"
+msgstr "Se la voce non esiste nella lingua corrente, il plugin aggiungerà il parametro ?lang per forzare la lingua richiesta."
+
+msgid "If the plugin doesn't translate correctly menu items when switching language, "
+msgstr "Se il plugin non traduce correttamente le voci del menu quando cambi lingua,"
+
+msgid "add items in all languages to menu and enable this option"
+msgstr "aggiungi gli elementi in tutte le lingue al menu e attiva questa opzione"
+
+msgid "The plugin will remove elements that doesn't exists in current language from menu"
+msgstr "Il plugin rimuoverà gli elementi dal menu che non esistono nella lingua corrente"
+
+msgid "Show/Hide help"
+msgstr "Visualizza/Nascondi guida"
+
+msgid "Filter posts:"
+msgstr "Filtra articoli:"
+
+msgid "Filter widgets"
+msgstr "Filtra widgets"
+
+msgid "Comments"
+msgstr "Commenti"
+
+msgid "Translate menu"
+msgstr "Traduci menu"
+
+msgid "Current language"
+msgstr "Lingua corrente"
+
+msgid "All languages except current"
+msgstr "Tutte le lingue tranne quella corrente"
+
+msgid "Ensure that folder %s if writable"
+msgstr "Verifica che il percorso %s sia scrivibile"
+
+msgid "Thanks for translated Ceceppa Multilingua in your language."
+msgstr "Grazie per aver tradotto Ceceppa Multilingua nella tua lingua."
+
+msgid "If translation is complete and you want to share it with us, download it:"
+msgstr "Se la traduzione è completa e vuoi condividerla con noi, scaricala:"
+
+msgid "and send it <%s>to me</a>, add also your name or nickname"
+msgstr "e <%s>inviamela</a>, aggiungi anche il tuo nome o nickname"
+
+msgid "If you like the plugin and you want translate it in your language, you can do from this page."
+msgstr "Se ti piace il plugin e vuoi tradurlo nella tua lingua, puoi farlo da questa pagina."
+
+msgid "After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks"
+msgstr "Dopo aver cliccato il pulsante \"Salva le modifiche\", segui le istruzioni e inviami la traduzione, grazie"
+
+msgid "If you want to customize widget titles you have to assign a title for each of them in \"Appearance\" -> \"Widgets\""
+msgstr "Se vuoi personalizzare i titoli dei widget è necessario assegnargli un titolo in \"Aspetto\" -> \"Widgets\""
+
+msgid "Title"
+msgstr "Titolo"
+
+msgid "Reset titles"
+msgstr "Resetta titoli"
+
+msgid "This procedure will erase all plugin data from database"
+msgstr "Questa procedura cancella tutti i dati del plugin dal database"
+
+msgid "Following tables will be dropped"
+msgstr "Le seguenti tabelle verranno cancellate"
+
+msgid "This procedure cannot be undone!!!"
+msgstr "Questa procedura non può essere annullata!!! "
+
+msgid "This procedure will remove ONLY plugin data, posts and other data will NOT be erased."
+msgstr "Questa procedura rimuove SOLO i dati del plugin, gli aarticoli e altri dati non verranno cancellati."
+
+msgid "For recreate tables you have to disable and enable the plugin."
+msgstr "Per ricreare le tabelle devi disattivare e riattivare il plugin."
+
+msgid "Yes, I read and I want to erase all data"
+msgstr "Si, ho letto e voglio cancellare tutti i dati"
+
+msgid "Yes, I'm sure. DO IT!"
+msgstr "Si, sono sicuro. FALLO!"
+
+msgid "Uninstall completed. Deactivate and activate the plugin to rebuild tables"
+msgstr "Disinstallazione completata. Disattivare e riattivare il plugin per ricreare le tabelle"
+
+msgid "Uninstall the plugin:"
+msgstr "Disinstalla il plugin:"
+
+msgid "Are you sure?"
+msgstr "Sei sicuro?"
+
+msgid "You can change the flag only after adding language."
+msgstr "Puoi cambiare la bandiera solo dopo aver aggiunto la lingua."
+
+msgid "Show help"
+msgstr "Visualizza aiuti"
+
+msgid "My languages"
+msgstr "Le mie lingue"
+
+msgid "Add custom"
+msgstr "Aggiungi personalizzata"
+
+msgid "Available languages"
+msgstr "Lingue disponibili"
+
+msgid "Translations generated succesfully"
+msgstr "Traduzioni generate con successo"
+
+msgid "Error generating translations, ensure that the folder %s is writable"
+msgstr "Errore durante la generazione delle traduzioni, assicurati che la cartella %s sia scrivibile"
+
+msgid "Oops, something goes wrong"
+msgstr "Oops, qualcosa è andato storto"
+
+msgid "Click for change or upload custom flag"
+msgstr "Clicca per cambiare o personalizzare la bandiera"
+
+msgid "Default language"
+msgstr "Lingua predefinita"
+
+msgid "Enable/Disable language"
+msgstr "Attiva/Disattiva lingua"
+
+msgid "Upload custom image"
+msgstr "Carica immagine personalizzata"
+
+msgid "Date format: %s. <br /> Click for edit"
+msgstr "Formato data: %s. <br /> Clicca per modificare"
+
+msgid "Automatically redirects the browser depending on the visitor's language."
+msgstr "Reindirizza automaticamente il browser secondo con la lingua del visitatore."
+
+msgid "Automatically redirects the default language."
+msgstr "Reindirizza automaticamente alla lingua predefinita."
+
+msgid "Redirect only if visitor language is different from default one"
+msgstr "Reindirizza soltanto se la lingua del visitatore è differente da quella predefinita"
+
+msgid "Do nothing"
+msgstr "Non fare nulla"
+
+msgid "Choose what to do when user visit your homepage"
+msgstr "Scegli cosa fare quando un utente visita la tua homepage"
+
+msgid "Redirects the browser depending on the user's language."
+msgstr "Reindirizza il browser in base alla lingua dell'utente"
+
+msgid "User will be redirected to their language, otherwise to default one"
+msgstr "L'utente verrà reindirizzato alla propria lingua, altrimenti a quella predefinita"
+
+msgid "Automatically redirects to default language."
+msgstr "Reindirizza automaticamente alla lingua predefinita."
+
+msgid "The plugin add the slug of default language"
+msgstr "Il plugin aggiunge l'abbreviazione della lingua predefinita"
+
+msgid "The plugin doesn't add language slug to url for default language"
+msgstr "Il plugin non aggiunge l'abbreviazione della lingua per quella di default"
+
+msgid "The plugin does nothing, doesn't modify the home url.<br /> The content of site will be in default language"
+msgstr "Il plugin non fa nulla, non modifica l'url della home.<br />Il contenuto del sito sarà nella lingua predefinita"
+
+msgid "Default language will be used if visitor language isn't available"
+msgstr "La lingua predefinita viene utilizzato se la lingua del visitatore non è disponibile"
+
+msgid "Use Pre-Path Mode"
+msgstr "Usa la modalità Pre-Path"
+
+msgid "This mode doesn't work with default permalink!!!"
+msgstr "Questa modalità non funziona con la struttura permalink predefinita!!!"
+
+msgid "Ignore for default language"
+msgstr "Ignora per la lingua predefinita"
+
+msgid "Use Pre-Domain Mode"
+msgstr "Usa la modalità Pre-Dominio"
+
+msgid "Append the suffix <strong>&amp;lang=</strong> to the url"
+msgstr "Aggiunge il suffisso <strong>&lang=</strong> alla url"
+
+msgid "Choose the style of your links. Example:"
+msgstr "Scegli lo stile dei tuoi link. Esempio:"
+
+msgid "Pre-Path"
+msgstr "Pre-Path"
+
+msgid "Default, puts /[language slug]/ in front of URL"
+msgstr "Predefinito, pone /[abbreviazione lingua]/ davanti all'URL"
+
+msgid "If you enable the option: "
+msgstr "Se abiliti l'opzione"
+
+msgid "language slug will be added only to translations"
+msgstr "l'abbreviazione lingua verrà aggiunta solo alle traduzioni"
+
+msgid "Default"
+msgstr "Predefinito"
+
+msgid "Pre-Domain"
+msgstr "Pre-Domain"
+
+msgid "Append suffix"
+msgstr "Aggiungi suffisso"
+
+msgid "Translate categoriy url"
+msgstr "Traduci l'url per le categorie"
+
+msgid "Translate the url for category links."
+msgstr "Traduci l'url per i link delle categorie"
+
+msgid "Example"
+msgstr "Esempio"
+
+msgid "When the post/page is available in visitor language:"
+msgstr "Quando un articolo/pagina è disponibile nella lingua del visitatore:"
+
+msgid "Add notice to:"
+msgstr "Aggiungi avviso a:"
+
+msgid "Posts"
+msgstr "Articoli"
+
+msgid "Pages"
+msgstr "Pagine"
+
+msgid "Ignore"
+msgstr "Ignora"
+
+msgid "Where to show the alert"
+msgstr "Dove visualizzare l'avviso"
+
+msgid "On the top of page/post"
+msgstr "All'inizio dell'articolo/pagina"
+
+msgid "On the bottom of page/post"
+msgstr "Alla fine dell'articolo/pagina"
+
+msgid "Cusomize notice:"
+msgstr "Personalizza avviso:"
+
+msgid "Click here for translate notice"
+msgstr "Clicca qui per tradurre l'avviso"
+
+msgid "Before:"
+msgstr "Prima:"
+
+msgid "After:"
+msgstr "Dopo:"
+
+msgid "Notice visitor that post/page that is visiting is available in his language"
+msgstr "Avvisa l'utente che l'articolo/pagina è disponibile nella sua lingua"
+
+msgid "Change date format"
+msgstr "Cambia il formato della data"
+
+msgid "Apply date format defined in language item"
+msgstr "Applica il formato della data definito nella voce della lingua"
+
+msgid "Set the language of wordpress, in according of selected language"
+msgstr "Imposta la lingua di wordpress in base alla lingua selezionata"
+
+msgid "Change wordpress locale in according to current language."
+msgstr "Cambia il locale di wordpress alla lingua corrente"
+
+msgid "If enabled language of all plugins and theme will switch in current language, if a translation exists"
+msgstr "Se attivo, la lingua del tema e di tutti i plugin verrà cambiata in quella corrente, se esistono le traduzioni"
+
+msgid "Categories & Tags"
+msgstr "Categorie & Tags"
+
+msgid "Change wordpress language:"
+msgstr "Cambia la lingua di wordpress"
+
+msgid "When you add a language the plugin will try to download corresponding WordPress language files. If for, some reason, it fails you can try to download them at: "
+msgstr "Quando aggiungi una lingua il plugin proverà a scaricare i relativi pacchetti lingua per Wordpress. Se, per qualche motivo, qualcosa va storto puoi provare a scaricarli da:"
+
+msgid "You then would have to upload these files to the '/wp-content/languages/' directory"
+msgstr "e poi devi caricarli nella cartella '/wp-content/languages/'"
+
+msgid "If your language is not available on previous link you have to install it manually. For more information"
+msgstr "Se la la tua lingua non è disponibile nel link precedente devi installarla manualmente. Per maggiori informazioni"
+
+msgid "If translation of current post/page doesn't exists in flag language:"
+msgstr "Se la traduzione dell'articolo/pagine corrente non esiste nella lingua della bandiera: "
+
+msgid "Switch always to flag language"
+msgstr "Vai sempre alla lingua della bandiera"
+
+msgid "Go to homepage"
+msgstr "Vai alla pagina iniziale"
+
+msgid "Set the behavior of the flags when current page doesn't exists in flag language"
+msgstr "Scegli il comportamento delle bandiere quando la pagina corrente non è disponibile nella lingua della bandiera"
+
+msgid "The plugin will add language slug ( ?lang=## ) to url when translation doesn't exists in flag language"
+msgstr "Il plugin aggiunge l'abbreviazione della lingua ( ?lang=## ) alla url quando la traduzione non esiste"
+
+msgid "Show flags on:"
+msgstr "Visualizza le bandiere su:"
+
+msgid "Custom posts"
+msgstr "Custom posts"
+
+msgid "Loop"
+msgstr "Ciclo"
+
+msgid "Where:"
+msgstr "Dove:"
+
+msgid "Before the title"
+msgstr "Prima del titolo"
+
+msgid "After the title"
+msgstr "Dopo il titolo"
+
+msgid "Before post/page content"
+msgstr "Prima del contenuto dell'articolo/pagina"
+
+msgid "After post/page content"
+msgstr "Dopo il contenuto dell'articolo/pagina"
+
+msgid "When:"
+msgstr "Quando:"
+
+msgid "Show flags only on translated page."
+msgstr "Visualizza le bandiere solo sulle pagine tradotte."
+
+msgid "Choose where show flags"
+msgstr "Scegli dove visualizzare le bandiere"
+
+msgid " Custom css:"
+msgstr "Personalizza css:"
+
+msgid " Display items as:"
+msgstr "Visualizza gli elementi come:"
+
+msgid "Add a div, with #flying-flags, after the footer of the page."
+msgstr "Aggiunge un div, cib #flying-flags, dopo il \"footer\" della pagina."
+
+msgid "Use the textarea for customize the style."
+msgstr "Utilizza l'area di testo per personalizzare lo stile"
+
+msgid "Id or class of element to add flags:"
+msgstr "Id o classe dell'elemento dove aggiungere le bandiere:"
+
+msgid "use # for id, or . for class"
+msgstr "usa # per l'id, oppure . per la classe"
+
+msgid "Create a div with id #cml-lang, and append it to desired element throught append method of jQuery"
+msgstr "Crea un div con id #cml-lang, e lo append all'elemento html desiderato mediante il metodo \"append\" di jQuery"
+
+msgid "Style"
+msgstr "Stile"
+
+msgid "Add an item for each language"
+msgstr "Aggiungi un elemento per ogni lingua"
+
+msgid "Add items in submenu"
+msgstr "Aggiungi gli elementi al sottomenu"
+
+msgid "Add to"
+msgstr "Aggiungi a"
+
+msgid "You can add flags to menu throught <b>Aspect -> Menu page</b>, or enabling this option."
+msgstr "Puoi aggiungere le bandiere al menu dalla pagina <b>Aspetto -> Menu </b>, o abilitando questa opzione."
+
+msgid "Use this box for also customize the style of items added throught <b>Aspect -> Menu page</b>"
+msgstr "Utilizza questo riquadro per personalizzare anche gli elementi aggiunti tramite <b>Aspetto -> Menu</b>"
+
+msgid "Flag + name"
+msgstr "Bandiera + Nome"
+
+msgid "Name only"
+msgstr "solo Nome"
+
+msgid "Flag only"
+msgstr "solo Bandiera"
+
+msgid "Flag + Language slug"
+msgstr "Bandiera + Abbreviazione linuga"
+
+msgid "Flags size:"
+msgstr "Dimensione bandiere:"
+
+msgid "Small"
+msgstr "Piccola"
+
+msgid "Tiny"
+msgstr "Piccolissima"
+
+msgid " Style:"
+msgstr "Stile:"
+
+msgid "List"
+msgstr "Elenco"
+
+msgid "Combo"
+msgstr "Combo"
+
+msgid "Translation not available:"
+msgstr "Traduzione non disponibile:"
+
+msgid "Add flags to menu:"
+msgstr "Aggiungi le bandiere al menu:"
+
+msgid "Helps restored succesfully"
+msgstr "Aiuti ripristinati con successo"
+
+msgid "Start wizard"
+msgstr "Procedura guidata"
+
+msgid "Start wizard againg. Current settings will not be erased"
+msgstr "Avvia di nuovo la procedura guidata. Le impostazioni correnti non verranno cancellate"
+
+msgid "Restore helps"
+msgstr "Ripristina aiuti"
+
+msgid "Automatically assign default language to existing posts"
+msgstr "Assegna automaticamente la lingua predefinita agli articoli esistenti"
+
+msgid "Wizard"
+msgstr "Procedura guidata"
+
+msgid "Update language of existing posts"
+msgstr "Aggiorna la lingua degli articoli esistenti"
+
+msgid "Update post relations"
+msgstr "Aggiorna relazioni tra i post"
+
+msgid "Thanks for using Ceceppa Multilingua"
+msgstr "Grazie per l'utilizzo di Ceceppa Multilingua"
+
+msgid "If you like this plugin, please donate to support development and maintenance"
+msgstr "Se hai gradito \"Ceceppa Multilingua\", sostieni con una donazione il suo sviluppo e il suo mantenimento "
+
+msgid "Rate Ceceppa Multilingua 5%s's on WordPress.org"
+msgstr "Valuta Ceceppa Multilingua con 5%s su WordPress.org"
+
+msgid "Talk about it on your site and link back to the"
+msgstr "Parla del plugin sul tuo sito e aggiungi il link nella"
+
+msgid "plugin page."
+msgstr "pagina del plugin."
+
+msgid "I use Ceceppa Multilingua for WordPress and you should too"
+msgstr "Io uso Ceceppa Multilingua per WordPress e dovresti farlo anche tu"
+
+msgid "Tweet about it."
+msgstr "Twitta il plugin."
+
+msgid "Translate it in your language."
+msgstr "Traducilo nella tua lingua."
+
+msgid "Don't hesitate to report bugs or ask for new features on the <%s>support forum.</a>"
+msgstr "Non esitare a riportare bug o chiedere nuove caratteristiche sul <%s>forum di supporto.</a>"
+
+msgid "Subscribe to official <%s>Google + page</a>,"
+msgstr "Iscriviti alla pagina ufficiale su <%s>Google +</a>,"
+
+msgid "I use to announce development versions and then, test the new versions and report bugs before the final release."
+msgstr "Qui annuncerò le versioni di sviluppo e potrai testarle, riportare bug prima della versione finale."
+
+msgid "Development code is available on github"
+msgstr "Il codice di sviluppo è disponibile su github"
+
+msgid "Setting up a WordPress multilingual site with Ceceppa Multilingua"
+msgstr "Imposta un sito WordPress multilingua con Ceceppa Multilingua"
+
+msgid "About Ceceppa:"
+msgstr "Info su Ceceppa:"
+
+msgid "Donate:"
+msgstr "Dona:"
+
+msgid "Contribute:"
+msgstr "Contribuisci:"
+
+msgid "Documentation:"
+msgstr "Documentazione:"
+
+msgid "Translate title in:"
+msgstr "Traduci titolo in"
+
+msgid "Filter widget"
+msgstr "Filtra widget"
+
+msgid "Show"
+msgstr "Visualizza"
+
+msgid "Hide"
+msgstr "Nascondi"
+
+msgid "If current language is: "
+msgstr "Se la lingua corrente è:"
+
+msgid "Update required, click here for update posts relations"
+msgstr "Aggiornamento richiesto, clicca qui per aggiornare la relazione tra i post"
+
+msgid "Manage languages"
+msgstr "Gestisci lingue"
+
+msgid "generated from \"wpml-config.xml\""
+msgstr "generato da \"wpml-config.xml\""
+
+msgid "Current plugins contains WPML Language Configuration Files ( wpml-config.xml )"
+msgstr "I plugin elencati contengono  il file di configurazione della lingua di WPML ( wpml-config.xml )"
+
+msgid "officially supported"
+msgstr "supportato ufficialmente"
+
+msgid "Support to wpml-config.xml is experimental and could not works correctly"
+msgstr "Il supporto ai file wpml-config.xml è sperimentale e potrebbe non funzionare correttamente"
+
+msgid "Your theme is designed for WPML"
+msgstr "Il tuo tema è stato progettato per WPML"
+
+msgid "Support for theme compatible with WPML is experimental and could not works correctly, if you need help contact me."
+msgstr "Il supporto per i temi compatibili con WPML è sperimentale e potrebbe non funzionare correttamente, se hai bisogno di aiuto contattami."
 
 msgid "Hello"
 msgstr "Ciao"
 
-msgid "Categories & Tags"
-msgstr "Categorie & Tag"
+msgid "CML: Recent Posts"
+msgstr "CML: Articoli recenti"
+
+msgid "CML: Language Chooser"
+msgstr "CML: Selettore lingua"
+
+msgid "Show the list of available languages"
+msgstr "Visualizza la lista delle lingue disponibili"
+
+msgid "Show:"
+msgstr "Visualizza:"
+
+msgid "Flag's size:"
+msgstr "Dimensione bandiere:"
+
+msgid "Css ClassName:"
+msgstr "Nome della classe css:"
+
+msgid "CML: Text"
+msgstr "CML: Testo"
+
+msgid "You can write arbitrary text or HTML separately for each language"
+msgstr "Puoi scrivere del testo oppure codice HTML separato per ogni lingua"
+

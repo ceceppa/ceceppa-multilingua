@@ -30,6 +30,5 @@ echo <<< EOT
 EOT;
 }
 
-$parser = new CMLParser( wp_get_theme()->name, $lid,
-                        get_template_directory(), $GLOBALS[ '_cml_theme_locale_path' ] );
+$parser = new CMLParser( wp_get_theme()->name, get_template_directory(), $GLOBALS[ '_cml_theme_locale_path' ] );
 ?>

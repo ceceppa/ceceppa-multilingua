@@ -46,7 +46,7 @@ echo <<< EOT
 EOT;
   }
   //Translate Ceceppa Multilingua :)
-  $parser = new CMLParser( "Ceceppa Multilingua", "en", CML_PLUGIN_PATH, CML_PLUGIN_LANGUAGES_PATH, "ceceppaml", false, "cml-plugin" );
+  $parser = new CMLParser( "Ceceppa Multilingua", CML_PLUGIN_PATH, CML_PLUGIN_LANGUAGES_PATH, "ceceppaml", false, "cml-plugin" );
 }
 
 add_meta_box( 'cml-translate-cml', __( 'Ceceppa Multilingua in your language', 'ceceppaml' ), 'cml_translate_cml', 'cml_box_languages' );

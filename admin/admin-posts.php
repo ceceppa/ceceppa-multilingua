@@ -301,7 +301,7 @@ function cml_admin_add_meta_boxes() {
   $posts = array( "post", "page" );
 
   // remove_meta_box('tagsdiv-post_tag','post','side');
-  add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );
+  // add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );
 
   foreach( $post_types as $post_type ) {
     if( ! in_array( $post_type, $posts ) ) {

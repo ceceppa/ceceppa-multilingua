@@ -1661,9 +1661,9 @@ EOT;
       $this->_hide_diff = true;
     }
 
-    if( ! empty ( $posts ) ) {
-      $wp_query->query_vars[ 'post__in' ] = $posts;
-    }
+    // if( ! empty ( $posts ) ) {
+    $wp_query->query_vars[ 'post__in' ] = $posts;
+    // }
 
     if( $wp_query->is_main_query() ) {
       $this->change_menu();

@@ -1,10 +1,13 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
-function cml_utils_create_checkbox( $label, $id, $name, $option, $checked_value ) {
-  $_cml_settings = & $GLOBALS[ '_cml_settings' ];
+function cml_utils_create_checkbox( $label, $id, $name, $option, $checked_value, $selected = null ) {
+  if( null != $option ) {
+    $_cml_settings = & $GLOBALS[ '_cml_settings' ];
+    $selected = $_cml_settings[ $option ];
+  } 
 
-  $checked = checked( $_cml_settings[ $option ], $checked_value, false );
+  $checked = checked( $selected, $checked_value, false );
 
 return <<< EOT
   <div class="cml-checkbox">

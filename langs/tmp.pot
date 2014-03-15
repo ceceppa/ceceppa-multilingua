@@ -1,24 +1,3 @@
-Debug
-Languages
-Post relations
-Translations
-CML: Recent Posts
-CML: Language Chooser
-Show the list of available languages
-Show:
-Flag only
-Name only
-Flag + name
-Language slug
-Flag + Language slug
-List
-Flag\'s size:
-Small
-Tiny
-Css ClassName:
-CML: Text
-You can write arbitrary text or HTML separately for each language
-Hello
 Shortcodes
 Translate strings in different languages
 How to use the translations saved in "My Translations" page
@@ -33,12 +12,139 @@ Suppose that our default language is <strong>"English"</strong>, and we have:
 If we want to translate the word <strong>"Hello"</strong> in "Italian", we have to write:
 This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list
 This shortcode is available also as function with same name and paramaters
-My translations
+Debug
+Languages
+Post relations
+Translations
+Manage your languages
+Choose filter and url style
+Translate your site
+Welcome to Ceceppa Multilingua
+These wizard will guides you in basic configure of the plugin
+Update your posts language
+Click <a href="%s">here</a> to assign "%s" to existing posts and pages.
+detected language
+was automatically added to your languages
+Click <%s>here</a> to manage languages
+Add your languages
+go to step
+Filters
+Customize which posts show in according to current language
+Actions
+Choose the style of your
+Homepage
+Detect browser language and:
+Links
+Url Modification mode:
+Enable notices
+Show notice
+During Wizard will be shown only basic settings, click on \"Ceceppa Multilingua\" -> \"Settings\" for see all available options
+Don't forget to click on \"Save\" button before change tab.
+Now you can start to translate
+Your posts
+Site Title/Tagline
 Widget titles
-Theme
-All languages
-Language: 
+Current theme
+This plugin
+or
+Enable flags on your site/pages
+Filter widgets by language
+See all available options
+Done, close wizard
+Select the name of your primary menu:
+Save
+Flags
+No translable strings founds in %s
+Failed to open %s path
+Available languages: 
+Translate in:
+Choose in which languages you want to translate: 
+All strings
+To translate
+Incomplete
+Translated
+Save Changes
+You have to choose in which language you want to translate: 
+Search
+Text
+Translation
+Translate
+Translation complete
+Failed to open stream %s: Permission denied
+Failed to create folder: %s
 Error writing file: %s
+Generated files:
+Language
+All languages
+Add translation
+None
+Language: 
+Edit post: 
+Translate to:
+This post is a translations, you have to translate existing tag instead of add new one.
+Search existing tag:
+Add new tag
+Confirm translation
+Click to translate
+Post data
+Page data
+Tags
+Language:
+Show all languages
+No tables found!
+If you have uninstalled the plugin, you can remove the plugin now, or deactivate and activete it again to rebuild tables.
+If you haven't uninstalled the plugin, something goes wrong, please contact me <%s>here
+Advanced
+Uninstall
+The changes you made will be lost if you navigate away from this page.
+Less
+More
+Delete
+Restore
+Custom
+Ceceppa Multilingua
+My translations
+Plugin
+Theme
+Show flags
+Settings
+Documentation
+Api
+Help
+Click here to show the meaning of language fields
+Basic
+Intermediate
+Choose settings level
+This is the list of your languages.
+Drag items for change its order.
+Flag
+Click on flag for change or customize
+Click on heart for set default language
+Click on &#10004; for set enable/disable language
+Your languages
+Add language
+Search language
+Add custom language
+Save languages
+Theme language
+Filter list
+Active language
+Choose the language of current post/page.
+means that post/page will available in all languages
+Post/Page language
+Assign translations
+Assign the same post to multiple languages.
+If you need you can assign post to multiple language
+In this case you can't choose the option \"All languages\" from \"Language\" combo, so you have to choose one of it existing languages, isn't important which one.
+Permalink will modified in according to current "Url modification mode" setting.
+When two post/page has same title Wordpress automatically append a number -## to permalink, don't worry the plugin will remove it in fronted.
+Permalink
+For each languages you can customize "Navigation label" or url, but you have to save menu first
+Customize labels
+Set menu to switch
+Your theme support multiple menus, if you need to use different menu for each language you have to choose witch one switch
+No tables found, Ceceppa Multilingua can't works correctly.
+Disable and enable again the plugin for rebuild tables.
 Tip
 You can translate widget titles, or filter its visibility by language
 All items will be automatically translated when user switch between languages.
@@ -65,102 +171,30 @@ Name
 it is the name of language.
 Date format
 you can use different date format for language.
+Language slug
 this code will be used to build url. Example: it, en, ch, de
 WP Locale
 it is the code used by WordPress for each language.
 Right to left
 it is used for right to left languages like Arabian, Hebrew and others.
 The order of language items will be used for sort generated flags.
+When you choose to upload custom flags the plugin will create two copy of image Small ( 32x23 ) and Tiny ( 16x11 ).
 If you don't like the quality of genearted images you can do manually for both size, and store it in %s, and later choose it from list.
 Custom flags will be stored in: %s path.
-No tables found!
-If you have uninstalled the plugin, you can remove the plugin now, or deactivate and activete it again to rebuild tables.
-If you haven't uninstalled the plugin, something goes wrong, please contact me <%s>here
-If translation of current post/page doesn't exists in flag language:
-Switch always to flag language
-Go to homepage
-Set the behavior of the flags when current page doesn't exists in flag language
-Show flags on:
-Posts
-Pages
-Custom posts
-Loop
-Where:
-Before the title
-After the title
-Before post/page content
-After post/page content
-When:
-Show flags only on translated page.
-Choose where show flags
- Custom css:
- Display items as:
-Add a div, with #flying-flags, after the footer of the page.
-Use the textarea for customize the style.
-Id or class of element to add flags:
-use # for id, or . for class
-Create a div with id #cml-lang, and append it to desired element throught append method of jQuery
-Style
-Add an item for each language
-Add items in submenu
-Add to
-You can add flags to menu throught <b>Aspect -> Menu page</b>, or enabling this option.
-Use this box for also customize the style of items added throught <b>Aspect -> Menu page</b>
-Flags size:
- Style:
-Combo
-Show/Hide help
-Translation not available:
-Add flags to menu:
-Helps restored succesfully
-Start wizard
-Start wizard againg. Current settings will not be erased
-Restore helps
-Click <a href="%s">here</a> to assign "%s" to existing posts and pages.
-Automatically assign default language to existing posts
-Wizard
-Update language of existing posts
-Update post relations
-Current language
-All languages except current
-You can change the flag only after adding language.
-Basic
-Intermediate
-Advanced
-Settings
-Show help
-Save
-My languages
-Search language
-or
-Add custom
-Available languages
-Translations generated succesfully
-Error generating translations, ensure that the folder %s is writable
-Oops, something goes wrong
-Click for change or upload custom flag
-Default language
-Enable/Disable language
-Custom
-Upload custom image
-Date format: %s. <br /> Click for edit
-Delete
-Close
-Add
-Less
-More
-Save Changes
-Something goes wring, cannot generate .mo files :(
-Ensure that folder %s if writable
-Thanks for translated Ceceppa Multilingua in your language.
-If translation is complete and you want to share it with us, download it:
-and send it <%s>to me</a>, add also your name or nickname
-If you like the plugin and you want translate it in your language, you can do from this page.
-After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks
+Security error
+Invalid image: 
+Language files
 Ceceppa Multilingua in your language
-If you want to customize widget titles you have to assign a title for each of them in "Appearance" -> "Widgets"
-Title
-Reset titles
+Remove translation
+Group name
+String
+Post notice:
+Page notice:
+Notice
+You can use this translation with shortcode "cml_translate".
+Click here to see the shortcode page
+Plugin strings
+Add
 Update
 Show only posts in current language
 Show all posts, but hide their translation
@@ -192,11 +226,45 @@ If an item doesn't exists in current language, the plugin will add ?lang paramet
 If the plugin doesn\'t translate correctly menu items when switching language, 
 add items in all languages to menu and enable this option
 The plugin will remove elements that doesn\'t exists in current language from menu
+Show/Hide help
 Filter posts:
 Filter widgets
-Search
 Comments
 Translate menu
+Current language
+All languages except current
+Ensure that folder %s if writable
+Thanks for translated Ceceppa Multilingua in your language.
+If translation is complete and you want to share it with us, download it:
+and send it <%s>to me</a>, add also your name or nickname
+If you like the plugin and you want translate it in your language, you can do from this page.
+After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks
+If you want to customize widget titles you have to assign a title for each of them in "Appearance" -> "Widgets"
+Title
+Reset titles
+This procedure will erase all plugin data from database
+Following tables will be dropped
+This procedure cannot be undone!!!
+This procedure will remove ONLY plugin data, posts and other data will NOT be erased.
+For recreate tables you have to disable and enable the plugin.
+Yes, I read and I want to erase all data
+Yes, I'm sure. DO IT!
+Uninstall completed. Deactivate and activate the plugin to rebuild tables
+Uninstall the plugin:
+Are you sure?
+You can change the flag only after adding language.
+Show help
+My languages
+Add custom
+Available languages
+Translations generated succesfully
+Error generating translations, ensure that the folder %s is writable
+Oops, something goes wrong
+Click for change or upload custom flag
+Default language
+Enable/Disable language
+Upload custom image
+Date format: %s. <br /> Click for edit
 Automatically redirects the browser depending on the visitor\'s language.
 Automatically redirects the default language.
 Redirect only if visitor language is different from default one
@@ -214,7 +282,6 @@ This mode doesn\'t work with default permalink!!!
 Ignore for default language
 Use Pre-Domain Mode
 Append the suffix <strong>&amp;lang=</strong> to the url
-None
 Choose the style of your links. Example:
 Pre-Path
 Default, puts /[language slug]/ in front of URL
@@ -228,6 +295,8 @@ Translate the url for category links.
 Example
 When the post/page is available in visitor language:
 Add notice to:
+Posts
+Pages
 Ignore
 Where to show the alert
 On the top of page/post
@@ -242,37 +311,60 @@ Apply date format defined in language item
 Set the language of wordpress, in according of selected language
 Change wordpress locale in according to current language.
 If enabled language of all plugins and theme will switch in current language, if a translation exists
-Detect browser language and:
-Url Modification mode:
-Show notice
 Categories & Tags
 Change wordpress language:
 When you add a language the plugin will try to download corresponding WordPress language files. If for, some reason, it fails you can try to download them at: 
 You then would have to upload these files to the '/wp-content/languages/' directory
 If your language is not available on previous link you have to install it manually. For more information
-Group name
-String
-Translation
-Post notice:
-Page notice:
-This procedure will erase all plugin data from database
-Following tables will be dropped
-This procedure cannot be undone!!!
-This procedure will remove ONLY plugin data, posts and other data will NOT be erased.
-For recreate tables you have to disable and enable the plugin.
-Yes, I read and I want to erase all data
-Yes, I'm sure. DO IT!
-Uninstall completed. Deactivate and activate the plugin to rebuild tables
-Uninstall the plugin:
-Are you sure?
-You can use this translation with shortcode "cml_translate".
-Click here to see the shortcode page
-All strings
-Plugin strings
-Filters
-Actions
-Uninstall
-Update required, click here for update posts relations
+If translation of current post/page doesn't exists in flag language:
+Switch always to flag language
+Go to homepage
+Set the behavior of the flags when current page doesn't exists in flag language
+The plugin will add language slug ( ?lang=## ) to url when translation doesn't exists in flag language
+Show flags on:
+Custom posts
+Loop
+Where:
+Before the title
+After the title
+Before post/page content
+After post/page content
+When:
+Show flags only on translated page.
+Choose where show flags
+ Custom css:
+ Display items as:
+Add a div, with #flying-flags, after the footer of the page.
+Use the textarea for customize the style.
+Id or class of element to add flags:
+use # for id, or . for class
+Create a div with id #cml-lang, and append it to desired element throught append method of jQuery
+Style
+Add an item for each language
+Add items in submenu
+Add to
+You can add flags to menu throught <b>Aspect -> Menu page</b>, or enabling this option.
+Use this box for also customize the style of items added throught <b>Aspect -> Menu page</b>
+Flag + name
+Name only
+Flag only
+Flag + Language slug
+Flags size:
+Small
+Tiny
+ Style:
+List
+Combo
+Translation not available:
+Add flags to menu:
+Helps restored succesfully
+Start wizard
+Start wizard againg. Current settings will not be erased
+Restore helps
+Automatically assign default language to existing posts
+Wizard
+Update language of existing posts
+Update post relations
 Thanks for using Ceceppa Multilingua
 If you like this plugin, please donate to support development and maintenance
 Rate Ceceppa Multilingua 5%s's on WordPress.org
@@ -284,122 +376,31 @@ Translate it in your language.
 Don't hesitate to report bugs or ask for new features on the <%s>support forum.</a>
 Subscribe to official <%s>Google + page</a>,
 I use to announce development versions and then, test the new versions and report bugs before the final release.
+Development code is available on github
 Setting up a WordPress multilingual site with Ceceppa Multilingua
 About Ceceppa:
 Donate:
 Contribute:
 Documentation:
-Security error
-Invalid image: 
-Language files
-Manage your languages
-Choose filter and url style
-Translate your site
-Welcome to Ceceppa Multilingua
-These wizard will guides you in basic configure of the plugin
-Update your posts language
-detected language
-was automatically added to your languages
-Click <%s>here</a> to manage languages
-Add your languages
-go to step
-Customize which posts show in according to current language
-Choose the style of your
-Homepage
-Links
-Enable notices
-During Wizard will be shown only basic settings, click on \"Ceceppa Multilingua\" -> \"Settings\" for see all available options
-Don't forget to click on \"Save\" button before change tab.
-Now you can start to translate
-Your posts
-Site Title/Tagline
-Current theme
-This plugin
-Enable flags on your site/pages
-Filter widgets by language
-See all available options
-Done, close wizard
-No translable strings founds in %s
-Failed to open %s path
-Available languages: 
-Main language:
-To translate
-Incomplete
-Translated
-Text
-Translate
-Translation complete
-Translation not complete
-Failed to open stream %s: Permission denied
-Something goes wrong :\'(. I don\'t know where to store .mo file
-Failed to create folder: %s
-Generated files:
-The changes you made will be lost if you navigate away from this page.
-Restore
-Ceceppa Multilingua
-Plugin
-Flags
-Show flags
-Documentation
-Shortcode
-Api
-You can order languages, set the default one, enable/disable them 
-You can also edit language name and date format
-You can change flag and edit all language fields
-Choose settings level
-This is the list of your languages.
-Drag items for change its order.
-Flag
-Click on flag for change or customize
-Click on heart for set default language
-Click on &#10004; for set enable/disable language
-Your languages
-Add language
-List of all available languages.<br /> Click on item to choose flag and add it to your languages
-Search the language from the availables and click for add it
-Add custom language
-Click here for add custom language
-Save languages
-Click here for save changes
-Theme language
-If theme language is one of your language, choose it so that plugin will exclude it from translation table.
-Help
-Click here for show/hide help
-Filter list
-Filter list by language
-Click here to filter list by language
-Active language
-This is the style of current language
-Choose the language of current post/page.
-means that post/page will available in all languages
-Post/Page language
-Assign translations
-Assign the same post to multiple languages.
-If you need you can assign post to multiple language
-In this case you can't choose the option \"All languages\" from \"Language\" combo, so you have to choose one of it existing languages, isn't important which one.
-Click here Add/Edit translation
-Permalink will modified in according to current "Url modification mode" setting.
-When two post/page has same title Wordpress automatically append a number -## to permalink, don't worry the plugin will remove it in fronted.
-Permalink
-For each languages you can customize "Navigation label" or url, but you have to save menu first
-Customize labels
-Set menu to switch
-Your theme support multiple menus, if you need to use different menu for each language you have to choose witch one switch
-No tables found, Ceceppa Multilingua can't works correctly.
-Disable and enable again the plugin for rebuild tables.
 Translate title in:
 Filter widget
 Show
 Hide
 If current language is: 
-Language
-Add translation
-Edit
-Edit post: 
-Translate to:
-Post data
-Page data
-Language:
-Show all languages
-Select the name of your primary menu:
+Update required, click here for update posts relations
 Manage languages
+generated from "wpml-config.xml"
+Current plugins contains WPML Language Configuration Files ( wpml-config.xml )
+officially supported
+Support to wpml-config.xml is experimental and could not works correctly
+Your theme is designed for WPML
+Support for theme compatible with WPML is experimental and could not works correctly, if you need help contact me.
+Hello
+CML: Recent Posts
+CML: Language Chooser
+Show the list of available languages
+Show:
+Flag\'s size:
+Css ClassName:
+CML: Text
+You can write arbitrary text or HTML separately for each language

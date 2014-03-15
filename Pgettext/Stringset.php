@@ -135,7 +135,7 @@ class Stringset
           return $item[ 'strings' ][0];
         }
       }
-      
-      return $string;
+
+      return "";
     }
 }

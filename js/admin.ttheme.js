@@ -15,9 +15,9 @@ jQuery( document ).ready( function( $ ) {
       url: ajaxurl,
       data: $( this ).serialize(),
       success: function( data ) {
+        // console.log( "Data", data );
         $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeOut();
 
-        console.log( data );
         $data = null;
 
         if ( data == "-1" ) {
@@ -57,14 +57,6 @@ jQuery( document ).ready( function( $ ) {
       $( this ).parent().css( "display", ( display >= 0 ) ? "table-row" : "none" );
     });
   });
-
-  $('table.ceceppaml-theme-translations tr.row-domain').click( function() {
-    $( this ).removeClass( 'row-open' );
-
-    $next = $( this ).next();
-    $next.toggle();
-    if( $next.is(":visible") ) $( this ).addClass( 'row-open' );
-  });
 });
 
 
@@ -78,7 +70,6 @@ function showStrings( id, what ) {
   jQuery( 'h2.tab-strings a' ).removeClass( 'nav-tab-active' );
   jQuery( jQuery( 'h2.tab-strings a' ).get( id ) ).addClass( 'nav-tab-active' );
 
-  console.log( what );
   jQuery( 'table.ceceppaml-theme-translations tbody tr' + what ).show();
   
   if( what != undefined || what != "" ) {
