@@ -4,8 +4,22 @@ class CMLDebug {
   public function __construct() {
     //add_action( 'admin_menu', array( &$this, 'debug' ) );
     add_action( 'wp_footer', array( &$this, 'footer' ) );
+    add_filter( 'query', array( & $this, 'query' ), 10, 1 );
   }
   
+  public function query( $query ) {
+    // $traces = debug_backtrace();
+
+    // foreach( $traces as $trace ) {
+      // if( isset( $trace[ 'file' ] ) && false !== strpos( $trace[ 'file' ], "ceceppa-multilingua" ) ) {
+    $this->queries[] = $query;
+        // break;
+      // }
+    // }
+
+    return $query;
+  }
+
   public function debug() {
     //add_submenu_page('ceceppaml-language-page', __('Debug', 'ceceppaml'), __('Debug', 'ceceppaml'), 'manage_options', 'ceceppaml-debug-page', array( &$this, 'debug_page') );
   }
@@ -189,6 +203,9 @@ EOT;
       
       echo "\n\n<b>Linked pages:</b>\n";
       print_r( CMLPost::get_translations( get_the_ID() ) );
+
+      echo "\nQueries: " . count( $this->queries ) . "\n";
+      echo join( "\n", $this->queries );
       echo "</pre>";
     }
   }

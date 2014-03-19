@@ -63,6 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
                   );
     $data_format = array( "%d", "%d", "%d", "%d", "%d", "%s", "%s", "%s", "%s", "%s" );
   
+    // error_log( "Data: " . print_r( $data, true ) );
     $id = intval( $form[ 'id' ] );
 
     //Remove?
@@ -76,7 +77,9 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
     } else {
       if( $id > 0 ) {
         //Avoid that more languages are sets as "default"
-        if( $is_default ) $wpdb->query( "UPDATE " . CECEPPA_ML_TABLE . " SET cml_default = 0 " );
+        if( $is_default ) {
+          $wpdb->query( "UPDATE " . CECEPPA_ML_TABLE . " SET cml_default = 0 " );
+        }
 
         $wpdb->update( CECEPPA_ML_TABLE, $data, array(
                                                       "id" => $id,

@@ -77,41 +77,50 @@ Class CMLParser {
       $m = end( $matches );
       $domain = 0;
       foreach( $m as $line ) {
-        /*
-         * To grab only text in __( ) I count brackets occourrencies
-         * each ( increase $brackets, while each ) decrease.
-         * When reach 0 means that extra text isn't rubbish
-         */
-        $brackets = 0;
-        for( $i = 0; $i < strlen( $line ); $i++ ) {
-          if( "(" == $line[ $i ] ) $brackets++;
-          if( ")" == $line[ $i ] ) {
-            $brackets--;
+        $this->extract_strings( $line );
+      }
+    }
+  }
 
-            //Remove extra text after last function bracket
-            if( 0 == $brackets ) {
-              $line = substr( $line, 1, $i - 1 );
-            }
-          }
+  private function extract_strings( $line ) {
+    if( preg_match_all ( '/(_e|__|_n|_x|_ex|_nx|esc_attr__|esc_attr_e|esc_attr_x|esc_html__|esc_html_e|esc_html_x)(\(.*\))/', $line, $out ) ) {
+      $end = end( $out );
+      if( isset( $end[ 0 ] ) ) {
+        $this->extract_strings( $end[0] );
+      }
+    }
+
+    /*
+     * To grab only text in __( ) I count brackets occourrencies
+     * each ( increase $brackets, while each ) decrease.
+     * When reach 0 means that extra text isn't rubbish
+     */
+    $brackets = 0;
+    for( $i = 0; $i < strlen( $line ); $i++ ) {
+      if( "(" == $line[ $i ] ) $brackets++;
+      if( ")" == $line[ $i ] ) {
+        $brackets--;
+
+        //Remove extra text after last function bracket
+        if( 0 == $brackets ) {
+          $line = substr( $line, 1, $i - 1 );
         }
+      }
+    }
 
-        //Divide "text" from "domain"
-        preg_match_all( '/^[\'\"](.*)[\'\"][,](.*)[\'\"]$/', trim( $line ), $string );
+    //Divide "text" from "domain"
+    preg_match_all( '/^[\'\"](.*)[\'\"][,](.*)[\'\"]$/', trim( $line ), $string );
 
-        if( count( $string ) > 1 ) {
-          $text = end( $string[ 1 ] );
-          $domain = end( $string[ 2 ] );
-          $domain = "x";
+    if( count( $string ) > 1 ) {
+      $text = end( $string[ 1 ] );
+      $domain = end( $string[ 2 ] );
+      $domain = "x";
 
-          //Add string to translable ones
-          if( ! empty( $text ) && ! @in_array( $text, $domains[ $domain ] ) ) {
-            $domains[ $domain ][] = $text;
-          }
-        }
-      }; //$m as $line
-    } //endforeach;
-
-    $this->_domains = $domains;
+      //Add string to translable ones
+      if( ! empty( $text ) && ! @in_array( $text, $this->_domains[ $domain ] ) ) {
+        $this->_domains[ $domain ][] = $text;
+      }
+    }
   }
 
   /*
@@ -385,7 +394,7 @@ $in = $this->_translate_in;
       
           echo "<div class=\"ceceppaml-trans-fields\">";
           echo '<img src="' . CMLLanguage::get_flag_src( $lang->id ) . '" class="available-lang" />';
-          echo "&nbsp;<textarea name=\"string[" . $lang->id . "][]\">" . esc_html( stripslashes( $trans[ $lang->id ][ $i ][ 'string' ] ) ) . "</textarea>";
+          echo "&nbsp;<textarea name=\"string[" . $lang->id . "][]\">" . esc_html( br2nl( stripslashes( $trans[ $lang->id ][ $i ][ 'string' ] ) ) ) . "</textarea>";
           
           $done = ( $done )  ? __( 'Translation complete', 'ceceppaml' ) : __( 'Translation not complete', 'ceceppaml' );
           echo "</div>";
@@ -477,7 +486,7 @@ EOT;
         $o = str_replace( "\"", '\"', stripslashes( $originals[$i] ) );
         $s = str_replace( "\"", '\"', stripslashes( $strings[$i] ) );
         $o = 'msgid "' . $o . '"' . PHP_EOL;
-        $s = 'msgstr "' . nl2br( $s ) . '"' . PHP_EOL . PHP_EOL;
+        $s = 'msgstr "' . nl2br2( $s ) . '"' . PHP_EOL . PHP_EOL;
     
         fwrite( $fp, $o );
         fwrite( $fp, $s );
@@ -530,6 +539,16 @@ EOT;
   function errors() {
     return ( isset( $this->_errors ) ) ? 1 : 0;
   }
+}
+
+function nl2br2($string) { 
+  $string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string); 
+  return $string; 
+}
+
+function br2nl( $string )
+{
+  return preg_replace('/\<br(\s*)?\/?\>/i', "\r\n", $string );
 }
 
 wp_enqueue_script( 'ceceppaml-admin-translations', CML_PLUGIN_JS_URL . 'admin.ttheme.js' );

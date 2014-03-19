@@ -264,7 +264,7 @@ jQuery(document).ready( function($) {
   });
   
   //Search autocomplete
-  jQuery( 'input[name="search"' ).autocomplete( {
+  jQuery( 'input[name="search"]' ).autocomplete( {
     source: jQuery.parseJSON( ceceppaml_admin.languages ), minLength : 0,
     select: function( event, ui ) {
       $li = jQuery( '#cml-box-available-languages li[cml-language="' + ui.item.value.toLowerCase() + '"]' );

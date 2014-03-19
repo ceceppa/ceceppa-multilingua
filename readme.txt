@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.6
+Stable tag: 1.4.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -57,7 +57,7 @@ Ceceppa Multilingua supports infinite language, which can be easily added/modifi
 All you need to do is activate the plugin, configure categories and start writing the content!
 
 = About =
-For more Information visit the [Plugin Homepage](http://www.alessandrosenese.eu/myworks/ceceppa-multilingua/)
+For more Information visit the [Plugin Homepage](http://www.alessandrosenese.eu/portfolio/ceceppa-multilingua/)
 [Setting up a WordPress multilingual site with Ceceppa Multilingua](http://www.alessandrosenese.eu/en/ceceppa-multilingua/documentation)
 [Contribute](http://www.alessandrosenese.eu/en/ceceppa-multilingua/contribute)
 [Developers](http://www.alessandrosenese.eu/en/ceceppa-multilingua/developers)
@@ -176,6 +176,18 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/it/pillole
 8. Translate your theme
 
 == Changelog ==
+
+= 1.4.9 =
+* Optimized query requests
+* Fixed "Ceceppa Multilingua in your languages" in Firefox
+* Added "Addons" tab
+
+= 1.4.8 =
+* Fixed "syntax error"
+
+= 1.4.7 = 
+* Improved parser
+* Fixed Italian translation
 
 = 1.4.6 =
 * Fixed theme translation layout

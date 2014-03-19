@@ -91,7 +91,8 @@ function _cml_admin_post_meta_translation( $type, $lang, $linked_id ) {
   
   $posts = new WP_Query( $args );
 
-  $notrans = __( 'None', 'ceceppaml' );
+  $notrans = ""; 
+  $none = __( 'None', 'ceceppaml' );
   $title = ( ! empty( $linked_id ) ) ? get_the_title( $linked_id ) : $notrans;
   $src = CMLLanguage::get_flag_src( $lang );
 
@@ -103,7 +104,7 @@ echo <<< EOT
       <input type="hidden" name="linked_post[$lang]" value="$linked_id" />
       <ul>
         <li class="no-hide">
-          <span><i>( $notrans )</i></span>
+          <i><span class="title">( $none )</span></i>
         </li>
 EOT;
   while( $posts->have_posts() ) {
@@ -146,23 +147,26 @@ function cml_admin_save_extra_post_fields( $term_id ) {
   $post_id = is_object( $term_id ) ? $term_id->ID : $term_id;
 
   //no language?
-  if( empty( $_POST['cml-lang'] ) )
+  if( empty( $_POST['cml-lang'] ) ) {
     $post_lang = 0;
-  else
+  } else {
     $post_lang = intval( $_POST[ 'cml-lang' ] );
+  }
 
   /*
    * Quickedit?
    */
   if( ! isset( $_POST[ 'cml-quick' ] ) ) {
+    $linkeds = array();
+
     foreach( CMLLanguage::get_all() as $lang ) {
       if( $lang->id == $post_lang ) continue;
 
       //Set language of current post
-      $linked = intval( @$_POST[ 'linked_post' ][ $lang->id ] );
-
-      CMLPost::set_translation( $post_id, $lang->id, $linked, $post_lang );
+      $linkeds[ $lang->id ] = @$_POST[ 'linked_post' ][ $lang->id ];
     }
+
+    CMLPost::set_translations( $post_id, $linkeds, $post_lang );
   } else {
     $langs = CMLLanguage::get_all();
 
@@ -235,7 +239,7 @@ function cml_admin_add_flag_column( $col_name, $id ) {
       echo '</a>';
       
     } else {
-      echo '<a href="' . get_bloginfo("url") . '/wp-admin/post-new.php?post_type=' . $post_type . '&link-to=' . $id . '&post-lang=' . $lang->id . '">';
+      echo '<a href="' . get_bloginfo( "wpurl" ) . '/wp-admin/post-new.php?post_type=' . $post_type . '&link-to=' . $id . '&post-lang=' . $lang->id . '">';
       echo '    <img class="add tipsy-me" src="' . CML_PLUGIN_URL . 'images/edit.png" title="' . __( 'Translate to:', 'ceceppaml' ) . ' ' . $lang->cml_language . '" />';
       echo '</a>';
     }

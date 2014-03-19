@@ -124,8 +124,9 @@ class CMLLanguage {
       self::$_all_languages = $all_languages_by_keys;
       self::$_all_by_slug = $byslug;
       
-      if( ! empty( self::$_default_language ) )
+      if( ! empty( self::$_default_language ) ) {
         self::$_current_id = self::$_default_language->id;
+      }
     }
 
     return self::$_all_languages;
@@ -195,7 +196,7 @@ class CMLLanguage {
    */
   public static function get_current() {
     if( empty( self::$_all_languages ) ) self::get_all();
-    
+
     return self::$_all_languages[ self::$_current_id ];
   }
 
@@ -415,7 +416,7 @@ class CMLLanguage {
    */
   public static function is_default( $lang = null) {
     if( null == $lang ) {
-      $lang = CMLLanguage::get_current_id();
+      $lang = CMLUtils::_get( '_real_language');
     } else {
       if( ! is_numeric( $lang ) ) {
         $lang = CMLLanguage::get_id_by_slug( $lang );
@@ -592,6 +593,12 @@ class CMLTranslations {
   public static function get( $lang, $string, $type = "", $return_empty = false, $ignore_po = false ) {
     global $wpdb;
 
+    // if( CMLLanguage::is_current( $lang ) && 
+    //     "_" != $type[ 0 ] &&
+    //     ! ( isset( $string[0] ) && "_" == $string[ 0 ] ) ) {
+    //   return $string;
+    // }
+
     if( "_" == $type[ 0 ] && ! $return_empty ) {
       $return_empty = true;
     }
@@ -730,10 +737,10 @@ class CMLPost {
   public static function get_language_id_by_id( $post_id, $meta = false ) {
     if( $meta ) {
       //Get from meta
-      $meta = get_post_meta( $post_id, "_cml_meta", true );
-      
-      if( ! empty( $meta ) && isset( $meta[ "lang" ] ) ) {
-        return $meta[ "lang"];
+      $m = get_post_meta( $post_id, "_cml_meta", true );
+
+      if( ! empty( $m ) && isset( $m[ "lang" ] ) ) {
+        return $m[ "lang"];
       }
     }
 
@@ -741,9 +748,9 @@ class CMLPost {
 
     if( null === $lang ) {
       //Get from meta
-      $meta = get_post_meta( $post_id, "_cml_meta", true );
+      $m = get_post_meta( $post_id, "_cml_meta", true );
       
-      if( empty( $meta ) ) {
+      if( $meta && empty( $m ) ) {
         $lang = self::get_language_by_id( $post_id );
   
         if( is_object( $lang ) ) {
@@ -860,51 +867,61 @@ class CMLPost {
     if( empty( $post_id ) ) return array();
 
     if( ! isset( self::$_posts_meta[ $post_id ] ) || $force ) {
-      //if( ! CECEPPA_ML_MIGRATED ) return cml_old_get_linked_posts( $id );
-      if( empty( $GLOBALS[ '_cml_language_columns' ] ) ) {
-        require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
+      $row = get_post_meta( $post_id, "_cml_meta", true );
 
-        cml_generate_lang_columns();
-      }
-    
-      $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
-      $_conv = & $GLOBALS[ '_cml_language_keys' ];
+      if( empty( $row ) || $force ) {
+        if( empty( $GLOBALS[ '_cml_language_columns' ] ) ) {
+          require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
 
-      $query = "SELECT ";
-      foreach( $_conv as $key => $label ) {
-        $select[] = "$key as $label";
-      }
-
-      /*
-       * something happend that $_conv is empty and that couse a warning
-       * and I can't store post relations properly.
-       */
-      if( empty( $select ) ) {
-        $keys = array_keys( CMLLanguage::get_all() );
-        $langs = array_keys( CMLLanguage::get_slugs() );
-
-        foreach( $keys as $k => $v ) {
-          $select[] = "lang_{$v} as " . $langs[ $k ];
+          cml_generate_lang_columns();
         }
-      }
-
-      $query .= join( ",", $select ) . " FROM " . CECEPPA_ML_RELATIONS . " WHERE ";
-      foreach( $_cml_language_columns as $l ) {
-        $where[] = "$l = $post_id";
-      }
-      $query .= join( " OR ", $where );
-    
-      $row = $wpdb->get_row( $query, ARRAY_A );
-      unset( $row[ "id" ] );
-
-      $keys = @array_filter( $row );
-      $keys = @array_replace( $keys, $_conv );
-      $others = @array_filter( is_array( $row ) ? $row : array() );
-      unset( $others[ CMLPost::get_language_slug_by_id( $post_id ) ] );
-    
-      $row = @array_merge( (array) $row, array( "indexes" => array_filter( $row ),
-                                               "linked" => $others ) );
       
+        $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+        $_conv = & $GLOBALS[ '_cml_language_keys' ];
+
+        $query = "SELECT ";
+        foreach( $_conv as $key => $label ) {
+          $select[] = "$key as $label";
+        }
+
+        /*
+         * something happend that $_conv is empty and that couse a warning
+         * and I can't store post relations properly.
+         */
+        if( empty( $select ) ) {
+          $keys = array_keys( CMLLanguage::get_all() );
+          $langs = array_keys( CMLLanguage::get_slugs() );
+
+          foreach( $keys as $k => $v ) {
+            $select[] = "lang_{$v} as " . $langs[ $k ];
+          }
+        }
+
+        $query .= join( ",", $select ) . " FROM " . CECEPPA_ML_RELATIONS . " WHERE ";
+        foreach( $_cml_language_columns as $l ) {
+          $where[] = "$l = $post_id";
+        }
+        $query .= join( " OR ", $where );
+      
+        $row = $wpdb->get_row( $query, ARRAY_A );
+        unset( $row[ "id" ] );
+
+        $keys = @array_filter( $row );
+        $keys = @array_replace( $keys, $_conv );
+        $others = @array_filter( is_array( $row ) ? $row : array() );
+        unset( $others[ CMLPost::get_language_slug_by_id( $post_id ) ] );
+      
+        $row = @array_merge( (array) $row, array( "indexes" => array_filter( $row ),
+                                                 "linked" => $others ) );
+
+        if( ! $force ) {
+          self::update_meta( self::get_language_id_by_id( $post_id ), $post_id, $row );
+        } else {
+        }
+      } else {
+        $row = $row[ 'translations' ];
+      }
+
       self::$_posts_meta[ $post_id ] = $row;
     } else {
       $row = self::$_posts_meta[ $post_id ];
@@ -977,7 +994,7 @@ class CMLPost {
     //Update info
     cml_fix_rebuild_posts_info();
     self::_load_indexes();
-    
+
     self::update_meta( $post_lang, $post_id );
   }
   
@@ -985,13 +1002,17 @@ class CMLPost {
    * update post meta
    * @ignore
    */
-  public static function update_meta( $lang, $post_id ) {
+  public static function update_meta( $lang, $post_id, $translations = null ) {
     /*
      * I just updated post relation, so I have to rebuild meta :)
      */
     //Add my meta to post
+    if( null == $translations ) {
+      $translations = CMLPost::get_translations( $post_id, true );
+    }
+
     $meta = array( "lang" => $lang,
-                    "translations" => CMLPost::get_translations( $post_id, true ) );
+                    "translations" => $translations );
 
     update_post_meta( $post_id, "_cml_meta", $meta );
   }

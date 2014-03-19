@@ -104,7 +104,7 @@ class CMLFrontend extends CeceppaML {
      */
     if( $this->_url_mode <= PRE_LANG && $this->_filter_search ) {
       add_action( 'get_search_form', array( & $this, 'get_search_form' ), 0, 1 );
-      //add_action( 'wp_enqueue_scripts', array( & $this, 'enqueue_search_script' ) );
+      add_action( 'wp_enqueue_scripts', array( & $this, 'enqueue_search_script' ) );
     }
 
     //group/ungroup Comments
@@ -208,8 +208,11 @@ class CMLFrontend extends CeceppaML {
   function enqueue_search_script() {
     global $_cml_settings;
 
+    $class = $_cml_settings[ 'cml_option_filter_form_class' ];
+    if( empty( $class ) ) return;
+
     $array = array( 'lang' => CMLLanguage::get_current_slug(),
-                    'form_class' => $_cml_settings[ 'cml_option_filter_form_class' ] );
+                    'form_class' => $class );
 
     wp_enqueue_script( 'ceceppaml-search', CML_PLUGIN_JS_URL . 'ceceppaml.search.js', array( 'jquery' ) );
     wp_localize_script( 'ceceppaml-search', 'cml_search', $array );
@@ -1364,8 +1367,14 @@ EOT;
    * translate widget title
    */
   function widget_title( $title ) {
-    $lang = CMLLanguage::get_current_id();
-    if( isset( $this->_fake_language_id ) ) $lang = $this->_fake_language_id;
+    if( empty( $title ) ) {
+      return $title;
+    }
+
+    $lang = CMLUtils::_get( '_real_language' );
+    if( CMLLanguage::is_default( $lang ) ) {
+      return $title;
+    }
 
     return CMLTranslations::get( $lang,
                                  $title,
@@ -1441,7 +1450,6 @@ EOT;
         $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE cml_cat_translation_slug IN ('%s', '%s')",
                          CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
                          strtolower( bin2hex( sanitize_title( $cat ) ) ) );
-
         $row = $wpdb->get_row( $query );
 
         $name = ( ! empty( $row ) ) ? strtolower( $row->cml_cat_name ) : "";
@@ -1449,11 +1457,14 @@ EOT;
       }
 
       if( ! empty( $name ) ) {
-        $where = is_category() ? "category" : "taxonomy";
+        $where = is_category() ? "category" : "post_tag";
         CMLUtils::_set( '_no_translate_term', 1 );
         $term = get_term_by( 'id', $row->cml_cat_id, $where );
-        
-        $name = $term->slug;
+
+        if( is_object( $term ) ) {
+          $name = $term->slug;
+        }
+
         CMLUtils::_del( '_no_translate_term' );
       }
       
@@ -1563,7 +1574,17 @@ EOT;
       return;
     }
 
-    $use_language = CMLUtils::_get( '_real_language' ); //CMLLanguage::get_current_id();
+    //Skip attachment type & nav_menu_item
+    if( @$wp_query->query_vars[ 'post_type' ] == 'attachment' ||
+        @$wp_query->query_vars[ 'post_type' ] == 'nav_menu_item' ) return $wp_query;
+
+    if( is_search() && $wp_query->is_main_query() ) {
+      if( ! $this->_filter_search ) {
+        return;
+      }
+    }
+
+    $use_language = array( CMLUtils::_get( '_real_language' ) ); //CMLLanguage::get_current_id();
     
     //lang parameters
     if( isset( $wp_query->query[ 'lang' ] ) ) {
@@ -1591,16 +1612,6 @@ EOT;
         $use_language = $_langs;
       }
     }
-      
-    if( is_search() && $wp_query->is_main_query() ) {
-      if( ! $this->_filter_search ) {
-        return;
-      }
-    }
-
-    //Skip attachment type & nav_menu_item
-    if( @$wp_query->query_vars[ 'post_type' ] == 'attachment' ||
-        @$wp_query->query_vars[ 'post_type' ] == 'nav_menu_item' ) return $wp_query;
 
     //Get all posts by language
     if( ! is_array( $use_language ) ) {
@@ -1620,25 +1631,29 @@ EOT;
     if( isset( $_GET[ 'lang' ] ) &&
        isset( $this->_fake_language_id ) &&
        ! isset( $this->_include_current ) ) {
-     $this->_looking_id_post = true;
-     $id = cml_get_page_id_by_path( $this->_clean_url );
-    
-     unset( $this->_looking_id_post );
-    
-     $posts[] = $id;
-     CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
-     
-     $this->_include_current = true;
+      $this->_looking_id_post = true;
+      $id = cml_get_page_id_by_path( $this->_clean_url );
+
+      unset( $this->_looking_id_post );
+
+      $key = array_search( $id, $posts );
+      if( false !== $key ) {
+        unset( $posts[ $key ] );
+      }
+
+      // CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
+
+      $this->_include_current = true;
     }
 
     /*
-     * If user choosed to don't show some post with post__not_in, I have to diff $posts
+     * If user choosed to don't show some post with post__in, I have to diff $posts
      * with them :)
      */
-    if ( $wp_query->query_vars[ 'post__not_in' ] &&
-          is_array( $wp_query->query_vars[ 'post__not_in' ] ) ) {
+    if ( $wp_query->query_vars[ 'post__in' ] &&
+          is_array( $wp_query->query_vars[ 'post__in' ] ) ) {
       $posts = array_diff( $posts,
-                          $wp_query->query_vars[ 'post__not_in' ] );
+                          $wp_query->query_vars[ 'post__in' ] );
     }
 
     /*
@@ -1661,9 +1676,9 @@ EOT;
       $this->_hide_diff = true;
     }
 
-    // if( ! empty ( $posts ) ) {
-    $wp_query->query_vars[ 'post__in' ] = $posts;
-    // }
+    if( ! empty ( $posts ) ) {
+      $wp_query->query_vars[ 'post__in' ] = $posts;
+    }
 
     if( $wp_query->is_main_query() ) {
       $this->change_menu();

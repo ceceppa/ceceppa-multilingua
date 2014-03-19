@@ -47,14 +47,15 @@ jQuery( document ).ready( function( $ ) {
   
   jQuery( 'body' ).on( 'change keyup keypress', '.search input.s', function() {
     $table = $( 'table.ceceppaml-theme-translations' );
-    $val = $( this ).val();
+    $val = $( this ).val().toLowerCase();
 
     $table.find( 'tr > td.item' ).each( function() {
       html = $( this ).html();
-      
-      var display = html.toLowerCase().indexOf( $val );
 
-      $( this ).parent().css( "display", ( display >= 0 ) ? "table-row" : "none" );
+      var display = html.toLowerCase().indexOf( $val );
+      display = ( display >= 0 ) ? "table-row" : "none"
+
+      $( this ).parent().css( "display",  display );
     });
   });
 });

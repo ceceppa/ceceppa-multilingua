@@ -96,9 +96,11 @@ jQuery(document).ready( function($) {
 
   $( '.cml-dropdown-me > li ul li' ).click( function() {
     $ul = $( this ).parents( 'ul.cml-dropdown-me' );
-    $ul.find( 'input[type="text"]' ).val( $( this ).find( 'span.title' ).html() );
+
+    title = $( this ).hasClass( 'no-hide' ) ? "" : $( this ).find( 'span.title' ).html();
+    $ul.find( 'input[type="text"]' ).val( title );
     
-    $ul.find( 'input[type="text"]' ).attr( "original", $( this ).find( 'span.title' ).html() );
+    $ul.find( 'input[type="text"]' ).attr( "original", title );
     $ul.find( '> li input[type="hidden"]' ).val( $( this ).attr( 'cml-trans' ) );
 
     $ul.find( 'ul' ).hide();

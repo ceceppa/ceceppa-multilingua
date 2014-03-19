@@ -229,6 +229,9 @@ msgstr "Traduzioni"
 msgid "Translate"
 msgstr "Traduci"
 
+msgid "Translation not complete"
+msgstr "Traduzione non completa"
+
 msgid "Translation complete"
 msgstr "Traduzione completata"
 
@@ -249,6 +252,9 @@ msgstr "Lingua"
 
 msgid "All languages"
 msgstr "Tutte le lingue"
+
+msgid "Edit"
+msgstr "Modifica"
 
 msgid "Add translation"
 msgstr "Aggiungi traduzione"
@@ -287,7 +293,7 @@ msgid "Page data"
 msgstr "Dati pagina"
 
 msgid "Tags"
-msgstr "Tags"
+msgstr "Tag"
 
 msgid "Language:"
 msgstr "Lingua:"
@@ -349,6 +355,9 @@ msgstr "Impostazioni"
 msgid "Documentation"
 msgstr "Documentazione"
 
+msgid "Shortcode"
+msgstr "Shortcode"
+
 msgid "Api"
 msgstr "Api"
 
@@ -358,11 +367,20 @@ msgstr "Aiuto"
 msgid "Click here to show the meaning of language fields"
 msgstr "Clicca qui per visualizzare il significato dei campi della lingua"
 
+msgid "You can order languages, set the default one, enable/disable them "
+msgstr "Puoi ordinare le lingue, scegliere quella predefinita, attivarle/disattivarle"
+
 msgid "Basic"
 msgstr "Base"
 
+msgid "You can also edit language name and date format"
+msgstr "Puoi anche modificare il nome della lingua e il formato della data"
+
 msgid "Intermediate"
 msgstr "Intermedie"
+
+msgid "You can change flag and edit all language fields"
+msgstr "Puoi cambiare la bandiera e modificare tutti i campi della lingua"
 
 msgid "Choose settings level"
 msgstr "Scegli il livello delle impostazioni"
@@ -388,23 +406,50 @@ msgstr "Clicca su ✔ per abilitare/disabilitare la lingua"
 msgid "Your languages"
 msgstr "Le tue lingue"
 
+msgid "List of all available languages.<br /> Click on item to choose flag and add it to your languages"
+msgstr "Elenco delle lingue disponibili.<br />Clicca su una voce per scegliere la bandiera e aggiungere la voce alle tue lingue."
+
 msgid "Add language"
 msgstr "Aggiungi lingua"
+
+msgid "Search the language from the availables and click for add it"
+msgstr "Cerca tra le lingue disponibili e clicca per aggingerla"
 
 msgid "Search language"
 msgstr "Cerca lingue"
 
+msgid "Click here for add custom language"
+msgstr "Clicca qui per aggiungere una lingua personalizzata"
+
 msgid "Add custom language"
 msgstr "Aggiungi una lingua personalizzata"
+
+msgid "Click here for save changes"
+msgstr "Clicca qui per salvare le modifiche"
 
 msgid "Save languages"
 msgstr "Salva le lingue"
 
+msgid "Choose in which languages translate:"
+msgstr "Scegli in quale lingua tradurre"
+
 msgid "Theme language"
 msgstr "Lingua tema"
 
+msgid "Click here for show/hide help"
+msgstr "Clicca qui per visualizzare/nascondere la guida"
+
+msgid "Filter list by language"
+msgstr "Filtra lista per lingua"
+
 msgid "Filter list"
 msgstr "Filtra la lista"
+
+msgid "Click here to filter list by language"
+msgstr "Clicca qui per filtrare la lista per lingua"
+
+msgid "This is the style of current language"
+msgstr "Questo è lo stile della lingua corrente"
 
 msgid "Active language"
 msgstr "Lingua attiva"
@@ -429,6 +474,9 @@ msgstr "Se ne hai bisogno puoi assegnare l'articolo a più lingue"
 
 msgid "In this case you can't choose the option \"All languages\" from \"Language\" combo, so you have to choose one of it existing languages, isn't important which one."
 msgstr "In questo caso però non puoi scegliere l'opzione \"Tutte le lingue\" dall'elenco \"Lingue\", devi necessariamente scegliere una lingua, non importa quale."
+
+msgid "Click here Add/Edit translation"
+msgstr "Clicca qui per aggiungere/modificare la traduzione"
 
 msgid "Permalink will modified in according to current \"Url modification mode\" setting."
 msgstr "Il permalink verrà modificato in accordo all'opzione \"Modalità di modifica dell'url\"."
@@ -542,7 +590,7 @@ msgid "this code will be used to build url. Example: it, en, ch, de"
 msgstr "questo codice è utilizzato per costruire l'url. Esempio: it, en, ch, de"
 
 msgid "WP Locale"
-msgstr "WP Locale"
+msgstr "WP Locale<br />"
 
 msgid "it is the code used by WordPress for each language."
 msgstr "è il codice utilizzato da Wordpress per ogni lingua."
@@ -817,6 +865,9 @@ msgstr "Carica immagine personalizzata"
 msgid "Date format: %s. <br /> Click for edit"
 msgstr "Formato data: %s. <br /> Clicca per modificare"
 
+msgid "Close"
+msgstr "Chiudi"
+
 msgid "Automatically redirects the browser depending on the visitor's language."
 msgstr "Reindirizza automaticamente il browser secondo con la lingua del visitatore."
 
@@ -872,7 +923,7 @@ msgid "Choose the style of your links. Example:"
 msgstr "Scegli lo stile dei tuoi link. Esempio:"
 
 msgid "Pre-Path"
-msgstr "Pre-Path"
+msgstr "Pre-Percorso"
 
 msgid "Default, puts /[language slug]/ in front of URL"
 msgstr "Predefinito, pone /[abbreviazione lingua]/ davanti all'URL"
@@ -887,7 +938,7 @@ msgid "Default"
 msgstr "Predefinito"
 
 msgid "Pre-Domain"
-msgstr "Pre-Domain"
+msgstr "Pre-Dominio"
 
 msgid "Append suffix"
 msgstr "Aggiungi suffisso"

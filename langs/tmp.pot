@@ -69,6 +69,7 @@ Search
 Text
 Translation
 Translate
+Translation not complete
 Translation complete
 Failed to open stream %s: Permission denied
 Failed to create folder: %s
@@ -76,6 +77,7 @@ Error writing file: %s
 Generated files:
 Language
 All languages
+Edit
 Add translation
 None
 Language: 
@@ -109,11 +111,15 @@ Theme
 Show flags
 Settings
 Documentation
+Shortcode
 Api
 Help
 Click here to show the meaning of language fields
+You can order languages, set the default one, enable/disable them 
 Basic
+You can also edit language name and date format
 Intermediate
+You can change flag and edit all language fields
 Choose settings level
 This is the list of your languages.
 Drag items for change its order.
@@ -122,12 +128,21 @@ Click on flag for change or customize
 Click on heart for set default language
 Click on &#10004; for set enable/disable language
 Your languages
+List of all available languages.<br /> Click on item to choose flag and add it to your languages
 Add language
+Search the language from the availables and click for add it
 Search language
+Click here for add custom language
 Add custom language
+Click here for save changes
 Save languages
+Choose in which languages translate:
 Theme language
+Click here for show/hide help
+Filter list by language
 Filter list
+Click here to filter list by language
+This is the style of current language
 Active language
 Choose the language of current post/page.
 means that post/page will available in all languages
@@ -136,6 +151,7 @@ Assign translations
 Assign the same post to multiple languages.
 If you need you can assign post to multiple language
 In this case you can't choose the option \"All languages\" from \"Language\" combo, so you have to choose one of it existing languages, isn't important which one.
+Click here Add/Edit translation
 Permalink will modified in according to current "Url modification mode" setting.
 When two post/page has same title Wordpress automatically append a number -## to permalink, don't worry the plugin will remove it in fronted.
 Permalink
@@ -185,6 +201,7 @@ Security error
 Invalid image: 
 Language files
 Ceceppa Multilingua in your language
+Addons
 Remove translation
 Group name
 String
@@ -210,6 +227,9 @@ Most commented
 Enable
 If enabled the plugin filter the query of Least reads posts and Most commented
 The others widget will be filtered only if they use the WP_Query class.
+Plugin will automatically filter search in according to current language.
+You have to set html form element only if \"?lang\" argument will not be added to your search.
+Insert html element with className or id of your searchform
 Filter wordpress search query
 Group
 Ungroup
@@ -265,6 +285,7 @@ Default language
 Enable/Disable language
 Upload custom image
 Date format: %s. <br /> Click for edit
+Close
 Automatically redirects the browser depending on the visitor\'s language.
 Automatically redirects the default language.
 Redirect only if visitor language is different from default one

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Check if current url ( or $url ) is the homepage
  *

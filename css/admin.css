@@ -1630,3 +1630,62 @@ ul.cml-tagslist .button-mini.button-confirm img {
   top: 0;
   left: -6px;
 }
+
+/* */
+.compat-attachment-fields {
+  width: 100%;
+}
+
+*[class*="-cml-media-"] td {
+  width: 80%;
+}
+
+*[class*="-cml-media-"] textarea,
+*[class*="-cml-media-"] input {
+  width: 100%;
+}
+
+/* Addons */
+.cml-addons .cml-addon {
+   border-left:4px solid #dd3d36;
+   box-shadow: 1px 1px 3px rgba( 0, 0, 0, 0.15 );
+   padding: 0 10px;
+   margin-bottom: 30px;
+}
+  .cml-addons .cml-addon.active {
+       border-left:4px solid #7AD03A;
+   }
+
+.cml-addons .cml-addon:last-child {
+  margin-bottom: 0;
+}
+
+.cml-addons .cml-addon .name {
+  font-size: 120%;
+  font-weight: bold;
+  padding: 10px 10px 10px 0;
+}
+
+
+.cml-addons .cml-addon .description {
+  color: #444;
+}
+
+.cml-addons .cml-addon .links {
+  text-align: right;
+  padding: 10px;
+}
+
+
+.cml-addons .cml-addon .links span {
+  color: #aaa;
+}
+
+
+.cml-addons .cml-addon .links a {
+  text-decoration: none;
+}
+
+.cml-addons .cml-addon .links a:hover {
+  text-decoration: underline;
+}

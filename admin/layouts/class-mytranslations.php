@@ -128,6 +128,9 @@ class MyTranslations_Table extends WP_List_Table {
 
       //Loop for each record
       if( ! empty( $records ) ) {
+        //Check for what language I have to hide translation field for default language
+        $hide_for = apply_filters( "cml_my_translations_hide_default", array( 'S' ) );
+
         $langs = CMLLanguage::get_all();
 
         foreach( $records as $rec ) {
@@ -182,6 +185,7 @@ class MyTranslations_Table extends WP_List_Table {
                 $title = str_replace( $group, "", $title );
               }
 
+              $title = apply_filters( 'cml_my_translations_label', $title, $rec->cml_type );
               echo '<input type="hidden" name="string[]" value="' . $rec->cml_text . '"/>';
               echo $title;
               echo '</td>';
@@ -193,7 +197,7 @@ class MyTranslations_Table extends WP_List_Table {
                * Number of elements $values must be same for each language !
                */
               foreach( $langs as $lang ) {
-                $class = ( $rec->cml_type == 'S'
+                $class = ( in_array( $rec->cml_type, $hide_for )
                          && CMLLanguage::is_default( $lang->id )
                          ) ? "cml-hidden" : "";
 

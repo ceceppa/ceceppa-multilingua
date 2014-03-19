@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Ceceppa Multilingua
-Plugin URI: http://www.ceceppa.eu/it/interessi/progetti/wp-progetti/ceceppa-multilingua-per-wordpress/
+Plugin URI: http://www.ceceppa.eu/portfolio/ceceppa-multilingua/
 Description: Adds userfriendly multilingual content management and translation support into WordPress.
-Version: 1.4.6
+Version: 1.4.8
 Author: Alessandro Senese aka Ceceppa
-Author URI: http://www.ceceppa.eu/chi-sono
+Author URI: http://www.alessandrosenese.eu/
 License: GPL3
 Tags: multilingual, multi, language, admin, tinymce, qTranslate, Polyglot, bilingual, widget, switcher, professional, human, translation, service, multilingua
 */

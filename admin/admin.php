@@ -16,6 +16,9 @@ require_once ( CML_PLUGIN_ADMIN_PATH . 'locales.php' );
 require_once ( CML_PLUGIN_LAYOUTS_PATH . 'languages-item.php' );
 require_once ( CML_PLUGIN_LAYOUTS_PATH . 'languages-downloader.php' );
 
+//Extra media fields
+//require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-media.php' );
+
 //Wordpress wp-pointer
 require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-wppointer.php' );
 
@@ -68,6 +71,7 @@ class CMLAdmin extends CeceppaML {
           }
 
           CMLUtils::_set( "translate_home", 1 );
+          CMLUtils::_set( '_real_language', CMLLanguage::get_default_id() );
         }
       }
     }
@@ -142,8 +146,12 @@ class CMLAdmin extends CeceppaML {
   }
 
   function admin_scripts() {
+    if( isset( $_GET[ 'page' ] ) && "ceceppaml-language-page" == $_GET[ 'page' ] ) {
+      if( 0 == intval( @$_GET[ 'tab'] ) ) 
+      wp_register_script( 'ceceppaml-admin-languages', CML_PLUGIN_JS_URL . 'admin.languages.js', array( 'ceceppaml-admin-script' ) );
+    }
+
     wp_register_script( 'ceceppaml-admin-script', CML_PLUGIN_JS_URL . 'admin.js' );
-    wp_register_script( 'ceceppaml-admin-languages', CML_PLUGIN_JS_URL . 'admin.languages.js', array( 'ceceppaml-admin-script' ) );
     wp_register_script( 'ceceppaml-tipsy', CML_PLUGIN_JS_URL . 'jquery.tipsy.js' );
     wp_register_script( 'ceceppaml-transition', CML_PLUGIN_JS_URL . 'jquery.transit.min.js' );
 
@@ -327,7 +335,7 @@ class CMLAdmin extends CeceppaML {
     cml_add_pointer( ".cml-box-right input[name=\"save-all\"]", __( 'Save languages', 'ceceppaml' ), __( 'Click here for save changes', 'ceceppaml' ), array( "edge" => "left", 'align' => 'middle' ) );
     
     //Theme main language
-    cml_add_pointer( ".ceceppa-form-translations.theme > .cml-tablenav #cml-lang", __( 'Theme language', 'ceceppaml' ), __( 'If theme language is one of your language, choose it so that plugin will exclude it from translation table.', 'ceceppaml' ), array( "edge" => "right", 'align' => 'middle' ) );
+    cml_add_pointer( ".ceceppa-form-translations.theme > .cml-tablenav #cml-lang", __( 'Theme language', 'ceceppaml' ), __( 'Choose in which languages translate:', 'ceceppaml' ), array( "edge" => "right", 'align' => 'middle' ) );
   }
   
   function add_pointers_to_settings_page() {
@@ -540,10 +548,12 @@ class CMLAdmin extends CeceppaML {
     $lang = CMLLanguage::get_by_slug( $slug );
     
     CMLLanguage::set_current( $lang );
+    CMLUtils::_set( '_real_language', $lang->id );
 
     //Set current user language;
-    if( isset( $user ) )
+    if( isset( $user ) ) {
       update_option( "cml_${user}_locale", $lang->cml_language_slug );
+    }
 
     return $lang->cml_locale;
   }
