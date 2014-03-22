@@ -70,6 +70,9 @@ msgstr "Relazioni tra i post"
 msgid "Translations"
 msgstr "Traduzioni"
 
+msgid "Available addons"
+msgstr "Addon disponibili"
+
 msgid "Manage your languages"
 msgstr "Gestisci le tue lingue"
 
@@ -352,6 +355,9 @@ msgstr "Visualizza bandiere"
 msgid "Settings"
 msgstr "Impostazioni"
 
+msgid "Addons"
+msgstr "Addons"
+
 msgid "Documentation"
 msgstr "Documentazione"
 
@@ -613,6 +619,12 @@ msgstr "Se non ti piace la qualità delle immagini generate puoi farlo manualmen
 msgid "Custom flags will be stored in: %s path."
 msgstr "Le bandiere personalizzate possono essere salvate nel percorso: %s."
 
+msgid "You are using IE <= 9"
+msgstr "Stai utilizzando IE <= 9"
+
+msgid "If you need to use custom flags you hate to <%s>upload them manually</a>."
+msgstr "Se hai la necessità di utilizzare bandiere personalizzate devi <%s>fare l'upload manualmente</a>"
+
 msgid "Security error"
 msgstr "Errore di sicurezza"
 
@@ -700,6 +712,9 @@ msgstr "Se attivato il plugin filtra le query de \"Articoli più letti\" e \"Pi�
 msgid "The others widget will be filtered only if they use the WP_Query class."
 msgstr "Gli altri widget verranno filtrati solo se usano la classe WP_Query"
 
+msgid "Plugin will automatically filter search in according to current language."
+msgstr "Plugin filtra automaticamente la ricerca in accordo alla lingua corrente."
+
 msgid "Filter wordpress search query"
 msgstr "Filtra la query di ricerca di Wordpress"
 
@@ -786,6 +801,9 @@ msgstr "Se ti piace il plugin e vuoi tradurlo nella tua lingua, puoi farlo da qu
 
 msgid "After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks"
 msgstr "Dopo aver cliccato il pulsante \"Salva le modifiche\", segui le istruzioni e inviami la traduzione, grazie"
+
+msgid "Update available addons list"
+msgstr "Aggiorna l'elenco degli addon disponibili"
 
 msgid "If you want to customize widget titles you have to assign a title for each of them in \"Appearance\" -> \"Widgets\""
 msgstr "Se vuoi personalizzare i titoli dei widget è necessario assegnargli un titolo in \"Aspetto\" -> \"Widgets\""

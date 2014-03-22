@@ -18,9 +18,14 @@ echo <<< EOT
 EOT;
 }
 
+$path = $GLOBALS[ '_cml_theme_locale_path' ];
+if( empty( $path ) ) {
+  $path = trailingslashit( get_template_directory() );
+}
+
 if( ! empty( $errors ) ) {
   $error = sprintf( __( 'Error generating translations, ensure that the folder %s is writable', 'ceceppaml' ),
-                      $GLOBALS[ '_cml_theme_locale_path' ] );
+                      $path );
 echo <<< EOT
   <div class="error">
     <p>
@@ -30,5 +35,7 @@ echo <<< EOT
 EOT;
 }
 
-$parser = new CMLParser( wp_get_theme()->name, get_template_directory(), $GLOBALS[ '_cml_theme_locale_path' ] );
+
+
+$parser = new CMLParser( wp_get_theme()->name, get_template_directory(), $path );
 ?>

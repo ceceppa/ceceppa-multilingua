@@ -24,7 +24,7 @@ function cml_translate_cml() {
         $lang = CMLLanguage::get_by_id( $gen );
 
         if( file_exists( CML_PLUGIN_LANGUAGES_PATH . "ceceppaml-$lang->cml_locale.mo" ) ) {
-          echo "<li><a href=\"" . CML_PLUGIN_URL . "langs/$lang->cml_locale.mo\" >$lang->cml_language</a></li>";
+          echo "<li><a href=\"" . CML_PLUGIN_URL . "langs/ceceppaml-$lang->cml_locale.mo\" >$lang->cml_language</a></li>";
         }
     
       } //endforeach;
@@ -36,7 +36,7 @@ function cml_translate_cml() {
 
   } else {
     $msg = __( "If you like the plugin and you want translate it in your language, you can do from this page.", "ceceppaml" ) . "<br />";
-    $msg .= __( "After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks", "ceppaml" ) . " :)";
+    $msg .= __( "After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks", "ceceppaml" ) . " :)";
 echo <<< EOT
     <div class="updated">
       <p>

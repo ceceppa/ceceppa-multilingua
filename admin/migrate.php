@@ -116,97 +116,195 @@ function cml_migrate_database() {
 function cml_migrate_database_add_item( $lang, $pid, $llang, $lpid ) {
   global $wpdb;
 
+  if( $pid == 0 ) return;
   if( empty( $GLOBALS[ '_cml_language_columns' ] ) ) cml_generate_lang_columns();
 
   $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+  $lpid = intval( $lpid );
 
-  /*
-   * if $llang == 0 break relations
-   */
-  $old_lang = CMLPost::get_language_id_by_id( $pid );
-  //$pid != $lpid because same post can be assigned to multiple languages
-  if( 0 == $llang || ( $old_lang != $lang && $pid != $lpid ) ) {
-    foreach( $_cml_language_columns as $col ) {
-      $wpdb->query( sprintf( "
-        UPDATE %s SET %s = 0 WHERE %s = %d",
-          CECEPPA_ML_RELATIONS,
-          $col, $col, $pid ) );
-    }
+  if( $lang == 0 ) {
+    _cml_migrate_set_to_all_languages( $pid );
+  } else {
+    _cml_migrate_set_language( $lang, $pid, $llang, $lpid );
   }
 
-  /*
-   * remove linked post from all records
-   */
-  if( ( $lpid > 0 && $lpid != $pid ) ) {
-    foreach( $_cml_language_columns as $col ) {
-      if( $lang > 0 ) {
-        $wpdb->query( sprintf( "
-          UPDATE %s SET %s = 0 WHERE %s = %d AND lang_%d != %d ",
-            CECEPPA_ML_RELATIONS,
-            $col, $col, $lpid, $lang, $pid ) );
-      } else {
-        $wpdb->update( CECEPPA_ML_RELATIONS,
-                       array( $col => 0 ),
-                       array( $col => $lpid ),
-                       array( "%d" ), array( "%d" ) );
-      }
-    }
-  }
-
-  //Is set language?
-  if( $lang > 0 ) {
-    $query = sprintf( "SELECT id FROM %s WHERE lang_%d = %d", 
-					  CECEPPA_ML_RELATIONS,
-					  $lang,
-					  $pid );
-    $record = $wpdb->get_var( $query );
-
-    if( ! empty( $record ) && $llang > 0 ) {
-      $wpdb->update( CECEPPA_ML_RELATIONS,
-		      array( "lang_$llang" => $lpid ),
-		      array( "id" => $record ),
-		      array( "%d" ),
-		      array( "%d" ) );
-    } else {
-      //Set all fields to 0
-      foreach( $_cml_language_columns as $col ) {
-        $values[ $col ] = 0;
-      }
-      
-      $values[ "lang_$lang" ] = $pid;
-      if( $llang > 0 ) $values[ "lang_$llang" ] = $lpid;
-
-      $wpdb->insert( CECEPPA_ML_RELATIONS,
-		      $values,
-		      array_fill( 0, count( $values ), "%d" ) );
-    }
-  } else { // if
-    /*
-    * remove linked post from all records
-    */
-    foreach( $_cml_language_columns as $col ) {
-      $wpdb->update( CECEPPA_ML_RELATIONS,
-                     array( $col => 0 ),
-                     array( $col => $pid ),
-                     array( "%d" ), array( "%d" ) );
-    }
-
-    //Set all fields to 0
-    foreach( $_cml_language_columns as $col ) {
-      $values[ $col ] = $pid;
-    }
-
-    $wpdb->insert( CECEPPA_ML_RELATIONS,
-		    $values,
-		    array_fill( 0, count( $values ), "%d" ) );
-  }
-
+  //Remove rows with all 0
   foreach( $_cml_language_columns as $l ) {
     $where[] = "$l = 0";
   }
 
   $query = sprintf( "DELETE FROM %s WHERE %s", CECEPPA_ML_RELATIONS, join( " AND ", $where ) );
   $wpdb->query( $query );
+
+}
+
+/*
+ * set $pid to all languages
+ */
+function _cml_migrate_set_to_all_languages( $pid ) {
+  $record = _cml_migrate_get_record_by_pid( $pid );
+  if( ! empty( $record ) ) {
+    _cml_migrate_set_record_to_zero( $pid );
+  }
+
+  _cml_migrate_add_record( 0, $pid, $pid );
+}
+
+/*
+ *
+ */
+function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
+  global $wpdb;
+
+  $record = _cml_migrate_get_record( $lang, $pid );
+  if( ! empty( $record ) ) {
+    if( $record[ "lang_$llang" ] != $lpid ) {
+      if( $record[ "lang_$llang" ] > 0 ) {
+        /*
+         * I changed linked post, but I need to took other relations.
+         * Example:
+         *  = old connections =
+         *  IT     EN      EO
+         *   1      2       3
+         *
+         *  = new connections =
+         *  IT     EN      E0
+         *   1      0       3
+         *
+         *  I cannot set EN = 0 or I'll lost information about post_id "2", so I 
+         *  add new record for post_id = 1 :)
+         */
+        if( $record[ "lang_$llang" ] != $pid ) {
+          _cml_migrate_add_record( $llang, $lpid );
+
+          $wpdb->update( CECEPPA_ML_RELATIONS,
+                          array( "lang_$llang" => 0 ),
+                          array( "id" => $record[ 'id' ] ),
+                          array( "%d" ), array( "%d" ) 
+                        );
+        }
+      } else if( $lpid > 0 ) {
+        //Remove old connections for "linked id"
+        $rl = _cml_migrate_get_record_by_pid( $lpid );
+        if( $rl[ 'id' ] != $record[ 'id' ] ) {
+          _cml_migrate_set_pids_to_zero( $lpid, $rl );
+        }
+      }
+    } //endif;
+  } else {
+    //Check if post exists in other language
+    $rec = _cml_migrate_get_record_by_pid( $pid );
+    if( ! empty( $rec ) ) {
+      // if( $llang > 0 && $rec[ "lang_$llang" ] != $lpid ) {
+        _cml_migrate_set_pids_to_zero( $pid, $rec );
+
+        _cml_migrate_add_record( $lang, $pid );
+      // }
+    } else {
+      //No record found
+      _cml_migrate_add_record( $lang, $pid );
+    }
+  }
+
+  if( empty( $record ) ) {
+    $record = _cml_migrate_get_record( $lang, $pid );
+  }
+
+  //linked id exists in other record?
+  if( $lpid > 0 && $llang > 0 ) {
+    $rl = _cml_migrate_get_record( $llang, $lpid );
+    if( $rl[ 'id' ] != $record[ 'id' ] ) {
+      _cml_migrate_set_pids_to_zero( $lpid, $rl );
+    }
+  }
+
+  if( $lang > 0 && $llang > 0 ) {
+      $wpdb->update( CECEPPA_ML_RELATIONS,
+                      array( "lang_$llang" => $lpid ),
+                      array( "id" => $record[ 'id' ] ),
+                      array( "%d" ), array( "%d" ) 
+                    );
+  }
+}
+
+/*
+ * get record of 
+ */
+function _cml_migrate_get_record( $lang, $pid ) {
+  global $wpdb;
+
+  if( $lang == 0 ) $lang = CMLLanguage::get_current_id();
+  $query = sprintf( "SELECT * FROM %s WHERE lang_%d = %d", 
+          CECEPPA_ML_RELATIONS,
+          $lang,
+          $pid );
+  return $wpdb->get_row( $query, ARRAY_A );
+}
+
+function _cml_migrate_get_record_by_pid( $pid ) {
+  global $wpdb;
+
+  $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+
+  $query = "SELECT * FROM " . CECEPPA_ML_RELATIONS . " WHERE ";
+  foreach( $_cml_language_columns as $col ) {
+    $where[] = "$col = $pid";
+  }
+  $query .= join( " OR ", $where );
+
+  return $wpdb->get_row( $query, ARRAY_A );
+}
+
+function _cml_migrate_set_pids_to_zero( $lpid, $rl ) {
+  global $wpdb;
+
+  unset( $rl[ 'id' ] );
+
+  //Remove relations from its old friends :)
+  foreach( $rl as $lang_key => $_lpid ) {
+    if( $_lpid == $lpid ) {
+      $wpdb->update( CECEPPA_ML_RELATIONS,
+                      array( $lang_key => 0 ),
+                      array( $lang_key => $lpid ),
+                      array( "%d" ), array( "%d" ) 
+                    );
+    }
+  }
+}
+
+function _cml_migrate_set_record_to_zero( $id ) {
+  global $wpdb;
+
+  $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+
+  foreach( $_cml_language_columns as $col ) {
+    $wpdb->update( CECEPPA_ML_RELATIONS,
+                   array( $col => 0 ),
+                   array( $col => $id ),
+                   array( "%d" ), array( "%d" ) );
+  }
+}
+
+/*
+ * add new record and fill all other fields to 0
+ */
+function _cml_migrate_add_record( $lang, $pid, $linked = 0 ) {
+  global $wpdb;
+
+  $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+
+  //Set all fields to 0
+  foreach( $_cml_language_columns as $col ) {
+    $values[ $col ] = $linked;
+  }
+  
+  if( $lang > 0 ) {
+    $values[ "lang_$lang" ] = $pid;
+  }
+
+  $wpdb->insert( CECEPPA_ML_RELATIONS,
+      $values,
+      array_fill( 0, count( $values ), "%d" ) );
 }
 
 /*

@@ -230,11 +230,15 @@ function cml_admin_select_menu() {
 
       echo "<br />";
   
+			if( isset( $_GET[ 'cml-name' ] ) ) {
+				update_option( "cml_primary_menu_name", esc_attr( $_GET[ 'cml-name' ] ) );
+			}
+
       $name = get_option( "cml_primary_menu_name", "" );
-  
+
       //Se non inizia per cml_ allora sarà quella definito dal tema :)
       if( is_array( $menus ) ) : ?>
-      <select name="name" class="cml-select-menu">
+      <select name="cml-name" class="cml-select-menu">
         <?php foreach( $menus as $key => $n ) {
           if( substr( $key, 0, 4 ) == "cml_" ) continue;
   

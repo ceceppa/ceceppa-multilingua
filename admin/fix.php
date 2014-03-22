@@ -91,6 +91,31 @@ function cml_do_update() {
     }
   }
 
+  if( $dbVersion < 28 ) {
+    $query = sprintf( "SELECT * FROM %s", CECEPPA_ML_RELATIONS );
+    $results = $wpdb->get_results( $query, ARRAY_N );
+
+    /*
+     * Remove "_cml_meta", becase for CML <= 1.4.9, meta tags will be updated only to 
+     * edited page/post not its translations :(
+     * They will be rebuilded when "get_translations" will be called
+     */
+    foreach( $results as $rec ) {
+      unset( $rec[ 'id' ] );
+
+      foreach( $rec as $key => $value ) {
+        if( $value == 0 ) continue;
+
+        delete_post_meta( $value, "_cml_meta" );
+      }//foreach
+    }//foreach
+  }//if
+
+  if( $dbVersion < 29 ) {
+    $wpdb->query( sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL",
+                       CECEPPA_ML_TABLE ) );
+  }
+
   //CML < 1.4
   cml_do_update_old();
 

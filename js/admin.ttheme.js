@@ -13,6 +13,7 @@ jQuery( document ).ready( function( $ ) {
     $.ajax( {
       type: 'POST',
       url: ajaxurl,
+      timeout: 60000,
       data: $( this ).serialize(),
       success: function( data ) {
         // console.log( "Data", data );
@@ -31,14 +32,15 @@ jQuery( document ).ready( function( $ ) {
         } catch(e) {
           return;
         }
-        
+
         if ( $data == null) return;
-        
+
         if ( $data.url ) window.location = $data.url;
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        //console.log( xhr.status );
-        //console.log( thrownError );
+        alert( "Something goes wrong :'(" );
+
+        window.location.reload();
       }
     });
 

@@ -129,8 +129,7 @@ function cml_admin_options_filter_search() {
   <div id="major-publishing-actions" class="cml-description">
     <?php _e( 'Filter wordpress search query', 'ceceppaml' ); ?>.
   </div>
-
-  <?php
+<?php
 }
 
 function cml_admin_options_filter_comments() {
@@ -245,10 +244,10 @@ add_meta_box( 'cml-box-options-posts', '<span class="cml-icon cml-icon-filter"><
 if( isset( $_GET[ 'wstep' ] ) ) return;  //wizard
 add_meta_box( 'cml-box-options-widgets', '<span class="cml-icon cml-icon-widgets"></span>' . __( 'Filter widgets', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_filter_widgets', 'cml_box_options' );
 
-$mode = CMLUtils::get_url_mode();
-if( $mode == PRE_LANG || $mode == PRE_NONE ) {
-  add_meta_box( 'cml-box-options-search', '<span class="cml-icon cml-icon-search"></span>' . __( 'Search', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_filter_search', 'cml_box_options' );
-}
+// $mode = CMLUtils::get_url_mode();
+// if( $mode == PRE_LANG || $mode == PRE_NONE ) {
+  // add_meta_box( 'cml-box-options-search', '<span class="cml-icon cml-icon-search"></span>' . __( 'Search', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_filter_search', 'cml_box_options' );
+// }
 
 add_meta_box( 'cml-box-options-comments', '<span class="cml-icon cml-icon-comments"></span>' . __( 'Comments', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_filter_comments', 'cml_box_options' );
 add_meta_box( 'cml-box-options-menu', '<span class="cml-icon cml-icon-menu "></span>' . __( 'Translate menu', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_translate_menu', 'cml_box_options' );

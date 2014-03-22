@@ -178,6 +178,10 @@ function cml_get_page_by_path($page_path, $output = OBJECT, $post_type = array('
 function cml_get_the_link( $result, $linked = true, $only_existings = false, $queried = false ) {
   global $wpCeceppaML, $_cml_settings;
 
+  if( defined( 'CML_DEBUG' ) && isset( $_GET[ 'cdb' ] ) ) {
+    echo "queried: $queried<br />";
+    echo "is_home: " . cml_is_homepage() . "<br />";
+  }
   if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {
     //current page is homepage?
     $link = CMLUtils::get_home_url( $result->cml_language_slug );
@@ -195,7 +199,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     }
   } else {
     $GLOBALS[ '_cml_force_home_slug' ] = $result->cml_language_slug;
-    
+
     //I have to force language to $result one
     $wpCeceppaML->force_category_lang( $result->id );
 
@@ -307,10 +311,10 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     $wpCeceppaML->unset_category_lang();
 
     /* Controllo se è stata impostata una pagina statica,
-	perché così invece di restituire il link dell'articolo collegato
-	aggiungo il più "bello" ?lang=## alla fine della home.
+      	perché così invece di restituire il link dell'articolo collegato
+      	aggiungo il più "bello" ?lang=## alla fine della home.
 
-	Se non ho trovato nesuna traduzione per l'articolo, la bandiera punterà alla homepage
+      	Se non ho trovato nesuna traduzione per l'articolo, la bandiera punterà alla homepage
     */
     if( empty( $link ) && ! $only_existings ) {
       if( 1 === CMLUtils::_get( "is_crawler" ) ) {

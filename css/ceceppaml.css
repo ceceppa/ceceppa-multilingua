@@ -60,7 +60,7 @@
       line-height: 18px;
     }
 
-    #cml-lang > li > ul a:hover {
+    #cml-lang > li > ul li:hover {
       background: #eee;
     }
 

@@ -157,7 +157,7 @@ EOT;
         } else {
           $info = pathinfo( "$dir\/$file" );
   
-          if( strtolower( $info['extension'] ) == strtolower( $ext ) ) { 
+          if( isset( $info[ 'extension' ] ) && strtolower( $info['extension'] ) == strtolower( $ext ) ) { 
             $files[] = "${dir}${file}";
           }
         }//endif;
@@ -230,7 +230,9 @@ $in = $this->_translate_in;
       &nbsp;
       <a class="nav-tab  nav-tab-active" href="javascript:showStrings( 0 )"><?php _e( 'All strings', 'ceceppaml' ) ?><span></span></a>
       <a class="nav-tab" href="javascript:showStrings( 1, 'to-translate' )"><?php _e( 'To translate', 'ceceppaml' ) ?><span></span></a>
+      <?php if( count( $in ) > 1 ) : ?>
       <a class="nav-tab" href="javascript:showStrings( 2, 'incomplete' )"><?php _e( 'Incomplete', 'ceceppaml' ) ?><span></span></a>
+      <?php endif; ?>
       <a class="nav-tab" href="javascript:showStrings( 3, 'translated' )"><?php _e( 'Translated', 'ceceppaml' ) ?><span></span></a>
       <p class="submit">
         <span class="spinner"></span>
@@ -298,10 +300,10 @@ $in = $this->_translate_in;
           if( file_exists( $po_filename ) )
             $po = Po::fromFile( $po_filename );
         } catch( Exception $e ) {
-          echo "<div class=\"error\"><p>";
-          echo $this->_dest_path . $domain . $lang->cml_locale . ".po";
-          echo "<pre>$e</pre>";
-          echo "</p></div>";
+          // echo "<div class=\"error\"><p>";
+          // echo $this->_dest_path . $domain . $lang->cml_locale . ".po";
+          // echo "<pre>$e</pre>";
+          // echo "</p></div>";
         }
 
         //Mo
@@ -311,10 +313,10 @@ $in = $this->_translate_in;
           if( file_exists( $mo_filename ) ) 
             $mo = CMo::fromFile( $mo_filename );
         } catch( Exception $e ) {
-          echo "<div class=\"error\"><p>";
-          echo $this->_dest_path . $domain . $lang->cml_locale . ".mo";
-          echo "<pre>$e</pre>";
-          echo "</p></div>";
+          // echo "<div class=\"error\"><p>";
+          // echo $this->_dest_path . $domain . $lang->cml_locale . ".mo";
+          // echo "<pre>$e</pre>";
+          // echo "</p></div>";
         }
 
         //Search the translation for each language
@@ -327,7 +329,7 @@ $in = $this->_translate_in;
             $ret = $mo->search( $s );
           }
 
-          if( $ret == $string && isset( $po ) ) {
+          if( ! isset( $mo ) && isset( $po ) ) {
             $ret = $po->search( $s );
           }
 

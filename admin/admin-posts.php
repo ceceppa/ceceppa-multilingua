@@ -35,6 +35,17 @@ function cml_admin_post_meta_box( $tag ) {
       wp_set_post_categories( $tag->ID, $categories );
     }
     
+    /* recover tags */
+    $tags = wp_get_post_tags( $link_id );
+    if( ! empty( $tags ) ) {
+      $ltags = array();
+      foreach( $tags as $t ) {
+        $ltags[] = $t->name;
+      }
+
+      wp_set_post_tags( $tag->ID, $ltags );
+    }
+
     //for page get parent
     $post = get_post( $link_id );
     
@@ -52,7 +63,7 @@ function cml_admin_post_meta_box( $tag ) {
     $not = array();
   }
 
-  $translations = CMLPost::get_translations( ( $link_id > 0 ) ? $link_id : $tag->ID );
+  $translations = CMLPost::get_translations( ( $link_id > 0 ) ? $link_id : $tag->ID, true );
 
   echo '<ul class="cml-post-translations">';
   foreach( CMLLanguage::get_all() as $lang ) {
@@ -166,7 +177,6 @@ function cml_admin_save_extra_post_fields( $term_id ) {
       $linkeds[ $lang->id ] = @$_POST[ 'linked_post' ][ $lang->id ];
     }
 
-    CMLPost::set_translations( $post_id, $linkeds, $post_lang );
   } else {
     $langs = CMLLanguage::get_all();
 
@@ -175,15 +185,11 @@ function cml_admin_save_extra_post_fields( $term_id ) {
       if( $lang->id == $current ) continue;
 
       $key = "linked_$lang->cml_language_slug";
-
-      if( isset( $_POST[ $key ] ) ) {
-        $lid = intval( $_POST[ $key ] );
-        $linked_lang = CMLLanguage::get_id_by_post_id( $lid );
-
-        CMLPost::set_translation( $post_id, $linked_lang, $lid, $post_lang );
-      }
+      $linkeds[ $lang->id ] = intval( @$_POST[ $key ] );
     }
   }
+
+  CMLPost::set_translations( $post_id, $linkeds, $post_lang );
 }
 
 /*
@@ -307,6 +313,8 @@ function cml_admin_add_meta_boxes() {
   // remove_meta_box('tagsdiv-post_tag','post','side');
   // add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );
 
+  $post_types = apply_filters( 'cml_remove_post_type', $post_types );
+
   foreach( $post_types as $post_type ) {
     if( ! in_array( $post_type, $posts ) ) {
       add_meta_box( 'ceceppaml-meta-box', __('Post data', 'ceceppaml'), 'cml_admin_post_meta_box', $post_type, 'side', 'high' );
@@ -360,6 +368,9 @@ function cml_admin_filter_all_posts_query( $query ) {
 function cml_admin_delete_extra_post_fields( $id ) {
   global $wpdb, $_cml_language_columns;
 
+  //All translations
+  $translations = CMLPost::get_translations( $id );
+
   foreach( $_cml_language_columns as $col ) {
     $sql = sprintf( "UPDATE %s SET $col = 0 WHERE $col = %d", CECEPPA_ML_RELATIONS, $id );
 
@@ -368,6 +379,13 @@ function cml_admin_delete_extra_post_fields( $id ) {
 
   if( get_post_status( $id ) != "trash" ) {
     delete_post_meta( $id, "_cml_meta" );
+  }
+
+  if( ! empty( $translations[ 'linked' ] ) ) {
+    $l = end( $translations[ 'linked' ] );
+
+    //Rebuild meta
+    CMLPost::get_translations( $l, true );
   }
 
   //Ricreo la struttura degli articoli, questo metodo rallenterà soltanto chi scrive l'articolo... tollerabile :D

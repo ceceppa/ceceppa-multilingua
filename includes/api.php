@@ -488,11 +488,12 @@ class CMLTranslations {
    *
    * @return void
    */
-  public static function add( $key, $default, $group ) {
+  public static function add( $key, $default, $group, $no_default = false ) {
     global $wpdb;
 
     $default = bin2hex( $default );
-    foreach( CMLLanguage::get_all() as $lang ) {
+    $langs = ( $no_default ) ? CMLLanguage::get_no_default() : CMLLanguage::get_all();
+    foreach( $langs as $lang ) {
       $query = sprintf( "SELECT id FROM %s WHERE cml_text = '%s' AND cml_lang_id = %d AND cml_type = '%s'",
                         CECEPPA_ML_TRANSLATIONS,
                         bin2hex( strtolower( $key ) ),
@@ -749,7 +750,7 @@ class CMLPost {
     if( null === $lang ) {
       //Get from meta
       $m = get_post_meta( $post_id, "_cml_meta", true );
-      
+
       if( $meta && empty( $m ) ) {
         $lang = self::get_language_by_id( $post_id );
   
@@ -763,7 +764,7 @@ class CMLPost {
         return @$meta[ "lang" ];
       }
     }
-    
+
     return $lang->id;
   }
   
@@ -847,7 +848,7 @@ class CMLPost {
    *       )
    *    </li>
    *    <li>
-   *   [others] => Array
+   *   [linked] => Array
    *       (
    *       <ul>
    *        <li>[en] => 541</li>
@@ -867,9 +868,9 @@ class CMLPost {
     if( empty( $post_id ) ) return array();
 
     if( ! isset( self::$_posts_meta[ $post_id ] ) || $force ) {
-      $row = get_post_meta( $post_id, "_cml_meta", true );
+      $row = ""; //get_post_meta( $post_id, "_cml_meta", true );
 
-      if( empty( $row ) || $force ) {
+      if( empty( $row ) || empty( $row[ 'lang' ] ) || $force ) {
         if( empty( $GLOBALS[ '_cml_language_columns' ] ) ) {
           require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
 
@@ -914,7 +915,7 @@ class CMLPost {
         $row = @array_merge( (array) $row, array( "indexes" => array_filter( $row ),
                                                  "linked" => $others ) );
 
-        if( ! $force ) {
+        if( ! $force && isset( $row[ 'lang' ] ) ) {
           self::update_meta( self::get_language_id_by_id( $post_id ), $post_id, $row );
         } else {
         }
@@ -985,10 +986,18 @@ class CMLPost {
     //$_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
     if( null === $post_lang ) $post_lang = CMLPost::get_language_id_by_id( $post_id );
 
+    $tot = count( $translations );
+    if( $tot < count( CMLLanguage::get_no_default() ) ) {
+
+    }
+
     foreach( $translations as $key => $id ) {
-      if( ! is_numeric( $key ) ) $key = CMLLanguage::get_by_slug( $key );
+      if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
 
       cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
+
+      //I have to update meta for $post_id and its translation
+      self::update_meta( $key, $post_id );
     }
 
     //Update info
@@ -1010,11 +1019,14 @@ class CMLPost {
     if( null == $translations ) {
       $translations = CMLPost::get_translations( $post_id, true );
     }
-
     $meta = array( "lang" => $lang,
                     "translations" => $translations );
 
+    // if( ! isset( $meta[ 'lang' ] ) || empty( $translations ) ) {
+      // delete_post_meta( $post_id, "_cml_meta" );
+    // } else {
     update_post_meta( $post_id, "_cml_meta", $meta );
+    // }
   }
 
   /**

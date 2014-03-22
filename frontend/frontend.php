@@ -864,7 +864,7 @@ EOT;
           $this->_force_post_lang = $lang_id;
 
           //If using static page, ensure that isn't a translation of it...
-          $url = get_permalink( $page_id );
+          $item->url = get_permalink( $page_id );
           // $url = CMLPost::remove_extra_number( $url, $item );
 
           unset( $this->_force_category_lang );
@@ -1092,7 +1092,12 @@ EOT;
           $item->title = '<img src="' . CMLLanguage::get_flag_src( $lang->id, $size ) . '" />&nbsp;&nbsp;' . $item->title;
         }
 
-        $item->url = cml_get_the_link( $lang );
+        $this->_force_post_lang = $lang->id;
+        $this->unset_category_lang();
+
+        $url = cml_get_the_link( $lang->id, true, false, true );
+        $item->url = $url;
+        // $item->url = cml_get_the_link( $lang );
       }
 
       if( $item->url == '#cml-others' || $item->url == '#cml-no-current' ) {
@@ -1118,7 +1123,13 @@ EOT;
             $clone->title = '<img src="' . CMLLanguage::get_flag_src( $linfo->id, $size ) . '" />&nbsp;&nbsp;' . $clone->title;
           }
 
-          $clone->url = cml_get_the_link( $l );
+          $this->_force_post_lang = $l->id;
+          $this->unset_category_lang();
+
+          $url = cml_get_the_link( $l, true, false, true );
+          $clone->url = $url;
+
+          // $clone->url = cml_get_the_link( $l );
 
           $new[] = $clone;
         }
@@ -1641,19 +1652,19 @@ EOT;
         unset( $posts[ $key ] );
       }
 
-      // CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
+      CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
 
       $this->_include_current = true;
     }
 
     /*
-     * If user choosed to don't show some post with post__in, I have to diff $posts
+     * If user choosed to don't show some post with post__not_in, I have to diff $posts
      * with them :)
      */
-    if ( $wp_query->query_vars[ 'post__in' ] &&
-          is_array( $wp_query->query_vars[ 'post__in' ] ) ) {
+    if ( $wp_query->query_vars[ 'post__not_in' ] &&
+          is_array( $wp_query->query_vars[ 'post__not_in' ] ) ) {
       $posts = array_diff( $posts,
-                          $wp_query->query_vars[ 'post__in' ] );
+                          $wp_query->query_vars[ 'post__not_in' ] );
     }
 
     /*

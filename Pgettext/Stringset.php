@@ -19,6 +19,7 @@ class Stringset
     public function __construct()
     {
         $this->set = array();
+        $this->_fuzzy = array();
     }
 
     /**
@@ -47,6 +48,9 @@ class Stringset
 
         $strings = array();
         foreach ($entry as $key => $value) {
+            // if( $key == "#, fuzzy" ) {
+            //   $this->_fuzzy[] = $key;
+            // }
             if (substr($key, 0, 6) === 'msgstr') {
                 if (is_array($value)) {
                     $strings = array_merge($strings, $value);
@@ -137,5 +141,9 @@ class Stringset
       }
 
       return "";
+    }
+
+    public function is_fuzzy( $string ) {
+      return in_array( $string, $this->_fuzzy );
     }
 }

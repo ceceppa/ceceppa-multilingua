@@ -15,9 +15,6 @@ case 1:
 case 2:
   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-cml.php' );
   break;
-case 3:
-  require_once( CML_PLUGIN_LAYOUTS_PATH . 'addons.php' );
-  break;
 }
 ?>
 <div class="wrap">
@@ -27,7 +24,6 @@ case 3:
     <?php if( ! isset( $_GET[ 'wstep' ] ) || @$_GET[ 'wstep' ] == 3 ) : ?>
     <a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=ceceppaml-language-page&tab=1"><?php _e('Language files', 'ceceppaml') ?></a>
     <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=ceceppaml-language-page&tab=2"><?php _e('Ceceppa Multilingua in your language', 'ceceppaml') ?></a>
-    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?>" href="?page=ceceppaml-language-page&tab=3"><?php _e('Addons', 'ceceppaml') ?></a>
     <?php endif; ?>
   </h2>
 

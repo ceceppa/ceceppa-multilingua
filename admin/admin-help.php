@@ -129,6 +129,15 @@ function cml_admin_help_languages() {
   return join ( "<br />\n", $text );
 }
 
+function cml_add_ie_notice() {
+  $text[] = "<strong>" . __( "You are using IE <= 9", "ceceppaml" ) . "</strong>";
+  $text[] = "";
+  $text[] = sprintf( __( "If you need to use custom flags you hate to <%s>upload them manually</a>.", "ceceppaml" ),
+                    'a href="http://www.alessandrosenese.eu/en/ceceppa-multilingua/language-setup#customize-flag" target="_blank"' );
+
+  return join ( "<br />\n", $text );
+}
+
 function cml_admin_print_notice( $key, $text ) {
   //Hide tip?
   if( ! get_option( $key, 1 ) ) return;
@@ -168,8 +177,13 @@ function cml_admin_add_notices() {
   if( $pagenow == 'admin.php' && 'ceceppaml-flags-page' == @$_GET[ 'page' ] )
     cml_admin_print_notice( "cml_show_flags_notice", cml_admin_help_options_flags() );
 
-  if( $pagenow == 'admin.php' && 'ceceppaml-language-page' == @$_GET[ 'page' ] && intval( @$_GET[ 'tab' ] ) <= 0 )
+  if( $pagenow == 'admin.php' && 'ceceppaml-language-page' == @$_GET[ 'page' ] && intval( @$_GET[ 'tab' ] ) <= 0 ) {
     cml_admin_print_notice( "cml_show_languages_notice", cml_admin_help_languages() );
+
+    if( preg_match( '/(?i)msie [1-8]/',$_SERVER['HTTP_USER_AGENT'] ) ) {
+      cml_admin_print_notice( "cml_ie_notice", cml_add_ie_notice() );
+    }
+  }
 }
 
 

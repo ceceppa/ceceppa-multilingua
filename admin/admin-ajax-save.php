@@ -24,15 +24,18 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
    * Save language item
    */
   function cml_admin_save_language_item( $data = null, $die = true ) {
+    error_log( print_r( $_POST, true ) );
+
     if( ! check_ajax_referer( "ceceppaml-nonce", "security" ) ) {
       echo json_encode( array( "html" => "",
                         "error" => __( "Security error", "ceceppaml" ) ) );
 
+      echo "-1";
       die();
     }
 
     global $wpdb;
-  
+
     //Extract data
     if( $data == null ) $data = $_POST[ 'data' ];
     parse_str( $data, $form );
@@ -63,7 +66,6 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
                   );
     $data_format = array( "%d", "%d", "%d", "%d", "%d", "%s", "%s", "%s", "%s", "%s" );
   
-    // error_log( "Data: " . print_r( $data, true ) );
     $id = intval( $form[ 'id' ] );
 
     //Remove?
@@ -186,34 +188,39 @@ function cml_admin_save_options_actions() {
   $page = $_POST[ 'page' ];
   $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
 
-  //Redirect
-  $redirect = array( "auto", "default", "others", "nothing" );
-  $redirect = ( in_array( $_POST[ 'redirect' ], $redirect ) ) ? $_POST[ 'redirect' ] : "auto";
-  update_option("cml_option_redirect", $redirect );
+  if( $tab == 2 ) {
+    update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
+  } else {
+    //Redirect
+    $redirect = array( "auto", "default", "others", "nothing" );
+    $redirect = ( in_array( $_POST[ 'redirect' ], $redirect ) ) ? $_POST[ 'redirect' ] : "auto";
+    update_option("cml_option_redirect", $redirect );
 
-  //Url mode
-  update_option( "cml_modification_mode", intval( $_POST[ 'url-mode' ] ) );
-  update_option( "cml_modification_mode_default", intval( @$_POST[ 'url-mode-default' ] ) );
+    //Url mode
+    update_option( "cml_modification_mode", intval( $_POST[ 'url-mode' ] ) );
+    update_option( "cml_modification_mode_default", intval( @$_POST[ 'url-mode-default' ] ) );
 
-  //Translate categories url
-  //@update_option('cml_option_translate_categories', intval( $_POST['categories'] ) );
+    //Translate categories url
+    //@update_option('cml_option_translate_categories', intval( $_POST['categories'] ) );
 
-  //Notices
-  @update_option("cml_option_notice", sanitize_title( $_POST['notice'] ) );
-  @update_option("cml_option_notice_pos", sanitize_title( $_POST['notice_pos'] ) );
-  @update_option("cml_option_notice_after", $_POST['notice_after'] );
-  @update_option("cml_option_notice_before", $_POST['notice_before'] );
-  @update_option("cml_option_notice_post", intval( $_POST['notice-post'] ) );
-  @update_option("cml_option_notice_page", intval( $_POST['notice-page'] ) );
+    //Notices
+    @update_option("cml_option_notice", sanitize_title( $_POST['notice'] ) );
+    @update_option("cml_option_notice_pos", sanitize_title( $_POST['notice_pos'] ) );
+    @update_option("cml_option_notice_after", $_POST['notice_after'] );
+    @update_option("cml_option_notice_before", $_POST['notice_before'] );
+    @update_option("cml_option_notice_post", intval( $_POST['notice-post'] ) );
+    @update_option("cml_option_notice_page", intval( $_POST['notice-page'] ) );
 
-  //I don't have to save this settings in "wizard" mode
-  if( ! isset( $_POST[ 'wstep' ] ) ) {
-    //Date format
-    @update_option('cml_change_date_format', intval( $_POST['date-format'] ) );
-  
-    //Change locale
-    update_option("cml_option_change_locale", intval( @$_POST['change-locale'] ) );
+    //I don't have to save this settings in "wizard" mode
+    if( ! isset( $_POST[ 'wstep' ] ) ) {
+      //Date format
+      @update_option('cml_change_date_format', intval( $_POST['date-format'] ) );
+    
+      //Change locale
+      update_option("cml_option_change_locale", intval( @$_POST['change-locale'] ) );
+    }
   }
+
 
   $lstep = "";
   if( isset( $_POST[ 'wstep' ] ) ) {

@@ -186,6 +186,17 @@ jQuery(document).ready( function($) {
   jQuery( 'body' ).on( 'submit', '#cml-languages form#form', function() {
     $p = jQuery( this ).parents( '.lang' ).find( 'p.submit' );
 
+    //Total ajax requests
+    var requests = $( '#cml-box-languages #cml-languages .lang' ).length - 1;
+
+    $( document ).ajaxComplete(function() {
+      requests--;
+
+      if( requests <= 0 ) {
+        window.location.reload();
+      }
+    });
+
     //Form
     var $form = jQuery( this );
     $form.find( '#pos' ).val( jQuery( this ).parents( '.lang' ).index() );
@@ -202,7 +213,6 @@ jQuery(document).ready( function($) {
       return false;
     };
     
-    var formData = new FormData();
 
     $form.find( 'input[name="pos"]' ).each( function() {
       $this = jQuery( this );
@@ -210,10 +220,30 @@ jQuery(document).ready( function($) {
       $this.val( $this.parents( '.lang' ).index() );
     });
 
-    formData.append( 'action', 'ceceppaml_save_item' );
-    formData.append( 'security', ceceppaml_admin.secret );
-    formData.append( 'flag', $form.find( 'input[name^="flag_file"]' )[ 0 ].files[ 0 ] );
-    formData.append( "data", $form.serialize() );
+    try 
+    {
+      var formData = new FormData();
+
+      formData.append( 'action', 'ceceppaml_save_item' );
+      formData.append( 'security', ceceppaml_admin.secret );
+      formData.append( 'flag', $form.find( 'input[name^="flag_file"]' )[ 0 ].files[ 0 ] );
+      formData.append( "data", $form.serialize() );
+    } catch( e ) {
+      //IE < 10+ doesn't support FormData() -.-"
+      var formData = {
+        action: 'ceceppaml_save_item',
+        security: ceceppaml_admin.secret,
+        data: $form.serialize()
+      }
+
+      $p.find( '.spinner' ).show().animate( { opacity: 1 } );
+      $p.find( '#more' ).fadeOut();
+
+      $.post( ajaxurl, formData, function( response ) {
+      });
+
+      return false;
+    }
 
     jQuery.ajax( {
       type: 'POST',
@@ -229,7 +259,7 @@ jQuery(document).ready( function($) {
         $lang = $form.parents( '.lang' );
         $lang.find( '.date-format' ).fadeIn();
         $lang.find( 'input[name="date-format"]' ).addClass( 'hidden' );
-    
+
         $form.find( 'input[name^="flag_file"]' ).val( "" );
 
         if ( data === -1 ) {

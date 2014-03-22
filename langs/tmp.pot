@@ -16,6 +16,7 @@ Debug
 Languages
 Post relations
 Translations
+Available addons
 Manage your languages
 Choose filter and url style
 Translate your site
@@ -110,6 +111,7 @@ Plugin
 Theme
 Show flags
 Settings
+Addons
 Documentation
 Shortcode
 Api
@@ -197,11 +199,12 @@ The order of language items will be used for sort generated flags.
 When you choose to upload custom flags the plugin will create two copy of image Small ( 32x23 ) and Tiny ( 16x11 ).
 If you don't like the quality of genearted images you can do manually for both size, and store it in %s, and later choose it from list.
 Custom flags will be stored in: %s path.
+You are using IE <= 9
+If you need to use custom flags you hate to <%s>upload them manually</a>.
 Security error
 Invalid image: 
 Language files
 Ceceppa Multilingua in your language
-Addons
 Remove translation
 Group name
 String
@@ -259,6 +262,7 @@ If translation is complete and you want to share it with us, download it:
 and send it <%s>to me</a>, add also your name or nickname
 If you like the plugin and you want translate it in your language, you can do from this page.
 After clicked on \"Save Changes\" button, follow the instructions and send me the translation, thanks
+Update available addons list
 If you want to customize widget titles you have to assign a title for each of them in "Appearance" -> "Widgets"
 Title
 Reset titles
