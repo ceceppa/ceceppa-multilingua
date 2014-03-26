@@ -99,7 +99,6 @@ class MyTranslations_Table extends WP_List_Table {
       $query = "SELECT min(id) as id, UNHEX(cml_text) as cml_text, cml_type FROM " . CECEPPA_ML_TRANSLATIONS .
                                 " WHERE cml_type in ( '" . join( "', '", $keys ) . "' ) GROUP BY cml_text ORDER BY cml_type, UNHEX( cml_text ) ";
 
-
       $data = $wpdb->get_results( $query );
 
       $current_page = $this->get_pagenum();

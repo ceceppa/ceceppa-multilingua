@@ -188,7 +188,7 @@ function cml_admin_options_categories_tags() {
   <div id="minor-publishing">
   
     <div class="cml-checkbox">
-      <input type="checkbox" id="categories" name="categories" value="1" <?php checked( $_cml_settings[ 'cml_option_translate_categories' ], true ) ?> />
+      <input type="checkbox" id="categories" name="categories" value="1" <?php checked( $_cml_settings[ 'cml_option_translate_category_url' ], true ) ?> />
       <label for="categories"><span>||</span></label>
     </div>
     <label for="categories"><?php _e('Translate categoriy url', 'ceceppaml') ?>&nbsp;</label>
@@ -357,7 +357,7 @@ add_meta_box( 'cml-box-options-url', '<span class="cml-icon cml-icon-url "></spa
 add_meta_box( 'cml-box-options-notices', '<span class="cml-icon cml-icon-notices "></span>' . __( 'Show notice', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w $wclass\" title=\"$help\"></span>", 'cml_admin_options_show_notice', 'cml_box_options' );
 
 if( isset( $_GET[ 'wstep' ] ) ) return;  //wizard
-//add_meta_box( 'cml-box-options-categories', '<span class="cml-icon cml-icon-categories "></span>' . __( 'Categories & Tags', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_categories_tags', 'cml_box_options' );
+add_meta_box( 'cml-box-options-categories', '<span class="cml-icon cml-icon-categories "></span>' . __( 'Categories & Tags', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_categories_tags', 'cml_box_options' );
 add_meta_box( 'cml-box-options-date-format', '<span class="cml-icon cml-icon-comments"></span>' . __( 'Date format', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_date_format', 'cml_box_options' );
 add_meta_box( 'cml-box-options-locale', '<span class="cml-icon cml-icon-wplang"></span>' . __( 'Change wordpress language:', 'ceceppaml' ) . "<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_change_locale', 'cml_box_options' );
 ?>

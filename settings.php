@@ -40,8 +40,7 @@
   $_cml_settings[ 'cml_add_flags_to_menu' ] = get_option("cml_add_flags_to_menu", 0);
   $_cml_settings[ 'cml_append_flags' ] = get_option("cml_append_flags", false);
   $_cml_settings[ 'cml_add_float_div' ] = get_option("cml_add_float_div", false);
-  $_cml_settings[ 'cml_option_translate_categories' ] = get_option("cml_option_translate_categories", 0);
-  $_cml_settings[ 'cml_option_translate_categories_by_link' ] = get_option( "cml_option_translate_categories_by_link", false );
+  $_cml_settings[ 'cml_option_translate_category_url' ] = get_option( "cml_option_translate_category_url", 1 );
   $_cml_settings[ 'cml_option_filter_translations' ] = get_option( "cml_option_filter_translations", true );
   $_cml_settings[ 'cml_option_change_locale' ] = get_option( "cml_option_change_locale", 1);
   $_cml_settings[ 'cml_option_change_locale_admin' ] = get_option( 'cml_option_change_locale_admin', 1 );

@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.11
+Stable tag: 1.4.15
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -178,6 +178,21 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 8. Translate your theme
 
 == Changelog ==
+
+= 1.4.15 =
+* Added "current $type" in dropdown translations list
+
+= 1.4.14 =
+* Category translation in backend when using non default language
+* Fixed "Yoast" and "All in one SEO" compatibility notice
+
+= 1.4.13 =
+* Queries optimized
+* Added "is_unique" function to CMLPost class
+* Fixed "page" link
+
+= 1.4.12 =
+* Added new option in "Actions" tab to disable category url translation
 
 = 1.4.11 =
 * Fixed "save post relations"

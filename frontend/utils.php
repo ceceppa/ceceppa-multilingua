@@ -178,10 +178,6 @@ function cml_get_page_by_path($page_path, $output = OBJECT, $post_type = array('
 function cml_get_the_link( $result, $linked = true, $only_existings = false, $queried = false ) {
   global $wpCeceppaML, $_cml_settings;
 
-  if( defined( 'CML_DEBUG' ) && isset( $_GET[ 'cdb' ] ) ) {
-    echo "queried: $queried<br />";
-    echo "is_home: " . cml_is_homepage() . "<br />";
-  }
   if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {
     //current page is homepage?
     $link = CMLUtils::get_home_url( $result->cml_language_slug );
@@ -285,6 +281,11 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         
         CMLUtils::_del( '_force_category_lang' );
       } //endif;
+
+      if( CMLUtils::get_category_url_mode() == PRE_LANG &&
+          CMLUtils::get_url_mode() == PRE_NONE ) {
+        $link = add_query_arg( array( 'lang' => $result->cml_language_slug ), $link );
+      }
     }
     
     if( $queried && $is_tag ) { //&& false !== strpos( CMLUtils::get_clean_url(), "/tag/" ) ) ) {

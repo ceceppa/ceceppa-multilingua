@@ -84,7 +84,7 @@ function cml_admin_post_meta_box( $tag ) {
     unset( $GLOBALS[ '_cml_no_translate_home_url' ] );
 
     echo "<li class=\"$class\">";
-    _cml_admin_post_meta_translation( $tag->post_type, $lang->id, $t_id );
+    _cml_admin_post_meta_translation( $tag->post_type, $lang->id, $t_id, $tag->ID );
     echo "<a href=\"$link\" class=\"button cml-button-$bclass tipsy-s\" title=\"$msg\"></a>";
     echo " </li>";
   }
@@ -92,7 +92,7 @@ function cml_admin_post_meta_box( $tag ) {
   echo "</ul>";
 }
 
-function _cml_admin_post_meta_translation( $type, $lang, $linked_id ) {
+function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id ) {
   CMLUtils::_set( '_cml_no_filter_query', 1 );
 
   $args = array('numberposts' => -1, 'order' => 'ASC', 'orderby' => 'title', 'posts_per_page' => -1,
@@ -123,15 +123,24 @@ EOT;
 
     $id = $posts->post->ID;
 
+    $current = ( $id == $post_id ) ? "current" : "";
+
 	$lang_id = CMLPost::get_language_id_by_id( $id );
 
 	echo "<li cml-trans=\"$id\">";
     echo '<span class="img">';
     echo CMLLanguage::get_flag_img( $lang_id );
     echo '</span>';
-    echo '<span class="title">';
+    echo '<span class="title ' . $current . '">';
     echo get_the_title( $id );
     echo "</span>";
+    if( ! empty( $current ) ) {
+      echo '<span class="current">';
+      echo "&nbsp;&nbsp;(";
+      printf( __( 'current %s', 'ceceppaml' ), $type );
+      echo ")";
+      echo '</span>';
+    }
     echo "</li>";
   }
 

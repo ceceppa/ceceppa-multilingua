@@ -1689,3 +1689,17 @@ ul.cml-tagslist .button-mini.button-confirm img {
 .cml-addons .cml-addon .links a:hover {
   text-decoration: underline;
 }
+
+
+.cml-dropdown-me .title.current {
+  font-style:italic;
+}
+
+.cml-dropdown-me .title + .current {
+  color: #aaa;
+  font-style:italic;
+  font-weight: bold;
+  text-align: right;
+  display: block;
+  width: 100%;
+}

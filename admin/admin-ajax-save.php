@@ -24,8 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
    * Save language item
    */
   function cml_admin_save_language_item( $data = null, $die = true ) {
-    error_log( print_r( $_POST, true ) );
-
     if( ! check_ajax_referer( "ceceppaml-nonce", "security" ) ) {
       echo json_encode( array( "html" => "",
                         "error" => __( "Security error", "ceceppaml" ) ) );
@@ -200,8 +198,8 @@ function cml_admin_save_options_actions() {
     update_option( "cml_modification_mode", intval( $_POST[ 'url-mode' ] ) );
     update_option( "cml_modification_mode_default", intval( @$_POST[ 'url-mode-default' ] ) );
 
-    //Translate categories url
-    //@update_option('cml_option_translate_categories', intval( $_POST['categories'] ) );
+    //Translate category url
+    @update_option( 'cml_option_translate_category_url', @intval( $_POST[ 'categories' ] ) );
 
     //Notices
     @update_option("cml_option_notice", sanitize_title( $_POST['notice'] ) );
@@ -371,7 +369,7 @@ function cml_admin_save_site_title() {
     $i++;
   }
 
-  cml_generate_mo_from_translations( "T" );
+  cml_generate_mo_from_translations( "_X_" );
 
   $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&cml-generate-settings=true' ) );
 

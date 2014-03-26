@@ -6,12 +6,11 @@ class CMLDebug {
   public function __construct() {
     //add_action( 'admin_menu', array( &$this, 'debug' ) );
     add_action( 'wp_footer', array( &$this, 'footer' ) );
-    // add_filter( 'query', array( & $this, 'query' ), 10, 1 );
+    add_filter( 'query', array( & $this, 'query' ), 10, 1 );
   }
   
   public function query( $query ) {
-    // $traces = debug_backtrace();
-
+   // $traces = debug_backtrace();
     // foreach( $traces as $trace ) {
       // if( isset( $trace[ 'file' ] ) && false !== strpos( $trace[ 'file' ], "ceceppa-multilingua" ) ) {
     $this->queries[] = $query;
@@ -166,8 +165,8 @@ EOT;
       echo "CeceppaML debug:";
       echo "<pre>";
 //       echo "\n\n<b>Languages</b>\n";
-//       CMLDebug::table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_flag_path,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
-//       print_r( cml_get_languages() );
+      // CMLDebug::table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_flag_path,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
+      print_r( cml_get_languages() );
       echo "\n\n<b>Version:</b>" . CML_CURRENT_VERSION . "\n";
       echo "\n\n<b>Homepage:</b>\n";
       echo "\n wpCeceppaML->_url: ";
@@ -207,8 +206,8 @@ EOT;
       echo "\n\n<b>Linked pages:</b>\n";
       print_r( CMLPost::get_translations( get_the_ID() ) );
 
-      // echo "\nQueries: " . count( $this->queries ) . "\n";
-      // echo join( "\n", $this->queries );
+      echo "\nQueries: " . count( $this->queries ) . "\n";
+      echo join( "\n", $this->queries );
       echo "</pre>";
     }
   }

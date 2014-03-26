@@ -64,8 +64,9 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'single_tag_title', array( & $this, 'translate_term_name' ), 10, 1 );
 
     //For PRE_NONE I have to add slug at the end of category link
-    if( $this->_url_mode == PRE_NONE )
+    if( $this->_category_url_mode == PRE_LANG ) {
       add_filter( 'term_link', array( &$this, 'translate_term_link' ), 0, 3 );
+    }
 
     //change category/tag translation with its original name
     if( ! empty( $this->_permalink_structure ) ) {
@@ -314,7 +315,7 @@ class CMLFrontend extends CeceppaML {
       return $this->add_flags_in_submenu( $items, $args );
 
     //In which menu add flags?
-    $to = $_cml_settings[ 'cml_add_items_to' ];
+    $to = @$_cml_settings[ 'cml_add_items_to' ];
 
     if( ! empty( $to ) && ! is_array( $to ) ) $to = array( $to );
     if( ! empty( $to ) && ! in_array( $args->theme_location, $to ) ) return $items;
@@ -672,7 +673,7 @@ EOT;
       if( null === $post_id ) {
         $lang_id = CMLLanguage::get_current_id();
       } else {
-        $lang_id = CMLPost::get_language_id_by_id( $post_id, true );
+        $lang_id = CMLPost::get_language_id_by_id( $post_id );
       }
 
       if( isset( $this->_fake_language_id ) &&
@@ -707,6 +708,7 @@ EOT;
     if( CMLLanguage::is_default( $lang_id ) ) {
       //I have not translate "slug" for default language
       CMLUtils::_set( '_no_translate_term', 1 );
+
       return $term_name;
     }
 
@@ -744,7 +746,8 @@ EOT;
 
       $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id );
 
-      if( null === CMLUtils::_get( '_no_translate_term' ) ) {
+      if( $this->_category_url_mode != PRE_LANG &&
+          null === CMLUtils::_get( '_no_translate_term' ) ) {
         $term->slug = sanitize_title( strtolower( $term->name ) );
       }
 
@@ -770,14 +773,16 @@ EOT;
       $home = CMLUtils::get_home_url();
       $chome = CMLUtils::get_home_url( CMLLanguage::get_slug( $this->_fake_language_id ) );
       
-      return str_replace( $home, $chome, $link );
+      $link = str_replace( $home, $chome, $link );
     }
 
-    if( CMLLanguage::is_default() || ( isset( $this->_force_category_lang ) &&
-       $this->_force_category_lang == CMLLanguage::get_default_id() ) )
+    if( CMLLanguage::is_default( CMLUtils::_get( '_real_language' ) ) 
+        || ( isset( $this->_force_category_lang ) &&
+        $this->_force_category_lang == CMLLanguage::get_default_id() ) )
       return remove_query_arg( "lang", $link );
 
-    return add_query_arg( array( "lang" => CMLLanguage::get_current_slug() ),
+    $slug = CMLLanguage::get_slug( CMLUtils::_get( '_real_language' ) );
+    return add_query_arg( array( "lang" => $slug ),
                                 $link );
   }
   /*
@@ -913,6 +918,7 @@ EOT;
                                                 $term->name;
           $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
                                                 $item->attr_title;
+
           $item->url = $url;
 
           // if( isset( $this->_fake_language_id ) ) {

@@ -53,9 +53,9 @@ EOT;
       <?php
         $table = new MyTranslations_Table( $types );
         $table->prepare_items();
-      
+
         $table->display();
-        
+
         $lkeys = array_keys( CMLLanguage::get_all() );
       ?>
       <div style="text-align:right">
@@ -117,6 +117,6 @@ EOT;
     }
 
     //generate .po
-    cml_generate_mo_from_translations( "S", true );
+    cml_generate_mo_from_translations( "_X_", true );
   }
 ?>

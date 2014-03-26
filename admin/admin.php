@@ -494,8 +494,8 @@ class CMLAdmin extends CeceppaML {
       return $term;
     }
 
-
     if( in_array( $pagenow, array( "edit.php", "post.php", "edit-tags.php" ) ) ) {
+      //&& ! isset( $_REQUEST[ 'taxonomy' ] ) ) {
       $lang = CMLPost::get_language_id_by_id( get_the_ID() );
     } else {
       $lang = CMLLanguage::get_current_id();
@@ -652,7 +652,7 @@ EOT;
 
   function scan_plugin_folders() {
     if( 1 == get_option( '_cml_scan_folders' ) ) {
-      cml_admin_scan_plugins_folders();
+      add_action( 'admin_notices', 'cml_admin_scan_plugins_folders' );
     }
   }
 }

@@ -172,7 +172,7 @@ class CML_WPML_Parser {
  */
 function cml_admin_scan_plugins_folders() {
   $plugins = WP_CONTENT_DIR . "/plugins";
-  
+
   $old = get_option( '_cml_wpml_config_paths', "" );
 
   $xmls = @glob( "$plugins/*/wpml-config.xml" );
@@ -202,12 +202,13 @@ function cml_admin_scan_plugins_folders() {
   $not = join( ",", $not );
   update_option( '_cml_wpml_config_paths', $not );
 
-  if( $not == $old ) {
+  $displayed = get_option( '_cml_wpml_config', 1 );
+  if( ! $displayed && $not == $old ) {
     return;
   }
 
   $txt .= "</ul>";
-  $txt .= sprintf( _( "Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</a> page", "ceceppaml" ),
+  $txt .= sprintf( __( "Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</a> page", "ceceppaml" ),
           'a href="' . $link . '"' );
   $txt .= "<br /><b>";
   $txt .= __( "Support to wpml-config.xml is experimental and could not works correctly", "ceceppaml" );

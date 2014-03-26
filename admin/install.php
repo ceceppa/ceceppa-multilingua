@@ -86,6 +86,8 @@ function cml_install_create_tables() {
   }
   
   if( $first_time ) {
+    update_option( "cml_db_version", CECEPPA_DB_VERSION );
+
     update_option( "cml_show_wizard", 1 );
   }
 
@@ -215,8 +217,9 @@ function cml_do_install() {
 
   //Copy category translation from "_cats" to "_relations"
   require_once ( CML_PLUGIN_ADMIN_PATH . "admin-taxonomies.php" );
+
   _cml_copy_taxonomies_to_translations();
-  cml_generate_mo_from_translations( "", false );
+  cml_generate_mo_from_translations( "_X_", false );
 
   //(Re)generate settings
   cml_generate_settings_php();

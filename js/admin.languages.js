@@ -187,15 +187,7 @@ jQuery(document).ready( function($) {
     $p = jQuery( this ).parents( '.lang' ).find( 'p.submit' );
 
     //Total ajax requests
-    var requests = $( '#cml-box-languages #cml-languages .lang' ).length - 1;
-
-    $( document ).ajaxComplete(function() {
-      requests--;
-
-      if( requests <= 0 ) {
-        window.location.reload();
-      }
-    });
+    var requests = $( '#cml-box-languages #cml-languages .lang' ).length;
 
     //Form
     var $form = jQuery( this );
@@ -241,6 +233,14 @@ jQuery(document).ready( function($) {
 
       $.post( ajaxurl, formData, function( response ) {
       });
+
+      $( document ).ajaxComplete(function() {
+        requests--;
+
+        if( requests <= 0 ) {
+          window.location.reload();
+        }
+      });      
 
       return false;
     }

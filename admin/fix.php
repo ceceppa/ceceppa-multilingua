@@ -116,6 +116,11 @@ function cml_do_update() {
                        CECEPPA_ML_TABLE ) );
   }
 
+  if( $dbVersion < 30 ) {
+    //Get all unique posts from database
+    cml_fix_rebuild_posts_info();
+  }
+
   //CML < 1.4
   cml_do_update_old();
 
@@ -292,14 +297,26 @@ function cml_fix_rebuild_posts_info() {
   $apids = array(); //All pids
   $i = 0;
   $results = $wpdb->get_results( "SELECT * FROM " . CECEPPA_ML_RELATIONS );
+
+  $uniques = array();
   foreach( $results as $result ) {
     $r = ( Array ) $result;
 
+    unset( $r[ 'id' ] );
+
+    $first = reset( $r );
+    $is_unique = 1;
     foreach( $_cml_language_columns as $key => $l ) {
+      $is_unique = $is_unique && ( $r[ $l ] == $first );
+
       if( $r[ $l ] > 0 ) {
         $pids[ $key ][] = $r[ $l ];
         $apids[ $i ][ $key ] = $r[ $l ];
       }
+    }
+
+    if( $is_unique ) {
+      $uniques[] = $first;
     }
 
     $i++;
@@ -308,6 +325,9 @@ function cml_fix_rebuild_posts_info() {
   foreach( $_cml_language_columns as $key => $l ) {
     @update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
   }
+
+  //unique posts
+  @update_option( "cml_unique_posts", array_unique( $uniques ) );
 
   /*
    * hide translations of current post..

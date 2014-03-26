@@ -47,7 +47,7 @@ $page = $_GET[ 'page' ];
             }
           }
 
-          cml_generate_mo_from_translations( "W" );
+          cml_generate_mo_from_translations( "_X_" );
         }
 
         require_once ( CML_PLUGIN_FRONTEND_PATH . 'utils.php' );

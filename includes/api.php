@@ -594,12 +594,6 @@ class CMLTranslations {
   public static function get( $lang, $string, $type = "", $return_empty = false, $ignore_po = false ) {
     global $wpdb;
 
-    // if( CMLLanguage::is_current( $lang ) && 
-    //     "_" != $type[ 0 ] &&
-    //     ! ( isset( $string[0] ) && "_" == $string[ 0 ] ) ) {
-    //   return $string;
-    // }
-
     if( "_" == $type[ 0 ] && ! $return_empty ) {
       $return_empty = true;
     }
@@ -610,7 +604,9 @@ class CMLTranslations {
     $s = ( $type == "C" ) ? strtolower( $string ) : $string;
 
     //Look if I already translated it...
-    if( isset( self::$_keys[ $lang ] ) && in_array( sanitize_title( $s ), self::$_keys[ $lang ] ) ) {
+    if( isset( self::$_keys[ $lang ] ) && 
+      in_array( sanitize_title( $s ), self::$_keys[ $lang ] ) ) {
+
       $index = array_search( sanitize_title( $s ), self::$_keys[ $lang ] );
       return self::$_translations[ $lang ][ $index ];
     }
@@ -618,8 +614,13 @@ class CMLTranslations {
     if( CML_GET_TRANSLATIONS_FROM_PO &&
        ! $ignore_po &&
        1 == CMLUtils::_get( '_po_loaded' ) ) {
-         //file_exists( CML_PLUGIN_CACHE_PATH . "cmltrans-" . CMLLanguage::get_current()->cml_locale . ".mo" ) ) {
-      $ret = __( $s, 'cmltrans' );
+
+      $translations = get_translations_for_domain( 'cmltrans' );
+      if( isset( $translations->entries[ $string ] ) ) {
+        return __( $s, 'cmltrans' );
+      } else {
+        if( $return_empty ) return "";
+      }
     }
 
     if( ! is_numeric( $lang ) ) {
@@ -692,6 +693,8 @@ class CMLPost {
   /** @ignore */
   private static $_indexes = null;
   /** @ignore */
+  private static $_uniques = null;
+  /** @ignore */
   private static $_posts_meta = array();
 
   /**
@@ -727,21 +730,17 @@ class CMLPost {
    * return language id by post id
    *
    * @param int $post_id - id of post/page
-   * @param boolean $meta - default false.
-   *                        If true use wp function "get_post_meta", instead of get_language_by_id method
-   *                        to get language of post.
+   * @param boolean $unique check if $post_id exists in all languages, if true return
+   *                        0, otherwise return 
    *                        In backend I need to get information by post meta, or I'll lost
    *                        "all languages" ( = 0 ) information.
    *
    * @return int
    */
-  public static function get_language_id_by_id( $post_id, $meta = false ) {
-    if( $meta ) {
-      //Get from meta
-      $m = get_post_meta( $post_id, "_cml_meta", true );
-
-      if( ! empty( $m ) && isset( $m[ "lang" ] ) ) {
-        return $m[ "lang"];
+  public static function get_language_id_by_id( $post_id, $unique = false ) {
+    if( $unique ) {
+      if( self::is_unique( $post_id ) ) {
+        return 0;
       }
     }
 
@@ -751,7 +750,7 @@ class CMLPost {
       //Get from meta
       $m = get_post_meta( $post_id, "_cml_meta", true );
 
-      if( $meta && empty( $m ) ) {
+      if( $unique && empty( $m ) ) {
         $lang = self::get_language_by_id( $post_id );
   
         if( is_object( $lang ) ) {
@@ -932,6 +931,19 @@ class CMLPost {
   }
   
   /**
+   * check if $post_id exists in all languages
+   *
+   * @param int $post_id post id to search
+   *
+   * return boolean
+   */
+  public static function is_unique( $post_id ) {
+    if( null === self::$_uniques ) self::_load_indexes();
+
+    return in_array( $post_id, self::$_uniques );
+  }
+
+  /**
    * set language of post
    *
    * This function will unlink $post_id by its translations
@@ -991,20 +1003,17 @@ class CMLPost {
 
     }
 
+    $old = CMLPost::get_translations( $post_id, true );
+
     foreach( $translations as $key => $id ) {
       if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
 
       cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
-
-      //I have to update meta for $post_id and its translation
-      self::update_meta( $key, $post_id );
     }
 
-    //Update info
+    // //Update info
     cml_fix_rebuild_posts_info();
     self::_load_indexes();
-
-    self::update_meta( $post_lang, $post_id );
   }
   
   /*
@@ -1019,14 +1028,13 @@ class CMLPost {
     if( null == $translations ) {
       $translations = CMLPost::get_translations( $post_id, true );
     }
+
+    if( ! is_numeric( $lang ) ) $lang = CMLLanguage::get_id_by_slug( $lang );
+
     $meta = array( "lang" => $lang,
                     "translations" => $translations );
 
-    // if( ! isset( $meta[ 'lang' ] ) || empty( $translations ) ) {
-      // delete_post_meta( $post_id, "_cml_meta" );
-    // } else {
     update_post_meta( $post_id, "_cml_meta", $meta );
-    // }
   }
 
   /**
@@ -1126,6 +1134,8 @@ class CMLPost {
     foreach($langs as $lang) {
       self::$_indexes[ $lang->id ] = get_option( "cml_posts_of_lang_" . $lang->id );
     }
+
+    self::$_uniques = get_option( 'cml_unique_posts', array() );
   }
 
   /**
@@ -1139,7 +1149,7 @@ class CMLPost {
 
     $removed = false;
 
-    if( is_object( $post ) && CMLPost::has_translations( $post->ID ) ) {
+    if( is_object( $post ) ) {
       //Remove last "/"
       $url = untrailingslashit( $permalink );
       $url = str_replace( CMLUtils::home_url(), "", $url );
@@ -1170,7 +1180,7 @@ class CMLPost {
          * if title contains more one, I remove it :)
          */
         //Remove autoinserted -## from url
-        if( count( $pout[0] ) < count( $out[ 0 ] ) ) {
+        if( count( $pout[0] ) < count( $out[ 0 ] ) && CMLPost::has_translations( $post->ID ) ) {
           $permalink = trailingslashit( preg_replace( "/-\d*$/", "",
                                                      untrailingslashit( $permalink ) ) );
 
@@ -1254,7 +1264,7 @@ class CMLUtils {
 
     switch( CMLUtils::get_url_mode() ) {
     case PRE_PATH:
-      if( $slug == CMLLanguage::get_default()->cml_language_slug &&
+      if( $slug == CMLLanguage::get_default_slug() &&
           $_cml_settings[ 'url_mode_remove_default' ] ) {
         $slug = "";
       } else
@@ -1290,6 +1300,10 @@ class CMLUtils {
     return self::$_url_mode;
   }
   
+  public static function get_category_url_mode() {
+    return CMLUtils::_get( 'cml_category_mode' );
+  }
+
   /**
    * get wordpress date format option
    * @ignore

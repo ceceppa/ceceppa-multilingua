@@ -44,7 +44,7 @@ function cml_update_widget_conditions( $instance, $new_instance, $old_instance )
 
   $instance[ 'cml-conditions' ] = $conditions;
   
-  cml_generate_mo_from_translations( "W" );
+  cml_generate_mo_from_translations( "_X_" );
 
   return $instance;
 }

@@ -106,7 +106,7 @@ function _cml_admin_quickedit_taxonomy( $term_id ) {
   _cml_copy_taxonomies_to_translations();
 
   //Update translations :)
-  cml_generate_mo_from_translations( "C", false );
+  cml_generate_mo_from_translations( "_X_", false );
 }
 
 function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation ) {
@@ -146,7 +146,7 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation ) {
   _cml_copy_taxonomies_to_translations();
 
   //Update translations :)
-  cml_generate_mo_from_translations( "C", false );
+  cml_generate_mo_from_translations( "_X_", false );
 }
 
 function _cml_copy_taxonomies_to_translations() {

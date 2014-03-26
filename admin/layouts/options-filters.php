@@ -233,7 +233,6 @@ function cml_admin_options_translate_menu() {
 <?php
 }
 
-
 $help = __( 'Show/Hide help', 'ceceppaml' );
 
 //Force to active state when wizard is running
