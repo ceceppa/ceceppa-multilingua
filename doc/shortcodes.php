@@ -10,7 +10,6 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 <h2 class="nav-tab-wrapper">
   <?php _e('Shortcodes', 'ceceppaml') ?>
 </h2>
-<?php if($tab == 0): ?>
 <h3>Index</h3>
 <ul class="cml_list">
   <li><a href="#strings"><?php _e('Translate strings in different languages', 'ceceppaml') ?></a></li>
@@ -22,28 +21,45 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 </ul>
 <div id="strings"><br />
 <h3><?php _e('Translate strings in different languages', 'ceceppaml') ?></h3>
-<blockquote>
-  <span style="color: #00f;">
-    <strong>[cml_text]</strong>
-  </span>
-  <br />
   <blockquote>
-    <span style="color: #f00"><?php _e('Usage:', 'ceceppaml') ?></span>
+    <span style="color: #00f;">
+      <strong>[cml_text]</strong>
+    </span>
     <br />
-    <p style="padding-left: 20px">
-      [cml_text lang1="value" lang2="value" ...]<br />
-    </p>
+    <blockquote>
+      <span style="color: #f00"><?php _e('Usage:', 'ceceppaml') ?></span>
+      <br />
+      <p style="padding-left: 20px">
+        [cml_text lang1="value" lang2="value" ...]<br />
+      </p>
       <ul style="float: none; list-style: circle;padding-left: 50px;">
-	<li><strong>lang#:</strong> - "slug of language". Ex: it, en, epo...</li>
+       <li><strong>lang#:</strong> - "slug of language". Ex: it, en, epo...</li>
       </ul>
 
       <br />
       <strong><?php _e('Example:', 'ceceppaml') ?></strong><br />
       <p style="padding-left: 20px">
-	<i>[cml_text it="Stringa in italiano" en="String in English" epo="Teksto en Esperanto"]</i>
+       <i>[cml_text it="Stringa in italiano" en="String in English" epo="Teksto en Esperanto"]</i>
       </p>
     </blockquote>
   </blockquote>
+
+  <blockquote>
+    <span style="color: #00f;">
+      <strong>[_##_]</strong>text to display<strong>[/_##_]</strong>
+    </span>
+    <br />
+    Where ## is the language slug
+    <br />
+    <blockquote>
+      <strong><?php _e('Example:', 'ceceppaml') ?></strong><br />
+      <p style="padding-left: 20px">
+       <i>[_it_]Questo testo verrà visualizzato in italiano[/_it_]</i><br />
+       <i>[_en_]This text will be displayed in English[/_en_]</i>
+      </p>
+    </blockquote>
+  </blockquote>
+
 </div>
 <div id="translations"><br />
 <h3><?php _e('How to use the translations stored in "My Translations" page', 'ceceppaml') ?></h3>
@@ -56,7 +72,7 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
     <span style="color: #f00"><?php _e('Usage:', 'ceceppaml') ?></span>
     <br />
       <p style="padding-left: 20px">
-	[cml_shortcode  string="string to search" in="language to translate"]
+	[cml_translate  string="string to search" in="language to translate"]
       </p>
 	<ul style="float: none; list-style: circle;padding-left: 50px;">
 	  <li><strong>string:</strong> - string previously stored in "My Translation"</li>
@@ -106,7 +122,7 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 <h3><?php _e('How to show all available languages', 'ceceppaml') ?></h3>
 <blockquote>
   <span style="color: #00f;">
-    <strong>[cml_show_flags]</strong><br />
+    <strong>[cml_show_available_langs]</strong><br />
   </span><br />
     <?php _e('This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list', 'ceceppaml') ?>
     <?php _e('This shortcode is available also as function with same name and paramaters', 'ceceppaml') ?>
@@ -120,11 +136,17 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 	<ul style="float: none; list-style: circle;padding-left: 50px;">
 	  <li><strong>show:</strong> - indicates what to display. Possible values are:
 	    <ul style="float: none; list-style: square;padding-left: 20px;">
-	      <li><strong style="color: #00f">flag</strong> - will be shown only flags</li>
-	      <li><strong style="color: #00f">text</strong> - will be shown only the names</li>
-	      <li><strong style="color: #00f">both</strong> - will be shown only both, flags and names</li>
+	      <li><strong style="color: #00f">text</strong> - display language name</li>
+	      <li><strong style="color: #00f">slug</strong> - display language slug</li>
+	      <li><strong style="color: #00f">none</strong> - display nothing</li>
 	    </ul>
 	  </li>
+    <li>
+      <strong>
+        show_flag:
+      </strong>
+      true/false - indicate if display flag
+    </li>
 	  <li><strong>size:</strong> - Size of flags.
 	    <ul style="float: none; list-style: square;padding-left: 20px;">
 	      <li><strong style="color: #00f">tiny</strong> - 20x12</li>
@@ -138,7 +160,7 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
       <strong><?php _e('Example:', 'ceceppaml') ?></strong>
       <p style="padding-left: 20px">
 	<i>[cml_show_flags show="both" size="small" class="cml_flags"]</i>
-	<?php echo @do_shortcode('[cml_show_flags show="both" size="tiny" class="cml_flags"]'); ?>
+	<?php echo @do_shortcode('[cml_show_flags show="slug" show_flag="true" size="tiny" class="cml_flags"]'); ?>
       </p>
       <br />
     </blockquote>
@@ -197,8 +219,4 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 </blockquote>
 </div>
 
-<?php else : 
-	require_once("functions_page.php");
-      endif;
-?>
 </div>

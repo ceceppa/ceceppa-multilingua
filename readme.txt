@@ -181,6 +181,8 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 = 1.4.15 =
 * Added "current $type" in dropdown translations list
+* Added quick shortcode [_##_] ( Ex: [_en_]Text to show[/_en_] )
+* Updated shortcode documentation
 
 = 1.4.14 =
 * Category translation in backend when using non default language

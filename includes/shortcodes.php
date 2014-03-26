@@ -43,6 +43,10 @@ add_shortcode( 'cml_other_langs_available', 'cml_shortcode_other_langs_available
 add_shortcode( 'cml_show_flags', 'cml_shortcode_show_flags' );
 add_shortcode( 'cml_translate', 'cml_shortcode_translate' );
 
+foreach( CMLLanguage::get_all() as $lang ) {
+  add_shortcode( '_' . $lang->cml_language_slug . "_", 'cml_quick_shortcode' );
+}
+
 function cml_shortcode_text($attrs) {
   global $wpCeceppaML;
 
@@ -67,7 +71,7 @@ function cml_shortcode_translate( $attrs ) {
   return cml_translate( $string, $id );
 }
 
-function cml_do_shortcode($attrs) {
+function cml_do_shortcode( $attrs, $content = null ) {
   global $wpCeceppaML;
 
   $shortcode = $attrs['shortcode'];
@@ -75,7 +79,13 @@ function cml_do_shortcode($attrs) {
   
   $lang = @$attrs[ CMLLanguage::get_current_slug() ];
 
-  return do_shortcode("[$shortcode $params $lang]");
+  if( null == $content ) {
+    $do = "[$shortcode $params $lang]";
+  } else {
+    $do = "[$shortcode $params $lang]" . $content . "[/$shortcode]";
+  }
+  
+  return do_shortcode( $do );
 }
 
 function cml_show_available_langs( $args ) {
@@ -106,4 +116,16 @@ function cml_shortcode_show_flags($attrs) {
   return cml_show_flags( $attrs ); 
 }
 
+function cml_quick_shortcode( $attrs, $content = null, $shortcode ) {
+  if( preg_match( "/_(.*)_/", $shortcode, $match ) ) {
+    $lang = end( $match );
+
+    //not current one
+    if( ! CMLLanguage::is_current( $lang ) ) return "";
+
+    echo $content;
+  }
+
+  return "";
+}
 ?>
