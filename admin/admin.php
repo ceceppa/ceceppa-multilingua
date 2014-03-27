@@ -183,6 +183,7 @@ class CMLAdmin extends CeceppaML {
                     'restoremsg' => __( "Restore", "ceceppaml" ),
                     'custommsg' => __( "Custom", "ceceppaml" ),
                     'dateformat' => get_option( 'date_format' ),
+                    'default_id' => CMLLanguage::get_default_id(),
                     'tags' => json_encode( $names),
                     );
     wp_localize_script( 'ceceppaml-admin-script', 'ceceppaml_admin', $secret );
@@ -494,16 +495,22 @@ class CMLAdmin extends CeceppaML {
       return $term;
     }
 
-    if( in_array( $pagenow, array( "edit.php", "post.php", "edit-tags.php" ) ) ) {
+    if( in_array( $pagenow, array( "edit.php", "post.php" ) ) ) {
       //&& ! isset( $_REQUEST[ 'taxonomy' ] ) ) {
       $lang = CMLPost::get_language_id_by_id( get_the_ID() );
     } else {
-      $lang = CMLLanguage::get_current_id();
+      if( "edit-tags.php" == $pagenow && isset( $_GET[ 'action' ] ) ) {
+        $lang = CMLLanguage::get_default_id();
+      } else {
+        $lang = CMLLanguage::get_current_id();
+      }
     }
 
-    $term->name = CMLTranslations::get( $lang,
-                                       $term->name, "C", false, true );
-    
+    $name = CMLTranslations::gettext( $lang, $term->taxonomy . "_" . $term->name, "C", CML_PLUGIN_CACHE_PATH );
+    if( ! empty( $name ) ) {
+      $term->name = $name;
+    }
+
     return $term;
   }
 
@@ -645,8 +652,6 @@ EOT;
    * scan plugins folders
    */
   function plugin_activated() {
-    delete_option( '_cml_wpml_config' );
-
     update_option( '_cml_scan_folders', 1 );
   }
 

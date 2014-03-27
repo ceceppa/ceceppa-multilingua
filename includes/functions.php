@@ -84,6 +84,8 @@ function _cml_dropdown_lang_li( $url, $lang = null, $hide_id = 0, $close = true,
 
   if( ! empty( $name ) ) $name = "<span>$name</span>";
 
+  if( "#" == $url ) $url = "javascript:void()";
+
   $close = ( $close ) ? "</li>" : "";
 return <<< EOT
   <li class="cml-lang-$id $hide">

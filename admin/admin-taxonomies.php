@@ -37,7 +37,9 @@ function cml_admin_taxonomy_edit_form_fields( $tag ) {
         $img = CMLLanguage::get_flag_img( $lang->id );
 
         //$value = get_option( "cml_category_" . $t_id . "_lang_$id", $tag->name );
-        $value = CMLTranslations::get( $lang->id, strtolower( $tag->name ), "C", false, true );
+        $tname = strtolower( $tag->taxonomy . "_" . $tag->name );
+        $value = CMLTranslations::gettext( $lang->id, $tname, "C", CML_PLUGIN_CACHE_PATH );
+        if( empty( $value ) ) $value = $tag->name;
 echo <<< EOT
   <tr class="form-field cml-form-field">
   <td>
@@ -74,7 +76,7 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
   $cats = $_POST[ 'cat_name' ];
   $name = isset( $_POST[ 'name' ] ) ? $_POST[ 'name' ] : $_POST[ 'tag-name' ];
   foreach( $cats as $key => $cat ) {
-    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat );
+    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $_POST[ 'taxonomy' ] );
   }
 }
 
@@ -109,7 +111,7 @@ function _cml_admin_quickedit_taxonomy( $term_id ) {
   cml_generate_mo_from_translations( "_X_", false );
 }
 
-function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation ) {
+function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $taxonomy ) {
   global $wpdb;
 
   $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d",
@@ -127,6 +129,7 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation ) {
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
 			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
+      "cml_taxonomy" => $taxonomy,
             ),
 		  array( "id" => $r_id ),
 		  array( '%s', '%d', '%s', '%s' ),
@@ -139,6 +142,7 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation ) {
 			"cml_cat_translation" => bin2hex( $translation ),
 			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
 			"cml_cat_id" => $id,
+      "cml_taxonomy" => $taxonomy,
             ),
 		  array('%s', '%d', '%s', '%s', '%d') );
   }
@@ -157,7 +161,7 @@ function _cml_copy_taxonomies_to_translations() {
 
   //copy
   $query = sprintf( "INSERT INTO %s ( cml_text, cml_lang_id, cml_translation, cml_type) " .
-                   "( SELECT cml_cat_name, cml_cat_lang_id, cml_cat_translation, 'C' FROM %s )",
+                   "( SELECT HEX( CONCAT( cml_taxonomy, '_', UNHEX(cml_cat_name) ) ), cml_cat_lang_id, cml_cat_translation, 'C' FROM %s )",
                    CECEPPA_ML_TRANSLATIONS, CECEPPA_ML_CATS );
 
   $wpdb->query( $query );

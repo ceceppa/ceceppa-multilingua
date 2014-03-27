@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.15
+Stable tag: 1.4.16
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -178,6 +178,10 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 8. Translate your theme
 
 == Changelog ==
+
+= 1.4.16 =
+* Fixed preview post/page when using static homepage
+* Now will be displayed correct flag after "quick edit" update
 
 = 1.4.15 =
 * Added "current $type" in dropdown translations list

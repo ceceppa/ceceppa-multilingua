@@ -250,7 +250,8 @@ class gettext_reader {
    */
   function translate($string) {
     if ($this->short_circuit)
-      return $string;
+      return "";
+
     $this->load_tables();
 
     if ($this->enable_cache) {
@@ -258,12 +259,12 @@ class gettext_reader {
       if (array_key_exists($string, $this->cache_translations))
         return $this->cache_translations[$string];
       else
-        return $string;
+        return "";
     } else {
       // Caching not enabled, try to find string
       $num = $this->find_string($string);
       if ($num == -1)
-        return $string;
+        return "";
       else
         return $this->get_translation_string($num);
     }

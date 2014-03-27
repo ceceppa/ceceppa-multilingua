@@ -647,26 +647,34 @@ class CMLTranslations {
    *
    * @ignore
    */
-  public static function gettext( $lang, $string, $type, $ignore_po = false ) {
-    $ret = self::get( $lang, $string, $type, true, $ignore_po );
-
-    if( ! empty( $ret ) ) return $ret;
+  public static function gettext( $lang, $string, $type, $path = null ) {
+    if( ! CML_GET_TRANSLATIONS_FROM_PO ) {
+      return CMLTranslations::get( $lang, $string, $type, true, true );
+    }
 
     //Recupero la traduzione dalle frasi di wordpress ;)
     require_once( CML_PLUGIN_PATH . "gettext/gettext.inc" );
-    
-    $locale = CMLLanguage::get_current()->cml_locale;
+
+    if( empty( $lang ) ) $lang = CMLLanguage::get_current_id();
+    $lang = CMLLanguage::get_by_id( $lang );
+    $locale = $lang->cml_locale;
 
     // gettext setup
     T_setlocale( LC_MESSAGES, $locale );
     // Set the text domain as 'messages'
 
-    $domain = $locale;
-    T_bindtextdomain( $domain, CML_WP_LOCALE_DIR );
+    if( ! empty( $path ) ) {
+      $domain = "cmltrans-" . $locale;
+    } else {
+      $domain = $locale;
+      $path = CML_WP_LOCALE_DIR;
+    }
+
+    T_bindtextdomain( $domain, $path );
     T_bind_textdomain_codeset( $domain, 'UTF-8' );
     T_textdomain( $domain );
 
-    $ret = T_gettext( $string );
+    return T_gettext( strtolower( $string ) );
 
     return ( empty( $ret ) ) ?  $string : html_entity_decode( stripslashes( $ret ) );
   }
@@ -1016,6 +1024,15 @@ class CMLPost {
     self::_load_indexes();
   }
   
+  /**
+   * set post as unique ( it will be exists in all languages )
+   *
+   * @param int $post_id the post id
+   */
+  public static function set_as_unique( $post_id ) {
+    cml_migrate_database_add_item( 0, $post_id, 0, 0 );
+  }
+
   /*
    * update post meta
    * @ignore

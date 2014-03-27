@@ -81,6 +81,7 @@ All languages
 Edit
 Add translation
 None
+current %s
 Language: 
 Edit post: 
 Translate to:
@@ -417,6 +418,7 @@ Manage languages
 generated from "wpml-config.xml"
 Current plugins contains WPML Language Configuration Files ( wpml-config.xml )
 officially supported
+Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</a> page
 Support to wpml-config.xml is experimental and could not works correctly
 Your theme is designed for WPML
 Support for theme compatible with WPML is experimental and could not works correctly, if you need help contact me.

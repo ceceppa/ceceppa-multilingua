@@ -3,7 +3,7 @@
 Plugin Name: Ceceppa Multilingua
 Plugin URI: http://www.ceceppa.eu/portfolio/ceceppa-multilingua/
 Description: Adds userfriendly multilingual content management and translation support into WordPress.
-Version: 1.4.14
+Version: 1.4.16
 Author: Alessandro Senese aka Ceceppa
 Author URI: http://www.alessandrosenese.eu/
 License: GPL3
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $wpdb;
 
-define( 'CECEPPA_DB_VERSION', 30 );
+define( 'CECEPPA_DB_VERSION', 31 );
 
 define( 'CECEPPA_ML_TABLE', $wpdb->base_prefix . 'ceceppa_ml' );
 define( 'CECEPPA_ML_CATS', $wpdb->base_prefix . 'ceceppa_ml_cats' );
@@ -338,6 +338,10 @@ EOT;
   function translate_post_link( $permalink, $post, $leavename ) {
     global $wpdb, $page;
 
+    if( is_preview() ) {
+      return $permalink;
+    }
+
     if( $this->_url_mode == PRE_LANG &&
         $page > 1 &&
         ! empty( $this->_permalink_structure ) &&
@@ -355,10 +359,6 @@ EOT;
                                   "lang" => $slug,
                                   ),
                             "$permalink/$page/" );
-    }
-
-    if( is_preview() ) {
-      return $permalink;
     }
 
     if( $this->_url_mode == PRE_LANG ) {
@@ -489,6 +489,10 @@ EOT;
   function translate_home_url( $url, $path, $origin_scheme, $blog_id ) {
     if( isset( $GLOBALS[ '_cml_no_translate_home_url' ] )
        || ! apply_filters( 'cml_translate_home_url', true, $this->_url ) ) {
+      return $url;
+    }
+
+    if( is_admin() && "?p=" == substr( $path, 0, 3 ) ) {
       return $url;
     }
 

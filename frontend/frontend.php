@@ -59,9 +59,9 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'get_the_terms', array( & $this, 'translate_terms' ), 0, 3 );
     add_filter( 'list_cats', array(&$this, 'translate_category' ), 10, 2 ); //for translate categories widget
     add_filter( 'post_link_category', array( & $this, 'post_link_category' ), 10, 3 );
-    add_filter( 'single_cat_title', array( & $this, 'translate_term_name' ), 10, 1 );
-    add_filter( 'single_term_title', array( & $this, 'translate_term_name' ), 10, 1 );
-    add_filter( 'single_tag_title', array( & $this, 'translate_term_name' ), 10, 1 );
+    add_filter( 'single_cat_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
+    // add_filter( 'single_term_title', array( & $this, 'translate_sintle_term_title' ), 10, 1 );
+    // add_filter( 'single_tag_title', array( & $this, 'translate_single_cat_title' ), 10, 1 );
 
     //For PRE_NONE I have to add slug at the end of category link
     if( $this->_category_url_mode == PRE_LANG ) {
@@ -125,8 +125,9 @@ class CMLFrontend extends CeceppaML {
      * Used static page?
      * If yes I change the id of page with its translation
      */
-    if( cml_is_homepage() && cml_use_static_page() )
+    if( cml_is_homepage() && cml_use_static_page() && ! isset( $_GET[ 'preview' ] ) ) {
       add_filter( 'pre_get_posts', array( & $this, 'change_static_page' ), 0 );
+    }
 
     //Archive links
     add_filter( 'getarchives_where', array( & $this, 'get_archives_where' ), 10, 2 );
@@ -554,7 +555,9 @@ EOT;
      * Change the id of "page_on_front", so wordpress will add "home" to body_class :)
      */
     if( $nid > 0 ) {
-      update_option( 'page_on_front', $nid );
+      if( ! is_preview() ) {
+	update_option( 'page_on_front', $nid );
+      }
     } else {
       $nid = $id;
     }
@@ -660,7 +663,7 @@ EOT;
   /*
    * translate single category name
    */
-  function translate_term_name( $term_name, $lang_id = null, $post_id = null ) {
+  function translate_term_name( $term_name, $lang_id = null, $post_id = null, $taxonomy = "" ) {
     if( 1 === CMLUtils::_get( '_no_translate_term' ) ) {
       return $term_name;
     }
@@ -721,14 +724,15 @@ EOT;
       $lang_id = CMLLanguage::get_current_id();
     }
 
+    $t_name = strtolower( $taxonomy . "_" . $term_name );
     if( ! CMLLanguage::is_current( $lang_id ) ) {
       //If post language != current language I can't get translation from ".mo"
-      $name = CMLTranslations::get( $lang_id, $term_name, "C", false, true );
+      $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true, true );
     } else {
-      $name = CMLTranslations::get( $lang_id, $term_name, "C" );
+      $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true );
     }
 
-    return $name;
+    return ( ! empty( $t_name ) ) ? $t_name : $term_name;
   }
 
   /*
@@ -744,7 +748,7 @@ EOT;
         continue;
       }
 
-      $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id );
+      $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
 
       if( $this->_category_url_mode != PRE_LANG &&
           null === CMLUtils::_get( '_no_translate_term' ) ) {
@@ -763,6 +767,17 @@ EOT;
 
     return $t;
   }
+
+  /* translate single title */
+  function translate_single_taxonomy_title( $title ) {
+    $term = get_queried_object();
+
+    if( ! $term ) 
+      return $title;
+
+    return $this->translate_term_name( $title, null, null, $term->taxonomy );
+  }
+
 
   /*
    * add language slug ?lang=## at end of category link for non default languages
@@ -1449,13 +1464,14 @@ EOT;
       if( empty( $cat ) ) continue;
 
       $name = "";
+      $term = "";
 
-      if( is_category() ) {
-        //Is $cat a translation?
-        $term = term_exists( $cat, 'category' );
-      } else {
-        $term = term_exists( sanitize_title( $cat ), 'post_tag' );
-      }
+      // if( is_category() ) {
+      //   //Is $cat a translation?
+      //   $term = term_exists( $cat, 'category' );
+      // } else {
+      //   $term = term_exists( sanitize_title( $cat ), 'post_tag' );
+      // }
 
       if( empty( $term ) ) {
         /*
@@ -1651,14 +1667,11 @@ EOT;
       $this->_looking_id_post = true;
       $id = cml_get_page_id_by_path( $this->_clean_url );
 
-      unset( $this->_looking_id_post );
+      if( $id > 0 ) {
+        $posts[] = $id;
 
-      $key = array_search( $id, $posts );
-      if( false !== $key ) {
-        unset( $posts[ $key ] );
+        CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
       }
-
-      CMLPost::_update_posts_by_language( CMLLanguage::get_current_id(), $posts );
 
       $this->_include_current = true;
     }

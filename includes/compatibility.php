@@ -205,6 +205,8 @@ function cml_admin_scan_plugins_folders() {
   $displayed = get_option( '_cml_wpml_config', 1 );
   if( ! $displayed && $not == $old ) {
     return;
+  } else {
+    delete_option( '_cml_wpml_config' );
   }
 
   $txt .= "</ul>";

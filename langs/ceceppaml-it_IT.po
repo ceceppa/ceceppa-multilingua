@@ -265,6 +265,9 @@ msgstr "Aggiungi traduzione"
 msgid "None"
 msgstr "Nessuna"
 
+msgid "current %s"
+msgstr "% corrente"
+
 msgid "Language: "
 msgstr "Lingua:"
 
@@ -1266,6 +1269,9 @@ msgstr "I plugin elencati contengono  il file di configurazione della lingua di 
 
 msgid "officially supported"
 msgstr "supportato ufficialmente"
+
+msgid "Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</a> page"
+msgstr "Ora puoi tradurre le voci \"Admin texts / wp_options\" nella pagina <%s>Le mie traduzioni"
 
 msgid "Support to wpml-config.xml is experimental and could not works correctly"
 msgstr "Il supporto ai file wpml-config.xml è sperimentale e potrebbe non funzionare correttamente"

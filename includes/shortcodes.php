@@ -123,7 +123,7 @@ function cml_quick_shortcode( $attrs, $content = null, $shortcode ) {
     //not current one
     if( ! CMLLanguage::is_current( $lang ) ) return "";
 
-    echo $content;
+    do_shortcode( $content );
   }
 
   return "";
