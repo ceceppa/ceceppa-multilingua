@@ -103,6 +103,7 @@ class CMLFrontend extends CeceppaML {
     /*
      * filter search by language
      */
+    $this->_filter_search = $_cml_settings[ 'cml_option_filter_search' ];
     if( $this->_url_mode <= PRE_LANG && $this->_filter_search ) {
       add_action( 'get_search_form', array( & $this, 'get_search_form' ), 0, 1 );
       add_action( 'wp_enqueue_scripts', array( & $this, 'enqueue_search_script' ) );
@@ -184,8 +185,8 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'sidebars_widgets', array( & $this, 'filter_widgets' ), 0, 1 );
     
     //Next and Prev post
-    add_filter( 'get_previous_post_where', array( &$this, 'get_previous_next_post_where' ) );
-    add_filter( 'get_next_post_where', array( &$this, 'get_previous_next_post_where' ) );
+    // add_filter( 'get_previous_post_where', array( &$this, 'get_previous_next_post_where' ) );
+    // add_filter( 'get_next_post_where', array( &$this, 'get_previous_next_post_where' ) );
 
     /*
      * I can't translate home in backed because if user change permalink got
@@ -1763,7 +1764,7 @@ EOT;
     if( empty( $posts ) ) return $where;
 
     if( ! empty( $posts ) )
-      $where .= " AND $wpdb->posts.ID IN (" . implode(", ", $posts) . ") ";
+      $where .= " AND p.ID IN (" . implode(", ", $posts) . ") ";
     
     return $where;
   }

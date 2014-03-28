@@ -565,7 +565,7 @@ class CMLTranslations {
   }
   
   /**
-   * return translation stored in cml_trans table.
+   * return translation stored in cml_trans table by key
    *
    * This function will get translation from ".mo" file if:
    *    1) it's generated correctly
@@ -642,7 +642,7 @@ class CMLTranslations {
     return $return;
   }
   
-  /*
+  /**
    * get translation from wordpress
    *
    * @ignore
@@ -680,6 +680,22 @@ class CMLTranslations {
   }
   
   /**
+   * return key stored in translations table by its translation
+   *
+   * @param string $text to search
+   * @param string $group group
+   */
+  public static function search( $lang, $text, $group ) {
+    global $wpdb;
+    
+    if( ! is_numeric( $lang ) ) $lang = CMLLanguage::get_id_by_slug( $lang );
+    $query = sprintf( "SELECT UNHEX(cml_text) FROM %s WHERE cml_lang_id = %d AND cml_translation = '%s' AND cml_type = '%s'",
+			CECEPPA_ML_TRANSLATIONS, $lang, bin2hex( $text ), $group );
+
+    return $wpdb->get_var( $query );
+  }
+
+  /**
    * delete all records with cml_type = xx
    *
    * @ignore
@@ -690,6 +706,18 @@ class CMLTranslations {
     $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
                   array( "cml_type" => $type ),
                   array( "%s" ) );
+  }
+  
+  /* @ignore */
+  public static function delete_text( $text, $group ) {
+    global $wpdb;
+
+    $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
+                  array( 
+		    "cml_text" => bin2hex( $text ),
+		    "cml_type" => $group,
+                  ),
+                  array( "%s", "%s" ) );
   }
 }
 
@@ -1463,8 +1491,8 @@ class CMLUtils {
   /**
    * @ignore
    */
-  public static function _get( $key ) {
-    return isset( self::$_vars[ $key ] ) ? self::$_vars[ $key ] : null;
+  public static function _get( $key, $default = null ) {
+    return isset( self::$_vars[ $key ] ) ? self::$_vars[ $key ] : $default;
   }
   
   /**

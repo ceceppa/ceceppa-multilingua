@@ -126,8 +126,8 @@ function cml_do_update() {
 
     $wpdb->query(  "ALTER TABLE  " . CECEPPA_ML_CATS . " ADD  `cml_taxonomy` TEXT NOT NULL ;" );
     
-    $query = "UPDATE wp_ceceppa_ml_cats a 
-		JOIN wp_term_taxonomy b ON a.cml_cat_id = b.term_id 
+    $query = "UPDATE " . CECEPPA_ML_CATS . " a 
+		JOIN $wpdb->term_taxonomy b ON a.cml_cat_id = b.term_id 
 		SET a.cml_taxonomy = b.taxonomy";
     
     _cml_copy_taxonomies_to_translations();

@@ -80,7 +80,8 @@ function cml_install_create_tables() {
               cml_cat_name VARCHAR(1000) NOT NULL ,
               `cml_cat_lang_id` INT NOT NULL ,
               `cml_cat_translation` VARCHAR(1000),
-              `cml_cat_translation_slug` VARCHAR(1000) ) ENGINE=InnoDB CHARACTER SET=utf8;";
+              `cml_cat_translation_slug` VARCHAR(1000),
+              `cml_taxonomy` VARCHAR( 1000 ) ) ENGINE=InnoDB CHARACTER SET=utf8;";
 
     dbDelta($query);
   }

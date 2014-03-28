@@ -195,6 +195,8 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     }
   } else {
     $GLOBALS[ '_cml_force_home_slug' ] = $result->cml_language_slug;
+    CMLUtils::_set( "_forced_language_slug", $result->cml_language_slug );
+    CMLUtils::_set( "_forced_language_id", $result->id );
 
     //I have to force language to $result one
     $wpCeceppaML->force_category_lang( $result->id );
@@ -309,6 +311,9 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     }
 
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
+    CMLUtils::_del( "_forced_language_slug" );
+    CMLUtils::_del( "_forced_language_id" );
+
     $wpCeceppaML->unset_category_lang();
 
     /* Controllo se è stata impostata una pagina statica,

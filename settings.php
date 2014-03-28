@@ -21,7 +21,7 @@
   $_cml_settings[ 'cml_code_optimization' ] = get_option( 'cml_code_optimization', 1 );
   $_cml_settings[ 'cml_option_filter_posts' ] = get_option( 'cml_option_filter_posts', 1 );
   $_cml_settings[ 'cml_option_filter_translations' ] = get_option( 'cml_option_filter_translations', true );
-  $_cml_settings[ 'cml_option_filter_search' ] = get_option('cml_option_filter_search', false);
+  $_cml_settings[ 'cml_option_filter_search' ] = get_option('cml_option_filter_search', 1);
   $_cml_settings[ 'cml_option_filter_form_class' ] = get_option('cml_option_filter_form_class', "form#searchform" );
   $_cml_settings[ 'cml_option_filter_query' ] = get_option('cml_option_filter_query');
   $_cml_settings[ 'cml_option_redirect' ] = get_option('cml_option_redirect', 'auto');
