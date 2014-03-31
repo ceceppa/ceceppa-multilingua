@@ -383,7 +383,7 @@ function cml_admin_generate_mo() {
   if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
 
     //CML parser, used for translate theme and plugin
-  require_once ( CML_PLUGIN_ADMIN_PATH . 'parser.php' );
+  require_once ( CML_PLUGIN_ADMIN_PATH . 'po-parser.php' );
 
   $page = $_POST[ 'page' ];
   $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;

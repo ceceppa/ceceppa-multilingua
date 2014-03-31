@@ -197,7 +197,6 @@ function cml_admin_options_categories_tags() {
   <div id="major-publishing-actions" class="cml-description">
     <?php _e( 'Translate the url for category links.', 'ceceppaml' ) ?>.<br /><br />
     <?php _e( 'Example', 'ceceppaml' ); ?>:<br />
-    <?php _e( '', 'ceceppaml' ); ?>
     <dl class="cml-dl-list">
       <dt>
         English: <span>no-category</span>

@@ -181,8 +181,11 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 * 1.4.17 *
 * Fixed preview post/page when using static homepage for non default language
+* Added "Fuzzy" field in "Theme/Plugin" translation
+* Fixed few bugs
+* Added new hook for Woocommerce support
 
-= 1.4.16 =
+ = 1.4.16 =
 * Fixed preview post/page when using static homepage
 * Now will be displayed correct flag after "quick edit" update
 

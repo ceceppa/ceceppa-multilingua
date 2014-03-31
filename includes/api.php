@@ -305,7 +305,7 @@ class CMLLanguage {
     $langs = self::get_all();
     
     foreach( $langs as $lang ) {
-      if( $lang->cml_locale == $locale ) return $lang;
+      if( strtolower( $lang->cml_locale ) == strtolower( $locale ) ) return $lang->id;
     }
     
     return null;
@@ -687,7 +687,7 @@ class CMLTranslations {
    */
   public static function search( $lang, $text, $group ) {
     global $wpdb;
-    
+
     if( ! is_numeric( $lang ) ) $lang = CMLLanguage::get_id_by_slug( $lang );
     $query = sprintf( "SELECT UNHEX(cml_text) FROM %s WHERE cml_lang_id = %d AND cml_translation = '%s' AND cml_type = '%s'",
 			CECEPPA_ML_TRANSLATIONS, $lang, bin2hex( $text ), $group );
@@ -702,7 +702,7 @@ class CMLTranslations {
    */
   public static function delete( $type ) {
     global $wpdb;
-    
+
     $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
                   array( "cml_type" => $type ),
                   array( "%s" ) );

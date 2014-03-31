@@ -1056,10 +1056,14 @@ display: none !important;
   
   .ceceppaml-trans-fields input[type="text"],
   .ceceppaml-trans-fields textarea {
-    width: 90%;
+    width: 85%;
     margin-right: 10px;
   }
-  
+
+  .cml-fuzzy {
+    display: inline-block;
+  }
+
   .ceceppaml-theme-translations tr.row-domain:hover {
     background: #FFFFE5;
   }
@@ -1142,6 +1146,7 @@ margin-bottom: 10px;
   border:1px solid #ccc;
   cursor: pointer;
   height: 26px;
+  overflow: hidden;
 }
   .cml-dropdown-me  > li > span {
     height: 25px;

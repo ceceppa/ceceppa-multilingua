@@ -329,6 +329,10 @@ EOT;
       $this->_force_category_lang = CMLLanguage::get_by_slug( $GLOBALS[ '_cml_force_home_slug' ] )->id;
     }
 
+    $this->unset_category_lang();
+    unset( $this->_force_post_lang );
+    unset( $GLOBALS[ '_cml_force_home_slug' ] );
+
     return $permalink;
   }
 
@@ -355,6 +359,7 @@ EOT;
       $permalink = preg_replace( "/\?lang.*/", "", $permalink );
 
       $slug = CMLPost::get_language_slug_by_id( $post->ID );
+
       return add_query_arg( array(
                                   "lang" => $slug,
                                   ),

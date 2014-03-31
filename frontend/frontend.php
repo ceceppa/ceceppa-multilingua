@@ -776,6 +776,9 @@ EOT;
     if( ! $term ) 
       return $title;
 
+    unset( $this->_force_post_lang );
+    unset( $this->_force_category_lang );
+
     return $this->translate_term_name( $title, null, null, $term->taxonomy );
   }
 
@@ -887,10 +890,10 @@ EOT;
           //If using static page, ensure that isn't a translation of it...
           $item->url = get_permalink( $page_id );
           // $url = CMLPost::remove_extra_number( $url, $item );
-
-          unset( $this->_force_category_lang );
-          unset( $this->_force_post_lang );
         }
+
+        unset( $this->_force_category_lang );
+        unset( $this->_force_post_lang );
 
         //I need to set correct page slug
         $lang = CMLPost::get_language_id_by_id( $item->object_id );
@@ -1086,8 +1089,9 @@ EOT;
                       CMLLanguage::get_current_id() :
                       $this->_fake_language_id;
 
-    if( isset( $this->_fake_language_id ) )
+    if( isset( $this->_fake_language_id ) ) {
       $this->_force_category_lang = $this->_fake_language_id;
+    }
 
     foreach( $items as $item ) {
       if( $hide && $item->type == 'post_type' ) {
@@ -1162,6 +1166,8 @@ EOT;
       if( isset( $item ) )
         $new[] = $item;
     }
+
+    unset( $this->_force_post_lang );
 
     return $new;
   }
@@ -1446,7 +1452,10 @@ EOT;
 
     global $wpdb;
 
-    if( is_category() ) {
+    $is_category = is_category();
+    $is_category = apply_filters( 'cml_change_taxonomy_name', $is_category );
+
+    if( $is_category ) {
       $cat = @$wp_query->query[ 'category_name' ];
 
       $cats = explode( "/", $cat );
@@ -1484,6 +1493,7 @@ EOT;
         $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE cml_cat_translation_slug IN ('%s', '%s')",
                          CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
                          strtolower( bin2hex( sanitize_title( $cat ) ) ) );
+
         $row = $wpdb->get_row( $query );
 
         $name = ( ! empty( $row ) ) ? strtolower( $row->cml_cat_name ) : "";

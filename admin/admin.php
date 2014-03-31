@@ -221,12 +221,18 @@ class CMLAdmin extends CeceppaML {
     $addons = apply_filters( 'cml_addons', array() );
     $tab = 1;
     foreach( $addons as $addon ) {
+      $title = $addon[ 'title' ];
+      $link = 'ceceppaml-addons-page&tab=' . $tab;
+
       $page[] = add_submenu_page( 'ceceppaml-language-page', 
-                                  $addon[ 'title' ], 
-                                  $addon[ 'title' ], 'manage_options', 
-                                  'ceceppaml-addons-page&tab=' . $tab, 
+                                  $title, 
+                                  $title,
+                                  'manage_options', 
+                                  $link, 
                                   array( & $this, 'form_addons' ) );
 
+      $title = strtolower( $title );
+      CMLUtils::_set( "_addon_{$title}_page", $link );
       $tab++;
     }
 
@@ -473,7 +479,7 @@ class CMLAdmin extends CeceppaML {
         add_action( "created_{$taxonomy}", array( & $this, 'save_taxonomies_extra_fields' ), 10, 1 );
         add_action( "delete_{$taxonomy}", array( & $this, 'delete_taxonomies_extra_fields' ), 10, 1 );
       }
-    
+
       add_action( 'load-edit-tags.php', array( & $this, 'taxonomies_extra_fields' ) , 10 );
     }
 

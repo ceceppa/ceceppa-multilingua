@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 //CML parser, used for translate theme and plugin
-require_once ( CML_PLUGIN_ADMIN_PATH . 'parser.php' );
+require_once ( CML_PLUGIN_ADMIN_PATH . 'po-parser.php' );
 
 function cml_translate_cml() {
   //get generated files
@@ -11,7 +11,7 @@ function cml_translate_cml() {
 
     if( empty( $generated ) ) {
       echo '<div class="updated"><p>';
-      echo __( 'Something goes wring, cannot generate .mo files :(', 'ceceppaml' );
+      echo __( 'Something goes wrong, cannot generate .mo files :(', 'ceceppaml' );
       printf( __( 'Ensure that folder %s if writable', 'ceceppaml' ), CML_PLUGIN_LANGUAGES_PATH );
       echo '</p></div>';
     } else {
