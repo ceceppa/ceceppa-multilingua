@@ -14,28 +14,28 @@ function cml_attachment_field_edit( $form_fields, $post ) {
 
 	foreach( CMLLanguage::get_no_default() as $lang ) {
 		$image = CMLLanguage::get_flag_img( $lang->id ) . " ";
-		$form_fields[ 'cml-media-caption-' . $lang->id ] = array(
-			'label' => $image . __( 'Caption' ),
-			'input' => 'textarea',
-			'value' => @$meta[ 'cml-media-caption-' . $lang->id ],
-			'helps' => '',
-		);
+		// $form_fields[ 'cml-media-caption-' . $lang->id ] = array(
+		// 	'label' => $image . __( 'Caption' ),
+		// 	'input' => 'textarea',
+		// 	'value' => @$meta[ 'cml-media-caption-' . $lang->id ],
+		// 	'helps' => '',
+		// );
 
 		if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
 			$form_fields[ 'cml-media-alternative-' . $lang->id ] = array(
 				'label' => $image . __( 'Alternative Text' ),
 				'input' => 'text',
-				'value' => @$meta[ 'cml-media-alternative-' . $lang->id ],
+				'value' => @$meta[ 'alternative-' . $lang->id ],
 				'helps' => '',
 			);
 		}
 
-		$form_fields[ 'cml-media-description-' . $lang->id ] = array(
-			'label' => $image . __( 'Description' ),
-			'input' => 'textarea',
-			'value' => @$meta[ 'cml-media-description-' . $lang->id ],
-			'helps' => '',
-		);
+		// $form_fields[ 'cml-media-description-' . $lang->id ] = array(
+		// 	'label' => $image . __( 'Description' ),
+		// 	'input' => 'textarea',
+		// 	'value' => @$meta[ 'cml-media-description-' . $lang->id ],
+		// 	'helps' => '',
+		// );
 
 	}
 
@@ -57,15 +57,19 @@ function cml_attachment_field_save( $post, $attachment ) {
 
 	foreach( CMLLanguage::get_no_default() as $lang ) {
 		if( isset( $attachment[ 'cml-media-caption-' . $lang->id ] ) ) {
-			$meta[ 'cml-media-caption-' . $lang->id ] = $attachment[ 'cml-media-caption-' . $lang->id ];
+			$meta[ 'caption-' . $lang->id ] = $attachment[ 'cml-media-caption-' . $lang->id ];
 		}
 
 		if( isset( $attachment[ 'cml-media-alternative-' . $lang->id ] ) ) {
-			$meta[ 'cml-media-alternative-' . $lang->id ] = $attachment[ 'cml-media-alternative-' . $lang->id ];
+			$meta[ 'alternative-' . $lang->id ] = $attachment[ 'cml-media-alternative-' . $lang->id ];
 		}
 
 		if( isset( $attachment[ 'cml-media-description-' . $lang->id ] ) ) {
-			$meta[ 'cml-media-description-' . $lang->id ] = $attachment[ 'cml-media-description-' . $lang->id ];
+			$meta[ 'description-' . $lang->id ] = $attachment[ 'cml-media-description-' . $lang->id ];
+		}
+	
+		if( isset( $_POST[ "cml_post_title_" . $lang->id ] ) ) {
+			$meta[ 'title-' . $lang->id ] = $_POST[ "cml_post_title_$lang->id" ];
 		}
 	}
 
@@ -92,9 +96,37 @@ function my_filter_iste( $html, $id, $caption ) {
 		$alt = $meta[ 'cml-media-alternative-' . $lang ];
 	}
 
-    error_log( print_r( $html, true ) );
     return $html; // return new $html
 }
 
 add_filter( 'media_send_to_editor', 'my_filter_iste', 20, 3 );
+
+//Allow image title translation
+function cml_insert_title_translation_fields( $post ) {
+	if( 'attachment' !== $post->post_type ) return;
+
+	foreach( CMLLanguage::get_no_default() as $lang ) {
+		$label = sprintf( __( 'Title in %s', 'ceceppaml' ), $lang->cml_language );
+
+		$img = CMLLanguage::get_flag_src( $lang->id );
+
+		$meta = get_post_meta( $post->ID, "_cml_media_meta", true );
+
+		$title = isset( $meta[ 'title-' . $lang->id ] ) ? $meta[ 'title-' . $lang->id ] : "";
+
+echo <<< EOT
+<div id="titlewrap" class="cml-hidden cml-titlewrap">
+	<img class="tipsy-s" title="$label" src="$img" />
+	<label class="" id="title-prompt-text" for="title_$lang->id">$label</label>
+	<input type="text" class="cml-title" name="cml_post_title_$lang->id" size="30" id="title_$lang->id" autocomplete="off" value="$title"/>
+</div>
+EOT;
+	}
+}
+	
+function cml_delete_media_meta( $id ) {
+	delete_post_meta( $id, "_cml_media_meta" );
+}
+
+add_action( 'edit_form_after_title', 'cml_insert_title_translation_fields', 10, 1 );
 ?>

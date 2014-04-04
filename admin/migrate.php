@@ -258,6 +258,8 @@ function _cml_migrate_get_record_by_pid( $pid ) {
 function _cml_migrate_set_pids_to_zero( $lpid, $rl ) {
   global $wpdb;
 
+  if( ! is_array( $rl ) ) return;
+
   unset( $rl[ 'id' ] );
 
   //Remove relations from its old friends :)

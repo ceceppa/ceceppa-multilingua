@@ -184,6 +184,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * Added "Fuzzy" field in "Theme/Plugin" translation
 * Fixed few bugs
 * Added new hook for Woocommerce support
+* Now you can translate "Alternative Text" and media title
 
  = 1.4.16 =
 * Fixed preview post/page when using static homepage

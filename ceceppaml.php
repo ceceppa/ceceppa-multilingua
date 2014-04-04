@@ -317,7 +317,7 @@ EOT;
     }
 
 	//Force "get_term" to return translation of category
-    if( ! isset( $GLOBALS[ '_cml_force_home_slug' ] ) ) {
+    if( null == CMLUtils::_get( "_forced_language_slug" ) ) {
       $lang_id =  CMLPost::get_language_id_by_id( $post->ID, true );
       if( $lang_id == 0 ) $lang_id = CMLLanguage::get_current_id();
 
@@ -382,7 +382,7 @@ EOT;
   }
 
   function translate_page_link( $permalink, $page, $leavename ) {
-    if( is_preview() ) {
+    if( is_preview() || isset( $this->_apllying_filter) ) {
       return $permalink;
     }
 
@@ -406,11 +406,24 @@ EOT;
 
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
 
+    $this->_apllying_filter = true;
+    $link = apply_filters( 'cml_translate_page_link', array(
+                                                                'link' => $permalink,
+                                                                'lang' => $lang,
+                                                                ),
+                               $page_id );
+
+    $permalink = $link[ 'link' ];
+    
+    if( $lang != $link[ 'lang' ] ) {
+      $slug = CMLLanguage::get_slug( $link[ 'lang' ] );
+    }
+    
+    $permalink = CMLPost::remove_extra_number( $permalink, $page );
+
     $this->unset_category_lang();
     unset( $this->_force_post_lang );
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
-
-    $permalink = CMLPost::remove_extra_number( $permalink, $page );
 
     return $this->convert_url( $permalink, $slug );
   }
@@ -501,9 +514,8 @@ EOT;
       return $url;
     }
 
-    $slug = ( ! isset( $GLOBALS[ '_cml_force_home_slug' ] ) ) ?
-                    CMLLanguage::get_slug( CMLUtils::_get( '_real_language' ) ) 
-                    : $GLOBALS[ '_cml_force_home_slug' ];
+    $slug = CMLUtils::_get( "_forced_language_slug", 
+                    CMLLanguage::get_slug( CMLUtils::_get( '_real_language' ) ) );
 
     if( isset( $this->_force_category_lang ) ) {
       $slug = CMLLanguage::get_slug( $this->_force_category_lang );

@@ -207,11 +207,15 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       }
       $q = & $GLOBALS[ '_cml_get_queried_object' ];
       
-      $is_category = isset( $q->taxonomy ) && "category" == $q->taxonomy;
+      $is_tag = isset( $q->taxonomy ) && "post_tag" == $q->taxonomy;
+      if( ! $is_tag ) {
+        $is_category = isset( $q->taxonomy );
+      } else {
+        $is_category = false;
+      }
       $is_single = isset( $q->ID );
       $is_page = $is_single;
       $the_id = ( $is_single ) ? $q->ID : 0;
-      $is_tag = isset( $q->taxonomy ) && "post_tag" == $q->taxonomy;
 
       if( empty( $q ) ) {
         $is_404 = is_404();
@@ -269,7 +273,10 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     //Collego le categorie delle varie lingue
     if( $is_category ) {
       if( $queried && isset( $q->term_id ) ) {
-    	$cat = array( "term_id" => $q->term_id );
+    	$cat = array(
+                    "term_id" => $q->term_id,
+                    "taxonomy" => $q->taxonomy,
+                    );
       } else {
     	$cat = get_the_category();
       }
@@ -279,8 +286,12 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
         //Mi recupererà il link tradotto dal mio plugin ;)
         CMLUtils::_set( '_force_category_lang', $result->id );
-        $link = get_category_link( $cat_id );
         
+        $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
+        
+        //if is object, it's an Error
+        if( is_object( $link ) ) $link = "";
+
         CMLUtils::_del( '_force_category_lang' );
       } //endif;
 

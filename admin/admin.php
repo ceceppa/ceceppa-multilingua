@@ -17,7 +17,7 @@ require_once ( CML_PLUGIN_LAYOUTS_PATH . 'languages-item.php' );
 require_once ( CML_PLUGIN_LAYOUTS_PATH . 'languages-downloader.php' );
 
 //Extra media fields
-//require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-media.php' );
+require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-media.php' );
 
 //Wordpress wp-pointer
 require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-wppointer.php' );
@@ -89,7 +89,9 @@ class CMLAdmin extends CeceppaML {
           $this->_force_category_lang = $lang;
         }
 
-        add_filter( 'home_url', array( & $this, 'translate_home_url' ), 0, 4 );
+        if( 'options-permalink.php' != $pagenow ) {
+          add_filter( 'home_url', array( & $this, 'translate_home_url' ), 0, 4 );
+        }
       }
     }
 
@@ -573,7 +575,7 @@ class CMLAdmin extends CeceppaML {
     $slug = $lang->cml_language_slug;
 
     $logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
-    if( is_admin() && $logged_in ) {
+    if( $logged_in ) {
       global $current_user;
 
       get_currentuserinfo();
@@ -586,16 +588,32 @@ class CMLAdmin extends CeceppaML {
 
     //get language by slug
     $lang = CMLLanguage::get_by_slug( $slug );
-    
-    CMLLanguage::set_current( $lang );
-    CMLUtils::_set( '_real_language', $lang->id );
+    $locale = $lang->cml_locale;
 
     //Set current user language;
-    if( isset( $user ) ) {
+    if( ! defined( 'DOING_AJAX' ) && isset( $user ) ) {
       update_option( "cml_${user}_locale", $lang->cml_language_slug );
     }
 
-    return $lang->cml_locale;
+    if( defined( 'DOING_AJAX' ) ) {
+      $lang_id = get_user_meta( get_current_user_id(), 'cml_language', true );
+      $locale = CMLLanguage::get_by_id( $lang_id )->cml_locale;
+    }
+
+    if( isset( $_POST[ 'lang' ] ) ) {
+      $locale = $_POST[ 'lang' ];
+
+      $lang = CMLLanguage::get_id_by_locale( $locale );
+      $lang = CMLLanguage::get_by_id( $lang );
+
+      CMLUtils::_set( '_ajax_language', $lang->id );
+    }
+
+    CMLLanguage::set_current( $lang );
+    CMLUtils::_set( '_real_language', $lang->id );
+    CMLLanguage::set_current( CMLLanguage::get_id_by_locale( $locale ) );
+
+    return $locale;
   }
   
   function wizard() {

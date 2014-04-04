@@ -176,6 +176,28 @@ jQuery(document).ready( function($) {
     $li.find( '.button-confirm' ).hide();
     $li.find( '.button-add' ).show();
   });
+
+  $( '.cml-titlewrap' ).insertAfter( $( '#titlediv > #titlewrap' ) );
+  $( '.cml-titlewrap' ).removeClass( 'cml-hidden' );
+
+  //Hide label if value is not empty
+  $( '.cml-title' ).each( function() {
+    if( $( this ).val() != "" ) {
+      $( this ).prev().fadeOut( 0 );
+    }
+  });
+
+  $( '.cml-title' ).focus( function() {
+    $( this ).prev().fadeOut( 'fast' );
+  });
+
+  $( '.cml-titlewrap input' ).focusout( function() {
+    $this = $( this );
+
+    if( $this.val() != "" ) return;
+
+    $this.prev().fadeIn( 'fast' );
+  });
 });
 
 
