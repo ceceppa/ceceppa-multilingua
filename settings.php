@@ -43,7 +43,7 @@
   $_cml_settings[ 'cml_option_translate_category_url' ] = get_option( "cml_option_translate_category_url", 1 );
   $_cml_settings[ 'cml_option_filter_translations' ] = get_option( "cml_option_filter_translations", true );
   $_cml_settings[ 'cml_option_change_locale' ] = get_option( "cml_option_change_locale", 1);
-  $_cml_settings[ 'cml_option_change_locale_admin' ] = get_option( 'cml_option_change_locale_admin', 1 );
+  $_cml_settings[ 'cml_option_translate_media' ] = get_option( "cml_option_translate_media", 1);
   $_cml_settings[ 'cml_option_flags_on_size' ] = get_option('cml_option_flags_on_size', "small");
   $_cml_settings[ 'cml_options_flags_on_translations' ] = get_option( 'cml_options_flags_on_translations', 1 );
   $_cml_settings[ 'cml_option_notice_page' ] = get_option("cml_option_notice_page");

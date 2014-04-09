@@ -191,7 +191,7 @@ class CMLFrontend extends CeceppaML {
     /*
      * I can't translate home in backed because if user change permalink got
      * 500 error :(
-     * Translate home_url in according to current language
+     * Translate home_url in accordingly to current language
      */
     add_filter( 'home_url', array( & $this, 'translate_home_url' ), 0, 4 );
 
@@ -500,16 +500,18 @@ EOT;
   function get_comments_number( $count ) {
     global $wpdb;
 
+    if( CMLPost::is_unique( get_the_ID() ) ) return $count;
     $linked = CMLPost::get_translations( get_the_ID() );
-    
-    if( empty( $linked[ 'indexes' ] ) ) return $count;
+
+    if( empty( $linked[ 'linked' ] ) ) return $count;
 
     //Eseguo la query
     asort( $linked[ 'indexes' ] );
     $ids = @implode( ",", $linked[ 'indexes' ] );
     $query = "SELECT count(*) FROM $wpdb->comments WHERE comment_approved = 1 AND comment_post_ID IN ( $ids )";
+
     $count = $wpdb->get_var($query);
-    
+
     return $count;
   }
 
@@ -874,7 +876,12 @@ EOT;
                                             $item->object_id );
 
         //custom label for
-        $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
+        
+        if( null == $customs ) {
+          $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        }
+
         if(  isset( $customs[ 'title' ] ) &&
             ! empty( $customs[ 'title' ] ) ) {
           $item->title = $customs[ 'title' ];
@@ -928,11 +935,11 @@ EOT;
           $lang = $lang_id;
     
           //custom label for
-          $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
-          // if( isset( $this->_fake_language_id ) ) {
-          //   $this->_force_category_lang = $lang_id;
-          //   $this->_force_post_lang = $lang_id;
-          // }
+          $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
+          
+          if( null == $customs ) {
+            $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+          }
 
           //Get term
           $term = get_term( $item->object_id, $item->object );
@@ -954,7 +961,12 @@ EOT;
       break;
       case 'custom':
         //custom label for
-        $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
+
+        //custom label for
+        if( null == $customs ) {
+          $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        }
 
         $item->title = ( ! empty( $customs[ 'title' ] ) ) ? $customs[ 'title' ] :
                                               CMLTranslations::get( $lang_id, $item->title, "M" );
@@ -1243,7 +1255,9 @@ EOT;
     $this->_language_detected = 1;
 
     //Ajax?
-    if( defined( 'DOING_AJAX' ) ) {
+    if( ! isset( $_REQUEST[ 'lang' ] ) && (
+       defined( 'DOING_AJAX' ) ||
+       ! empty( $_POST ) ) ) {
       define( 'CML_NOUPDATE', 1 );
 
       $lang = get_user_meta( get_current_user_id(), 'cml_language', true );
@@ -1251,6 +1265,12 @@ EOT;
       CMLUtils::_set( '_real_language', $lang );
       CMLLanguage::set_current( $lang );
 
+      return;
+    }
+
+    /* REQUEST_URI */
+    if( false !== strpos( $_SERVER[ 'REQUEST_URI' ], ".js" ) ) {
+      define( 'CML_NOUPDATE', 1 );
       return;
     }
 
@@ -1961,8 +1981,10 @@ EOT;
     } else {
       $lang = $_COOKIE[ '_cml_language' ];
       
-      CMLLanguage::set_current( $lang );
-      $locale = CMLLanguage::get_current()->cml_locale;
+      if( null !== CMLLanguage::get_by_id( $lang ) ) {
+        CMLLanguage::set_current( $lang );
+        $locale = CMLLanguage::get_current()->cml_locale;
+      }
     }
 
     return $locale;

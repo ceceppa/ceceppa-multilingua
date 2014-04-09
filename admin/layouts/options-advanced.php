@@ -52,7 +52,7 @@ function cml_admin_options_update_language() {
   <div id="minor-publishing">
     <div>
       <?php
-        printf( __( 'Click <a href="%s">here</a> to assign "%s" to existing posts and pages.', "ceceppaml" ),
+        printf( __( "Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages.", "ceceppaml" ),
                 add_query_arg( array( 'cml_update_existings_posts' => 1 ) ),
                 CMLLanguage::get_default()->cml_language ); ?>
     </div>

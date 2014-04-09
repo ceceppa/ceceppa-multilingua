@@ -123,6 +123,12 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
       $out = array( "error" => $error );
     }
 
+    /*
+     * if user change default language I need to generate settings again
+     */
+    update_option( 'cml_need_update_settings', 1 );
+    update_option( 'cml_get_translation_from_po', 0 );
+
     die();
   }
   
@@ -216,6 +222,9 @@ function cml_admin_save_options_actions() {
     
       //Change locale
       update_option("cml_option_change_locale", intval( @$_POST['change-locale'] ) );
+
+      //translate media?
+      update_option("cml_option_translate_media", intval( @$_POST['translate-media'] ) );
     }
   }
 
@@ -369,7 +378,7 @@ function cml_admin_save_site_title() {
     $i++;
   }
 
-  cml_generate_mo_from_translations( "_X_" );
+  cml_generate_mo_from_translations( "_X_", false );
 
   $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&cml-generate-settings=true' ) );
 
@@ -403,9 +412,9 @@ function cml_admin_generate_mo() {
 
   update_option( 'cml_translate_' . $name . "_in", $translate_in );
 
-  if( ! empty( $translate_in ) ) {
+  if( ! empty( $translate_in ) && ! isset( $_POST[ 'nolang' ] ) ) {
     //$parser = new CMLParser( "Ceceppa Multilingua", "en", CML_PLUGIN_PATH, CML_PLUGIN_LANGUAGES_PATH, "ceceppaml", false );
-    $parser = new CMLParser( $name, $src_path, $dest_path, $domain, false );
+    $parser = new CMLParser( $name, $src_path, $dest_path, $domain, false, false );
 
     $generated = "[" . join( ", ", $parser->generated() ) . "]";
     $error = $parser->errors();
@@ -414,7 +423,7 @@ function cml_admin_generate_mo() {
   } else {
     $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab ) );
   }
-
+  
   die( json_encode( $return ) );
 }
 

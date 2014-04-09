@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 function cml_attachment_field_edit( $form_fields, $post ) {
 	$meta = get_post_meta( $post->ID, '_cml_media_meta', true );
 
+    $mini = isset( $_POST[ 'query-attachments' ] );
+
 	foreach( CMLLanguage::get_no_default() as $lang ) {
 		$image = CMLLanguage::get_flag_img( $lang->id ) . " ";
 		// $form_fields[ 'cml-media-caption-' . $lang->id ] = array(
@@ -21,15 +23,25 @@ function cml_attachment_field_edit( $form_fields, $post ) {
 		// 	'helps' => '',
 		// );
 
+        $text = ( ! $mini ) ? __( 'Alternative Text' ) : __( 'Alt Text' );
+
+        $form_fields[ 'cml-media-title-' . $lang->id ] = array(
+            'label' => $image . __( 'Title' ),
+            'input' => 'text',
+            'value' => @$meta[ 'title-' . $lang->id ],
+            'helps' => '',
+        );
+        
 		if ( 'image' === substr( $post->post_mime_type, 0, 5 ) ) {
 			$form_fields[ 'cml-media-alternative-' . $lang->id ] = array(
-				'label' => $image . __( 'Alternative Text' ),
+				'label' => $image . $text,
 				'input' => 'text',
 				'value' => @$meta[ 'alternative-' . $lang->id ],
 				'helps' => '',
 			);
 		}
 
+        
 		// $form_fields[ 'cml-media-description-' . $lang->id ] = array(
 		// 	'label' => $image . __( 'Description' ),
 		// 	'input' => 'textarea',
@@ -67,9 +79,13 @@ function cml_attachment_field_save( $post, $attachment ) {
 		if( isset( $attachment[ 'cml-media-description-' . $lang->id ] ) ) {
 			$meta[ 'description-' . $lang->id ] = $attachment[ 'cml-media-description-' . $lang->id ];
 		}
-	
-		if( isset( $_POST[ "cml_post_title_" . $lang->id ] ) ) {
-			$meta[ 'title-' . $lang->id ] = $_POST[ "cml_post_title_$lang->id" ];
+
+		if( isset( $_POST[ "cml-media-title-" . $lang->id ] ) ) {
+			$meta[ 'title-' . $lang->id ] = $_POST[ "cml-media-title-$lang->id" ];
+		}
+
+		if( isset( $attachment[ "cml-media-title-" . $lang->id ] ) ) {
+			$meta[ 'title-' . $lang->id ] = $attachment[ "cml-media-title-$lang->id" ];
 		}
 	}
 
@@ -80,26 +96,20 @@ function cml_attachment_field_save( $post, $attachment ) {
 
 add_filter( 'attachment_fields_to_save', 'cml_attachment_field_save', 10, 2 );
 
-function my_filter_iste( $html, $id, $caption ) {
-	$meta = get_post_meta( $id, '_cml_media_meta', true );
-    $attachment = get_post( $id ); //fetching attachment by $id passed through
+function cml_media_send_to_editor( $html, $id, $caption ) {
 
-    //Get image language
-    $lang = CMLLanguage::get_id_by_post_id( $id );
-    // $mime_type = $attachment->post_mime_type; //getting the mime-type
-    // if ( 'video' == substr( $mime_type, 0, 5 ) ) { //checking mime-type
-    //     $src = wp_get_attachment_url( $id );
-    //     $html = '[video src="'.$src.'"]';  
-    // }
+  if( preg_match( '/alt="([^\"]+)/', $html, $out ) ) {
+    $scode = 'alt="[cml_media_alt id=\'' . $id . '\']' . end( $out ) . '[/cml_media_alt]"';
 
-	if ( 'image' === substr( $attachment->post_mime_type, 0, 5 ) ) {
-		$alt = $meta[ 'cml-media-alternative-' . $lang ];
-	}
+    return preg_replace( '/alt="[^\"]+./', $scode, $html );
+  }
 
-    return $html; // return new $html
+  return $html;
 }
 
-add_filter( 'media_send_to_editor', 'my_filter_iste', 20, 3 );
+if( $GLOBALS[ '_cml_settings' ][ 'cml_option_translate_media' ] == 1 ) {
+  add_filter( 'media_send_to_editor', 'cml_media_send_to_editor', 20, 3 );
+}
 
 //Allow image title translation
 function cml_insert_title_translation_fields( $post ) {
@@ -118,7 +128,7 @@ echo <<< EOT
 <div id="titlewrap" class="cml-hidden cml-titlewrap">
 	<img class="tipsy-s" title="$label" src="$img" />
 	<label class="" id="title-prompt-text" for="title_$lang->id">$label</label>
-	<input type="text" class="cml-title" name="cml_post_title_$lang->id" size="30" id="title_$lang->id" autocomplete="off" value="$title"/>
+	<input type="text" class="cml-title" name="cml-media-title-$lang->id" size="30" id="title_$lang->id" autocomplete="off" value="$title"/>
 </div>
 EOT;
 	}

@@ -1,10 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
-//Load .po file
-//require_once( CML_PLUGIN_PATH . "gettext/gettext.inc" );
-require_once( CML_PLUGIN_PATH . 'Pgettext/Pgettext.php' );
-
 /*
  * CeceppaMultilingua parser class
  *
@@ -12,6 +8,8 @@ require_once( CML_PLUGIN_PATH . 'Pgettext/Pgettext.php' );
  * in desired directory
  * 
  */
+require_once( CML_PLUGIN_ADMIN_PATH . 'php-mo.php' );
+
 Class CMLParser {
   protected $_domains = null;
   protected $_name = null;
@@ -21,6 +19,7 @@ Class CMLParser {
   protected $_mopo_files = null;
   protected $_show_generated = null;
   protected $_form_name = "theme";
+  protected $_fuzzy_strings = array();
 
   /*
    * Parse php files in source path for search translable strings
@@ -31,7 +30,7 @@ Class CMLParser {
    * @param $dest_path - folder where write generated .mo/.po file
    * @param $show_generated - show generated files
    */
-  function __construct( $name, $src_path, $dest_path, $domain = "", $show_generated = true, $form_name = "theme" ) {
+  function __construct( $name, $src_path, $dest_path, $domain = "", $show_generated = true, $form_name = "theme", $echo = true ) {
     $this->_name = $name;
     $this->_translate_in = get_option( 'cml_translate_' . $name . "_in", array() );
     $this->_src_path = trailingslashit( $src_path );
@@ -39,7 +38,8 @@ Class CMLParser {
     $this->_show_generated = $show_generated;
     $this->_domain = $domain;
     $this->_form_name = $form_name;
-    $this->_strings = null;
+    $this->_strings = array();
+    $this->_echo = $echo;
 
     if( isset( $_POST[ 'generate' ] ) ) {
       $this->generate_po_file();
@@ -51,7 +51,7 @@ Class CMLParser {
     $this->parse_po_file();
 
     if( empty( $this->_strings ) ) {
-      return $this->error( sprintf( __( 'No translable strings founds for %s', 'ceceppaml' ), $name ) );
+      return $this->error( sprintf( __( 'No .po files found for %s', 'ceceppaml' ), $name ) );
     }
 
     $this->print_table();
@@ -81,45 +81,14 @@ Class CMLParser {
   private function parse_po( $filename, $lang_id ) {
     $content = @file( $filename );
 
-    if( empty( $content ) ) return;
-
-    foreach ( $content as $line ) {
-      if( "msgid" == substr( $line, 0, 5 ) ) {
-        $line = trim( substr( $line, 5, strlen( $line ) ) );
-        $line = substr( $line, 1, strlen( $line ) -2 );
-
-        if( empty( $line ) ) continue;
-
-        $msgid = $line;
-      }
-
-      if( "msgstr" == substr( $line, 0, 6 ) ) {
-        $line = trim( substr( $line, 6, strlen( $line ) ) );
-        $line = substr( $line, 1, strlen( $line ) -2 );
-
-        if( ! empty( $msgid ) ) {
-          if( empty( $lang_id ) ) $lang_id = "x";
-          $this->_strings[ $msgid ][ $lang_id ] = $line;
-
-          if( $this->_is_fuzzy ) {
-            $this->_fuzzy_strings[ $msgid ][ $lang_id ] = $line;
-          }
-        }
-
-        $this->_is_fuzzy = false;
-      }
-
-      if( "#, fuzzy" == $line ) {
-        $this->_is_fuzzy = true;
-      }
-    }
+    $this->_strings[ $lang_id ] = phpmo_parse_po_file( $filename );
   }
 
   /*
    * print wordpress "error" div
    */
   private function error( $msg ) {
-    if( ! $this->_show_generated ) return;
+    if( ! $this->_show_generated || ! $this->_echo ) return;
 
 echo <<< EOT
 <div class="error">
@@ -194,9 +163,7 @@ $in = $this->_translate_in;
       &nbsp;
       <a class="nav-tab  nav-tab-active" href="javascript:showStrings( 0 )"><?php _e( 'All strings', 'ceceppaml' ) ?><span></span></a>
       <a class="nav-tab" href="javascript:showStrings( 1, 'to-translate' )"><?php _e( 'To translate', 'ceceppaml' ) ?><span></span></a>
-      <?php if( count( $in ) > 1 ) : ?>
       <a class="nav-tab" href="javascript:showStrings( 2, 'incomplete' )"><?php _e( 'Incomplete', 'ceceppaml' ) ?><span></span></a>
-      <?php endif; ?>
       <a class="nav-tab" href="javascript:showStrings( 3, 'translated' )"><?php _e( 'Translated', 'ceceppaml' ) ?><span></span></a>
       <p class="submit">
         <span class="spinner"></span>
@@ -206,7 +173,7 @@ $in = $this->_translate_in;
 
     <?php
       if( empty( $this->_translate_in ) || ! is_array( $this->_translate_in ) ) {
-        _e( 'You have to choose in which language you want to translate: ', 'ceceppaml' );
+        _e( "You have to choose in which language you want to translate: ", 'ceceppaml' );
         echo $this->_name;
         echo '<input type="hidden" name="nolang" value="1" />';
         return;
@@ -238,51 +205,79 @@ $in = $this->_translate_in;
       return;
     }
 
-    $keys = array_keys( $this->_strings );
-
-    foreach( $keys as $key ) {
-      //Cycles for each language
-      $translated = count( $this->_translate_in );
-      
-      $inputs = "";
-      foreach( $this->_translate_in as $id ) {
-        $lang = CMLLanguage::get_by_id( $id );
-
-        if( ! empty( $this->_strings[ $key ][ $id ] ) ) {
-          $translated--;
+    $keys = array();
+    $r = 0;
+    $id = 0;
+    foreach( $this->_strings as $lang => $entries ) {
+      foreach( $entries as $entry ) {
+        if( empty( $entry[ 'msgid' ] ) || '""' == $entry[ 'msgid' ] ) {
+          continue;
         }
 
-        $text = @$this->_strings[ $key ][ $id ];
-        $inputs .= '<div class="ceceppaml-trans-fields">';
-        $inputs .= '<img src="' . CMLLanguage::get_flag_src( $lang->id ) . '" class="available-lang" />';
-        $inputs .= '&nbsp;<textarea name="string[' . $id . '][]">';
-        $inputs .= esc_html( br2nl( stripslashes( $text ) ) );
-        $inputs .= "</textarea>";
-        $inputs .= '<input class="cml-fuzzy" type="checkbox" value="1" name="fuzzy[' . $id . '][]" ' . checked( array_key_exists( $key, $this->_fuzzy_strings ) ) . '/>';
-        $inputs .= "</div>";
+        if( in_array( $entry[ 'msgid' ], $keys ) ) {
+          continue;
+        }
+
+        $keys[] = $entry[ 'msgid' ];
+
+        $msgid = $entry[ 'msgid' ];
+
+
+        $inputs = "";
+        $class = "";
+        $translated = count( $this->_translate_in );
+
+        foreach( $this->_translate_in as $lang ) {
+          if( in_array( $lang, $this->_translate_in ) ) {
+            if( isset( $this->_strings[ $lang ] ) ) {
+              $msg = $this->get_msgstr( $lang, $msgid );
+
+              $text = $msg[ 'msg' ];
+            } else {
+              $text = "";
+            }
+
+            if( ! empty( $text ) ) {
+              $translated--;
+            }
+  
+            $inputs .= '<div class="ceceppaml-trans-fields">';
+            $inputs .= '<img src="' . CMLLanguage::get_flag_src( $lang ) . '" class="available-lang" />';
+            $inputs .= '&nbsp;<textarea name="string[' . $lang . '][' . $id . ']">';
+            $inputs .= esc_html( br2nl( stripslashes( $text ) ) );
+            $inputs .= "</textarea>";
+    
+            $is_fuzzy = @$msg[ 'fuzzy' ];
+            if( $is_fuzzy ) {
+              $class = "string-incomplete";
+            }
+  
+            $inputs .= '<input class="cml-fuzzy tipsy-w" type="checkbox" value="1" name="fuzzy['. $lang . '][' . $id . ']" ' . checked( $is_fuzzy, 1, false ) . ' title="' . __( 'fuzzy', 'ceceppaml' ) . '" />';
+            $inputs .= "</div>";
+          }
+          
+          $id++;
+        } //foreach
+
+        if( $translated == 0 ) {
+          $class = "translated $class";
+        } else {
+          $class = "to-translate $class";
+        }
+  
+        if( $translated > 0 && $translated < count( $this->_translate_in ) ) {
+          $class = "to-translate string-incomplete";
+        }
+  
+        $alternate = ( empty( $alternate ) ) ? "alternate" : "";
+  
+        echo '<tr class="' . $alternate . ' row-domain string-' . $class . '">';
+        echo '<td class="item">' . htmlentities( stripcslashes( $msgid ) ) . '</td>';
+  
+        echo "<td>";
+        echo $inputs;
+        echo "</tr>";
       }
-
-      if( $translated == 0 ) {
-        $class = "translated";
-      } else {
-        $class = "to-translate";
-      }
-
-      if( $translated > 0 && $translated < count( $this->_translate_in ) ) {
-        $class = "to-translate string-incomplete";
-      }
-
-      $alternate = ( empty( $alternate ) ) ? "alternate" : "";
-
-      echo '<tr class="' . $alternate . ' row-domain string-' . $class . '">';
-      echo '<td class="item">' . stripcslashes( $key ) . '</td>';
-
-      echo "<td>";
-      echo $inputs;
-      echo "<td>";
-
-      echo "</td>";
-      echo "</tr>";
     } // $keys as $d 
   
     //Memorizzo le stringhe originali in un file "temporaneo", così evito la conversione degli elementi html ( &rsquo;, etc... )
@@ -290,6 +285,8 @@ $in = $this->_translate_in;
     $out = @file_put_contents( $outfilename, implode( "\n", $keys ) );
     if( ! $out ) {
       $this->error( sprintf( __( 'Failed to open stream %s: Permission denied', 'ceceppaml' ), $outfilename ) );
+      
+      echo '<input type="hidden" name="error" value="1" />';
     }
   
     echo '</tbody>';
@@ -308,12 +305,15 @@ $in = $this->_translate_in;
     //If dest_path doesn't exists, I create it
     if( ! file_exists( $this->_dest_path ) ) {
       if ( ! mkdir( $this->_dest_path ) )
-      return $this->error( printf( __( 'Failed to create folder: %s', 'ceceppaml' ), $cml_theme_locale_path ) );
+      return $this->error( printf( __( 'Failed to create folder: %s', 'ceceppaml' ), $this->_dest_path ) );
     }
 
     //Retrive original strings from temporary file "tmp.pot"   
     if( ! file_exists( $this->_dest_path . "/tmp.pot" ) ) {
-      return $this->error( printf( __( "tmp.pot doesn't found: %s", 'ceceppaml' ), $cml_theme_locale_path ) );
+      if( $this->_show_generated )
+        return $this->error( printf( __( "tmp.pot not found: %s", 'ceceppaml' ), $this->_dest_path ) );
+      else
+        return;
     }
 
     $originals = explode( "\n", file_get_contents( $this->_dest_path . "/tmp.pot" ) );
@@ -330,7 +330,7 @@ $in = $this->_translate_in;
     $domain = empty( $this->_domain ) ? "" : "$this->_domain-";
     foreach( $langs as $id ) {
       $lang = CMLLanguage::get_by_id( $id );
-      $filename = "$this->_dest_path/$domain{$lang->cml_locale}.po";
+      $filename = "{$this->_dest_path}$domain{$lang->cml_locale}.po";
 
       $shortname = $lang->cml_locale;
       $fp = @fopen( $filename, 'w' );
@@ -355,17 +355,23 @@ $in = $this->_translate_in;
       fwrite( $fp, $h . PHP_EOL );
 
       $strings = @$_POST[ 'string' ][ $lang->id ];
+      $fuzzy = @$_POST[ 'fuzzy' ][ $lang->id ];
+
       if( empty( $strings ) ) continue;
 
       for( $i = 0; $i <= count( $originals ); $i++ ) {
         if( ! isset( $originals[ $i ] ) ) continue;
         if( empty( $strings[ $i ] ) ) continue;
-    
+          
         $o = str_replace( "\"", '\"', stripslashes( $originals[$i] ) );
         $s = str_replace( "\"", '\"', stripslashes( $strings[$i] ) );
         $o = 'msgid "' . $o . '"' . PHP_EOL;
         $s = 'msgstr "' . nl2br2( $s ) . '"' . PHP_EOL . PHP_EOL;
     
+        if( isset( $fuzzy[ $i ] ) ) {
+          fwrite( $fp, "#, fuzzy" . PHP_EOL );
+        }
+
         fwrite( $fp, $o );
         fwrite( $fp, $s );
       }
@@ -395,11 +401,9 @@ $in = $this->_translate_in;
   }
   
   function convert_po( $filename ) {
-    //require_once( CML_PLUGIN_PATH . 'Pgettext/Pgettext.php' );
-
     try {
       //Tadaaaaa, file generato... genero il .mo
-      Pgettext::msgfmt( $filename );
+      phpmo_convert( $filename );
     } catch (Exception $e) {
       return $e->getMessage();
     }
@@ -411,17 +415,31 @@ $in = $this->_translate_in;
    * Return array of generated files
    */
   function generated() {
-    return $this->_done;
+    return ( isset( $this->_done ) ) ? $this->_done : array();
   }
   
   function errors() {
     return ( isset( $this->_errors ) ) ? 1 : 0;
   }
+  
+  function get_msgstr( $lang, $msgid ) {
+    foreach( $this->_strings[ $lang ] as $entry ) {
+      if( $entry[ 'msgid' ] == $msgid ) return array( "msg" => $entry[ 'msgstr' ],
+                                                      "fuzzy" => @$entry[ 'fuzzy' ],
+                                                    );
+    }
+
+    return array(
+                 'msg' => "",
+                 'fuzzy' => 0,
+                );
+  }
 }
 
-function nl2br2($string) { 
-  $string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string); 
-  return $string; 
+function nl2br2( $string ) { 
+  $string = str_replace( array( "\r\n", "\r", "\n" ), "<br />", $string );
+
+  return $string;
 }
 
 function br2nl( $string )

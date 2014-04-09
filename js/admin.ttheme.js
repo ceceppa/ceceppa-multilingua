@@ -2,6 +2,8 @@ jQuery( document ).ready( function( $ ) {
   //Update info about untranslated rows
   if( $( '.ceceppaml-theme-translations' ).length > 0 ) updateInfo();
 
+  if( $( 'input[name="error"]' ).length > 0 ) $( 'input[type="submit"]' ).hide();
+
   /*
    * file .mo is generated after "load_plugin_textdomain", so I send data via ajax
    * and when done refresh page :)
@@ -22,7 +24,8 @@ jQuery( document ).ready( function( $ ) {
         $data = null;
 
         if ( data == "-1" ) {
-          console.log( "Failed" );
+          $form.find( '.spinner' ).fadeOut();
+
           alert( 'Failed!!!' );
           return;
         }
@@ -30,6 +33,9 @@ jQuery( document ).ready( function( $ ) {
         try {
           $data = $.parseJSON( data );
         } catch(e) {
+          $form.find( '.spinner' ).fadeOut();
+
+          alert( 'Failed!!!' );
           return;
         }
 

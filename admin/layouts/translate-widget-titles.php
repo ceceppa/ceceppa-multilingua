@@ -48,7 +48,7 @@ function cml_widgets_title_table( $wtitles ) {
 <?php 
   foreach($wtitles as $title) :
     if(!empty($title)) :
-      $title = html_entity_decode($title);
+      $title = html_entity_decode( $title );
 	//Non posso utilizzare htmlentities perché sennò su un sito in lingua russa mi ritrovo tutti simboli strani :'(
       $title = str_replace("\"", "&quot;", $title);
       $alternate = @empty($alternate) ? "alternate" : "";
@@ -59,14 +59,18 @@ function cml_widgets_title_table( $wtitles ) {
       echo $title . "</td>";
       $i = 0;
 
-      foreach($langs as $lang) :
-	$d = cml_translate( $title, $lang->id, 'W', true, true );
-	$d = str_replace("\"", "&quot;", $d);
-	echo "<td>\n";
-	echo "<input type=\"text\" name=\"lang_" . $lang->id . "[]\" value=\"$d\"  style=\"width: 100%\" /></td>\n";
+      foreach($langs as $lang) {
+        $d = CMLTranslations::get( $lang->id, $title, "W", true  );
+        
+        if( empty( $d ) )
+          $d = CMLTranslations::gettext( $lang->id, $title, "W" ); // ( $title, $lang->id, 'W', true, true );
 
-	$i++;
-      endforeach;
+        $d = str_replace("\"", "&quot;", $d);
+        echo "<td>\n";
+        echo "<input type=\"text\" name=\"lang_" . $lang->id . "[]\" value=\"$d\"  style=\"width: 100%\" /></td>\n";
+    
+        $i++;
+      } //endforeach;
 
       echo "</tr>";
     endif;

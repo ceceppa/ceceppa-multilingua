@@ -1,3 +1,7 @@
+ul li#wp-admin-bar-cml_lang_sel img {
+  vertical-align: middle !important;  
+}
+
 #cml-lang {
   display: inline-block;
   vertical-align: top;

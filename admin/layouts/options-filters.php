@@ -111,19 +111,6 @@ function cml_admin_options_filter_search() {
   $_cml_settings = $GLOBALS[ '_cml_settings' ];
 ?>
   <div id="minor-publishing">
-    <span class="cml-indent">
-<!--       <?php
-        _e( 'Plugin will automatically filter search in according to current language.', 'ceceppaml' );
-        echo "<br />";
-        _e( "You have to set html form element only if \"?lang\" argument will not be added to your search.", 'ceceppaml' );
-      ?>
-    </span>
-    <br />
-    <label>
-      <input type="text" name="filter-form" id="filter-form" value="<?php echo $_cml_settings[ "cml_option_filter_form_class" ] ?>" />
-      &nbsp;&nbsp;<?php _e( 'Insert html element with className or id of your searchform', 'ceceppaml' ); ?>
-    </label>
-    <br /><br /> -->
     <div class="cml-checkbox">
       <input type="checkbox" id="filter-search" name="filter-search" value="1" <?php checked( $_cml_settings[ 'cml_option_filter_search' ], 1 ) ?> />
       <label for="filter-search"><span>||</span></label>

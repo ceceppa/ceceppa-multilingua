@@ -206,21 +206,32 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         $GLOBALS[ '_cml_get_queried_object' ] = get_queried_object();
       }
       $q = & $GLOBALS[ '_cml_get_queried_object' ];
-      
+
       $is_tag = isset( $q->taxonomy ) && "post_tag" == $q->taxonomy;
       if( ! $is_tag ) {
         $is_category = isset( $q->taxonomy );
       } else {
         $is_category = false;
       }
-      $is_single = isset( $q->ID );
+
+      /*
+       * added for detect woocommerce "shop" page
+       */
+      $is_single = apply_filters( 'cml_is_single_page', isset( $q->ID ), $q );
       $is_page = $is_single;
-      $the_id = ( $is_single ) ? $q->ID : 0;
+
+      if( $is_single && ! isset( $q->ID ) ) {
+        $the_id = apply_filters( 'cml_get_custom_page_id', 0, $q );
+      } else {
+        $the_id = ( $is_single ) ? $q->ID : 0;
+      }
 
       if( empty( $q ) ) {
         $is_404 = is_404();
       }
     } else {
+      $q = null;
+
       $is_category = is_category();
       $is_single = is_single();
       $is_page = is_page();
@@ -286,7 +297,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
         //Mi recupererà il link tradotto dal mio plugin ;)
         CMLUtils::_set( '_force_category_lang', $result->id );
-        
+
         $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
         
         //if is object, it's an Error
@@ -322,6 +333,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     }
 
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
+
     CMLUtils::_del( "_forced_language_slug" );
     CMLUtils::_del( "_forced_language_id" );
 
@@ -369,6 +381,16 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         $link = CMLUtils::get_home_url( $result->cml_language_slug ) . $link;
       }
     }
+    
+
+    $link = apply_filters( 'cml_get_the_link', $link, array(
+                                                    "is_single" => $is_single,
+                                                    "is_category" => $is_category,
+                                                    "is_tag" => $is_tag,
+                                                    "the_id" => $the_id,
+                                                    ),
+                            $q, $result->id );
+
   }
 
   return $link;
@@ -543,7 +565,12 @@ function cml_show_flags( $args ) {
     if( empty( $link) ) continue;
 
     if( $show_flag ) {
-      $img = "<img class=\"$size $image_class\" src='" . cml_get_flag_by_lang_id( $result->id, $size ) . "' title='$result->cml_language' width=\"$width\"/>";
+      $img = sprintf( '<img class="%s %s" src="%s" title="%s" alt="%s" width="%s"',
+                     $size, $image_class, CMLLanguage::get_flag_src( $result->id, $size ),
+                     $result->cml_language,
+                     sprintf( __( "%1$s's flag", 'ceceppaml' ), $result->cml_language_slug ),
+                     $width );
+      //$img = "<img class=\"$size $image_class\" src=\"" . cml_get_flag_by_lang_id( $result->id, $size ) . "\" title='$result->cml_language' width=\"$width\"/>";
     } else {
       $img = "";
     }

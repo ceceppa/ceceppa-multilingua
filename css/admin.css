@@ -1422,6 +1422,8 @@ div.cml-ex-indent {
   background: #fff;
   display: block;
   padding: 10px;
+  padding-bottom: 50px;
+  position: relative;
 }
 
 #cml-wizard > .content .logo-big:before {
@@ -1460,8 +1462,10 @@ color: #f00;
 }
 
 .cml-skip {
-  margin: 10px;
-  text-align: right;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  margin-top: 15px !important;
 }
 
 .cml-done {
@@ -1684,8 +1688,8 @@ ul.cml-tagslist .button-mini.button-confirm img {
 
 .cml-addons .cml-addon .links span {
   color: #aaa;
+  padding: 10px;
 }
-
 
 .cml-addons .cml-addon .links a {
   text-decoration: none;
@@ -1734,4 +1738,18 @@ ul.cml-tagslist .button-mini.button-confirm img {
   outline: 0;
   margin: 0;
   background-color: #fff;
+}
+
+form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"] {
+  display: none;
+}
+
+
+.search {
+  background: #e4e4e4;
+  float: right;
+  padding: 5px;
+  height: 29px;
+  border: 1px solid #ccc;
+  border-bottom: none;
 }

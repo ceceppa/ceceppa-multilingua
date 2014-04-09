@@ -6,6 +6,7 @@ class CMLDebug {
   public function __construct() {
     //add_action( 'admin_menu', array( &$this, 'debug' ) );
     add_action( 'wp_footer', array( &$this, 'footer' ) );
+    add_action( 'admin_footer', array( &$this, 'footer' ) );
     add_filter( 'query', array( & $this, 'query' ), 10, 1 );
   }
   
@@ -189,22 +190,24 @@ EOT;
       echo "\n\n<b>Current language:</b>\n";
       print_r( cml_get_current_language() );
 
-      print_r( CMLPost::get_posts_by_language() );
+      if( ! is_admin() ) {
+        print_r( CMLPost::get_posts_by_language() );
       
-      echo "\n\n<b>Static page:</b>\n";
-      echo "cml_use_static_page: " . intval( cml_use_static_page() );
-      echo "\npage_for_posts: " . get_option( "page_for_posts" );
-      echo "\npage_on_front: " . get_option( "page_on_front" );
-      echo "\ncml_is_homepage: " . intval( cml_is_homepage() );
-      echo "\nthe_id: " . get_the_ID();
-
-      echo "\n\n<b>Static page:</b>\n";
-      echo "is_single(): " . is_single();
-      echo "\nis_page(): " . is_page();
-      echo "\nis_category(): " . is_category();
-      
-      echo "\n\n<b>Linked pages:</b>\n";
-      print_r( CMLPost::get_translations( get_the_ID() ) );
+        echo "\n\n<b>Static page:</b>\n";
+        echo "cml_use_static_page: " . intval( cml_use_static_page() );
+        echo "\npage_for_posts: " . get_option( "page_for_posts" );
+        echo "\npage_on_front: " . get_option( "page_on_front" );
+        echo "\ncml_is_homepage: " . intval( cml_is_homepage() );
+        echo "\nthe_id: " . get_the_ID();
+  
+        echo "\n\n<b>Static page:</b>\n";
+        echo "is_single(): " . is_single();
+        echo "\nis_page(): " . is_page();
+        echo "\nis_category(): " . is_category();
+        
+        echo "\n\n<b>Linked pages:</b>\n";
+        print_r( CMLPost::get_translations( get_the_ID() ) );
+      }
 
       echo "\nQueries: " . count( $this->queries ) . "\n";
       echo join( "\n", $this->queries );

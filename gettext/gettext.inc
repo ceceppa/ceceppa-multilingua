@@ -120,17 +120,18 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
         // get the current locale
         $locale = _setlocale(LC_MESSAGES, 0);
         $bound_path = isset($text_domains[$domain]->path) ?
-          $text_domains[$domain]->path : './';
+        $text_domains[$domain]->path : './';
         $subpath = $LC_CATEGORIES[$category] ."/$domain.mo";
 
-        $locale_names = get_list_of_locales($locale);
+        $locale_names = get_list_of_locales( $locale );
         $input = null;
-        foreach ($locale_names as $locale) {
+        foreach ( $locale_names as $locale ) {
           $full_path = $bound_path . $locale . "/" . $subpath;
 
-	  //Hack per far cercare i file nella cartella "languages" di wordpress senza utilizzare
-	  //la struttura "%path%/it_IT/LC_MESSAGES/it_IT.mo";
-	  $full_path = $text_domains[$domain]->path . $domain . ".mo";
+          //Hack per far cercare i file nella cartella "languages" di wordpress senza utilizzare
+          //la struttura "%path%/it_IT/LC_MESSAGES/it_IT.mo";
+          $full_path = $text_domains[$domain]->path . $domain . ".mo";
+
           if (file_exists($full_path)) {
             $input = new FileReader($full_path);
             break;
@@ -144,6 +145,7 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
         $text_domains[$domain]->l10n = new gettext_reader($input,
                                                           $enable_cache);
     }
+    
     return $text_domains[$domain]->l10n;
 }
 
@@ -283,6 +285,7 @@ function _textdomain($domain) {
  */
 function _gettext($msgid) {
     $l10n = _get_reader();
+
     return _encode($l10n->translate($msgid));
 }
 

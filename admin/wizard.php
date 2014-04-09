@@ -76,7 +76,7 @@
       </div>
       
       <div class="cml-skip">
-        <a href="<?php echo add_query_arg( array( "page" => "ceceppaml-options-page", "wstep" => 2 ), $admin ) ?>">
+        <a class="button" href="<?php echo add_query_arg( array( "page" => "ceceppaml-options-page", "wstep" => 2 ), $admin ) ?>">
           <?php printf( "%s %d", __( 'go to step', 'ceceppaml' ), 2 ); ?>
         </a>
       </div>
@@ -124,7 +124,7 @@
         <?php _e( "Don't forget to click on \"Save\" button before change tab.", 'ceceppaml' ) ?>
       </strong>
       <div class="cml-skip">
-        <a href="<?php echo add_query_arg( array( "wstep" => 3 ), admin_url() . "edit.php" ) ?>">
+        <a class="button" href="<?php echo add_query_arg( array( "wstep" => 3 ), admin_url() . "edit.php" ) ?>">
           <?php printf( "%s %d", __( 'go to step', 'ceceppaml' ), 3 ); ?>
         </a>
       </div>
@@ -192,13 +192,13 @@
           </li>
         </ul>
       </p>
-      <p class="cml-skip">
+      <div class="cml-skip">
         <?php
-          echo '<a href="' . add_query_arg( array( "wdone" => 1 ) ) . '">';
+          echo '<a class="button button-primary" href="' . add_query_arg( array( "wdone" => 1 ) ) . '">';
           _e( 'Done, close wizard', 'ceceppaml' );
           echo "</a>";
         ?>
-      </p>
+      </div>
     </div>
   </div>
 </div>

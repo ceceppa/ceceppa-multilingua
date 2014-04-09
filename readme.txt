@@ -37,7 +37,7 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 - Plugin works also with custom post types :)
 - Redirects the browser depending on the user's language.
 - Different post filter method
-- Filter search in accordingly to current language
+- Filter search in according to current language
 - Compatible with wpml-config.xml ( experimental )
 
 = Widgets =
@@ -47,7 +47,8 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 - "CML: Text" - You can write arbitrary text or HTML separately for each language
 
 = Addons =
-- [Ceceppa Multilingua support to Customizr](http://www.alessandrosenese.eu/en/ceceppa-multilingua/contribute)
+- [Ceceppa Multilingua support to Customizr](http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-customizr)
+- [Ceceppa Multilingua support to Woocommercehttp://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-woocommerce)
 
 = 3rd part compatible plugins =
 - Wordpress SEO by YOAST
@@ -179,12 +180,14 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
-* 1.4.17 *
+= 1.4.17 =
 * Fixed preview post/page when using static homepage for non default language
 * Added "Fuzzy" field in "Theme/Plugin" translation
 * Fixed few bugs
 * Added new hook for Woocommerce support
 * Now you can translate "Alternative Text" and media title
+* Replaced mo generation function to avoid timeout error
+* Fixed bug in "Widget titles" page
 
  = 1.4.16 =
 * Fixed preview post/page when using static homepage
@@ -684,13 +687,13 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 = 0.3 =
 * Different post/page for each language
 * Different menu for each language. (need to edit header.php)	 	
-* Translate widget’s titles	 	
+* Translate widget's titles	 	
 * Group/Ungroup comments for this post/page/category that are available in each language	 	
-* Show notice when the post/page/category is available in the visitor’s language	 	
-* Automatically redirects the browser depending on the user’s language	 	
+* Show notice when the post/page/category is available in the visitor's language	 	
+* Automatically redirects the browser depending on the user's language	 	
 * Widget for language chooser		
-* Filter some wordpress widgets, as “Least and Reads Posts”, “Most read post”, “Most commented”		
-* Filter search in accordingly to current language		
+* Filter some wordpress widgets, as "Least and Reads Posts", "Most read post", "Most commented"
+* Filter search in according to current language		
 * Change wordpress locale according to current language, useful for localized themes		
 * Show the list flag of available languages on top or bottom of page/post		
 * Show list of all articles with their translatios, if exists

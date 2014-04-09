@@ -183,7 +183,7 @@ function cml_admin_scan_plugins_folders() {
   }
   
   $link = add_query_arg( array( "lang" => "ceceppaml-translations-page" ), admin_url() );
-  $txt  = __( 'Current plugins contains WPML Language Configuration Files ( wpml-config.xml )', 'ceceppaml' );
+  $txt  = __( "Current plugins contains WPML Language Configuration Files ( wpml-config.xml )", 'ceceppaml' );
   $txt .= '<br /><ul class="cml-ul-list">';
   
   $not = array();
@@ -294,9 +294,22 @@ function cml_yoast_translate_home_url( $translate, $url ) {
   return $translate;
 }
 
+function cml_yoast_message() {
+  if( ! defined( 'WPSEO_VERSION' ) ) return;
+  if( ! isset( $_GET[ 'page' ] ) ||
+     'wpseo_titles' != $_GET[ 'page' ] ) return;
+
+  $txt = sprintf( __( "Go to <%s>My Translations</a> page to translate \"Titles & Metadata\"", 'ceceppaml' ),
+                  'a href="' . admin_url() . 'admin.php?page=ceceppaml-translations-page&stab=aioseo" class="button"' );
+
+  cml_admin_print_notice( "_cml_aioseo_msg", $txt );
+}
+
 add_filter( 'cml_my_translations', 'cml_yoast_seo_strings' );
 add_action( 'wp_loaded', 'cml_yoast_translate_options' );
 add_filter( 'cml_translate_home_url', 'cml_yoast_translate_home_url', 10, 2 );
+add_action( 'admin_notices', 'cml_yoast_message' );
+
 
 /*
  * All in one seo
@@ -354,9 +367,23 @@ function cml_aioseo_translate_home_url( $translate, $url ) {
   return $translate;
 }
 
+function cml_aioseo_message() {
+  global $pagenow;
+
+  if( ! defined( 'AIOSEOP_VERSION' ) ) return;
+  if( ! isset( $_GET[ 'page' ] ) ||
+     'all-in-one-seo-pack/aioseop_class.php' != $_GET[ 'page' ] ) return;
+
+  $txt = sprintf( __( "Go to <%s>My Translations</a> page to translate \"Title Settings\"", 'ceceppaml' ),
+                  'a href="' . admin_url() . 'admin.php?page=ceceppaml-translations-page&stab=aioseo" class="button"' );
+
+  cml_admin_print_notice( "_cml_aioseo_msg", $txt );
+}
+
 add_filter( 'cml_my_translations', 'cml_aioseo_strings' );
 add_action( 'wp_loaded', 'cml_aioseo_translate_options' );
 add_filter( 'cml_translate_home_url', 'cml_aioseo_translate_home_url', 10, 2 );
+add_action( 'admin_notices', 'cml_aioseo_message' );
 
 /*
  * Theme contains wpml-config.xml?
@@ -454,4 +481,5 @@ function cml_change_wpml_settings_values( $group, $name ) {
 
 add_filter( 'cml_my_translations', 'cml_get_strings_from_wpml_config', 99 );
 add_action( 'wp_loaded', 'cml_translate_wpml_strings', 10 );
+
 ?>

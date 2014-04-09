@@ -12,7 +12,8 @@ function cml_translate_cml() {
     if( empty( $generated ) ) {
       echo '<div class="updated"><p>';
       echo __( 'Something goes wrong, cannot generate .mo files :(', 'ceceppaml' );
-      printf( __( 'Ensure that folder %s if writable', 'ceceppaml' ), CML_PLUGIN_LANGUAGES_PATH );
+      echo '<br />';
+      printf( __( 'Ensure that folder <b>%s</b> is writable', 'ceceppaml' ), CML_PLUGIN_LANGUAGES_PATH );
       echo '</p></div>';
     } else {
       echo '<div class="updated"><p>';

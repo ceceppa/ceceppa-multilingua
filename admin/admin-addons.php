@@ -16,11 +16,17 @@ $page = $_GET[ 'page' ];
   <h2 class="nav-tab-wrapper">
     <a class="nav-tab <?php echo $tab == 0 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=0"><?php _e('Available addons', 'ceceppaml') ?></a>
     <?php 
-      $addons = apply_filters( 'cml_addons', array() );
+      $addons = CMLUtils::_get( '_addons' );
+
       $i = 1;
-      foreach( $addons as $addon ) : ?>
-      <a class="nav-tab <?php echo $tab == $i ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=<?php echo $i++ ?>"><?php echo $addon[ 'title' ] ?></a>
-    <?php endforeach; ?>
+      foreach( $addons as $addon ) :
+        $p = CMLUtils::_get( "_" . strtolower( $addon[ 'title' ] ) . "_addon_page", $page );
+    ?>
+      <a class="nav-tab <?php echo $tab == $i ? "nav-tab-active" : "" ?>" href="<?php echo $p ?>"><?php echo $addon[ 'title' ] ?></a>
+    <?php
+      $i++;
+      endforeach;
+    ?>
   </h2>
 
   <div id="poststuff">

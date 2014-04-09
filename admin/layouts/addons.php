@@ -49,6 +49,17 @@ function cml_admin_box_addons() {
 					$out .= '<div class="links">';
 					if( ! empty( $url ) ) {
 						$out .= '<a href="' . $url . '" target="_blank">';
+						$out .= 'About';
+						$out .= '</a>';
+					}
+				}
+
+				if( preg_match( "/Wp:(.*)/", $line, $gits ) ) {
+					$out .= '<span>|</span>';
+
+					$git = end( $gits );
+					if( ! empty( $git ) ) {
+						$out .= '<a href="' . $git . '" target="_blank">';
 						$out .= 'Wordpress';
 						$out .= '</a>';
 					}

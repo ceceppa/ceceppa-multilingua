@@ -198,6 +198,8 @@ jQuery(document).ready( function($) {
 
     $this.prev().fadeIn( 'fast' );
   });
+  
+  $( 'form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"]' ).remove();
 });
 
 

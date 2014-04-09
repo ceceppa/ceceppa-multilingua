@@ -148,7 +148,7 @@ require_once CML_PLUGIN_INCLUDES_PATH . "widgets.php";
 //     1 == get_option( "cml_debug_enabled" ) ) {
 //   define( 'CML_DEBUG', 1 );
 
-// require_once( "debug.php" );
+ //require_once( "debug.php" );
 // }
 
 //3rd party compatibility
@@ -189,6 +189,7 @@ class CeceppaML {
 
     //Initialize the plugin
     add_action( 'init', array( &$this, 'init' ), 0 );
+    add_filter( 'plugin_locale', array( & $this, 'plugin_locale' ), 10, 2 );
 
     //Scripts & Styles
     add_action( 'wp_enqueue_scripts', array( &$this, 'register_scripts' ) );
@@ -248,10 +249,29 @@ class CeceppaML {
   }
 
   /*
+   * change cmltrans locale
+   */
+  function plugin_locale( $locale, $domain ) {
+    if( 'cmltrans' == $domain ) {
+      return CMLLanguage::get_default_locale();
+    }
+
+    return $locale;
+  }
+
+  /*
    * script required by frontend
    */
   function register_scripts() {
-    wp_enqueue_script( 'ceceppaml-style', CML_PLUGIN_JS_URL . 'ceceppaml.js', array( 'jquery' ) );
+    wp_enqueue_script( 'ceceppaml-script', CML_PLUGIN_JS_URL . 'ceceppaml.js', array( 'jquery' ) );
+
+    //Language information
+    wp_localize_script( 'ceceppaml-script', 'ceceppa_ml', array(
+                                                                  'id' => CMLLanguage::get_current_id(),
+                                                                  'lang' => json_encode( ( array ) CMLLanguage::get_current() ),
+                                                                  'slug' => CMLLanguage::get_current_slug(),
+                                                                  'clear' => 1,
+                                                                  ) );
 
     wp_enqueue_style( 'ceceppaml-style', CML_PLUGIN_URL . 'css/ceceppaml.css' );
     
@@ -326,7 +346,8 @@ EOT;
       /*
        * already forced by cml_get_the_link
        */
-      $this->_force_category_lang = CMLLanguage::get_by_slug( $GLOBALS[ '_cml_force_home_slug' ] )->id;
+      //$this->_force_category_lang = CMLLanguage::get_by_slug( $GLOBALS[ '_cml_force_home_slug' ] )->id;
+      $this->_force_category_lang = CMLLanguage::get_by_slug( CMLUtils::_get( "_forced_language_slug" ) )->id;
     }
 
     $this->unset_category_lang();
@@ -382,7 +403,7 @@ EOT;
   }
 
   function translate_page_link( $permalink, $page, $leavename ) {
-    if( is_preview() || isset( $this->_apllying_filter) ) {
+    if( is_preview() ) {
       return $permalink;
     }
 
@@ -400,30 +421,16 @@ EOT;
       $lang = CMLLanguage::get_default();
     }
 
+    $this->unset_category_lang();
+    unset( $this->_force_post_lang );
+    unset( $GLOBALS[ '_cml_force_home_slug' ] );
+
     if( CMLLanguage::is_current( $lang->id ) ) {
       return CMLPost::remove_extra_number( $permalink, $page );
     }
 
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
-
-    $this->_apllying_filter = true;
-    $link = apply_filters( 'cml_translate_page_link', array(
-                                                                'link' => $permalink,
-                                                                'lang' => $lang,
-                                                                ),
-                               $page_id );
-
-    $permalink = $link[ 'link' ];
-    
-    if( $lang != $link[ 'lang' ] ) {
-      $slug = CMLLanguage::get_slug( $link[ 'lang' ] );
-    }
-    
     $permalink = CMLPost::remove_extra_number( $permalink, $page );
-
-    $this->unset_category_lang();
-    unset( $this->_force_post_lang );
-    unset( $GLOBALS[ '_cml_force_home_slug' ] );
 
     return $this->convert_url( $permalink, $slug );
   }

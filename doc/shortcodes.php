@@ -23,6 +23,22 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 <h3><?php _e('Translate strings in different languages', 'ceceppaml') ?></h3>
   <blockquote>
     <span style="color: #00f;">
+      <strong>[_##_]</strong>text to display<strong>[/_##_]</strong>
+    </span>
+    <br />
+    <?php _e( 'Where ## is the language slug', 'ceceppaml' ) ?>
+    <br />
+    <blockquote>
+      <strong><?php _e('Example:', 'ceceppaml') ?></strong><br />
+      <p style="padding-left: 20px">
+       <i>[_it_]Questo testo verrà visualizzato in italiano[/_it_]</i><br />
+       <i>[_en_]This text will be displayed in English[/_en_]</i>
+      </p>
+    </blockquote>
+  </blockquote>
+  <br />
+  <blockquote>
+    <span style="color: #00f;">
       <strong>[cml_text]</strong>
     </span>
     <br />
@@ -40,22 +56,6 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
       <strong><?php _e('Example:', 'ceceppaml') ?></strong><br />
       <p style="padding-left: 20px">
        <i>[cml_text it="Stringa in italiano" en="String in English" epo="Teksto en Esperanto"]</i>
-      </p>
-    </blockquote>
-  </blockquote>
-
-  <blockquote>
-    <span style="color: #00f;">
-      <strong>[_##_]</strong>text to display<strong>[/_##_]</strong>
-    </span>
-    <br />
-    Where ## is the language slug
-    <br />
-    <blockquote>
-      <strong><?php _e('Example:', 'ceceppaml') ?></strong><br />
-      <p style="padding-left: 20px">
-       <i>[_it_]Questo testo verrà visualizzato in italiano[/_it_]</i><br />
-       <i>[_en_]This text will be displayed in English[/_en_]</i>
       </p>
     </blockquote>
   </blockquote>

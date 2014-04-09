@@ -205,6 +205,8 @@ class CML_Nav_Menu_Item_Custom_Fields {
               update_post_meta( $post_id, $key, $values );
 			}
 		}
+        
+        CMLUtils::_del( 'no_generate' );
 	}
  
 }
@@ -274,6 +276,11 @@ function cml_return_nav_walker() {
 }
 
 CML_Nav_Menu_Item_Custom_Fields::setup();
+
+CMLUtils::_set( 'no_generate', true );
+
+//Avoid that cml_generate_mo_from_translations was called twice
+add_action( 'wp_update_nav_menu', 'cml_generate_mo_from_translations', 10 );
 
 //Languages box
 add_meta_box( 'ceceppaml-menu-box', 'CeceppaML: ' . __('Flags', 'ceceppaml'), 'cml_menu_meta_box', 'nav-menus', 'side', 'default' );

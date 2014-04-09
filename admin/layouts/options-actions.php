@@ -347,6 +347,25 @@ function cml_admin_options_change_locale() {
   <?php
 }
 
+function cml_admin_options_translate_media() {
+  $_cml_settings = $GLOBALS[ '_cml_settings' ];
+
+  ?>
+  <div id="minor-publishing">
+    <div class="cml-checkbox">
+      <input type="checkbox" id="translate-media" name="translate-media" value="1" <?php checked( $_cml_settings[ 'cml_option_translate_media' ] ) ?> />
+      <label for="translate-media"><span>||</span></label>
+    </div>
+    <label for="translate-media"><?php _e('Add [cml_media] shortcode to media inserted in editor', 'ceceppaml') ?></label>
+  </div>
+  
+  <div id="major-publishing-actions" class="cml-description">
+    <?php _e( 'If enabled the plugin will insert inside [cml_media] shortcode to allow "alt" attribute to be translated in frontend', 'ceceppaml' ); ?><br />
+    <br />
+  </div>
+  <?php
+}
+
 $help = __( 'Show/Hide help', 'ceceppaml' );
 
 $wclass = isset( $_GET[ 'wstep' ] ) ? "active" : "";
@@ -359,4 +378,5 @@ if( isset( $_GET[ 'wstep' ] ) ) return;  //wizard
 add_meta_box( 'cml-box-options-categories', '<span class="cml-icon cml-icon-categories "></span>' . __( 'Categories & Tags', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_categories_tags', 'cml_box_options' );
 add_meta_box( 'cml-box-options-date-format', '<span class="cml-icon cml-icon-comments"></span>' . __( 'Date format', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_date_format', 'cml_box_options' );
 add_meta_box( 'cml-box-options-locale', '<span class="cml-icon cml-icon-wplang"></span>' . __( 'Change wordpress language:', 'ceceppaml' ) . "<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_change_locale', 'cml_box_options' );
+add_meta_box( 'cml-box-options-media', '<span class="cml-icon cml-icon-wplang"></span>' . __( 'Translate media in Editor:', 'ceceppaml' ) . "<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_translate_media', 'cml_box_options' );
 ?>

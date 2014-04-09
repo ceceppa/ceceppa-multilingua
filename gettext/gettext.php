@@ -106,7 +106,7 @@ class gettext_reader {
     }
 
     // Caching can be turned off
-    $this->enable_cache = $enable_cache;
+    $this->enable_cache = 0; //$enable_cache;
 
     $MAGIC1 = "\x95\x04\x12\xde";
     $MAGIC2 = "\xde\x12\x04\x95";
@@ -263,6 +263,7 @@ class gettext_reader {
     } else {
       // Caching not enabled, try to find string
       $num = $this->find_string($string);
+
       if ($num == -1)
         return "";
       else

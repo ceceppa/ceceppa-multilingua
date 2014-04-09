@@ -148,14 +148,14 @@ function cml_admin_print_notice( $key, $text ) {
   }
 
   $link = add_query_arg( array( $key => 0 ) );
-  $dismiss = __( 'Dismiss' );
+  $dismiss = __( 'Hide this message', 'ceceppaml' );
 echo <<< EOT
   <div class="updated">
     <p>
     $text
     
     <div class="cml-dismiss">
-      <a href="$link">$dismiss</a>
+      <a href="$link" class="button">$dismiss</a>
     </div>
     </p>
   </div>
