@@ -414,7 +414,7 @@ function cml_admin_generate_mo() {
 
   if( ! empty( $translate_in ) && ! isset( $_POST[ 'nolang' ] ) ) {
     //$parser = new CMLParser( "Ceceppa Multilingua", "en", CML_PLUGIN_PATH, CML_PLUGIN_LANGUAGES_PATH, "ceceppaml", false );
-    $parser = new CMLParser( $name, $src_path, $dest_path, $domain, false, false );
+    $parser = new CMLParser( $name, $src_path, $dest_path, $domain, false );
 
     $generated = "[" . join( ", ", $parser->generated() ) . "]";
     $error = $parser->errors();

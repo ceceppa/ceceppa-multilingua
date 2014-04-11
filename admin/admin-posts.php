@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 function cml_admin_post_meta_box( $tag ) {
   global $wpdb;
   
-  $langs = cml_get_languages( false );
+  $langs = CMLLanguage::get_all();
 
   //I have clicked on "+" symbol for add translation?
   if( array_key_exists( "post-lang", $_GET) ) {
@@ -357,7 +357,7 @@ function cml_admin_filter_all_posts_query( $query ) {
   
   //$this->_no_filter_query is set when the function "quick_edit_box_posts" is called,
   //I have to exit from that function or all WP_Query return only items in current language...
-  if( null !== CMLUtils::_get( '_cml_no_filter_query' ) ) return;
+  if( null !== CMLUtils::_get( '_cml_no_filter_query' ) ) return $query;
 
   if ( ! array_key_exists('post_type', $_GET) )
       $post_type = 'post';

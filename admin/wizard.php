@@ -51,7 +51,7 @@
 
           $p = "<h4>" . __( 'Update your posts language', 'ceceppaml' ) . "</h4>";
           $p .= "<p class=\"$class\">";
-          $p .= sprintf( __( 'Click <a href="%s">here</a> to assign "%s" to existing posts and pages.', "ceceppaml" ),
+          $p .= sprintf( __( "Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages.", "ceceppaml" ),
                     add_query_arg( array( 'cml_update_existings_posts' => 1 ) ),
                     $installed );
           $p .= "</p>";

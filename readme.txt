@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.16
+Stable tag: 1.4.19
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -48,7 +48,7 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 
 = Addons =
 - [Ceceppa Multilingua support to Customizr](http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-customizr)
-- [Ceceppa Multilingua support to Woocommercehttp://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-woocommerce)
+- [Ceceppa Multilingua support to Woocommerce](http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-woocommerce)
 
 = 3rd part compatible plugins =
 - Wordpress SEO by YOAST
@@ -179,6 +179,17 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 8. Translate your theme
 
 == Changelog ==
+
+= 1.4.20 =
+* Fixed post language/permalink when using not enabled language
+
+= 1.4.19 =
+* Fixed Warning on get_translated_title function
+* Fixed close tag in cml_show_flags function
+
+= 1.4.18 =
+* Added missing files
+* Fixed Italian translation
 
 = 1.4.17 =
 * Fixed preview post/page when using static homepage for non default language

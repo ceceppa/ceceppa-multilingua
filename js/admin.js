@@ -130,28 +130,30 @@ jQuery(document).ready( function($) {
   $( 'iframe.cml-iframe' ).height( $( document ).height() - 100 );
 
   //Post tags
-  $( '#ceceppaml-tags-meta-box input[name="search"]' ).autocomplete( {
-    source: $.parseJSON( ceceppaml_admin.tags ), minLength : 0,
-    select: function( event, ui ) {
-      $clone = $( '#ceceppaml-tags-meta-box .cml-tagslist li.cml-first' ).clone();
-      $clone.removeClass( 'cml-hidden cml-first' );
-      $clone.find( '.title' ).html( ui.item.label.toLowerCase() );
-
-      $clone.find( 'input.field' ).val( ui.item.id );
-      $clone.find( 'input.cml-input' ).val( ui.item.label );
-
-      $( '#ceceppaml-tags-meta-box .cml-tagslist' ).append( $clone );
-      $clone.focus();
-      $clone.find( '.tipsy-s' ).tipsy( { gravity: 's', html: true, fade: false, offset: 5 } );
-
-      setTimeout( function() {
-        $( '#ceceppaml-tags-meta-box input[name="search"]' ).val( "" );
-        $( '#ceceppaml-tags-meta-box input[name="search"]' ).trigger( 'focus' );
-      }, 100);
-    }
-  }).on('focus', function(event) {
-    $(this).autocomplete("search", "");
-  });
+  if( $( '#ceceppaml-tags-meta-box input[name="search"]' ).length > 0 ) {
+    $( '#ceceppaml-tags-meta-box input[name="search"]' ).autocomplete( {
+      source: $.parseJSON( ceceppaml_admin.tags ), minLength : 0,
+      select: function( event, ui ) {
+        $clone = $( '#ceceppaml-tags-meta-box .cml-tagslist li.cml-first' ).clone();
+        $clone.removeClass( 'cml-hidden cml-first' );
+        $clone.find( '.title' ).html( ui.item.label.toLowerCase() );
+  
+        $clone.find( 'input.field' ).val( ui.item.id );
+        $clone.find( 'input.cml-input' ).val( ui.item.label );
+  
+        $( '#ceceppaml-tags-meta-box .cml-tagslist' ).append( $clone );
+        $clone.focus();
+        $clone.find( '.tipsy-s' ).tipsy( { gravity: 's', html: true, fade: false, offset: 5 } );
+  
+        setTimeout( function() {
+          $( '#ceceppaml-tags-meta-box input[name="search"]' ).val( "" );
+          $( '#ceceppaml-tags-meta-box input[name="search"]' ).trigger( 'focus' );
+        }, 100);
+      }
+    }).on('focus', function(event) {
+      $(this).autocomplete("search", "");
+    });
+  }
 
   $( 'body' ).on( 'click', '#ceceppaml-tags-meta-box .ntdelbutton', function() {
     $( this ).parents( 'li' ).remove();

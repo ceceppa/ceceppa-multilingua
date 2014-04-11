@@ -101,6 +101,10 @@ class CMLAdmin extends CeceppaML {
         }
       }
     }
+    //try to fix 500 error
+    if( ! defined( 'DOING_AJAX' ) ) {
+      add_filter( 'flush_rewrite_rules_hard', array( & $this, 'no_translate_home_url' ), 10, 1 );
+    }
 
     if( $pagenow == "widgets.php" ) {
       require_once CML_PLUGIN_INCLUDES_PATH . "shortcodes.php";
@@ -723,6 +727,12 @@ EOT;
     }
     
     CMLUtils::_set( '_addons', $addons );
+  }
+  
+  function no_translate_home_url( $b ) {
+    $GLOBALS[ '_cml_no_translate_home_url' ] = 1;
+
+    return $b;
   }
 }
 ?>

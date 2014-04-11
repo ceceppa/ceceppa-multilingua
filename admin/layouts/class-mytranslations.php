@@ -205,7 +205,7 @@ class MyTranslations_Table extends WP_List_Table {
                 
                 $value = CMLTranslations::get( $lang->id,
                                            $rec->cml_text,
-                                           $rec->cml_type, true );
+                                           $rec->cml_type, true, true );
 
                 echo '&nbsp;<input type="text" name="values[' . $lang->id .  '][]" value="' . $value . '" style="width: 90%" />';
                 echo '</div>';

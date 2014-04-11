@@ -29,14 +29,15 @@ $others = apply_filters( 'cml_my_translations', array() );
 
 <h2 class="nav-tab-wrapper cml-tab-wrapper tab-strings">
   &nbsp;
-  <a class="nav-tab nav-tab-active" href="javascript:showStrings(0)"><?php _e( 'All strings', 'ceceppaml' ) ?></a>
-  <a class="nav-tab" href="javascript:showStrings( 1, 'S' )"><?php _e( 'My translations', 'ceceppaml' ) ?></a>
-  <a class="nav-tab" href="javascript:showStrings( 2, '_cml_' )"><?php _e( 'Plugin strings', 'ceceppaml' ) ?></a>
+  <a class="nav-tab <?php echo ( ! isset( $_GET[ 'tab' ] ) ) ? "nav-tab-active" : "" ?>" href="javascript:showStrings(0)"><?php _e( 'All strings', 'ceceppaml' ) ?></a>
+  <a class="nav-tab" href="#" onclick="showStrings( 1, 'S' )"><?php _e( 'My translations', 'ceceppaml' ) ?></a>
+  <a class="nav-tab" href="#" onclick="showStrings( 2, '_cml_' )"><?php _e( 'Plugin strings', 'ceceppaml' ) ?></a>
   <?php
   $i = 3;
   foreach( $others as $key => $type ) {
+    $active = ( @$_REQUEST[ 'tab' ] == $key ) ? "nav-tab-active" : "";
 echo <<< EOT
-  <a class="nav-tab" href="javascript:showStrings( $i, '$key' )">$type</a>
+  <a class="nav-tab $active" href="#" onclick="showStrings( $i, '$key' )">$type</a>
 EOT;
 
     $i++;
@@ -49,7 +50,7 @@ EOT;
       <input type="hidden" name="add" value="1" />
       <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
       <input type="hidden" name="form" value="1" />
-
+      <input type="hidden" name="tab" value="<?php echo @$_REQUEST[ 'tab' ] ?>" />
       <?php
         $table = new MyTranslations_Table( $types );
         $table->prepare_items();

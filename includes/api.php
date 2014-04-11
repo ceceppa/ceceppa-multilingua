@@ -696,7 +696,7 @@ class CMLTranslations {
     T_bind_textdomain_codeset( $domain, 'UTF-8' );
     T_textdomain( $domain );
 
-    if( path !== null ) $string = strtolower( $string );
+    if( $path !== null ) $string = strtolower( $string );
 
     return T_gettext( $string );
 
@@ -778,7 +778,7 @@ class CMLPost {
       return CMLLanguage::get_current();
     }
 
-    foreach( CMLLanguage::get_others() as $lang ) {
+    foreach( CMLLanguage::get_others( ! is_admin() ) as $lang ) {
       if( @in_array( $post_id, self::$_indexes[ $lang->id ] ) )
         return $lang;
     }
@@ -863,7 +863,7 @@ class CMLPost {
     $linked = self::get_translations( $post_id );
     if( empty( $linked ) ) return 0;
 
-    return ( ! array_key_exists( $lang, $linked) ) ? 0 : $linked[ $lang ];
+    return ( ! @array_key_exists( $lang, $linked) ) ? 0 : $linked[ $lang ];
   }
 
   /**

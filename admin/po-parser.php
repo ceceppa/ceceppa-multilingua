@@ -39,7 +39,6 @@ Class CMLParser {
     $this->_domain = $domain;
     $this->_form_name = $form_name;
     $this->_strings = array();
-    $this->_echo = $echo;
 
     if( isset( $_POST[ 'generate' ] ) ) {
       $this->generate_po_file();
@@ -88,7 +87,7 @@ Class CMLParser {
    * print wordpress "error" div
    */
   private function error( $msg ) {
-    if( ! $this->_show_generated || ! $this->_echo ) return;
+    if( ! $this->_show_generated ) return;
 
 echo <<< EOT
 <div class="error">

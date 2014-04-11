@@ -107,7 +107,14 @@ function cml_media_send_to_editor( $html, $id, $caption ) {
   return $html;
 }
 
-if( $GLOBALS[ '_cml_settings' ][ 'cml_option_translate_media' ] == 1 ) {
+if( ! isset( $GLOBALS[ '_cml_settings' ][ 'cml_option_translate_media' ] ) ) {
+  $translate = 1;
+} else {
+  
+  $translate = $GLOBALS[ '_cml_settings' ][ 'cml_option_translate_media' ];
+}
+
+if( $translate == 1 ) {
   add_filter( 'media_send_to_editor', 'cml_media_send_to_editor', 20, 3 );
 }
 

@@ -324,7 +324,9 @@ class CeceppaMLWidgetText extends WP_Widget {
     $title = apply_filters('widget_title', $instance['title'] );
 
     echo $before_widget;
-      echo $before_title . $title . $after_title;
+      if( ! empty( $title ) ) {   /* JGR don't show empty title*/
+        echo $before_title . $title . $after_title;
+      }
 
       $lang_id = CMLLanguage::get_current_id();
       if( isset( $instance['text-' . $lang_id] ) )

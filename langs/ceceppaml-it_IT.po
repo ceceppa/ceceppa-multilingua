@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Artificer\n"
+"Project-Id-Version: Attivamente\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-20 13:57+0100\n"
 "PO-Revision-Date: 2013-08-20 14:01+0100\n"
-"Last-Translator:   <not@for.all>\n"
+"Last-Translator: Alessandro Senese <senesealessandro@gmail.com>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
@@ -727,7 +727,10 @@ msgstr "Documentazione:"
 msgid "No .po files found for %s"
 msgstr "Nessun file .po trovato in %s"
 
-msgid "tmp.pot doesn't found: %s"
+msgid "fuzzy"
+msgstr "Non completa"
+
+msgid "tmp.pot not found: %s"
 msgstr "tmp.pot non trovato: %s"
 
 msgid "Translate title in:"
@@ -1374,6 +1377,9 @@ msgstr "CML: Testo"
 
 msgid "You can write arbitrary text or HTML separately for each language"
 msgstr "Puoi scrivere del testo oppure codice HTML separato per ogni lingua"
+
+msgid "tmp.pot doesn't found: %s"
+msgstr "tmp.pot non trovato: %s"
 
 msgid "Plugin will automatically filter search in according to current language."
 msgstr "Plugin filtra automaticamente la ricerca in accordo alla lingua corrente."

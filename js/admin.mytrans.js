@@ -2,6 +2,8 @@ jQuery( document ).ready( function( $) {
   $( 'form.ceceppa-form-translations .column-remove img' ).click( function() {
     $( 'form.ceceppa-form-translations input[type="checkbox"]:visible' ).trigger( 'click' );
   })
+  
+  $( 'h2.tab-strings > .nav-tab-active' ).trigger( 'click' );
 });
 
 function showStrings( id, what ) {
@@ -19,6 +21,8 @@ function showStrings( id, what ) {
   if( what != undefined || what != "" ) {
     jQuery( 'form.ceceppa-form-translations table tbody tr' ).not( what ).hide();
   }
+  
+  jQuery( 'form.ceceppa-form-translations input[name="tab"]' ).val( what.replace( '.string-', '' ) );
 }
 
 

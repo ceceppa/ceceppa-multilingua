@@ -235,7 +235,8 @@ Donate:
 Contribute:
 Documentation:
 No .po files found for %s
-tmp.pot doesn't found: %s
+fuzzy
+tmp.pot not found: %s
 Translate title in:
 Filter widget
 Show
@@ -451,6 +452,7 @@ Flag's size:
 Css ClassName:
 CML: Text
 You can write arbitrary text or HTML separately for each language
+tmp.pot doesn't found: %s
 Plugin will automatically filter search in according to current language.
 Tags
 Ensure that folder %s if writable

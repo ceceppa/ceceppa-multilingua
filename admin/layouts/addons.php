@@ -1,4 +1,7 @@
 <?php
+wp_enqueue_script( 'plugin-install' );
+add_thickbox();
+
 function cml_admin_box_addons() {
 ?>
   <div id="minor-publishing">
@@ -12,20 +15,22 @@ function cml_admin_box_addons() {
 	<ul class="cml-addons">
 	<?php
 		$filename = CML_UPLOAD_DIR . "cmladdons.txt" ;
+		$addons = @file_get_contents( $filename );
+
 		//Download available addons list
 		$mtime = @filemtime( $filename ) * ( 60 * 60 * 24 );
 		if( isset( $_GET[ 'update' ] ) ||
 			! file_exists( $filename ) ||
 			$mtime < mktime() ) {
-			$addons = file_get_contents( 'http://alessandrosenese.eu/cmladdons.txt' );
+			$addons = @file_get_contents( 'http://alessandrosenese.eu/cmladdons.txt' );
 
-			file_put_contents( $filename, $addons );
+			@file_put_contents( $filename, $addons );
 		}
 
-		$addons = file_get_contents( $filename );
 		$lines = explode( "\n", $addons );
 
 		$out = "";
+        $name = "";
 		$id = 0;
 		foreach( $lines as $line ) {
 			if( preg_match( "/!--(.*)/", $line, $match ) ) {
@@ -38,7 +43,8 @@ function cml_admin_box_addons() {
 				$id++;
 			} else {
 				if( preg_match( "/Name:(.*)/", $line, $names ) ) {
-					$out .= '<div class="name">' . end( $names ) . '</div>';
+                  $name = end( $names );
+				  $out .= '<div class="name">' . end( $names ) . '</div>';
 				}
 
 				if( preg_match( "/Description:(.*)/", $line, $descr ) )
@@ -59,10 +65,13 @@ function cml_admin_box_addons() {
 
 					$git = end( $gits );
 					if( ! empty( $git ) ) {
-						$out .= '<a href="' . $git . '" target="_blank">';
-						$out .= 'Wordpress';
-						$out .= '</a>';
-					}
+                        $plugin_slug = untrailingslashit( str_replace( "http://wordpress.org/plugins/", "", $git ) );
+                        $out .= '<a href="' . esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
+                                    '&from=admin&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox" title="' .
+                                    esc_attr( $name ) . '">Wordpress</a>';
+					} else {
+                      $out .= "--";
+                    }
 				}
 
 				if( preg_match( "/Git:(.*)/", $line, $gits ) ) {
