@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Attivamente\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-20 13:57+0100\n"
-"PO-Revision-Date: 2013-08-20 14:01+0100\n"
+"POT-Creation-Date: %DATE% %TIME%+0100\n"
+"PO-Revision-Date: %DATE% %TIME%+0100\n"
 "Last-Translator: Alessandro Senese <senesealessandro@gmail.com>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -220,7 +220,7 @@ msgstr "Lingua:"
 msgid "Edit post: "
 msgstr "Modifica articolo:"
 
-msgid "Translate to:"
+msgid "Translate in:"
 msgstr "Traduci in:"
 
 msgid "This post is a translations, you have to translate existing tag instead of add new one."
@@ -253,6 +253,9 @@ msgstr "Lingua:"
 msgid "Show all languages"
 msgstr "Visualizza tutte le lingue"
 
+msgid "Something goes wrong during upgrade, click <%s>here</a> to fix "
+msgstr "Qualcosa è andato storto durate l'aggiornamento, clicca <%s>qui</a> per risolvere"
+
 msgid "Error writing file: %s"
 msgstr "Errore nella scrittura del file: %s"
 
@@ -273,9 +276,6 @@ msgstr "Impossibile accedere al percorso %s"
 
 msgid "Available languages: "
 msgstr "Lingue disponibili:"
-
-msgid "Translate in:"
-msgstr "Traduci in:"
 
 msgid "Choose in which languages you want to translate: "
 msgstr "Scegli in quale lingua vuoi tradurre:"
@@ -1318,6 +1318,9 @@ msgstr "Aggiorna relazioni tra i post"
 msgid "Debug"
 msgstr "Debug"
 
+msgid "%1$ flag"
+msgstr "bandiera %1$"
+
 msgid "generated from \"wpml-config.xml\""
 msgstr "generato da \"wpml-config.xml\""
 
@@ -1377,6 +1380,9 @@ msgstr "CML: Testo"
 
 msgid "You can write arbitrary text or HTML separately for each language"
 msgstr "Puoi scrivere del testo oppure codice HTML separato per ogni lingua"
+
+msgid "Translate to:"
+msgstr "Traduci in:"
 
 msgid "tmp.pot doesn't found: %s"
 msgstr "tmp.pot non trovato: %s"

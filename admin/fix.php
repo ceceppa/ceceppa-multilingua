@@ -8,7 +8,7 @@ function cml_do_update() {
   global $wpdb;
 
   $dbVersion = & $GLOBALS[ 'cml_db_version' ];
-  
+
   if( $dbVersion <= 24 ) {
     $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL",
                        CECEPPA_ML_TABLE );
@@ -133,6 +133,10 @@ function cml_do_update() {
     _cml_copy_taxonomies_to_translations();
 
     $wpdb->query( $query );
+  }
+
+  if( $dbVersion < 32 ) {
+    cml_update_taxonomy_translations();
   }
 
   //CML < 1.4
@@ -268,6 +272,117 @@ function cml_do_update_old() {
   if( $dbVersion <= 18 ) :
     $wpdb->query( "ALTER TABLE  " . CECEPPA_ML_TABLE . " ADD  `cml_flag_path` TEXT" );
     endif;
+}
+
+function  cml_update_taxonomy_translations() {
+  global $wpdb;
+
+    CMLUtils::_set( "_saving_taxonomy", 1 );
+
+    $wpdb->query(  "ALTER TABLE  " . CECEPPA_ML_CATS . " ADD  `cml_translated_cat_id` INT;" );
+    
+    //Copy untranslated category
+    foreach( CMLLanguage::get_no_default() as $lang ) {
+      $query = "INSERT INTO " . CECEPPA_ML_CATS . " ( cml_cat_id, cml_cat_name, cml_cat_lang_id, cml_cat_translation, cml_cat_translation_slug, cml_taxonomy, cml_translated_cat_id ) SELECT t1.term_id, HEX(name), $lang->id,HEX(NAME),HEX(slug),taxonomy,t2.term_id FROM $wpdb->terms t1 INNER JOIN $wpdb->term_taxonomy t2 ON t1.term_id = t2.term_id WHERE t1.term_id NOT IN ( SELECT cml_cat_id FROM " . CECEPPA_ML_CATS . " UNION ALL SELECT cml_translated_cat_id FROM " . CECEPPA_ML_CATS . " )";
+      $wpdb->query( $query );
+    }
+
+    $rows = $wpdb->get_results( "SELECT *, UNHEX( cml_cat_name ) as name, UNHEX( cml_cat_translation ) as translation, UNHEX( cml_cat_translation_slug ) as slug FROM " . CECEPPA_ML_CATS );
+    $cmlcats = array();
+
+    foreach( $rows as $row ) {
+      $tterm = $row->cml_cat_id;
+      $exists = get_term_by( 'slug', $row->slug, $row->cml_taxonomy );
+      if( $row->cml_cat_name != $row->cml_cat_translation &&
+          $exists === false ) {
+        $cterm = get_term( $row->cml_cat_id, $row->cml_taxonomy );
+        $parent = CMLTranslations::get_linked_category( $cterm->parent, $row->cml_cat_lang_id );
+
+        $term = wp_insert_term( $row->translation, $row->cml_taxonomy, array(
+                                                                  'name' => $row->translation,
+                                                                  'description' => $row->translation,
+                                                                  'slug' => sanitize_title( $row->translation ),
+                                                                  'parent' => $parent,
+                                                                  )
+        );
+  
+        $class = @get_class( $term );
+        if( $class == "WP_Error" ) {
+          $tterm = @$term->error_data[ 'term_exists' ];
+        } else {
+          $tterm = $term[ 'term_id' ];
+        }
+      }
+
+      if( $exists != null ) {
+        $tterm = $exists->term_id;
+      }
+  
+      $wpdb->update( CECEPPA_ML_CATS,
+                      array( 'cml_translated_cat_id' => $tterm ),
+                      array( 'id' => $row->id ),
+                      array( '%d' ),
+                      array( '%d' )
+                   );
+
+      //Term with no translation exists in all language
+      if( ! isset( $cmlcats[ $row->cml_cat_lang_id ][ $row->cml_taxonomy ][ $tterm ] ) ) {
+        $cmlcats[ $row->cml_cat_lang_id ][ $row->cml_taxonomy ][] = $tterm;
+      }
+
+      if( ! isset( $cmlcats[ CMLLanguage::get_default_id() ][ $row->cml_taxonomy ][ $row->cml_cat_id ] ) ) {
+        $cmlcats[ CMLLanguage::get_default_id() ][ $row->cml_taxonomy ][] = CMLTranslations::get_linked_category( $row->cml_cat_id,
+                                                                                                                 CMLLanguage::get_default_id() );
+      }
+    }
+
+    $cats = array();
+    foreach( $cmlcats as $key => $taxonomies ) {
+      foreach( $taxonomies as $k => $ids ) {
+        $cats[ $key ][ $k ] = array_unique( $ids );
+      }
+    }
+
+    update_option( 'cml_categories', $cats );
+
+    cml_fix_update_post_categories();
+
+    CMLUtils::_del( "_saving_taxonomy" );
+}
+
+function cml_fix_update_post_categories() {
+  global $wpdb;
+
+  $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id <> cml_translated_cat_id", CECEPPA_ML_CATS );
+  $rows = $wpdb->get_results( $query );
+  
+  $categories = array();
+  foreach( $rows as $row ) {
+    $categories[] = $row->cml_cat_id;
+    $categories[] = $row->cml_translated_cat_id;
+  }
+
+  if( ! empty( $categories  ) ) {
+    $query = sprintf( "SELECT $wpdb->posts.ID, $wpdb->term_relationships.term_taxonomy_id, $wpdb->term_taxonomy.taxonomy FROM $wpdb->posts INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id WHERE 1=1  AND ( $wpdb->term_relationships.term_taxonomy_id IN ( %s ) ) GROUP BY $wpdb->posts.ID",
+                join( ", ", array_unique( $categories ) ) );
+
+    $posts = $wpdb->get_results( $query );
+
+    $categories = array(); // $post->term_taxonomy_id );
+    foreach( $posts as $post ) {
+
+      foreach( CMLLanguage::get_no_default() as $lang ) {
+        $categories[ $post->ID ][ $post->taxonomy ][] = ( int ) CMLTranslations::get_linked_category( $post->term_taxonomy_id, $lang->id );
+      }
+    }
+
+    foreach( $categories as $id => $post ) {
+      $keys = array_keys( $post );
+      foreach( $keys as $key ) {
+        wp_set_object_terms( $id, array_unique( $post[ $key ] ), $key );
+      }
+    }
+  }
 }
 
 function cml_fix_update_post_meta() {

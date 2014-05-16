@@ -404,6 +404,8 @@ class CMLLanguage {
   /**
    * get language object by post id
    *
+   * <i>This function is equivalent to CMLPost::get_language_by_id()</i>
+   *
    * @param int $post_id - id of post/page
    *
    * @return stdObject
@@ -415,6 +417,8 @@ class CMLLanguage {
   /**
    * get language id by post id
    *
+   * <i>This function is equivalent to CMLPost::get_language_id_by_id()</i>
+   * 
    * @param int $post_id - id of post
    *
    * @return int
@@ -423,6 +427,19 @@ class CMLLanguage {
     return CMLPost::get_language_id_by_id( $post_id );
   }
   
+  /**
+   * get language slug by post id
+   *
+   * <i>This function is equivalent to CMLPost::get_language_slug_by_id();</i>
+   * 
+   * @param int $post_id - id of post
+   *
+   * @return string
+   */
+  public static function get_slug_by_post_id( $post_id ) {
+    return CMLPost::get_language_slug_by_id( $post_id );
+  }
+
   /**
    * Is $lang the default one?
    *
@@ -742,6 +759,28 @@ class CMLTranslations {
 		    "cml_type" => $group,
                   ),
                   array( "%s", "%s" ) );
+  }
+  
+  /**
+   * @ignore
+   */
+  public static function get_linked_category( $cat_id, $lang_id ) {
+    global $wpdb;
+
+    $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d OR cml_translated_cat_id = %d",
+                        CECEPPA_ML_CATS, $cat_id, $cat_id );
+
+    $rec = $wpdb->get_row( $query );
+    if( $rec == null ) return $cat_id;
+
+    if( CMLLanguage::is_default( $lang_id ) ) {
+      return $rec->cml_cat_id;
+    }
+
+    $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d ",
+                           CECEPPA_ML_CATS, $rec->cml_cat_id, $lang_id );
+
+    return $wpdb->get_var( $query );
   }
 }
 
@@ -1232,7 +1271,7 @@ class CMLPost {
 
     $removed = false;
 
-    if( is_object( $post ) ) {
+    if( is_object( $post ) && false ) {
       //Remove last "/"
       $url = untrailingslashit( $permalink );
       $url = str_replace( CMLUtils::home_url(), "", $url );
@@ -1533,6 +1572,17 @@ class CMLUtils {
     return isset( self::$_vars[ $key ] ) ? self::$_vars[ $key ] : $default;
   }
   
+  /**
+   * @ignore
+   */
+  public static function _get_option( $key, $default = null ) {
+    if( ! isset( self::$_vars[ $key ] ) ) {
+      self::$_vars[ $key ] = get_option( $key, $default );
+    }
+    
+    return self::$_vars[ $key ];
+  }
+
   /**
    *@ignore
    */

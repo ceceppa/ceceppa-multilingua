@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.19
+Stable tag: 1.4.24
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -66,7 +66,7 @@ For more Information visit the [Plugin Homepage](http://www.alessandrosenese.eu/
 [Developers](http://www.alessandrosenese.eu/en/ceceppa-multilingua/developers)
 
 = Demo =
-(old version)[Plugin demo](http://www.youtube.com/watch?v=fAPIQonud-E).
+[Plugin demo](https://www.youtube.com/watch?v=QoF8IQCZccw)
 
 = Flags =
 Flags directory are downloaded from [Flags](http://blog.worldofemotions.com/danilka/)
@@ -179,6 +179,24 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 8. Translate your theme
 
 == Changelog ==
+
+= 1.4.25 =
+* Fixed wrong category url for PRE NONE mode
+
+= 1.4.24 =
+* remove page_front updating
+* added swiss tiny flag
+
+= 1.4.23 =
+* Fixed "mb_detect_encoding" not found error
+* Fixed Widget titles translation
+
+= 1.4.22 =
+* Added warning when upgrading from CML 1.4 was failed
+* Fixed search result when using static page
+
+= 1.4.21 =
+* fixed translation when edit category
 
 = 1.4.20 =
 * Fixed post language/permalink when using not enabled language

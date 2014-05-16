@@ -213,13 +213,15 @@ function cml_do_install() {
   //Do fixes
   cml_do_update();
 
+  //create upload folder
+  @mkdir( CML_UPLOAD_DIR );
+
   //I need this to manage post relations
   cml_generate_lang_columns();
 
   //Copy category translation from "_cats" to "_relations"
   require_once ( CML_PLUGIN_ADMIN_PATH . "admin-taxonomies.php" );
 
-  _cml_copy_taxonomies_to_translations();
   cml_generate_mo_from_translations( "_X_", false );
 
   //(Re)generate settings

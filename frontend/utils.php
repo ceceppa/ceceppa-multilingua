@@ -295,10 +295,11 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       if( is_array( $cat ) ) {
         $cat_id = ( isset( $cat[ 'term_id' ] ) ) ? $cat[ 'term_id' ] : ( $cat[ count($cat) - 1 ]->term_id );
 
+        $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $result->id );
+        $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
+
         //Mi recupererà il link tradotto dal mio plugin ;)
         CMLUtils::_set( '_force_category_lang', $result->id );
-
-        $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
         
         //if is object, it's an Error
         if( is_object( $link ) ) $link = "";
@@ -568,7 +569,7 @@ function cml_show_flags( $args ) {
       $img = sprintf( '<img class="%s %s" src="%s" title="%s" alt="%s" width="%s" />',
                      $size, $image_class, CMLLanguage::get_flag_src( $result->id, $size ),
                      $result->cml_language,
-                     sprintf( __( '%1$', 'ceceppaml' ), $result->cml_language_slug ),
+                     sprintf( __( '%1$ flag', 'ceceppaml' ), $result->cml_language_slug ),
                      $width );
       //$img = "<img class=\"$size $image_class\" src=\"" . cml_get_flag_by_lang_id( $result->id, $size ) . "\" title='$result->cml_language' width=\"$width\"/>";
     } else {
@@ -681,4 +682,5 @@ function cml_get_menu() {
 
   return "cml_menu_" . $lang->cml_language_slug;
 }
+
 ?>

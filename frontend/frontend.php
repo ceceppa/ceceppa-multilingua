@@ -54,14 +54,14 @@ class CMLFrontend extends CeceppaML {
     }
 	
     //Translate term
-    add_filter( 'get_term', array( & $this, 'translate_term' ), 10, 2 );
-    add_filter( 'get_terms', array( & $this, 'translate_terms' ), 10, 3 );
-    add_filter( 'get_the_terms', array( & $this, 'translate_terms' ), 0, 3 );
-    add_filter( 'list_cats', array(&$this, 'translate_category' ), 10, 2 ); //for translate categories widget
-    add_filter( 'post_link_category', array( & $this, 'post_link_category' ), 10, 3 );
-    add_filter( 'single_cat_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
-    // add_filter( 'single_term_title', array( & $this, 'translate_sintle_term_title' ), 10, 1 );
-    // add_filter( 'single_tag_title', array( & $this, 'translate_single_cat_title' ), 10, 1 );
+    //add_filter( 'get_term', array( & $this, 'translate_term' ), 10, 2 );
+    //add_filter( 'get_terms', array( & $this, 'translate_terms' ), 10, 3 );
+    //add_filter( 'get_the_terms', array( & $this, 'translate_terms' ), 0, 3 );
+    //add_filter( 'list_cats', array(&$this, 'translate_category' ), 10, 2 ); //for translate categories widget
+    //add_filter( 'post_link_category', array( & $this, 'post_link_category' ), 10, 3 );
+    //add_filter( 'single_cat_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
+    ////add_filter( 'single_term_title', array( & $this, 'translate_single_term_title' ), 10, 1 );
+    //add_filter( 'single_tag_title', array( & $this, 'translate_single_cat_title' ), 10, 1 );
 
     //For PRE_NONE I have to add slug at the end of category link
     if( $this->_category_url_mode == PRE_LANG ) {
@@ -69,9 +69,11 @@ class CMLFrontend extends CeceppaML {
     }
 
     //change category/tag translation with its original name
-    if( ! empty( $this->_permalink_structure ) ) {
-      add_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name'), 0, 1 );
-    }
+    //if( ! empty( $this->_permalink_structure ) ) {
+      //add_action( 'pre_get_posts', array( & $this, 'filter_taxonomy_query'), 0, 1 );
+      //add_filter( 'query', array( & $this, 'filter_taxonomy_query' ), 10, 1 );
+
+    //}
 
     //Show notice?
     $this->_show_notice = $_cml_settings[ 'cml_option_notice' ];
@@ -185,8 +187,8 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'sidebars_widgets', array( & $this, 'filter_widgets' ), 0, 1 );
     
     //Next and Prev post
-    // add_filter( 'get_previous_post_where', array( &$this, 'get_previous_next_post_where' ) );
-    // add_filter( 'get_next_post_where', array( &$this, 'get_previous_next_post_where' ) );
+    add_filter( 'get_previous_post_where', array( &$this, 'get_previous_next_post_where' ) );
+    add_filter( 'get_next_post_where', array( &$this, 'get_previous_next_post_where' ) );
 
     /*
      * I can't translate home in backed because if user change permalink got
@@ -545,6 +547,7 @@ EOT;
 
     if( isset( $this->_static_page ) ) return $this->_static_page;
     if( ! isset( $query->query_vars[ 'page_id' ] ) ) return;
+    if( is_search() ) return;
 
     //Recupero l'id della lingua
     $lang_id = CMLLanguage::get_current_id();
@@ -563,7 +566,8 @@ EOT;
      */
     if( $nid > 0 ) {
       if( ! is_preview() ) {
-	update_option( 'page_on_front', $nid );
+        add_filter( 'body_class', array( & $this, 'add_home_class' ) );
+    	update_option( 'page_on_front', $nid );
       }
     } else {
       $nid = $id;
@@ -573,6 +577,12 @@ EOT;
     $query->query_vars[ 'is_home' ] = 1;
 
     $this->_static_page = $nid;
+  }
+
+  function add_home_class( $classes ) {
+    $classes[] = " home";
+    
+    return $classes;
   }
 
   function get_archives_where( $where, $r ) {
@@ -748,7 +758,7 @@ EOT;
    * translate term name and slug
    */
   function translate_terms( $terms, $post_id, $taxonomy, $lang_id = null ) {
-    global $_cml_settings;
+    global $_cml_settings, $wpdb;
 
     $t = array();
     foreach( $terms as $term ) {
@@ -756,7 +766,7 @@ EOT;
         $t[] = $term;
         continue;
       }
-
+  
       $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
 
       if( $this->_category_url_mode != PRE_LANG &&
@@ -936,27 +946,24 @@ EOT;
     
           //custom label for
           $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
-          
+
           if( null == $customs ) {
             $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
           }
 
           //Get term
-          $term = get_term( $item->object_id, $item->object );
-
-          $url = get_term_link( $term );
-          
-          $item->title = ( ! @empty( $customs[ 'title' ] ) ) ? $customs[ 'title' ] :
-                                                $term->name;
-          $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
-                                                $item->attr_title;
-
-          $item->url = $url;
-
-          // if( isset( $this->_fake_language_id ) ) {
-          //   unset( $this->_force_post_lang );
-          //   unset( $this->_force_category_lang );
-          // }
+          $term = get_term( CMLTranslations::get_linked_category( $item->object_id, $lang ), $item->object );
+          $class = get_class( $term );
+          if( $class != 'WP_Error' ) {
+            $url = get_term_link( $term );
+            
+            $item->title = ( ! @empty( $customs[ 'title' ] ) ) ? $customs[ 'title' ] :
+                                                  $term->name;
+            $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
+                                                  $item->attr_title;
+  
+            $item->url = $url;
+          }
         }
       break;
       case 'custom':
@@ -982,7 +989,7 @@ EOT;
         if( trailingslashit( $item->url ) == trailingslashit( $this->_homeUrl ) ) {
           $item->url = CMLUtils::get_home_url( CMLLanguage::get_slug( $lang_id ) );
         }
-    
+
         break;
       default:
         return $item;
@@ -1478,142 +1485,44 @@ EOT;
   /*
    *
    */
-  function change_taxonomy_name( $wp_query ) {
-    if( isset( $this->_change_taxonomy_applied ) ) return;
+  function filter_taxonomy_query( $query ) {
+    global $wpdb, $wp_query;
 
-    //For default language I do nothing
-    if( CMLLanguage::is_default() ) {
-      $this->_change_taxonomy_applied = true;
-
-      return;
+	if ( ! isset( $wp_query ) ) {
+      return $query;
     }
 
-    /*
-     * This hook was called twice, first time "category_name" contains url
-     * and if I change 'name' parameter wp ignore it :(
-     */
-    if ( isset( $wp_query->query[ 'category_name' ] ) && false !== strpos( $wp_query->query[ 'category_name' ], "http" ) ) {
-      return;
+    if( ! is_tax() ||
+        strpos( $query, "term_relationships.term_taxonomy_id" ) === false ) {
+        return $query;
     }
 
-    $is_category = is_category();
-    $is_custom = apply_filters( 'cml_is_custom_category', false, $wp_query );
-    $is_category = $is_category || $is_custom;
+    $name = get_query_var($wp_query->query_vars['taxonomy']);
+    $taxonomy = $wp_query->query_vars['taxonomy'];
 
-    //Only tags and categories
-    if ( is_archive() ) {
-      if( ! is_tag() && ! $is_category ) {
-        $this->_change_taxonomy_applied = true;
+    $term = get_term_by( 'slug', $name, $taxonomy);
 
-        return;
-      }
+    if( ! CMLLanguage::is_default() ) {
+      $term->term_id = CMLTranslations::get_linked_category( $term->term_id, CMLLanguage::get_default_id() );
     }
-
-    global $wpdb;
-
-    if( $is_category ) {
-      $cat = "";
-      if( ! $is_custom ) {
-        $cat = @$wp_query->query[ 'category_name' ];
-      } else {
-        $cat = apply_filters( 'cml_custom_category_name', $cat, $wp_query );
-      }
-
-      $cats = explode( "/", $cat );
-      if( ! is_array( $cats ) ) {
-        $cats = array( $cat );
-      }
-    } else {
-      $cats = @$wp_query->query[ 'tag' ];
-      $cats = array( $cats );
-    }
-
-    /*
-     * search for original category name in CECEPPA_ML_CATS table
-     */
-    foreach( $cats as $cat ) {
-      if( empty( $cat ) ) continue;
-
-      $name = "";
-      $term = "";
-
-      // if( is_category() ) {
-      //   //Is $cat a translation?
-      //   $term = term_exists( $cat, 'category' );
-      // } else {
-      //   $term = term_exists( sanitize_title( $cat ), 'post_tag' );
-      // }
-
-      if( empty( $term ) ) {
-        /*
-         * wp pass me category name in lowercase,
-         * I don't know how user stored it ( upper, lower or...), so
-         * I have to convert HEX in lowercase before compare
-         */
-        $cat = strtolower( str_replace("-", " ", $cat) );
-        $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE cml_cat_translation_slug IN ('%s', '%s')",
-                         CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
-                         strtolower( bin2hex( sanitize_title( $cat ) ) ) );
-
-        $row = $wpdb->get_row( $query );
-
-        $name = ( ! empty( $row ) ) ? strtolower( $row->cml_cat_name ) : "";
-        CMLUtils::_set( '_reverted', ! empty( $row ) ? $row->cml_cat_id : 0 );
-      }
-
-      if( ! empty( $name ) ) {
-        $where = is_category() ? "category" : "post_tag";
-        CMLUtils::_set( '_no_translate_term', 1 );
-        $term = get_term_by( 'id', $row->cml_cat_id, $where );
-
-        if( is_object( $term ) ) {
-          $name = $term->slug;
-        }
-
-        CMLUtils::_del( '_no_translate_term' );
-      }
       
-      $n = empty( $name ) ? $cat : $name;
-      $new[] = sanitize_title( $n );
-    } //endforeach;
+    $translations = $wpdb->get_results( sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_id = %d",
+                                                  CECEPPA_ML_CATS, $term->term_id ) );
 
-    //Nothing to change
-    if( ! isset( $new ) ) {
-      return;
+    $cats = array( $term->term_id );
+    foreach( $translations as $cat ) {
+      $cats[] = $cat->cml_translated_cat_id;
     }
 
-    if( ! $is_custom ) {
-      if( is_category() ) {
-        $wp_query->query[ 'category_name' ] = join( "/", $new );
-        $wp_query->query_vars[ 'category_name' ] = end( $new );
-      } else {
-        $wp_query->query[ 'tag' ] = end( $new );
-        $wp_query->query_vars[ 'tag' ] = end( $new );
-        $wp_query->query_vars[ 'tag_slug__in' ][0] = end( $new );
-      }
-    } else {
-      $wp_query = apply_filters( 'cml_change_wp_query_values', $wp_query, $new );
-    }
+    /*
+     * Tutti i miei tentativi di modificare la query wp_query per utilizzare tassonomie multiple sono stati vani
+     * l'unica cosa che mi resta da fare è modificare la query eseguita da wp...
+     */
+    $replace = "term_relationships.term_taxonomy_id IN (" . join( ",", array_unique( $cats ) );
+    
+    $query = preg_replace("/term_relationships.term_taxonomy_id[^\)]*/i", $replace, $query);
 
-    if( ! $is_custom ) {
-      $taxonomy_name = ( is_category() ) ? "category" : "post_tag";
-    } else {
-      $taxonomy_name = $wp_query->tax_query->queries[ 0 ][ 'taxonomy' ];
-    }
-
-    $taxquery = array(
-                "taxonomy" => $taxonomy_name,
-                "terms" => array( join( "/", $new ) ),
-                "include_children" => 1,
-                "field" => "slug",
-                "operator" => "IN",
-                );
-
-    $wp_query->tax_query->queries[ 0 ] = $taxquery;
-
-    //remove_action( 'pre_get_posts', array( & $this, 'change_taxonomy_name' ), 0, 1 );
-
-    $this->_change_category_applied = true;
+    return $query;
   }
 
   function show_notice( $content ) {
@@ -1821,7 +1730,7 @@ EOT;
 
     //Al momento utilizzo la vecchia funzione non ottimizzata per la visualizzazione dei tag
     if( is_tag() ) {
-      cml_deprecated_hide_translations_for_tags( $wp_query );
+      cml_frontend_hide_translations_for_tags( $wp_query );
     }
 
     if( $wp_query != null && is_object( $wp_query ) && is_array( $this->_hide_posts ) ) {
@@ -1844,9 +1753,9 @@ EOT;
     
     if( empty( $posts ) ) return $where;
 
-    if( ! empty( $posts ) )
-      $where .= " AND p.ID IN (" . implode(", ", $posts) . ") ";
-    
+    $where .= " AND p.ID IN (" . implode(", ", $posts) . ") ";
+
+    error_log( $where );
     return $where;
   }
 

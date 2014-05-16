@@ -87,6 +87,7 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
   if( CMLUtils::_get( 'no_generate', false ) ) return;
 
   require_once( CML_PLUGIN_ADMIN_PATH . 'php-mo.php' );
+  require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-taxonomies.php' );
 
   update_option( "cml_get_translation_from_po", 0 );
 
@@ -116,9 +117,12 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
     $h = str_replace( '%PROJECT%', "cml_translations", $h );
     $h = str_replace( '%AUTHOR%', $user->user_firstname . " " . $user->user_lastname, $h );
     $h = str_replace( '%EMAIL%', $user->user_email, $h );
+    $h = str_replace( '%TIME%', date( "h:i", time() ), $h );
+    $h = str_replace( '%DATE%', date( "Y-m-d", time() ), $h );
     //$h = str_replace( '%LOCALE%', $lang->cml_locale, $h );
     fwrite( $fp, $h . PHP_EOL );
 
+    _cml_copy_taxonomies_to_translations();
     $query = sprintf( "SELECT cml_language_slug as slug, UNHEX(cml_text) as text, UNHEX(cml_translation) as translation FROM %s t1 INNER JOIN %s t2 ON t1.cml_lang_id = t2.id",
                      CECEPPA_ML_TRANSLATIONS, CECEPPA_ML_TABLE );
 

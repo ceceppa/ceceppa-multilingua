@@ -77,6 +77,20 @@ function cml_admin_options_update_relations() {
 <?php
 }
 
+function cml_admin_options_update_taxonomies() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+        <?php printf( __('Update required, click <%s>here</a> for update posts taxonomy information', 'ceceppaml'),
+                     'a href="' . add_query_arg( array( "cml_tax" => 1 ) ) . '"' ); ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+  </div>
+<?php
+}
+
 function cml_admin_options_enable_debug() {
   ?>
   <div id="minor-publishing">
@@ -97,6 +111,7 @@ add_meta_box( 'cml-box-start-wizard', '<span class="cml-icon cml-icon-redirect "
 add_meta_box( 'cml-box-assign-to', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update language of existing posts', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_language', 'cml_box_options' );
 add_meta_box( 'cml-box-restore-helps', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Restore helps', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_pointers', 'cml_box_options' );
 add_meta_box( 'cml-box-update-relations', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update post relations', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_relations', 'cml_box_options' );
+add_meta_box( 'cml-box-update-taxonomies', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update taxonomies', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_taxonomies', 'cml_box_options' );
 
 if( file_exists( CML_PLUGIN_PATH . "debug.php" ) ) {
   add_meta_box( 'cml-box-enable-debug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Debug', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_enable_debug', 'cml_box_options' );

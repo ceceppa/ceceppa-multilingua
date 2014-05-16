@@ -60,7 +60,7 @@ function cml_widgets_title_table( $wtitles ) {
       $i = 0;
 
       foreach($langs as $lang) {
-        $d = CMLTranslations::get( $lang->id, $title, "W", true  );
+        $d = CMLTranslations::get( $lang->id, $title, "W", true, true );
         
         if( empty( $d ) )
           $d = CMLTranslations::gettext( $lang->id, $title, "W" ); // ( $title, $lang->id, 'W', true, true );

@@ -23,7 +23,16 @@ function cml_admin_taxonomy_add_form_fields( $tag ) {
  * category translations form
  */
 function cml_admin_taxonomy_edit_form_fields( $tag ) {
+  global $wpdb;
+
   wp_enqueue_script('ceceppaml-cat');
+
+  //if is a translated category I don't show translation fields
+  $query = sprintf( "SELECT * FROM %s WHERE cml_translated_cat_id = %d AND cml_cat_id <> %d",
+                      CECEPPA_ML_CATS, $tag->term_id, $tag->term_id );
+
+  $r = $wpdb->get_results( $query );
+  if( $r != null ) return;
 
   $t_id = $tag->term_id;
 ?>
@@ -38,7 +47,7 @@ function cml_admin_taxonomy_edit_form_fields( $tag ) {
 
         //$value = get_option( "cml_category_" . $t_id . "_lang_$id", $tag->name );
         $tname = strtolower( $tag->taxonomy . "_" . $tag->name );
-        $value = CMLTranslations::gettext( $lang->id, $tname, "C", CML_PLUGIN_CACHE_PATH );
+        $value = CMLTranslations::get( $lang->id, $tname, "C", true, true );
         if( empty( $value ) ) $value = $tag->name;
 echo <<< EOT
   <tr class="form-field cml-form-field">
@@ -63,6 +72,8 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
     return;
   }
 
+  if( CMLUtils::_get( "_saving_taxonomy", false ) == 1 ) return;
+
   //In Quickedit non devo fare nulla
   if( ! isset( $_POST['cat_name'] ) ) {
     return;
@@ -73,11 +84,75 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
    * because from "1.4" plugin generate .mo file with all translations, and I can use it instead
    * asking mysql for translations :)
    */
+  $cmlcats = get_option( 'cml_categories', array() );
+  CMLUtils::_set( "_saving_taxonomy", 1 );
+
   $cats = $_POST[ 'cat_name' ];
+  $taxonomy = $_POST[ 'taxonomy' ];
   $name = isset( $_POST[ 'name' ] ) ? $_POST[ 'name' ] : $_POST[ 'tag-name' ];
   foreach( $cats as $key => $cat ) {
-    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $_POST[ 'taxonomy' ] );
+    $tterm = $term_id; //Translated term id
+
+    $slug = sanitize_title( $cat );
+    $exists = get_term_by( 'slug', $slug, $_POST[ 'taxonomy' ] );
+    $update = false;
+
+    if( $name != $cat && $exists === false ) {
+      //Is term changed?
+      $tterm = CMLTranslations::get_linked_category( $term_id, $key );
+      if( null == $tterm || $tterm == $term_id )  {
+        $cterm = get_term( $term_id, $taxonomy );
+        $parent = CMLTranslations::get_linked_category( $cterm->parent, $key );
+
+        $term = wp_insert_term( $cat, $_POST[ 'taxonomy' ], array(
+                                                                  'description' => $cat,
+                                                                  'slug' => $slug,
+                                                                  'parent' => $parent,
+                                                                  )
+        );
+        
+        $class = get_class( $term );
+        if( $class == "WP_Error" ) {
+          $tterm = $term->error_data[ 'term_exists' ];
+        } else {
+          $tterm = $term[ 'term_id' ];
+        }
+      } else {
+        $update = true;
+      }
+    } else {
+      $tterm = $exists->term_id;
+      
+      $update = true;
+    }
+
+    if( $update ) {
+      $cterm = get_term( $term_id, $taxonomy );
+      $parent = CMLTranslations::get_linked_category( $cterm->parent, $key );
+
+      wp_update_term( $tterm, $_POST[ 'taxonomy' ], array(
+                                                          'name' => $cat,
+                                                          'slug' => $slug,
+                                                          'parent' => $parent,
+                                                          )
+                    );
+    }
+
+    //Term with no translation exists in all language
+    if( ! isset( $cmlcats[ $key ][ $taxonomy ][ $tterm ] ) ) {
+      $cmlcats[ $key ][ $taxonomy ][] = $tterm;
+    }
+
+    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $_POST[ 'taxonomy' ], $tterm );
   }
+
+  if( ! isset( $cmlcats[ CMLLanguage::get_default_id() ][ $taxonomy ][ $term_id ] ) ) {
+    $cmlcats[ CMLLanguage::get_default_id() ][ $taxonomy ][] = $term_id;
+  }
+
+  update_option( 'cml_categories', $cmlcats );
+  
+  cml_fix_update_post_categories();
 }
 
 //quickedit
@@ -111,7 +186,7 @@ function _cml_admin_quickedit_taxonomy( $term_id ) {
   cml_generate_mo_from_translations( "_X_", false );
 }
 
-function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $taxonomy ) {
+function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $taxonomy, $translation_id ) {
   global $wpdb;
 
   $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d",
@@ -129,10 +204,11 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $tax
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
 			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
-      "cml_taxonomy" => $taxonomy,
+            "cml_taxonomy" => $taxonomy,
+            "cml_translated_cat_id" => $translation_id,
             ),
 		  array( "id" => $r_id ),
-		  array( '%s', '%d', '%s', '%s' ),
+		  array( '%s', '%d', '%s', '%s', '%s', '%d' ),
 		  array( "%d" ) );
   } else {
     $wpdb->insert( CECEPPA_ML_CATS,
@@ -142,9 +218,10 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $tax
 			"cml_cat_translation" => bin2hex( $translation ),
 			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
 			"cml_cat_id" => $id,
-      "cml_taxonomy" => $taxonomy,
+            "cml_taxonomy" => $taxonomy,
+            "cml_translated_cat_id" => $translation_id,
             ),
-		  array('%s', '%d', '%s', '%s', '%d') );
+		  array('%s', '%d', '%s', '%s', '%d', '%s', '%d' ) );
   }
   
   _cml_copy_taxonomies_to_translations();

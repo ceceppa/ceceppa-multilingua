@@ -108,7 +108,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
                                                 "id" => $id,
                                                 "custom_flag" => $data[ 'cml_custom_flag' ],
                                               ) );
-      
+
       //Try to download language pack
       cml_download_mo_file( @$form[ 'wp-locale' ] );
     }

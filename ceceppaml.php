@@ -3,7 +3,7 @@
 Plugin Name: Ceceppa Multilingua
 Plugin URI: http://www.ceceppa.eu/portfolio/ceceppa-multilingua/
 Description: Adds userfriendly multilingual content management and translation support into WordPress.
-Version: 1.4.19
+Version: 1.4.24
 Author: Alessandro Senese aka Ceceppa
 Author URI: http://www.alessandrosenese.eu/
 License: GPL3
@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $wpdb;
 
-define( 'CECEPPA_DB_VERSION', 31 );
+define( 'CECEPPA_DB_VERSION', 32 );
 
 define( 'CECEPPA_ML_TABLE', $wpdb->base_prefix . 'ceceppa_ml' );
 define( 'CECEPPA_ML_CATS', $wpdb->base_prefix . 'ceceppa_ml_cats' );
@@ -148,7 +148,7 @@ require_once CML_PLUGIN_INCLUDES_PATH . "widgets.php";
 //     1 == get_option( "cml_debug_enabled" ) ) {
 //   define( 'CML_DEBUG', 1 );
 
- //require_once( "debug.php" );
+//require_once( "debug.php" );
 // }
 
 //3rd party compatibility
@@ -168,6 +168,7 @@ class CeceppaML {
   protected $_request_url = null;
   protected $_permalink_structure = null;
   protected $_category_url_mode = null;
+  protected $_categories = null;
 
   public function __construct() {
     global $_cml_settings;
@@ -213,11 +214,21 @@ class CeceppaML {
 
     //Category doesn't works correctly with "none" of "Url Modification mode"
     $this->_category_url_mode = $this->_url_mode;
-    if( $this->_category_url_mode == PRE_NONE || ! $_cml_settings[ 'cml_option_translate_category_url' ] ) {
+    if( $this->_category_url_mode == PRE_NONE ||
+       ( ! $_cml_settings[ 'cml_option_translate_category_url' ] && $this->_category_url_mode != PRE_PATH ) ) {
       $this->_category_url_mode = PRE_LANG;
     }
 
     CMLUtils::_set( 'cml_category_mode', $this->_category_url_mode );
+    
+    //Taxonomies by language
+    $this->_categories = CMLUtils::_get_option( "cml_categories", array() );
+
+    //Translate term
+    //add_filter( 'get_term', array( & $this, 'translate_term' ), 0, 2 );
+    add_filter( 'get_terms', array( & $this, 'get_object_terms' ), 0, 3 );
+    add_filter( 'get_the_terms', array( & $this, 'get_the_terms' ), 0, 3 );
+    add_filter( 'wp_get_object_terms', array( & $this, 'get_object_terms' ), 0, 3 );
   }
 
   /*
@@ -329,6 +340,42 @@ EOT;
     $wp_admin_bar->add_menu( array( 'id' => $id,
                                      'title' => $content, 'href' => $url,
                                      'parent' => $parent ) );
+  }
+
+  function get_the_terms( $terms, $post_id, $taxonomy ) {
+    $lang = CMLLanguage::get_id_by_post_id( $post_id );
+
+    foreach( $terms as $key => $term ) {
+      if( ! is_object( $term ) ) return $terms;
+
+      if( isset( $this->_categories[ $lang ][ $term->taxonomy ] ) && ! in_array( $term->term_id, $this->_categories[ $lang ][ $term->taxonomy ] ) ) {
+        unset( $terms[ $key ] );
+      }
+    }
+
+    return $terms;
+  }
+
+  function get_object_terms( $terms, $object_ids, $taxonomies ) {
+    global $pagenow;
+
+    $lang = isset( $_GET[ 'post' ] ) ? CMLLanguage::get_id_by_post_id( $_GET[ 'post' ] ) :
+                                        CMLLanguage::get_current_id();
+
+    if( isset( $_GET[ 'post-lang' ] ) ) {
+      $lang = intval( $_GET[ 'post-lang' ] );
+    }
+
+    foreach( $terms as $key => $term ) {
+      if( ! is_object( $term ) ) return $terms;
+
+      if( isset( $this->_categories[ $lang ][ $term->taxonomy ] ) &&
+         ! in_array( $term->term_id, $this->_categories[ $lang ][ $term->taxonomy ] ) ) {
+        unset( $terms[ $key ] );
+      }
+    }
+    
+    return $terms;
   }
 
   function pre_post_link( $permalink, $post, $leavename ) {

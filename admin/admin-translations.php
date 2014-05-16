@@ -5,7 +5,7 @@ require_once ( CML_PLUGIN_ADMIN_PATH . 'donate.php' );
 require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
 
 //Current tab
-$pages = array( "ceceppaml-translations-page", "ceceppaml-widgettitles-page", "ceceppaml-translations-title", "ceceppaml-translations-plugins-themes" );
+$pages = array( "ceceppaml-translations-page", "ceceppaml-translations-menu", "ceceppaml-widgettitles-page", "ceceppaml-translations-title", "ceceppaml-translations-plugins-themes" );
 $tab = array_search( $_GET[ 'page' ], $pages );
 
 $page = $_GET[ 'page' ];
@@ -13,9 +13,10 @@ $page = $_GET[ 'page' ];
 <div class="wrap <?php echo sanitize_title( $_GET[ 'page' ] ) ?>">
   <h2 class="nav-tab-wrapper">
     <a class="nav-tab <?php echo $tab == 0 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[0] ?>&tab=0"><?php _e('My translations', 'ceceppaml') ?></a>
-    <a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[1] ?>&tab=1"><?php _e('Widget titles', 'ceceppaml') ?></a>
-    <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[2] ?>&tab=2"><?php printf( "%s / %s", __( 'Site Title' ), __( 'Tagline' ) ) ?></a>
-    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[3] ?>&tab=3"><?php _e('Theme', 'ceceppaml') ?></a>
+    <a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[1] ?>&tab=1"><?php _e('Menu') ?></a>
+    <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[2] ?>&tab=2"><?php _e('Widget titles', 'ceceppaml') ?></a>
+    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[3] ?>&tab=3"><?php printf( "%s / %s", __( 'Site Title' ), __( 'Tagline' ) ) ?></a>
+    <a class="nav-tab <?php echo $tab == 4 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[4] ?>&tab=4"><?php _e('Theme', 'ceceppaml') ?></a>
   </h2>
 
   <div id="poststuff">
@@ -27,6 +28,9 @@ $page = $_GET[ 'page' ];
         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-my.php' );
         break;
       case 1:
+        require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-menu.php' );
+        break;
+      case 2:
         //I have to store translations?
         if( isset( $_POST[ 'action' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) {
           global $wpdb;
@@ -53,7 +57,7 @@ $page = $_GET[ 'page' ];
         require_once ( CML_PLUGIN_FRONTEND_PATH . 'utils.php' );
         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-widget-titles.php' );
         break;
-      case 2:
+      case 3:
         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-sitename.php' );
 
         $page = $_GET[ 'page' ];
@@ -79,7 +83,7 @@ EOT;
           echo '</div>';
         echo '</form>';
         break;
-      case 3:
+      case 4:
         //CML parser, used for translate theme and plugin
         require_once ( CML_PLUGIN_ADMIN_PATH . 'po-parser.php' );
 

@@ -32,6 +32,19 @@ function cml_admin_post_meta_box( $tag ) {
     /* recover category from linked id */
     $categories = wp_get_post_categories( $link_id );
     if( ! empty( $categories ) ) {
+      if( ! CMLLanguage::is_default( $post_lang ) ) {
+        $c = array();
+        foreach( $categories as $cat ) {
+          $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
+                                CECEPPA_ML_CATS, $post_lang, $cat );
+
+          $c[] = $wpdb->get_var( $query );
+        }
+
+        if( ! empty( $c ) ) {
+          $categories = $c;
+        }
+      }
       wp_set_post_categories( $tag->ID, $categories );
     }
     
@@ -40,7 +53,7 @@ function cml_admin_post_meta_box( $tag ) {
     if( ! empty( $tags ) ) {
       $ltags = array();
       foreach( $tags as $t ) {
-        $ltags[] = $t->name;
+        $ltags[] = $name = CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
       }
 
       wp_set_post_tags( $tag->ID, $ltags );
@@ -173,6 +186,8 @@ function cml_admin_save_extra_post_fields( $term_id ) {
     $post_lang = intval( $_POST[ 'cml-lang' ] );
   }
 
+  cml_fix_update_post_categories();
+  
   /*
    * Quickedit?
    */
@@ -255,7 +270,7 @@ function cml_admin_add_flag_column( $col_name, $id ) {
       
     } else {
       echo '<a href="' . get_bloginfo( "wpurl" ) . '/wp-admin/post-new.php?post_type=' . $post_type . '&link-to=' . $id . '&post-lang=' . $lang->id . '">';
-      echo '    <img class="add tipsy-me" src="' . CML_PLUGIN_URL . 'images/edit.png" title="' . __( 'Translate to:', 'ceceppaml' ) . ' ' . $lang->cml_language . '" />';
+      echo '    <img class="add tipsy-me" src="' . CML_PLUGIN_URL . 'images/edit.png" title="' . __( 'Translate in:', 'ceceppaml' ) . ' ' . $lang->cml_language . '" />';
       echo '</a>';
     }
   }

@@ -15,10 +15,14 @@ class CMLDebug {
     // foreach( $traces as $trace ) {
       // if( isset( $trace[ 'file' ] ) && false !== strpos( $trace[ 'file' ], "ceceppa-multilingua" ) ) {
     $this->queries[] = $query;
+    //if( strpos( $query, "wp_term_relationships.term_taxonomy_id" ) !== false ) {
+    //  print_r( debug_backtrace() );
+    //  die();
+    //}
         // break;
       // }
     // }
-
+  
     return $query;
   }
 

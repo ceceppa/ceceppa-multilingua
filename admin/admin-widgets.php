@@ -27,9 +27,10 @@ function cml_update_widget_conditions( $instance, $new_instance, $old_instance )
   }
 
   //Store widget title translations
-  $name = str_replace( "_", "-", $_POST[ 'cml-widget-name' ] );
+  $name = str_replace( "widget_", "widget-", $_POST[ 'cml-widget-name' ] );
   $key = @end( $_POST[ $name ] );
   $original = @$key[ 'title' ];
+
   if( ! empty( $original ) ) {
     $titles = $_POST[ 'cml-widget-title' ];
 
@@ -71,6 +72,8 @@ function cml_admin_in_widget_form( $widget, $return, $instance ) {
 
 ?>
   <div class="cml-widget-titles">
+    <!-- avoid that ajax call change language inside widget -->
+    <input type="hidden" name="lang" value="<?php CMLLanguage::get_current_id() ?>" />
     <!-- Required for catch widget title on update -->
     <p>
       <?php _e( 'Translate title in:', 'ceceppaml' ) ?>

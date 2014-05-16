@@ -130,7 +130,7 @@
 	<li>[cml_date_format] =&gt; j M Y</li>
 </ul>
 <br />
-		<b>Located at</b> <a href="source-class-CMLLanguage.html#8-478" title="Go to source code">api.php</a><br />
+		<b>Located at</b> <a href="source-class-CMLLanguage.html#8-495" title="Go to source code">api.php</a><br />
 	</div>
 
 
@@ -1009,7 +1009,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_by_post_id">#</a>
-		<code><a href="source-class-CMLLanguage.html#404-413" title="Go to source code">get_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#404-415" title="Go to source code">get_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1020,6 +1020,8 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 		<div class="description detailed hidden">
 			
 <p>get language object by post id</p>
+
+<p><i>This function is equivalent to CMLPost::get_language_by_id()</i></p>
 
 
 
@@ -1051,7 +1053,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_id_by_post_id">#</a>
-		<code><a href="source-class-CMLLanguage.html#415-424" title="Go to source code">get_id_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#417-428" title="Go to source code">get_id_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1062,6 +1064,8 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 		<div class="description detailed hidden">
 			
 <p>get language id by post id</p>
+
+<p><i>This function is equivalent to CMLPost::get_language_id_by_id()</i></p>
 
 
 
@@ -1082,6 +1086,50 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="get_slug_by_post_id" id="_get_slug_by_post_id">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_slug_by_post_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#430-441" title="Go to source code">get_slug_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>get language slug by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get language slug by post id</p>
+
+<p><i>This function is equivalent to CMLPost::get_language_slug_by_id();</i></p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - id of post</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="is_default" id="_is_default">
 
 		<td class="attributes"><code>
@@ -1093,7 +1141,7 @@ href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it
 
 		<td class="name"><div>
 		<a class="anchor" href="#_is_default">#</a>
-		<code><a href="source-class-CMLLanguage.html#426-443" title="Go to source code">is_default</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#443-460" title="Go to source code">is_default</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1136,7 +1184,7 @@ passed current language will be assumed</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_is_current">#</a>
-		<code><a href="source-class-CMLLanguage.html#445-462" title="Go to source code">is_current</a>( <span>int/string <var>$lang</var></span> )</code>
+		<code><a href="source-class-CMLLanguage.html#462-479" title="Go to source code">is_current</a>( <span>int/string <var>$lang</var></span> )</code>
 
 		<div class="description short">
 			

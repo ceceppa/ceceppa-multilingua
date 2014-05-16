@@ -26,7 +26,6 @@ jQuery(document).ready( function($) {
       url: ajaxurl,
       data: $( this ).serialize(),
       success: function( data ) {
-        console.log( data );
         $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeOut();
 
         $data = null;
@@ -202,6 +201,14 @@ jQuery(document).ready( function($) {
   });
   
   $( 'form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"]' ).remove();
+  
+  //Menu page
+  $( '.cml-box-options .menu .menu-item-settings' ).each( function() {
+    console.log( $( this ).children().last().position() );
+    console.log( $( this ).children().last().offset() );
+
+    return;
+  });
 });
 
 

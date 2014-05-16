@@ -238,7 +238,7 @@ CMLUtils::_append( "_seo", array(
 function cml_yoast_seo_strings( $types ) {
   if( defined( 'WPSEO_VERSION' ) ) {
     //CMLTranslations::delete( "_YOAST" );
-    $options = get_wpseo_options();
+    $options = WPSEO_Options::get_all();
 
     $xml = WPSEO_PATH . "wpml-config.xml";
     new CML_WPML_Parser( $xml, "_YOAST", $options );
@@ -265,7 +265,8 @@ function cml_yoast_translate_options() {
   if( empty( $names ) ) return;
 
   $names = explode( ",", $names );
-  foreach( get_wpseo_options() as $key => $opt ) {
+  $seooptions = WPSEO_Options::get_all();
+  foreach( $seooptions as $key => $opt ) {
     if( in_array( $key, $names ) ) {
       $value = CMLTranslations::get( CMLLanguage::get_current_id(),
                                                            "_yoast_$key",

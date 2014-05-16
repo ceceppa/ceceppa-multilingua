@@ -66,7 +66,7 @@ None
 current %s
 Language: 
 Edit post: 
-Translate to:
+Translate in:
 This post is a translations, you have to translate existing tag instead of add new one.
 Help
 Search existing tag:
@@ -77,6 +77,7 @@ Post data
 Page data
 Language:
 Show all languages
+Something goes wrong during upgrade, click <%s>here</a> to fix 
 Error writing file: %s
 No tables found!
 If you have uninstalled the plugin, you can remove the plugin now, or deactivate and activete it again to rebuild tables.
@@ -84,7 +85,6 @@ If you haven't uninstalled the plugin, something goes wrong, please contact me <
 No translable strings founds in %s
 Failed to open %s path
 Available languages: 
-Translate in:
 Choose in which languages you want to translate: 
 All strings
 To translate
@@ -432,6 +432,7 @@ Wizard
 Update language of existing posts
 Update post relations
 Debug
+%1\$ flag
 generated from \"wpml-config.xml\"
 Current plugins contains WPML Language Configuration Files ( wpml-config.xml )
 officially supported
@@ -452,6 +453,7 @@ Flag's size:
 Css ClassName:
 CML: Text
 You can write arbitrary text or HTML separately for each language
+Translate to:
 tmp.pot doesn't found: %s
 Plugin will automatically filter search in according to current language.
 Tags
