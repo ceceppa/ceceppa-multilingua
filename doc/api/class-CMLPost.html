@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class CMLPost</title>
+
+	<script type="text/javascript" src="resources/combined.js?2354491673"></script>
+	<script type="text/javascript" src="elementlist.js?4270564774"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+		</div>
+
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-CMLLanguage.html">CMLLanguage</a></li>
+				<li class="active"><a href="class-CMLPost.html">CMLPost</a></li>
+				<li><a href="class-CMLTranslations.html">CMLTranslations</a></li>
+				<li><a href="class-CMLUtils.html">CMLUtils</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-cml_dropdown_langs.html">cml_dropdown_langs</a></li>
+				<li><a href="function-cml_get_browser_lang.html">cml_get_browser_lang</a></li>
+				<li><a href="function-cml_get_menu.html">cml_get_menu</a></li>
+				<li><a href="function-cml_get_notice.html">cml_get_notice</a></li>
+				<li><a href="function-cml_get_the_link.html">cml_get_the_link</a></li>
+				<li><a href="function-cml_is_homepage.html">cml_is_homepage</a></li>
+				<li><a href="function-cml_show_flags.html">cml_show_flags</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class CMLPost</h1>
+
+
+	<div class="description">
+	
+<p>This class is used to get/set post translation/language or get language by
+its id</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-CMLPost.html#765-1308" title="Go to source code">api.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="get_language_by_id" id="_get_language_by_id">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_language_by_id">#</a>
+		<code><a href="source-class-CMLPost.html#777-804" title="Go to source code">get_language_by_id</a>( <span>int/string <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return language object by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return language object by post id</p>
+
+<p>this function return "null" if post doesn't exists in any language</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>int/string</code><br>$post_id - id of post/page</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_language_id_by_id" id="_get_language_id_by_id">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_language_id_by_id">#</a>
+		<code><a href="source-class-CMLPost.html#806-845" title="Go to source code">get_language_id_by_id</a>( <span>integer <var>$post_id</var></span>, <span>boolean <var>$unique</var> = <span class="php-keyword1">false</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>return language id by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return language id by post id</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - id of post/page</dd>
+					<dt><var>$unique</var></dt>
+					<dd><code>boolean</code><br>$unique check if $post_id exists in all languages, if true return 0, otherwise
+return In backend I need to get information by post meta, or I'll lost "all
+languages" ( = 0 ) information.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_language_slug_by_id" id="_get_language_slug_by_id">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_language_slug_by_id">#</a>
+		<code><a href="source-class-CMLPost.html#847-858" title="Go to source code">get_language_slug_by_id</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>get language slug by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get language slug by post id</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id post/page id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_translation" id="_get_translation">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_translation">#</a>
+		<code><a href="source-class-CMLPost.html#860-884" title="Go to source code">get_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>get the translation id, if exists, in selected language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get the translation id, if exists, in selected language</p>
+
+<p>this function will return 0 if no translation is found.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - language id/slug in which return translation</dd>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - post id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_translations" id="_get_translations">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_translations">#</a>
+		<code><a href="source-class-CMLPost.html#886-1018" title="Go to source code">get_translations</a>( <span>integer <var>$post_id</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>get all available translations of post</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get all available translations of post</p>
+
+<p>This function will return Array containing all info about linked posts</p>
+Array(
+<ul>
+	<li>[language slug] =&gt; [post_id]</li>
+
+	<li>...</li>
+
+	<li>[indexes] =&gt; Array<br />
+	<i>In this subarray there are all linked posts, including $post_id</i>
+		<ul>
+			<li>[language slug] =&gt; [post_id]</li>
+
+			<li>...</li>
+		</ul>
+	</li>
+
+	<li>[linked] =&gt; Array<br />
+	<i>In this subarray there are only linked post indexes</i>
+		<ul>
+			<li>[linked language slug] =&gt; [linked_id]</li>
+
+			<li>...</li>
+		</ul>
+	</li>
+</ul>
+ )
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - post id</dd>
+					<dt><var>$force</var></dt>
+					<dd><code>boolean</code><br>$force - force to rebuild meta. ( This parameter is used internally by CML )
+return Array</dd>
+				</dl></div>
+
+
+
+				<h4>Example</h4>
+				<div class="list">
+						<br />
+Array (
+<ul>
+	<li>[it] =&gt; 2552</li>
+
+	<li>[en] =&gt; 541</li>
+
+	<li>[eo] =&gt; 0</li>
+
+	<li>[indexes] =&gt; Array (
+		<ul>
+			<li>[it] =&gt; 2552</li>
+		</ul>
+		 )</li>
+
+	<li>[linked] =&gt; Array (
+		<ul>
+			<li>[en] =&gt; 541</li>
+		</ul>
+	</li>
+</ul>
+ )<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_unique" id="_is_unique">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_unique">#</a>
+		<code><a href="source-class-CMLPost.html#1020-1031" title="Go to source code">is_unique</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>check if $post_id exists in all languages</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>check if $post_id exists in all languages</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id post id to search return boolean</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_language" id="_set_language">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_language">#</a>
+		<code><a href="source-class-CMLPost.html#1033-1045" title="Go to source code">set_language</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>set language of post</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>set language of post</p>
+
+<p>This function will unlink $post_id by its translations</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - post language id/slug</dd>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - post id</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_translation" id="_set_translation">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_translation">#</a>
+		<code><a href="source-class-CMLPost.html#1047-1064" title="Go to source code">set_translation</a>( <span>integer <var>$post_id</var></span>, <span>int/string <var>$linked_lang</var></span>, <span>integer <var>$linked_post</var></span>, <span>integer <var>$post_lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>set single translation to post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>set single translation to post id</p>
+
+<p>This function is used to link 2 posts</p>
+
+<p>When you link a post to single translation, relations with other language
+will not be losed. If you want remove other relations, you have to use
+set_language method first.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - post to set translation</dd>
+					<dt><var>$linked_lang</var></dt>
+					<dd><code>int/string</code><br>$linked_lang - language id/slug of linked post</dd>
+					<dt><var>$linked_post</var></dt>
+					<dd><code>integer</code><br>$linked_post - post id of translation</dd>
+					<dt><var>$post_lang</var></dt>
+					<dd><code>integer</code><br>$post_lang ( optional ) - language of $post_id. If null, It will get from
+database</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_translations" id="_set_translations">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_translations">#</a>
+		<code><a href="source-class-CMLPost.html#1066-1108" title="Go to source code">set_translations</a>( <span>mixed <var>$post_id</var></span>, <span>mixed <var>$translations</var></span>, <span>mixed <var>$post_lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>add multiple translations to post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>add multiple translations to post id</p>
+
+<p>This function will update relations only from $post_id with $translations
+posts, so relations from $post_id and languages than doesn't exists in
+$translations array will not be broken.</p>
+
+<p>If you need to set relation only from $post_id and $translations, and remove
+the other one, you have to "break" them using set_language method first.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>mixed</code><br>$post_id - post to set translation+</dd>
+					<dt><var>$translations</var></dt>
+					<dd><code>mixed</code><br>$translations - array with language_slug as key and post_id as value. array(
+"it" =&gt; 1, "en" =&gt; 2 )...</dd>
+					<dt><var>$post_lang</var></dt>
+					<dd><code>mixed</code><br>$post_lang ( optional ) - set also the language of $post_id</dd>
+				</dl></div>
+
+
+
+				<h4>Example:</h4>
+				<div class="list">
+						CMLPost::set_translation( 1, array( "it" =&gt; 2, "en" =&gt; 3 ) )<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_as_unique" id="_set_as_unique">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_as_unique">#</a>
+		<code><a href="source-class-CMLPost.html#1110-1117" title="Go to source code">set_as_unique</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>set post as unique ( it will be exists in all languages )</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>set post as unique ( it will be exists in all languages )</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id the post id</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="update_meta" id="_update_meta">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_update_meta">#</a>
+		<code><a href="source-class-CMLPost.html#1123-1138" title="Go to source code">update_meta</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$post_id</var></span>, <span>mixed <var>$translations</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_posts_by_language" id="_get_posts_by_language">
+
+		<td class="attributes"><code>
+			 public static
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_posts_by_language">#</a>
+		<code><a href="source-class-CMLPost.html#1140-1158" title="Go to source code">get_posts_by_language</a>( <span>int/slug <var>$lang</var> = <span class="php-keyword1">null</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>get indexes of posts that exists in selected language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get indexes of posts that exists in selected language</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/slug</code><br>$lang ( optional, if not set will be = current language id ) id / slug of
+language</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="_update_posts_by_language" id="__update_posts_by_language">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__update_posts_by_language">#</a>
+		<code><a href="source-class-CMLPost.html#1164-1166" title="Go to source code">_update_posts_by_language</a>( <span>mixed <var>$lang</var></span>, <span>mixed <var>$ids</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_posts_by_languages" id="_get_posts_by_languages">
+
+		<td class="attributes"><code>
+			 public static
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_posts_by_languages">#</a>
+		<code><a href="source-class-CMLPost.html#1168-1180" title="Go to source code">get_posts_by_languages</a>( )</code>
+
+		<div class="description short">
+			
+<p>return all posts by languages.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return all posts by languages.</p>
+
+<p>The key of array is the language id</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="has_translation" id="_has_translation">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_has_translation">#</a>
+		<code><a href="source-class-CMLPost.html#1182-1199" title="Go to source code">has_translation</a>( <span>int/string <var>$lang</var></span>, <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>check if $post_id has translation in selected language.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>check if $post_id has translation in selected language.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - language id/slug</dd>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - post id return boolean</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="has_translations" id="_has_translations">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_has_translations">#</a>
+		<code><a href="source-class-CMLPost.html#1201-1214" title="Go to source code">has_translations</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>check if $post_id has any translation</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>check if $post_id has any translation</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - post id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_translation" id="_is_translation">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_translation">#</a>
+		<code><a href="source-class-CMLPost.html#1216-1228" title="Go to source code">is_translation</a>( <span>integer <var>$post1</var></span>, <span>integer <var>$post2</var></span> )</code>
+
+		<div class="description short">
+			
+<p>check if $post1 is translation of $post2</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>check if $post1 is translation of $post2</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post1</var></dt>
+					<dd><code>integer</code><br>$post1 post id</dd>
+					<dt><var>$post2</var></dt>
+					<dd><code>integer</code><br>$post2 post id</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

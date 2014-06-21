@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class CMLTranslations</title>
+
+	<script type="text/javascript" src="resources/combined.js?2354491673"></script>
+	<script type="text/javascript" src="elementlist.js?4270564774"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+		</div>
+
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-CMLLanguage.html">CMLLanguage</a></li>
+				<li><a href="class-CMLPost.html">CMLPost</a></li>
+				<li class="active"><a href="class-CMLTranslations.html">CMLTranslations</a></li>
+				<li><a href="class-CMLUtils.html">CMLUtils</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-cml_dropdown_langs.html">cml_dropdown_langs</a></li>
+				<li><a href="function-cml_get_browser_lang.html">cml_get_browser_lang</a></li>
+				<li><a href="function-cml_get_menu.html">cml_get_menu</a></li>
+				<li><a href="function-cml_get_notice.html">cml_get_notice</a></li>
+				<li><a href="function-cml_get_the_link.html">cml_get_the_link</a></li>
+				<li><a href="function-cml_is_homepage.html">cml_is_homepage</a></li>
+				<li><a href="function-cml_show_flags.html">cml_show_flags</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class CMLTranslations</h1>
+
+
+	<div class="description">
+	
+<p>This class is used to get and store custom translations in
+CECEPPA_ML_TRANSLATIONS table.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-CMLTranslations.html#497-763" title="Go to source code">api.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="add" id="_add">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add">#</a>
+		<code><a href="source-class-CMLTranslations.html#507-551" title="Go to source code">add</a>( <span>string <var>$key</var></span>, <span>string <var>$default</var></span>, <span>string <var>$group</var></span>, <span>mixed <var>$no_default</var> = <span class="php-keyword1">false</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>This function can be used by 3rd part plugin/theme to allow translation of
+its strings. Added string can be translated in "My Languages" page.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>This function can be used by 3rd part plugin/theme to allow translation of
+its strings. Added string can be translated in "My Languages" page.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$key</var></dt>
+					<dd><code>string</code><br>$key used to store/get your own value from database. To avoid duplicated key use
+your own prefix for your key. Example: "_yoast_rssafter"</dd>
+					<dt><var>$default</var></dt>
+					<dd><code>string</code><br>$default default value to use</dd>
+					<dt><var>$group</var></dt>
+					<dd><code>string</code><br>$group The group name of your own strings, this name will be displayed in "My
+Translations" page in "Group" column. Group name should be preceded by "_"
+symbol.<br />
+Example: "_YOAST"</dd>
+					<dt><var>$no_default</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+				<h4>Example</h4>
+				<div class="list">
+						Full example is provided here:<br />
+<a
+href="http://www.alessandrosenese.eu/en/ceceppa-multilingua/extend-plugin-theme-compatibility/">http://www.alessandrosenese.eu/en/ceceppa-multilingua/extend-plugin-theme-compatibility/</a><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set" id="_set">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set">#</a>
+		<code><a href="source-class-CMLTranslations.html#553-598" title="Go to source code">set</a>( <span>int/string <var>$lang</var></span>, <span>string <var>$original</var></span>, <span>string <var>$translated</var></span>, <span>string <var>$type</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Store custom translation in database.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Store custom translation in database.</p>
+
+<p>Since 1.4 CML generate GNUTEXT mo file from stored translations. The domain
+used to generate translation is: "cmltrans".</p>
+
+<p>Mo file isn't generated automatically, but you have to call manually the
+function cml_generate_mo_from_translations()</p>
+
+<p>This function will return the id of inserted record.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - id/slug of language</dd>
+					<dt><var>$original</var></dt>
+					<dd><code>string</code><br>$original - original string</dd>
+					<dt><var>$translated</var></dt>
+					<dd><code>string</code><br>$translation - translated string</dd>
+					<dt><var>$type</var></dt>
+					<dd><code>string</code><br>$type - type of translation( W: Widget, S: Custom strings ). Type field is used
+"internally" to show records in correct table, like Widget titles, My
+translations...</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+				<h4>Example</h4>
+				<div class="list">
+						&lt;?php _e( "Hello", "cmltrans" ); ?&gt; Use "get" function instead of __, _e,
+because if "mo" generation fails, this function will get translation from
+database<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get" id="_get">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get">#</a>
+		<code><a href="source-class-CMLTranslations.html#600-682" title="Go to source code">get</a>( <span>int/string <var>$lang</var></span>, <span>string <var>$string</var></span>, <span>string <var>$type</var> = <span class="php-quote">&quot;&quot;</span></span>, <span>boolean <var>$return_empty</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$ignore_po</var> = <span class="php-keyword1">false</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>return translation stored in cml_trans table by key</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return translation stored in cml_trans table by key</p>
+
+<p>This function will get translation from ".mo" file if: 1) it's generated
+correctly 2) $lang == current language</p>
+
+<p>otherwise will get translation from database</p>
+
+<p>&lt;strong&gt;string match is case sensitive&lt;/strong&gt;</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - language id or slug</dd>
+					<dt><var>$string</var></dt>
+					<dd><code>string</code><br>$string - string to translate</dd>
+					<dt><var>$type</var></dt>
+					<dd><code>string</code><br>$type - ( optional ) This is used internally by Ceceppa Multilingua, only in
+admin interface T - Site Title/Tagline, W - Widget, M - My translations</dd>
+					<dt><var>$return_empty</var></dt>
+					<dd><code>boolean</code><br>$return_empty - If true, return empty string if no translation is found</dd>
+					<dt><var>$ignore_po</var></dt>
+					<dd><code>boolean</code><br>$ignore_po Since 1.4 the plugin will generate mo file for all translation stored
+in CECEPPA_ML_TRANSLATIONS ( widget titles, my translations, site
+title/tagline... ). So by default if $lang == current language, the plugin will
+get translation from ".mo" file instead query the database. You can force to
+retive translation from database.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="search" id="_search">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_search">#</a>
+		<code><a href="source-class-CMLTranslations.html#723-737" title="Go to source code">search</a>( <span>string <var>$lang</var></span>, <span>string <var>$text</var></span>, <span>mixed <var>$group</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return key stored in translations table by its translation</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return key stored in translations table by its translation</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>string</code><br>$text to search</dd>
+					<dt><var>$text</var></dt>
+					<dd><code>string</code><br>$group group</dd>
+					<dt><var>$group</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete_text" id="_delete_text">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete_text">#</a>
+		<code><a href="source-class-CMLTranslations.html#753-762" title="Go to source code">delete_text</a>( <span>mixed <var>$text</var></span>, <span>mixed <var>$group</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

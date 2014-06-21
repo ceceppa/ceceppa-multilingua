@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.8.0" />
+
+	<title>Class CMLLanguage</title>
+
+	<script type="text/javascript" src="resources/combined.js?2354491673"></script>
+	<script type="text/javascript" src="elementlist.js?4270564774"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+		</div>
+
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-CMLLanguage.html">CMLLanguage</a></li>
+				<li><a href="class-CMLPost.html">CMLPost</a></li>
+				<li><a href="class-CMLTranslations.html">CMLTranslations</a></li>
+				<li><a href="class-CMLUtils.html">CMLUtils</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-cml_dropdown_langs.html">cml_dropdown_langs</a></li>
+				<li><a href="function-cml_get_browser_lang.html">cml_get_browser_lang</a></li>
+				<li><a href="function-cml_get_menu.html">cml_get_menu</a></li>
+				<li><a href="function-cml_get_notice.html">cml_get_notice</a></li>
+				<li><a href="function-cml_get_the_link.html">cml_get_the_link</a></li>
+				<li><a href="function-cml_is_homepage.html">cml_is_homepage</a></li>
+				<li><a href="function-cml_show_flags.html">cml_show_flags</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class CMLLanguage</h1>
+
+
+	<div class="description">
+	
+<p>This class provide information about configured languages</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+				<b>Api:</b>
+				The structure of language object is:
+<p>stdClass Object (</p>
+
+<ul>
+	<li>[id] =&gt; id of language</li>
+
+	<li>[cml_default] =&gt; ( boolean ) - is it default?</li>
+
+	<li>[cml_flag] =&gt; name of flag</li>
+
+	<li>[cml_language] =&gt; name of language</li>
+
+	<li>[cml_language_slug] =&gt; language slug</li>
+
+	<li>[cml_locale] =&gt; wordpress locale</li>
+
+	<li>[cml_enabled] =&gt; enabled?</li>
+
+	<li>[cml_sort_id] =&gt; language order</li>
+
+	<li>[cml_custom_flag] =&gt; (boolean) - use custom flag?</li>
+
+	<li>[cml_rtl] =&gt; 0</li>
+
+	<li>[cml_date_format] =&gt; j M Y</li>
+</ul>
+<br />
+		<b>Located at</b> <a href="source-class-CMLLanguage.html#8-495" title="Go to source code">api.php</a><br />
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="get_default" id="_get_default">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_default">#</a>
+		<code><a href="source-class-CMLLanguage.html#55-64" title="Go to source code">get_default</a>( )</code>
+
+		<div class="description short">
+			
+<p>return object of default language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return object of default language</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_default_id" id="_get_default_id">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_default_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#66-73" title="Go to source code">get_default_id</a>( )</code>
+
+		<div class="description short">
+			
+<p>return default language id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return default language id</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_default_slug" id="_get_default_slug">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_default_slug">#</a>
+		<code><a href="source-class-CMLLanguage.html#75-82" title="Go to source code">get_default_slug</a>( )</code>
+
+		<div class="description short">
+			
+<p>return default language slug</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return default language slug</p>
+
+<p>return string</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_default_locale" id="_get_default_locale">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_default_locale">#</a>
+		<code><a href="source-class-CMLLanguage.html#84-91" title="Go to source code">get_default_locale</a>( )</code>
+
+		<div class="description short">
+			
+<p>return default language locale</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return default language locale</p>
+
+<p>return string</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_all" id="_get_all">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_all">#</a>
+		<code><a href="source-class-CMLLanguage.html#93-142" title="Go to source code">get_all</a>( )</code>
+
+		<div class="description short">
+			
+<p>return all configured languages, enabled or not...</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return all configured languages, enabled or not...</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_no_default" id="_get_no_default">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_no_default">#</a>
+		<code><a href="source-class-CMLLanguage.html#144-153" title="Go to source code">get_no_default</a>( )</code>
+
+		<div class="description short">
+			
+<p>return all configured languages except default one</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return all configured languages except default one</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_enableds" id="_get_enableds">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_enableds">#</a>
+		<code><a href="source-class-CMLLanguage.html#155-164" title="Go to source code">get_enableds</a>( )</code>
+
+		<div class="description short">
+			
+<p>return all enabled languages</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return all enabled languages</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_others" id="_get_others">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_others">#</a>
+		<code><a href="source-class-CMLLanguage.html#172-179" title="Go to source code">get_others</a>( <span>mixed <var>$only_enableds</var> = <span class="php-keyword1">true</span> </span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_slugs" id="_get_slugs">
+
+		<td class="attributes"><code>
+			 public static
+			Array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_slugs">#</a>
+		<code><a href="source-class-CMLLanguage.html#181-199" title="Go to source code">get_slugs</a>( )</code>
+
+		<div class="description short">
+			
+<p>return associative array where index is the language slug</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return associative array where index is the language slug</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Array</code><br />
+				</div>
+
+
+				<h4>Example</h4>
+				<div class="list">
+						Array (
+<ul>
+	<li>"it" =&gt; [stdObject..],</li>
+
+	<li>"en" =&gt; [stdObject...]</li>
+</ul>
+ )<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_current" id="_get_current">
+
+		<td class="attributes"><code>
+			 public static
+			stdobject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_current">#</a>
+		<code><a href="source-class-CMLLanguage.html#201-210" title="Go to source code">get_current</a>( )</code>
+
+		<div class="description short">
+			
+<p>return current language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return current language</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdobject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_current_id" id="_get_current_id">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_current_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#212-219" title="Go to source code">get_current_id</a>( )</code>
+
+		<div class="description short">
+			
+<p>return current language id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return current language id</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_current_slug" id="_get_current_slug">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_current_slug">#</a>
+		<code><a href="source-class-CMLLanguage.html#221-226" title="Go to source code">get_current_slug</a>( )</code>
+
+		<div class="description short">
+			
+<p>return current language slug</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return current language slug</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_current_locale" id="_get_current_locale">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_current_locale">#</a>
+		<code><a href="source-class-CMLLanguage.html#228-233" title="Go to source code">get_current_locale</a>( )</code>
+
+		<div class="description short">
+			
+<p>return current language locale</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return current language locale</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_name" id="_get_name">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_name">#</a>
+		<code><a href="source-class-CMLLanguage.html#235-248" title="Go to source code">get_name</a>( <span>int/string <var>$lang</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return the name of language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return the name of language</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - id or slug of language</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_slug" id="_get_slug">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_slug">#</a>
+		<code><a href="source-class-CMLLanguage.html#250-265" title="Go to source code">get_slug</a>( <span>int/string <var>$lang</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return the slug of language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return the slug of language</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - id or slug of language</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_by_id" id="_get_by_id">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_by_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#267-279" title="Go to source code">get_by_id</a>( <span>int/string <var>$id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return language by id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return language by id</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$id</var></dt>
+					<dd><code>int/string</code><br>$lang id or slug of language to search</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_by_slug" id="_get_by_slug">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_by_slug">#</a>
+		<code><a href="source-class-CMLLanguage.html#281-298" title="Go to source code">get_by_slug</a>( <span>string <var>$slug</var></span>, <span>boolean <var>$empty</var> = <span class="php-keyword1">false</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>get language by slug</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get language by slug</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$slug</var></dt>
+					<dd><code>string</code><br>$slug - language slug</dd>
+					<dt><var>$empty</var></dt>
+					<dd><code>boolean</code><br>$empty - If false return default language if $slug doesn't exists. If true and
+$slug doesn't exists return empty array</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_id_by_slug" id="_get_id_by_slug">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_id_by_slug">#</a>
+		<code><a href="source-class-CMLLanguage.html#300-311" title="Go to source code">get_id_by_slug</a>( <span>string <var>$slug</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return language id by slug</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return language id by slug</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$slug</var></dt>
+					<dd><code>string</code><br>$slug - language slug</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_id_by_locale" id="_get_id_by_locale">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_id_by_locale">#</a>
+		<code><a href="source-class-CMLLanguage.html#313-328" title="Go to source code">get_id_by_locale</a>( <span>string <var>$locale</var></span> )</code>
+
+		<div class="description short">
+			
+<p>return language id by locale</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return language id by locale</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$locale</var></dt>
+					<dd><code>string</code><br>$language locale</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_flag" id="_get_flag">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_flag">#</a>
+		<code><a href="source-class-CMLLanguage.html#330-345" title="Go to source code">get_flag</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$size</var> = <span class="php-quote">&quot;small&quot;</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>return the flag filename ( withouth extension )</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return the flag filename ( withouth extension )</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang ( optional ) - id/slug of language, if empty default one will be used</dd>
+					<dt><var>$size</var></dt>
+					<dd><code>string</code><br>$size ( optional ) - size of flag: "tiny" or "small"</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_flag_src" id="_get_flag_src">
+
+		<td class="attributes"><code>
+			 public static
+			string:
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_flag_src">#</a>
+		<code><a href="source-class-CMLLanguage.html#347-377" title="Go to source code">get_flag_src</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$size</var> = CML_FLAG_TINY </span> )</code>
+
+		<div class="description short">
+			
+<p>return flag filename with the full path.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return flag filename with the full path.</p>
+
+<p>Example <a
+href="http://www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it_IT.png">www.example.com/wp-content/plugin/ceceppa-multilingua/flags/tiny/it_IT.png</a></p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang ( optional ) - id or slug of language, if empty default one will be used</dd>
+					<dt><var>$size</var></dt>
+					<dd><code>string</code><br>$size ( optional ) - size of flag: "tiny" or "small"</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string:</code><br>flag filename with the full path.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_flag_img" id="_get_flag_img">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_flag_img">#</a>
+		<code><a href="source-class-CMLLanguage.html#379-393" title="Go to source code">get_flag_img</a>( <span>int/string <var>$lang</var></span>, <span>string <var>$size</var> = CML_FLAG_TINY </span> )</code>
+
+		<div class="description short">
+			
+<p>return html &lt;img&gt; object of flag</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return html &lt;img&gt; object of flag</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang - id or slug of language</dd>
+					<dt><var>$size</var></dt>
+					<dd><code>string</code><br>$size - flag size ( tiny or small )</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_by_post_id" id="_get_by_post_id">
+
+		<td class="attributes"><code>
+			 public static
+			stdObject
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_by_post_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#404-415" title="Go to source code">get_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>get language object by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get language object by post id</p>
+
+<p><i>This function is equivalent to CMLPost::get_language_by_id()</i></p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - id of post/page</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>stdObject</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_id_by_post_id" id="_get_id_by_post_id">
+
+		<td class="attributes"><code>
+			 public static
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_id_by_post_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#417-428" title="Go to source code">get_id_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>get language id by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get language id by post id</p>
+
+<p><i>This function is equivalent to CMLPost::get_language_id_by_id()</i></p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - id of post</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_slug_by_post_id" id="_get_slug_by_post_id">
+
+		<td class="attributes"><code>
+			 public static
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_slug_by_post_id">#</a>
+		<code><a href="source-class-CMLLanguage.html#430-441" title="Go to source code">get_slug_by_post_id</a>( <span>integer <var>$post_id</var></span> )</code>
+
+		<div class="description short">
+			
+<p>get language slug by post id</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>get language slug by post id</p>
+
+<p><i>This function is equivalent to CMLPost::get_language_slug_by_id();</i></p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$post_id</var></dt>
+					<dd><code>integer</code><br>$post_id - id of post</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_default" id="_is_default">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_default">#</a>
+		<code><a href="source-class-CMLLanguage.html#443-460" title="Go to source code">is_default</a>( <span>int/string <var>$lang</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Is $lang the default one?</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Is $lang the default one?</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang ( optional ) id/slug. check if $lang is the default language, if null is
+passed current language will be assumed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_current" id="_is_current">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_current">#</a>
+		<code><a href="source-class-CMLLanguage.html#462-479" title="Go to source code">is_current</a>( <span>int/string <var>$lang</var></span> )</code>
+
+		<div class="description short">
+			
+<p>check if $lang is the current language</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>check if $lang is the current language</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$lang</var></dt>
+					<dd><code>int/string</code><br>$lang language id/slug to compare</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+	<table class="summary" id="constants">
+	<caption>Constants summary</caption>
+	<tr data-order="FLAG_TINY" id="FLAG_TINY">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-CMLLanguage.html#45-48" title="Go to source code"><b>FLAG_TINY</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">&quot;tiny&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#FLAG_TINY" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Tiny ~= 16x11</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Tiny ~= 16x11</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="FLAG_SMALL" id="FLAG_SMALL">
+
+		<td class="attributes"><code>string</code></td>
+		<td class="name"><code>
+				<a href="source-class-CMLLanguage.html#50-53" title="Go to source code"><b>FLAG_SMALL</b></a>
+		</code></td>
+		<td class="value"><code><span class="php-quote">&quot;small&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#FLAG_SMALL" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Small ~= 32x21</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Small ~= 32x21</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
