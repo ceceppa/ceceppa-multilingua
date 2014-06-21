@@ -1,4 +1,5 @@
 <?php
+require_once( CML_PLUGIN_FRONTEND_PATH . "utils.php" );
 
 if( isset( $_GET[ 'cml-restore-wp' ] ) ) {
   _cml_restore_wp_pointers();
@@ -77,20 +78,6 @@ function cml_admin_options_update_relations() {
 <?php
 }
 
-function cml_admin_options_update_taxonomies() {
-  ?>
-  <div id="minor-publishing">
-    <div>
-        <?php printf( __('Update required, click <%s>here</a> for update posts taxonomy information', 'ceceppaml'),
-                     'a href="' . add_query_arg( array( "cml_tax" => 1 ) ) . '"' ); ?>
-    </div>
-  </div>
-
-  <div id="major-publishing-actions" class="cml-description">
-  </div>
-<?php
-}
-
 function cml_admin_options_enable_debug() {
   ?>
   <div id="minor-publishing">
@@ -105,13 +92,47 @@ function cml_admin_options_enable_debug() {
 <?php
 }
 
+function cml_admin_options_update_static_page() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+        <?php echo cml_utils_create_checkbox( __( 'Update static page', 'ceceppaml' ), "cml-static", "cml-static", null, 1, get_option( "cml_update_static_page", 1 ) ) ?>
+        <?php submit_button() ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+    <?php _e( 'Update Wordpress static page settings. If the plugin set random page as homepage try to deactivat this option', 'ceceppaml' ); ?>
+  </div>
+<?php
+}
+
+function cml_admin_options_update_taxonomies() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+        <?php printf( __('Update required, click <%s>here</a> for update posts taxonomy information', 'ceceppaml'),
+                     'a href="' . add_query_arg( array( "cml_tax" => 1 ) ) . '"' ); ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+  </div>
+<?php
+}
+
 $help = __( 'Show/Hide help', 'ceceppaml' );
 
 add_meta_box( 'cml-box-start-wizard', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Wizard', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_wizard', 'cml_box_options' );
 add_meta_box( 'cml-box-assign-to', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update language of existing posts', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_language', 'cml_box_options' );
 add_meta_box( 'cml-box-restore-helps', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Restore helps', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_pointers', 'cml_box_options' );
 add_meta_box( 'cml-box-update-relations', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update post relations', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_relations', 'cml_box_options' );
-add_meta_box( 'cml-box-update-taxonomies', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update taxonomies', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_taxonomies', 'cml_box_options' );
+
+if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
+  add_meta_box( 'cml-box-update-taxonomies', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update taxonomies', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_taxonomies', 'cml_box_options' );
+}
+
+add_meta_box( 'cml-box-enable-static-change', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Static page', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_static_page', 'cml_box_options' );
 
 if( file_exists( CML_PLUGIN_PATH . "debug.php" ) ) {
   add_meta_box( 'cml-box-enable-debug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Debug', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_enable_debug', 'cml_box_options' );

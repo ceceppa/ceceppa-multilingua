@@ -16,6 +16,9 @@ case 2:
   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-advanced.php' );
   break;
 case 3:
+  require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-experimental.php' );
+  break;
+case 4:
   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-uninstall.php' );
   
   if( isset( $_GET[ 'erase' ] ) && intval( $_GET[ 'erase' ] == 2 ) ) {
@@ -96,7 +99,8 @@ $page = $_GET[ 'page' ];
     
     <?php if( empty( $wstep ) ) : ?>
     <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=2"><?php _e('Advanced', 'ceceppaml') ?></a>
-    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?> cml-uninstall" href="?page=<?php echo $page ?>&tab=3"><?php _e('Uninstall', 'ceceppaml') ?></a>
+    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?> cml-experimental" href="?page=<?php echo $page ?>&tab=3"><?php _e('Experimental', 'ceceppaml') ?></a>
+    <a class="nav-tab <?php echo $tab == 4 ? "nav-tab-active" : "" ?> cml-uninstall" href="?page=<?php echo $page ?>&tab=4"><?php _e('Uninstall', 'ceceppaml') ?></a>
     <?php endif; ?>
   </h2>
 

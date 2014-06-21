@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 3.9
-Stable tag: 1.4.24
+Stable tag: 1.4.27
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -180,12 +180,20 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
-= 1.4.25 =
-* Fixed wrong category url for PRE NONE mode
+= 1.4.28 =
+* Now you can override "Show flags" settings for each post/page
+
+= 1.4.27 =
+* Fixed "All languages" bug
+
+= 1.4.26 =
+* Fixed redirect mode
+* Fixed loop when Ignore for default language is enabled
+* Added new "Filter none" mode for One page themes
+* Fixed various bugs
 
 = 1.4.24 =
 * remove page_front updating
-* added swiss tiny flag
 
 = 1.4.23 =
 * Fixed "mb_detect_encoding" not found error

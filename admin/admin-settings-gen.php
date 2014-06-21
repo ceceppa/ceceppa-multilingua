@@ -96,6 +96,8 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
    * of same word cause wrong "return"
    */
   $langs = CMLLanguage::get_all();
+  if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) @mkdir( CML_PLUGIN_CACHE_PATH );
+
   //foreach( $langs as $lang ) {
     $filename = CML_PLUGIN_CACHE_PATH . "cmltrans-" . CMLLanguage::get_default_locale() . ".po";
 
@@ -241,6 +243,8 @@ $small[] = <<< EOT
 }
 EOT;
   }
+
+  if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) mkdir( CML_PLUGIN_CACHE_PATH );
   
   $css = join( "\n", $tiny ) . "\n" . join( "\n", $small );
   @file_put_contents( CML_PLUGIN_CACHE_PATH . "cml_flags.css", $css );

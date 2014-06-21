@@ -76,8 +76,8 @@ EOT;
     //Check for what language I have to hide translation field for default language
     $hide_for = apply_filters( "cml_my_translations_hide_default", array( 'S' ) );
 
-    CMLTranslations::delete( "N" );
-    CMLTranslations::delete( "S" );
+    //CMLTranslations::delete( "N" );
+    //CMLTranslations::delete( "S" );
 
     $langs = CMLLanguage::get_all();
 
@@ -96,10 +96,14 @@ EOT;
           continue;
         }
 
+        //Translation db id
+        $tid = intval( $_POST[ 'ids' ][ $id ][ $lang->id ] );
+
         CMLTranslations::set( $lang->id,
                             $text,
                             $value,
-                            $group );
+                            $group,
+                            $tid );
       }
     }
 

@@ -46,7 +46,8 @@ function cml_show_admin_notices() {
   }
 
   //translated category
-  if( get_option( "cml_update_taxonomy_translation", 1 ) == 1 ) {
+  if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
+     get_option( "cml_update_taxonomy_translation", 1 ) == 1 ) {
 ?>
     <div class="updated">
       <p>

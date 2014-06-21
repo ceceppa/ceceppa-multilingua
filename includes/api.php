@@ -205,6 +205,9 @@ class CMLLanguage {
    */
   public static function get_current() {
     if( empty( self::$_all_languages ) ) self::get_all();
+    if( ! isset( self::$_all_languages[ self::$_current_id ] ) ) {
+      self::$_current_id = CMLLanguage::get_default_id();
+    }
 
     return self::$_all_languages[ self::$_current_id ];
   }
@@ -384,12 +387,12 @@ class CMLLanguage {
    *
    * @return string
    */
-  public static function get_flag_img( $lang, $size = CML_FLAG_TINY ) {
+  public static function get_flag_img( $lang, $size = CML_FLAG_TINY, $class = "" ) {
     $url = self::get_flag_src( $lang, $size );
     $name = self::get_name( $lang );
     $slug = self::get_slug( $lang );
 
-    return "<img src='$url' border='0' alt='$slug' title='$name' />";
+    return "<img src='$url' border='0' alt='$slug' title='$name' class='" . $class . "'/>";
   }
    
    /**
@@ -577,24 +580,37 @@ class CMLTranslations {
    *
    * @return string
    */
-  public static function set( $lang, $original, $translated, $type ) {
+  public static function set( $lang, $original, $translated, $type, $record_id = 0 ) {
     global $wpdb;
 
     if( ! is_numeric( $lang ) ) $lang = CMLLanguage::get_id_by_slug( $lang );
     $original = trim( $original );
 
-    $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
-                    array( "cml_text" => bin2hex( $original ),
-                           "cml_type" => $type,
-                           "cml_lang_id" => $lang ),
-                    array( "%s", "%s", "%d" ) );
+    if( $record_id == 0 ) {
+      $wpdb->delete( CECEPPA_ML_TRANSLATIONS,
+                      array( "cml_text" => bin2hex( $original ),
+                             "cml_type" => $type,
+                             "cml_lang_id" => $lang ),
+                      array( "%s", "%s", "%d" ) );
+  
+      return $wpdb->insert( CECEPPA_ML_TRANSLATIONS, 
+                            array( 'cml_text' => bin2hex( $original ),
+                                  'cml_lang_id' => $lang,
+                                  'cml_translation' => bin2hex( $translated ),
+                                  'cml_type' => $type ),
+                            array( '%s', '%d', '%s', '%s' ) );
+    } else {
+      $wpdb->update( CECEPPA_ML_TRANSLATIONS, 
+                    array( 'cml_text' => bin2hex( $original ),
+                          'cml_lang_id' => $lang,
+                          'cml_translation' => bin2hex( $translated ),
+                          'cml_type' => $type ),
+                    array( 'id' => $record_id ),
+                    array( '%s', '%d', '%s', '%s' ),
+                    array( '%d' ) );
 
-    return $wpdb->insert( CECEPPA_ML_TRANSLATIONS, 
-                          array( 'cml_text' => bin2hex( $original ),
-                                'cml_lang_id' => $lang,
-                                'cml_translation' => bin2hex( $translated ),
-                                'cml_type' => $type ),
-                          array( '%s', '%d', '%s', '%s' ) );
+      return $record_id;
+    }
   }
   
   /**
@@ -829,8 +845,7 @@ class CMLPost {
    * return language id by post id
    *
    * @param int $post_id - id of post/page
-   * @param boolean $unique check if $post_id exists in all languages, if true return
-   *                        0, otherwise return 
+   * @param boolean $unique check if $post_id exists in all languages, if true return 0
    *                        In backend I need to get information by post meta, or I'll lost
    *                        "all languages" ( = 0 ) information.
    *
@@ -1271,7 +1286,7 @@ class CMLPost {
 
     $removed = false;
 
-    if( is_object( $post ) && false ) {
+    if( is_object( $post ) ) {
       //Remove last "/"
       $url = untrailingslashit( $permalink );
       $url = str_replace( CMLUtils::home_url(), "", $url );
@@ -1288,10 +1303,8 @@ class CMLPost {
         /*
          * when hook get_page_link, wordpress pass me only post id, not full object
          */
-        $post_title = $post->post_title; //( ! isset( $post->post_name ) ) ?
-          //$post->post_title : $post->post_name;
-          // $a = $wpdb->get_var( "SELECT post_title FROM $wpdb->posts WHERE id = $post->ID" );
-
+        $post_title = $post->post_title;
+        
         /*
          * got how many number occourrences ( -d ) are in the "real title"
          */
@@ -1305,7 +1318,7 @@ class CMLPost {
         if( count( $pout[0] ) < count( $out[ 0 ] ) && CMLPost::has_translations( $post->ID ) ) {
           $permalink = trailingslashit( preg_replace( "/-\d*$/", "",
                                                      untrailingslashit( $permalink ) ) );
-
+          
           $removed = true;
         }
       }
@@ -1480,8 +1493,9 @@ class CMLUtils {
       return self::$_language_detected;
     }
 
+    $http = is_ssl() ? "https://" : "http://";
     if( empty( self::$_url ) ) {
-      self::$_url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+      self::$_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
       self::$_request_url = str_replace( trailingslashit( self::home_url() ),
                                         "", self::$_url );
     }
@@ -1502,7 +1516,7 @@ class CMLUtils {
     }
 
     $_url = $request_url;
-    $base_url = str_replace( "http://" . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
+    $base_url = str_replace( $http . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
 
     if( preg_match( "#^([a-z]{2})(/.*)?$#i", $_url, $match ) ) {
       $lang = CMLLanguage::get_id_by_slug( $match[1] );
@@ -1546,7 +1560,15 @@ class CMLUtils {
    * @return string
    */
   public static function get_clean_url() {
-    return self::$_clean_url;
+    if( ! empty( self::$_clean_url ) ) {
+      return self::$_clean_url;
+    } else {
+      $http = is_ssl() ? "https://" : "http://";
+
+      $_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+      
+      return preg_replace( "/\?.*/", "", $_url );
+    }
   }
   
   /**
@@ -1573,17 +1595,6 @@ class CMLUtils {
   }
   
   /**
-   * @ignore
-   */
-  public static function _get_option( $key, $default = null ) {
-    if( ! isset( self::$_vars[ $key ] ) ) {
-      self::$_vars[ $key ] = get_option( $key, $default );
-    }
-    
-    return self::$_vars[ $key ];
-  }
-
-  /**
    *@ignore
    */
   public static function _del( $key ) {
@@ -1600,7 +1611,19 @@ class CMLUtils {
     
     self::$_vars[ $key ][] = $value;
   }
+
   
+  /**
+   * @ignore
+   */
+  public static function _get_option( $key, $default = null ) {
+    if( ! isset( self::$_vars[ $key ] ) ) {
+      self::$_vars[ $key ] = get_option( $key, $default );
+    }
+    
+    return self::$_vars[ $key ];
+  }
+
   /**
    * @ignore
    *

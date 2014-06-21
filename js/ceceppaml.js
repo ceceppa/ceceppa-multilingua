@@ -10,9 +10,11 @@ if( $supports_html5_storage ) {
 
   /* Can I clear sessionStorage if old language != new one? */
   if( ceceppa_ml.clear ) {
-    
+
     if( old == null || old.id != ceceppa_ml.id ) {
       sessionStorage.clear();
+
+      console.log( "Clear" );
     }
   }
 

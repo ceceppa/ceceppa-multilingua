@@ -46,7 +46,7 @@ add_shortcode( 'cml_media_alt', 'cml_translate_media_alt' );
 
 foreach( CMLLanguage::get_all() as $lang ) {
   add_shortcode( '_' . $lang->cml_language_slug . "_", 'cml_quick_shortcode' );
-  add_shortcode( ':' . $lang->cml_language_slug, 'cml_quick_qshortcode' );
+  add_shortcode( ':' . $lang->cml_language_slug, 'cml_quick_shortcode_qml' );
 }
 
 function cml_shortcode_text($attrs) {
@@ -120,6 +120,20 @@ function cml_shortcode_show_flags($attrs) {
 
 function cml_quick_shortcode( $attrs, $content = null, $shortcode ) {
   if( preg_match( "/_(.*)_/", $shortcode, $match ) ) {
+    $lang = end( $match );
+
+    //not current one
+    if( ! CMLLanguage::is_current( $lang ) ) return "";
+
+    return do_shortcode( $content );
+  }
+
+  return $content;
+}
+
+//language shortcode in qmltranslate style [:it]
+function cml_quick_shortcode_qml( $attrs, $content = null, $shortcode ) {
+  if( preg_match( "/:(.*)/", $shortcode, $match ) ) {
     $lang = end( $match );
 
     //not current one

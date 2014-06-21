@@ -2,13 +2,18 @@
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 function cml_admin_post_meta_box( $tag ) {
-  global $wpdb;
-  
+  global $wpdb, $pagenow;
+
   $langs = CMLLanguage::get_all();
 
   //I have clicked on "+" symbol for add translation?
   if( array_key_exists( "post-lang", $_GET) ) {
     $post_lang = intval( $_GET[ 'post-lang' ] );
+  }
+
+  if( ! isset( $post_lang ) &&
+      "post-new.php" == $pagenow ) {
+    $post_lang = CMLLanguage::get_default_id();
   }
 
   //Language of post/page
@@ -17,12 +22,16 @@ function cml_admin_post_meta_box( $tag ) {
   echo '<span class="cml-help cml-pointer-help cml-post-help"></span>';
   echo "</h4>";
   
+  //Fix "All languages" issue
+  $meta_lang = get_post_meta( $tag->ID, "_cml_lang_id", true );
+  if( empty( $meta_lang ) ) $meta_lang = CMLPost::get_language_id_by_id( $tag->ID, true );
+
   $post_lang = ( ! isset( $post_lang ) || $post_lang < 0 ) ?
-    CMLPost::get_language_id_by_id( $tag->ID, true ) : $post_lang;
+    $meta_lang : $post_lang;
 
   cml_dropdown_langs( "post_lang", $post_lang, false, true, __( "All languages", "ceceppaml" ), "", 0 );
 
-    //Translations
+  //Translations
   echo "<h4>" . __( 'Translations', 'ceceppaml' ) . "</h4>";
 
   //Linked post?
@@ -32,28 +41,32 @@ function cml_admin_post_meta_box( $tag ) {
     /* recover category from linked id */
     $categories = wp_get_post_categories( $link_id );
     if( ! empty( $categories ) ) {
-      if( ! CMLLanguage::is_default( $post_lang ) ) {
-        $c = array();
-        foreach( $categories as $cat ) {
-          $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
-                                CECEPPA_ML_CATS, $post_lang, $cat );
-
-          $c[] = $wpdb->get_var( $query );
-        }
-
-        if( ! empty( $c ) ) {
-          $categories = $c;
-        }
-      }
+      if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
+         ! CMLLanguage::is_default( $post_lang ) ) {
+          $c = array();
+          foreach( $categories as $cat ) {
+            $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
+                                  CECEPPA_ML_CATS, $post_lang, $cat );
+  
+            $c[] = $wpdb->get_var( $query );
+          } //endforeach;
+  
+          if( ! empty( $c ) ) {
+            $categories = $c;
+          }
+        } //endif
+      
       wp_set_post_categories( $tag->ID, $categories );
-    }
-    
+    } // ! empty
+
     /* recover tags */
     $tags = wp_get_post_tags( $link_id );
     if( ! empty( $tags ) ) {
       $ltags = array();
       foreach( $tags as $t ) {
-        $ltags[] = $name = CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
+        $ltags[] = ( CML_CREATE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
+                      $t->name :
+                      CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
       }
 
       wp_set_post_tags( $tag->ID, $ltags );
@@ -65,6 +78,9 @@ function cml_admin_post_meta_box( $tag ) {
     //Has translation?
     $parent_t = CMLPost::get_translation( $post_lang, $post->post_parent );
     $tag->post_parent = ( ! empty( $parent_t ) ) ? $parent_t : $post->post_parent;
+    
+    //Clone post meta
+    _cml_clone_post_meta( $link_id, $tag->ID ); 
   } else {
     $link_id = 0;
   }
@@ -103,6 +119,93 @@ function cml_admin_post_meta_box( $tag ) {
   }
   
   echo "</ul>";
+
+  /*
+   * Override show flags settings
+   * user can choose to override default show page settings for only this one
+   */
+  echo "<h4>" . __( 'Show flags', 'ceceppaml' ) . "</h4>";
+  
+  $show = get_post_meta( $tag->ID, "_cml_ovverride_show", true );
+  if( empty( $show ) || $show == null ) $show = "default";
+?>
+    <div class="cml-override-flags">
+      <label class="tipsy-me" title="<?php _e( "Use default 'Show flags' settings", 'ceceppaml' ) ?>">
+        <input type="radio" id="cml-showflags[]" name="cml-showflags[]" value="default" <?php checked( $show, "default" ) ?>/>
+        <span><?php _e( 'default', 'ceceppaml' ) ?></span>
+      </label>
+
+      <label class="tipsy-me" title="<?php _e( 'Always show flags in current page', 'ceceppaml' ) ?>">
+        <input type="radio" id="cml-showflags[]" name="cml-showflags[]" value="always"  <?php checked( $show, "always" ) ?>/>
+        <span><?php _e( 'always', 'ceceppaml' ) ?></span>
+      </label>
+
+      <label class="tipsy-me" title="<?php _e( "Don't show flags in this page ( Show flags settings will be ignored )", 'ceceppaml' ) ?>">
+        <input type="radio" id="cml-showflags[]" name="cml-showflags[]" value="never"  <?php checked( $show, "never" ) ?>/>
+        <span><?php _e( 'never', 'ceceppaml' ) ?></span>
+      </label>
+
+    </div>
+    <div class="cml-show-always">
+      <strong><?php _e( 'Size' ) ?></strong>
+
+      <div class="cml-override-flags cml-flag-size">
+        <label class="tipsy-me" title="<?php _e( "Small", 'ceceppaml' ) ?>">
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <span>
+            <?php echo CMLLanguage::get_flag_img( CMLLanguage::get_default_id(), CML_FLAG_SMALL ); ?>
+          </span>
+        </label>
+        
+        <label class="tipsy-me" title="<?php _e( "Tiny", 'ceceppaml' ) ?>">
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="tiny"  <?php checked( $show, CML_FLAG_TINY ) ?>/>
+          <span>
+            <?php echo CMLLanguage::get_flag_img( CMLLanguage::get_default_id(), CML_FLAG_TINY ); ?>
+          </span>
+        </label>
+
+      </div>
+
+      <br />
+      <strong><?php _e('Where:', 'ceceppaml'); ?></strong>
+
+      <div class="cml-override-flags cml-flag-where">
+
+        <label class="tipsy-me" title="<?php _e( "Before the title", 'ceceppaml' ) ?>">
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <span>
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>btitle.png" border="0" />
+          </span>
+        </label>
+
+
+        <label class="tipsy-me" title="<?php _e( "After the title", 'ceceppaml' ) ?>">
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <span>
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>atitle.png" border="0" />
+          </span>
+        </label>
+
+
+        <label class="tipsy-me" title="<?php _e( "Before content", 'ceceppaml' ) ?>">
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <span>
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>bcontent.png" border="0" />
+          </span>
+        </label>
+
+
+        <label class="tipsy-me" title="<?php _e( "After content", 'ceceppaml' ) ?>">
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <span>
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>acontent.png" border="0" />
+          </span>
+        </label>
+
+      </div>
+
+    </div>
+<?php
 }
 
 function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id ) {
@@ -187,7 +290,7 @@ function cml_admin_save_extra_post_fields( $term_id ) {
   }
 
   cml_fix_update_post_categories();
-  
+
   /*
    * Quickedit?
    */
@@ -213,6 +316,8 @@ function cml_admin_save_extra_post_fields( $term_id ) {
   }
 
   CMLPost::set_translations( $post_id, $linkeds, $post_lang );
+
+  update_post_meta( $post_id, "_cml_lang_id", $post_lang );
 }
 
 /*
@@ -379,6 +484,10 @@ function cml_admin_filter_all_posts_query( $query ) {
   else
       $post_type = $_GET[ 'post_type' ];
 
+  $post_types = get_post_types( array( '_builtin' => TRUE ), 'names'); 
+  $post_types = apply_filters( 'cml_manage_post_types', $post_types );
+  if( ! in_array( $post_type, $post_types ) ) return $query;
+
   //In trash I don't filter any post
   $d = CMLLanguage::get_default_id();
   if( isset( $_GET[ 'post_status' ] ) && in_array( $_GET[ 'post_status' ], array( "draft", "trash" ) ) ) $d = 0;
@@ -391,7 +500,7 @@ function cml_admin_filter_all_posts_query( $query ) {
       $query->query_vars[ 'post__in' ] = $posts;
     }
   }
-  
+
   return $query;
 }
 
@@ -420,6 +529,29 @@ function cml_admin_delete_extra_post_fields( $id ) {
 
   //Ricreo la struttura degli articoli, questo metodo rallenterà soltanto chi scrive l'articolo... tollerabile :D
   cml_fix_rebuild_posts_info();
+}
+
+/*
+ * When user start new post I clone meta from "original" to clone one.
+ */
+function _cml_clone_post_meta( $from, $new_post_id ) {
+  global $wpdb;
+
+  /*
+   * duplicate all post meta
+   */
+  $post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$from" );
+
+  if ( count( $post_meta_infos ) != 0 ) {
+      $sql_query = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) ";
+      foreach ($post_meta_infos as $meta_info) {
+          $meta_key = $meta_info->meta_key;
+          $meta_value = addslashes($meta_info->meta_value);
+          $sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
+      }
+      $sql_query.= implode(" UNION ALL ", $sql_query_sel);
+      $wpdb->query($sql_query);
+  }
 }
 
 function cml_manage_posts_columns() {

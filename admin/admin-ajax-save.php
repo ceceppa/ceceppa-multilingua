@@ -194,7 +194,10 @@ function cml_admin_save_options_actions() {
 
   if( $tab == 2 ) {
     update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
-  } else {
+    update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );
+  }
+  
+  if( $tab == 1 ) {
     //Redirect
     $redirect = array( "auto", "default", "others", "nothing" );
     $redirect = ( in_array( $_POST[ 'redirect' ], $redirect ) ) ? $_POST[ 'redirect' ] : "auto";
@@ -228,6 +231,17 @@ function cml_admin_save_options_actions() {
     }
   }
 
+  if( $tab == 3 ) {
+    $experiments = @$_POST[ 'experiments' ];
+    if( is_array( $experiments ) ) {
+      foreach( $experiments as $experiment ) {
+        $key = substr( $experiment, 3 );
+        $key = str_replace( "-", "_", $key );
+
+        @update_option( "cml_$key", ( int ) $_POST[ $experiment ][ 0 ] );
+      }
+    }
+  }
 
   $lstep = "";
   if( isset( $_POST[ 'wstep' ] ) ) {
@@ -290,6 +304,7 @@ function cml_admin_save_options_flags() {
   @update_option("cml_option_flags_on_post", intval($_POST['flags-on-posts']));
   @update_option("cml_option_flags_on_page", intval($_POST['flags-on-pages']));
   @update_option("cml_option_flags_on_custom_type", intval($_POST['flags-on-custom']));
+  @update_option("cml_option_flags_on_homepage", intval($_POST['flags-on-homepage']));
   @update_option("cml_option_flags_on_the_loop", intval($_POST['flags-on-loop']));
   @update_option("cml_option_flags_on_pos", sanitize_title( $_POST['flags_on_pos'] ) );
   @update_option("cml_options_flags_on_translations", intval( $_POST['flags-translated-only'] ) );

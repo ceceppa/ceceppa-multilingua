@@ -291,7 +291,7 @@ $in = $this->_translate_in;
     echo '</tbody>';
     echo '</table>';
   }
-
+  
   /*
    * Retrive translated string from $_POST and generate .po file
    */

@@ -37,7 +37,7 @@ class CML_Nav_Menu_Item_Custom_Fields {
 		',
 		'custom_tpl' => '
 			<p class="cml-menu-field-{name} description description-wide">
-				<label for="edit-menu-item-{name}-{id}">
+				<label for="edit-menu-item-url-{name}-{id}">
 					<img src="{src}" alt="{label}"/> URL:
                     <br>
 					<input

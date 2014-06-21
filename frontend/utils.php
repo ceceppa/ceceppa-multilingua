@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
+
 /**
  * Check if current url ( or $url ) is the homepage
  *
@@ -18,6 +20,7 @@ function cml_is_homepage( $url = null ) {
   //Controllo se è stata impostata una pagina "statica" se l'id di questa è = a quello della statica
   if( cml_use_static_page() ) {
     global $wp_query;
+
     $static_id = array( get_option( "page_for_posts" ), get_option( "page_on_front" ) );
 
     $lang_id = CMLLanguage::get_current_id();
@@ -182,6 +185,18 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     //current page is homepage?
     $link = CMLUtils::get_home_url( $result->cml_language_slug );
 
+    /*
+     * If url mode == PRE_PATH and "Ignore for default language" option is enabled I have to ?lang slug to $link,
+     * because I need to say the plugin that user choosed default language and I haven't redirect it to his browser
+     * language...
+     */
+    if( $_cml_settings[ 'url_mode_remove_default' ] == 1 &&
+        CMLLanguage::is_default( $result->id ) &&
+        CMLUtils::get_url_mode() == PRE_PATH ) {
+
+      $args[ 'lang' ] = $result->cml_language_slug;
+      $link = add_query_arg( $args, trailingslashit( $link ) );
+    }
     if( is_search() ) {
       if( isset( $_GET[ 's' ] ) ) {
         $args[ 's' ] = esc_attr( $_GET[ 's' ] );
@@ -295,12 +310,16 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       if( is_array( $cat ) ) {
         $cat_id = ( isset( $cat[ 'term_id' ] ) ) ? $cat[ 'term_id' ] : ( $cat[ count($cat) - 1 ]->term_id );
 
-        $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $result->id );
+        if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
+          //Mi recupererà il link tradotto dal mio plugin ;)
+          CMLUtils::_set( '_force_category_lang', $result->id );
+        } else {
+          //Get translated category
+          $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $result->id );
+        }
+
         $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
 
-        //Mi recupererà il link tradotto dal mio plugin ;)
-        CMLUtils::_set( '_force_category_lang', $result->id );
-        
         //if is object, it's an Error
         if( is_object( $link ) ) $link = "";
 
@@ -367,7 +386,14 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          */
         $link = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if( CMLPost::get_language_by_id( $the_id ) != $result->id ) {
-          $link = add_query_arg( array( "lang" => $result->cml_language_slug ), $link );
+          //Is internal link?
+          //if( strpos( $link, CMLUtils::get_home_url() ) === FALSE ) {
+            //$link = add_query_arg( array( "lang" => $result->cml_language_slug ), $link );
+          //} else {
+            $link = str_replace( CMLUtils::get_home_url( CMLLanguage::get_current_slug() ),
+                                 CMLUtils::get_home_url( $result->cml_language_slug ),
+                                 $link );
+          //}
         }
       } else {
         $link = CMLUtils::get_home_url( $result->cml_language_slug );

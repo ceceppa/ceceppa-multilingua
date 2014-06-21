@@ -47,7 +47,7 @@ label.cml-disabled {
   text-transform: uppercase;
 }
 
-  .cml-separator-li {
+  li .cml-separator-li {
     background: #222;
     min-height: 24px;
   }
@@ -1752,4 +1752,110 @@ form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title
   height: 29px;
   border: 1px solid #ccc;
   border-bottom: none;
+}
+
+/* Override show flags settings */
+.cml-override-flags {
+  background: #60A2FF;
+  color: #fff;
+  line-height: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.cml-override-flags > label {
+  display: inline-block;
+  width: 32.5%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.cml-override-flags > label > span {
+  display: block;
+  padding: 7px 5px 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  height: 100%;
+}
+
+.cml-override-flags > label:hover > input + span {
+  background: #BFD9FF;
+  color: #333;
+}
+
+
+.cml-override-flags > label > input {
+  display: none;
+}
+
+.cml-override-flags > label > input:checked + span {
+  background: #0066FF;  
+  color: #fff;
+}
+
+
+.cml-override-flags > label > input:checked + span:after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 5px 5px 5px;
+  border-color: transparent transparent #DFEDFF transparent;
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  margin-left: -5px;
+  z-index: 9;
+}
+
+.cml-show-always {
+  background: #DFEDFF;
+  border:1px solid #BFD9FF;
+  border-top: none;
+  padding: 10px;
+}
+
+.cml-flag-size {
+  width: 50%;
+}
+
+.cml-flag-size > label {
+  width: 48%;
+}
+
+.cml-flag-size > label > span {
+  height: 24px;
+}
+
+.cml-show-always {
+  background: #DFEDFF;
+  border:1px solid #BFD9FF;
+  border-top: none;
+  padding: 10px;
+}
+
+.cml-show-always .cml-override-flags {
+  background: #CFE3FF;
+  border: 1px solid #A9CDFF;
+}
+
+.cml-flag-size {
+  width: 50%;
+}
+
+.cml-flag-size > label {
+  width: 48%;
+}
+
+.cml-flag-size > label > span {
+  height: 24px;
+}
+
+.cml-flag-where > label {
+  width: 24%;
+}
+
+.cml-show-always > div > label:hover > input + span {
+  background: #80B3FF;
 }

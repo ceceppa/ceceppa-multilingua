@@ -44,6 +44,14 @@ function cml_admin_options_filter_posts() {
           <?php _e('Hide empty translations of posts and show in default language', 'ceceppaml') ?>
         </label>
       </li>
+
+      <li>
+        <label>
+          <input id="filter-posts" type="radio" value="<?php echo FILTER_NONE ?>" name="filter-posts" <?php checked( $mode, FILTER_NONE ) ?> />
+          <?php _e("Don't filter", 'ceceppaml') ?>
+        </label>
+      </li>
+
     </ul>
   </div>
   
@@ -69,6 +77,14 @@ function cml_admin_options_filter_posts() {
       </dt>
         <dd>
           <?php _e( "If a post doesn't have a translation in current language, post in \"default language\" will be shown", 'ceceppaml') ?>
+        </dd>
+
+
+      <dt>
+        <?php _e("Don't filter", 'ceceppaml') ?>
+      </dt>
+        <dd>
+          <?php _e( "Don't filter wordpress queries, useful for one page themes", 'ceceppaml') ?>
         </dd>
 
     </dl>

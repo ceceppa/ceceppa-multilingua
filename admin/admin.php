@@ -38,8 +38,6 @@ require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-posts.php' );
 $GLOBALS[ 'cml_show_mode' ] = get_option( "ceceppaml_admin_advanced_mode", "show-basic" );
 
 class CMLAdmin extends CeceppaML {
-  protected $_categories = array();
-
   public function __construct() {
     parent::__construct();
 
@@ -98,7 +96,8 @@ class CMLAdmin extends CeceppaML {
         }
 
         if( 'options-permalink.php' != $pagenow &&
-            'themes.php' != $pagenow ) {
+            'themes.php' != $pagenow &&
+            ! defined( 'DOING_AJAX' ) ) {
           add_filter( 'home_url', array( & $this, 'translate_home_url' ), 0, 4 );
         }
       }
@@ -214,7 +213,6 @@ class CMLAdmin extends CeceppaML {
     $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Translate', 'ceceppaml' ) . '</div>', 'administrator', '', null );
 
     $page[] = add_submenu_page('ceceppaml-language-page', __('My translations', 'ceceppaml'), __('My translations', 'ceceppaml'), 'manage_options', 'ceceppaml-translations-page', array(&$this, 'form_translations'));
-    $page[] = add_submenu_page('ceceppaml-language-page', __('Menu'), __( 'Menu' ), 'manage_options', 'ceceppaml-translations-menu', array(&$this, 'form_translations') );
     $page[] = add_submenu_page('ceceppaml-language-page', __('Widget titles', 'ceceppaml'), __('Widget titles', 'ceceppaml'), 'manage_options', 'ceceppaml-widgettitles-page', array(&$this, 'form_translations'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Site Title'), __( 'Site Title' ) . "/" . __( 'Tagline' ), 'manage_options', 'ceceppaml-translations-title', array(&$this, 'form_translations'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Plugin', 'ceceppaml'), __( 'Plugin', 'ceceppaml' ), 'manage_options', 'ceceppaml-language-page&tab=2', array(&$this, 'form_languages'));
@@ -504,6 +502,11 @@ class CMLAdmin extends CeceppaML {
 
       add_action( 'load-edit-tags.php', array( & $this, 'taxonomies_extra_fields' ) , 10 );
     }
+
+    //Translate term
+    add_filter( 'get_term', array( & $this, 'translate_term' ), 0, 2 );
+    add_filter( 'get_terms', array( & $this, 'translate_terms' ), 0, 3 );
+    add_filter( 'get_the_terms', array( & $this, 'translate_terms' ), 0, 3 );
   }
 
   function translate_term( $term, $taxonomy ) {
@@ -545,11 +548,7 @@ class CMLAdmin extends CeceppaML {
 
     $t = array();
     foreach( $terms as $term ) {
-      $term = $this->translate_term( $term, $taxonomy );
-      
-      if( $term !== null ) {
-        $t[] = $term;
-      }
+      $t[] = $this->translate_term( $term, $taxonomy );
     }
 
     return $t;

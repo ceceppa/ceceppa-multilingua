@@ -23,7 +23,7 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
 <h3><?php _e('Translate strings in different languages', 'ceceppaml') ?></h3>
   <blockquote>
     <span style="color: #00f;">
-      <strong>[_##_]</strong>text to display<strong>[/_##_]</strong>
+      <strong>[:##]</strong>text to display<strong>[/:##]</strong>
     </span>
     <br />
     <?php _e( 'Where ## is the language slug', 'ceceppaml' ) ?>
@@ -31,8 +31,8 @@ $tab = isset( $_REQUEST['tab'] ) ? $_REQUEST['tab'] : 0;
     <blockquote>
       <strong><?php _e('Example:', 'ceceppaml') ?></strong><br />
       <p style="padding-left: 20px">
-       <i>[_it_]Questo testo verrà visualizzato in italiano[/_it_]</i><br />
-       <i>[_en_]This text will be displayed in English[/_en_]</i>
+       <i>[:it]Questo testo verrà visualizzato in italiano[/:it]</i><br />
+       <i>[:en]This text will be displayed in English[/:en]</i>
       </p>
     </blockquote>
   </blockquote>

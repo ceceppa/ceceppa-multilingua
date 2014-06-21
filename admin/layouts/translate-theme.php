@@ -18,7 +18,7 @@ echo <<< EOT
 EOT;
 }
 
-$path = trim( $GLOBALS[ '_cml_theme_locale_path' ] );
+$path = $GLOBALS[ '_cml_theme_locale_path' ];
 if( empty( $path ) ) {
   $path = trailingslashit( get_template_directory() );
 }
@@ -36,6 +36,6 @@ EOT;
 }
 
 
-$path = trailingslashit( get_template_directory() );
+
 $parser = new CMLParser( wp_get_theme()->name, get_template_directory(), $path );
 ?>
