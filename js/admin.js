@@ -201,6 +201,11 @@ jQuery(document).ready( function($) {
   });
   
   $( 'form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"]' ).remove();
+  
+  //Override flags settings
+  $( '.cml-override-flags.cml-override input' ).click( function() {
+    $( '.cml-show-always' ).attr( 'class', 'cml-show-always' ).addClass( $( this ).val() ) ;
+  })
 });
 
 

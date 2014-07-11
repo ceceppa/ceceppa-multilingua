@@ -2,29 +2,20 @@
 
 class CMLDebug {
   public function __construct() {
-    //add_action( 'admin_menu', array( &$this, 'debug' ) );
+    add_action( 'admin_menu', array( &$this, 'debug' ) );
     add_action( 'wp_footer', array( &$this, 'footer' ) );
     add_action( 'admin_footer', array( &$this, 'footer' ) );
     //add_filter( 'query', array( & $this, 'query' ), 10, 1 );
   }
   
   public function query( $query ) {
-   // $traces = debug_backtrace();
-    // foreach( $traces as $trace ) {
-      // if( isset( $trace[ 'file' ] ) && false !== strpos( $trace[ 'file' ], "ceceppa-multilingua" ) ) {
     $this->queries[] = $query;
-    //if( strpos( $query, "wp_term_relationships.term_taxonomy_id" ) !== false ) {
-    //  print_r( debug_backtrace() );
-    //  die();
-    //}
-        // break;
-      // }
-    // }
   
     return $query;
   }
 
   public function debug() {
+    add_menu_page('Ceceppa ML Debug', __('Ceceppa Multilingua debug', 'ceceppaml'), 'administrator', 'ceceppaml-language-debug', array(&$this, 'debug_page') );
     //add_submenu_page('ceceppaml-language-page', __('Debug', 'ceceppaml'), __('Debug', 'ceceppaml'), 'manage_options', 'ceceppaml-debug-page', array( &$this, 'debug_page') );
   }
 
@@ -69,7 +60,7 @@ EOT;
     switch( $tab ) {
     case 0:
 //       echo "<h2>CECEPPA_ML_TABLE</h2>";
-      $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_flag_path,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
+      $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_custom_flag,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
     
       break;
     case 1:
@@ -165,10 +156,13 @@ EOT;
     if( is_user_logged_in() || isset( $_GET[ "cdb" ] ) ) {
       echo "This output is visible only to logged user...";
       
-      $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
-      $pdata = get_plugin_data( $pfile );
+      if( is_admin()) {
+        $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
+        $pdata = get_plugin_data( $pfile );
+  
+        echo "CeceppaML debug:" . $pdata[ 'Version' ];
+      }
 
-      echo "CeceppaML debug:" . $pdata[ 'Version' ];
       echo "<pre>";
 
       echo "\n\n<b>Languages:</b>\n";

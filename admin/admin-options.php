@@ -120,14 +120,12 @@ $page = $_GET[ 'page' ];
             do_meta_boxes( 'cml_box_options', 'advanced', null );
           ?>
         
-          <?php if( $tab <= 1 ) : ?>
           <div class="cml-submit-button">
             <div class="wpspinner">
               <span class="spinner"></span>
             </div>
             <?php submit_button(); ?>
           </div>
-          <?php endif; ?>
         </form>
       </div>
       <div id="postbox-container-1" class="postbox-container cml-donate">

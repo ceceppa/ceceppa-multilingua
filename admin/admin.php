@@ -210,48 +210,49 @@ class CMLAdmin extends CeceppaML {
   function add_menu_pages() {
     $page[] = add_menu_page('Ceceppa ML Options', __('Ceceppa Multilingua', 'ceceppaml'), 'administrator', 'ceceppaml-language-page', array(&$this, 'form_languages'), CML_PLUGIN_IMAGES_URL . 'logo-mini.png');
 
-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Translate', 'ceceppaml' ) . '</div>', 'administrator', '', null );
-
+    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator" >' . __( 'Translate', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+    
     $page[] = add_submenu_page('ceceppaml-language-page', __('My translations', 'ceceppaml'), __('My translations', 'ceceppaml'), 'manage_options', 'ceceppaml-translations-page', array(&$this, 'form_translations'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Widget titles', 'ceceppaml'), __('Widget titles', 'ceceppaml'), 'manage_options', 'ceceppaml-widgettitles-page', array(&$this, 'form_translations'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Site Title'), __( 'Site Title' ) . "/" . __( 'Tagline' ), 'manage_options', 'ceceppaml-translations-title', array(&$this, 'form_translations'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Plugin', 'ceceppaml'), __( 'Plugin', 'ceceppaml' ), 'manage_options', 'ceceppaml-language-page&tab=2', array(&$this, 'form_languages'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Theme', 'ceceppaml'), __( 'Theme', 'ceceppaml' ), 'manage_options', 'ceceppaml-translations-plugins-themes', array(&$this, 'form_translations'));
-
-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
-
+    
+    //$page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator">' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator">' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+    
     $page[] = add_submenu_page('ceceppaml-language-page', __('Show flags', 'ceceppaml'), __('Show flags', 'ceceppaml'), 'manage_options', 'ceceppaml-flags-page', array( &$this, 'form_flags' ) );
     
-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Settings', 'ceceppaml' ) . '</div>', 'administrator', '', null );
-
+    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator" >' . __( 'Settings', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+    
     $page[] = add_submenu_page('ceceppaml-language-page', __('Settings', 'ceceppaml'), __('Settings', 'ceceppaml'), 'manage_options', 'ceceppaml-options-page', array(&$this, 'form_options'));
-
+    
     //Addons
-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Addons', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator">' . __( 'Addons', 'ceceppaml' ) . '</div>', 'administrator', '', null );
 
     $page[] = add_submenu_page('ceceppaml-language-page', __('Available addons', 'ceceppaml'), __('Available addons', 'ceceppaml'), 'manage_options', 'ceceppaml-addons-page', array( & $this, 'form_addons' ) );
-
+    
     //filter all installe addons
     $addons = CMLUtils::_get( '_addons', array() );
     $tab = 1;
     foreach( $addons as $addon ) {
       $title = $addon[ 'title' ];
       $link = 'ceceppaml-addons-page&tab=' . $tab;
-
+    
       $page[] = add_submenu_page( 'ceceppaml-language-page', 
                                   $title, 
                                   $title,
                                   'manage_options', 
                                   $link, 
                                   array( & $this, 'form_addons' ) );
-
+    
       $title = strtolower( $title );
       CMLUtils::_set( "_addon_{$title}_page", $link );
       $tab++;
     }
-
+    
     //Documentation
-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Documentation', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator" />' . __( 'Documentation', 'ceceppaml' ) . '</div>', 'administrator', '', null );
     $page[] = add_submenu_page( 'ceceppaml-language-page', __('Shortcodes', 'ceceppaml'), __('Shortcode', 'ceceppaml'), 'manage_options', 'ceceppaml-shortcode-page', array( & $this, 'shortcode_page' ) );
     $page[] = add_submenu_page( 'ceceppaml-language-page', __('Api', 'ceceppaml'), __('Api', 'ceceppaml'), 'manage_options', 'ceceppaml-api-page', array( & $this, 'api_page' ) );
     

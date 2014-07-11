@@ -1,6 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
+require_once( CML_PLUGIN_ADMIN_PATH . "migrate.php" );
+
 /*
  * Ceceppa Multilingua API 1.4
  */
@@ -51,6 +53,17 @@ class CMLLanguage {
    * Small ~= 32x21
    */
   const FLAG_SMALL = "small";
+
+  /*
+   * return the count of configured languages
+   *
+   * @return int
+   */
+  public static function count() {
+    if( empty( self::$_all_languages ) ) self::get_all();
+    
+    return count( self::$_all_languages );
+  }
 
   /**
    * return object of default language 
@@ -1129,13 +1142,19 @@ class CMLPost {
       unset( $translations[ $post_lang ] );
     }
 
-    foreach( $translations as $key => $id ) {
-      if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
-
-      cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
+    if( CMLLanguage::count() > 1 ) {
+      foreach( $translations as $key => $id ) {
+        if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
+  
+        cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
+      }
+    } else {
+      cml_migrate_database_add_item( $post_lang, $post_id, 0, 0 );
     }
 
     require_once( CML_PLUGIN_ADMIN_PATH . "admin-settings-gen.php" );
+
+    update_option( "cml_get_translation_from_po", 0 );
 
     // //Update info
     cml_fix_rebuild_posts_info();
@@ -1283,6 +1302,10 @@ class CMLPost {
    */
   public static function remove_extra_number( $permalink, $post ) {
     global $wpdb;
+    $_cml_settings = & $GLOBALS[ '_cml_settings' ];
+
+    //Disabled?
+    if( $_cml_settings[ 'cml_remove_extra_slug' ] !== 1 ) return $permalink;
 
     $removed = false;
 
@@ -1643,6 +1666,49 @@ class CMLUtils {
     }
     
     return null;
+  }
+}
+
+class CMLMedia {
+  public static function get_alternative_text( $media_id, $lang = null ) {
+    $meta = get_post_meta( $media_id, '_cml_media_meta', true );
+    
+    //Nothing found
+    if( ! is_array( $meta ) || empty( $meta ) ) {
+      return get_post_meta($media_id,'_wp_attachment_image_alt',true);;
+    }
+
+    if( lang == null )
+      $lang = CMLLanguage::get_current_id();
+
+    
+    if( ! is_numeric( $lang ) ) {
+      $lang = CMLLanguage::get_id_by_slug( $lang );
+    }
+
+    $text = @$meta[ 'alternative-' . $lang ];
+
+    return ! empty( $text ) ? $text : get_post_meta( $media_id,'_wp_attachment_image_alt',true );
+  }
+  
+  public static function get_title( $media_id, $lang = null ) {
+    $meta = get_post_meta( $media_id, '_cml_media_meta', true );
+    
+    //Nothing found
+    if( ! is_array( $meta ) || empty( $meta ) ) {
+      return get_post_meta($media_id,'_wp_attachment_image_title',true);;
+    }
+
+    if( lang == null )
+      $lang = CMLLanguage::get_current_id();
+
+    if( ! is_numeric( $lang ) ) {
+      $lang = CMLLanguage::get_id_by_slug( $lang );
+    }
+
+    $text = @$meta[ 'title-' . $lang ];
+
+    return ! empty( $text ) ? $text : get_post_meta( $media_id,'_wp_attachment_image_title',true );
   }
 }
 ?>

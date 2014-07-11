@@ -96,7 +96,7 @@ define( 'CML_PLUGIN_FRONTEND_PATH', CML_PLUGIN_PATH . trailingslashit ( 'fronten
  */
 define( 'CML_CATEGORY_AS_STRING', 0 );
 define( 'CML_CATEGORY_CREATE_NEW', 1 );       //new method
-define( 'CML_CREATE_CATEGORY_AS', get_option( "cml_create_translated_category", CML_CATEGORY_AS_STRING ) );
+define( 'CML_STORE_CATEGORY_AS', get_option( "cml_create_translated_category", CML_CATEGORY_AS_STRING ) );
 
 /*
  * Wordpress languages directory
@@ -236,7 +236,7 @@ class CeceppaML {
     CMLUtils::_set( 'cml_category_mode', $this->_category_url_mode );
     
     /* create new category */
-    if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
+    if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
       //Taxonomies by language
       $this->_categories = CMLUtils::_get_option( "cml_categories", array() );
   
@@ -683,5 +683,4 @@ if( is_admin() ) {
   
   $wpCeceppaML = new CMLFrontend();
 }
-
 ?>

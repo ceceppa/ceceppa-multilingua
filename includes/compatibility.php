@@ -17,7 +17,8 @@ class CML_WPML_Parser {
   protected $group = null;
   protected $options = null;
 
-  function __construct( $filename, $group, $options = null, $generate_style = false ) { 
+  function __construct( $filename, $group, $options = null, $generate_style = false ) {
+    $this->_filename = $filename;
     $xml = file_get_contents( $filename );
 
     $parser = xml_parser_create();
@@ -27,7 +28,7 @@ class CML_WPML_Parser {
     xml_parser_free( $parser );
     
     $this->options = $options;
-    $this->group = $group;
+    $this->group = sanitize_title( $group );
     $this->style = $generate_style;
 
     $this->parse();    
@@ -46,27 +47,22 @@ class CML_WPML_Parser {
       if( $add_text && 'close' !== $value[ 'tag' ]  ) {
         if( null == $key && "key" == $value[ 'tag' ] ) {
           $key = $value[ 'attributes' ][ 'name' ];
-          
+
           if( ! is_array( $this->options ) ) {
             $this->options = get_option( $key );
           }
         } else {
           if( isset( $value[ 'attributes' ] ) ) {
             $name = $value[ 'attributes' ][ 'name' ];
+
+            if( isset( $this->options[ $name ] ) ) {
+              $v = $this->options[ $name ];
+            } else {
+              $v = get_option( $name, "" );
+            }
             
-//             if( is_array( $this->options ) ) {
-              if( isset( $this->options[ $name ] ) ) {
-                $v = $this->options[ $name ];
-              } else {
-                $v = "";
-              }
-              
-              $add = ! empty( $v );
-//             } else {
-//               $v = get_option( $name );
-              
-//               $add = true;
-//             }
+            $add = ! empty( $v );
+            $add = true;
             
             if( $add ) {
               CMLTranslations::add( strtolower( $this->group ) . "_" . $name,
@@ -162,6 +158,7 @@ class CML_WPML_Parser {
     } else {
       $names = join( ",", $this->names );
     }
+
     update_option( "cml_translated_fields" . strtolower( $this->group ), $names );
     update_option( "cml_translated_fields" . strtolower( $this->group ) . "_key", $key );
   }
@@ -407,7 +404,7 @@ function cml_get_strings_from_wpml_config( $groups ) {
 
   $root = trailingslashit( $theme->theme_root ) . $theme->template;
   $filename = "$root/wpml-config.xml";
-  $name = strtolower( $theme->get( 'Name' ) );
+  $name = sanitize_title( strtolower( $theme->get( 'Name' ) ) );
 
   if( file_exists( $filename ) ) {
     new CML_WPML_Parser( $filename, "_$name", null, true );
@@ -464,6 +461,8 @@ function cml_translate_wpml_strings() {
 }
 
 function cml_change_wpml_settings_values( $group, $name ) {
+  $group = sanitize_title( $group );
+
   $names = get_option( "cml_translated_fields_{$name}", array() );
   if( empty( $names ) ) return;
 
@@ -472,20 +471,37 @@ function cml_change_wpml_settings_values( $group, $name ) {
     return;
   }
 
+  /*
+   * For YOAST and All In One Seo pack store options in their own array
+   */
   $options = & $GLOBALS[ $options ];
-  if( ! is_array( $options ) ) return;
+  if( is_array( $options ) ) {
+  
+    $names = explode( "/", $names );
+    foreach( $options as $key => $value ) {
+      if( ! in_array( $key, $names ) ) continue;
+  
+      $v = CMLTranslations::get( CMLLanguage::get_current_id(),
+                                "_{$group}_{$key}",
+                                "_{$group}" );
+                                
+      if( empty( $v ) ) continue;
+  
+      $options[ $key ] = $v;                            
+    }
+  } else {
+    //Update wp options
+    $names = explode( ",", $names );
+    foreach( $names as $key ) {
+      $key = trim( $key );
+      $v = CMLTranslations::get( CMLLanguage::get_current_id(),
+                                "_{$group}_{$key}",
+                                "_{$group}" );
 
-  $names = explode( "/", $names );
-  foreach( $options as $key => $value ) {
-    if( ! in_array( $key, $names ) ) continue;
-
-    $v = CMLTranslations::get( CMLLanguage::get_current_id(),
-                              "_{$group}_{$key}",
-                              "_{$group}" );
-                              
-    if( empty( $v ) ) continue;
-
-    $options[ $key ] = $v;                            
+      if( ! empty( $v ) ) {
+        update_option( $key, $v );
+      }
+    }
   }
 }
 

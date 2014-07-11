@@ -143,8 +143,9 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
       fwrite( $fp, $s );
     }
 
-    //serialize post translations
+    //serialize post translations & override flags settings
     _cml_generate_translations( $fp );
+    _cml_generate_override_flags_settings( $fp );
 
     //menu meta
     _cml_generate_menu_meta( $fp );
@@ -195,6 +196,28 @@ function _cml_generate_translations( & $fp ) {
     
     $t = null;
   }
+}
+
+  /*
+   * for reduce database queries I store posts relations
+   * in .po serializing ::get_translations result
+   */
+function _cml_generate_override_flags_settings( & $fp ) {
+  global $wpdb;
+
+  $query = sprintf( "SELECT post_id, meta_value FROM %s WHERE meta_key = '_cml_override_flags'",
+                      $wpdb->postmeta );
+  $rows = $wpdb->get_results( $query );
+  foreach( $rows as $row ) {
+    $msgid = "__cml_override_flags_{$row->post_id}";
+
+    $o = 'msgid "' . $msgid . '"' . PHP_EOL;
+    $s = 'msgstr "' . addslashes( $row->meta_value ) . '"' . PHP_EOL . PHP_EOL;
+
+    fwrite( $fp, $o );
+    fwrite( $fp, $s );
+  }
+
 }
 
 function _cml_generate_menu_meta( & $fp ) {

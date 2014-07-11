@@ -186,6 +186,14 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     $link = CMLUtils::get_home_url( $result->cml_language_slug );
 
     /*
+     * on mobile detect the language correctly only if the
+     * link end with "/"...
+     */
+    if( CMLUtils::get_url_mode() == PRE_PATH ) {
+      $link = trailingslashit( $link );
+    }
+
+    /*
      * If url mode == PRE_PATH and "Ignore for default language" option is enabled I have to ?lang slug to $link,
      * because I need to say the plugin that user choosed default language and I haven't redirect it to his browser
      * language...
@@ -310,7 +318,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       if( is_array( $cat ) ) {
         $cat_id = ( isset( $cat[ 'term_id' ] ) ) ? $cat[ 'term_id' ] : ( $cat[ count($cat) - 1 ]->term_id );
 
-        if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
+        if( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
           //Mi recupererà il link tradotto dal mio plugin ;)
           CMLUtils::_set( '_force_category_lang', $result->id );
         } else {
@@ -375,9 +383,12 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         /*
          * return translation, if exists :)
          */
-        if( is_single() || is_page() ) {
+        if( $is_single || $is_page ) {
           $l = cml_get_linked_post( $the_id, CMLLanguage::get_default_id() );
-          // if( ! empty( $l ) ) return get_permalink( $l );
+          
+          if( $l == $the_id ) {
+            return add_query_arg( array( "lang" => $result->cml_language_slug ), get_permalink( $l ) );
+          }
         }
 
         /*
@@ -392,7 +403,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
           //} else {
             $link = str_replace( CMLUtils::get_home_url( CMLLanguage::get_current_slug() ),
                                  CMLUtils::get_home_url( $result->cml_language_slug ),
-                                 $link );
+                                 $link );            
           //}
         }
       } else {

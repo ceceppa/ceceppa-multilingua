@@ -1833,6 +1833,17 @@ form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title
   border:1px solid #BFD9FF;
   border-top: none;
   padding: 10px;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.cml-show-always.always {
+  height: 125px;
+  visibility: visible;
+  opacity: 1;
 }
 
 .cml-show-always .cml-override-flags {

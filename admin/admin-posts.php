@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 function cml_admin_post_meta_box( $tag ) {
-  global $wpdb, $pagenow;
+  global $wpdb, $pagenow, $_cml_settings;
 
   $langs = CMLLanguage::get_all();
 
@@ -41,7 +41,7 @@ function cml_admin_post_meta_box( $tag ) {
     /* recover category from linked id */
     $categories = wp_get_post_categories( $link_id );
     if( ! empty( $categories ) ) {
-      if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
+      if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
          ! CMLLanguage::is_default( $post_lang ) ) {
           $c = array();
           foreach( $categories as $cat ) {
@@ -64,7 +64,7 @@ function cml_admin_post_meta_box( $tag ) {
     if( ! empty( $tags ) ) {
       $ltags = array();
       foreach( $tags as $t ) {
-        $ltags[] = ( CML_CREATE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
+        $ltags[] = ( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
                       $t->name :
                       CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
       }
@@ -125,40 +125,46 @@ function cml_admin_post_meta_box( $tag ) {
    * user can choose to override default show page settings for only this one
    */
   echo "<h4>" . __( 'Show flags', 'ceceppaml' ) . "</h4>";
-  
-  $show = get_post_meta( $tag->ID, "_cml_ovverride_show", true );
-  if( empty( $show ) || $show == null ) $show = "default";
+
+  $override = get_post_meta( $tag->ID, "_cml_override_flags", true );
+
+  $show = ( isset( $override[ 'show' ] ) ) ? $override[ 'show' ] : "default";
 ?>
-    <div class="cml-override-flags">
+    <div class="cml-override-flags cml-override">
       <label class="tipsy-me" title="<?php _e( "Use default 'Show flags' settings", 'ceceppaml' ) ?>">
-        <input type="radio" id="cml-showflags[]" name="cml-showflags[]" value="default" <?php checked( $show, "default" ) ?>/>
+        <input type="radio" id="cml-showflags" name="cml-showflags" value="default" <?php checked( $show, "default" ) ?>/>
         <span><?php _e( 'default', 'ceceppaml' ) ?></span>
       </label>
 
       <label class="tipsy-me" title="<?php _e( 'Always show flags in current page', 'ceceppaml' ) ?>">
-        <input type="radio" id="cml-showflags[]" name="cml-showflags[]" value="always"  <?php checked( $show, "always" ) ?>/>
+        <input type="radio" id="cml-showflags" name="cml-showflags" value="always"  <?php checked( $show, "always" ) ?>/>
         <span><?php _e( 'always', 'ceceppaml' ) ?></span>
       </label>
 
-      <label class="tipsy-me" title="<?php _e( "Don't show flags in this page ( Show flags settings will be ignored )", 'ceceppaml' ) ?>">
-        <input type="radio" id="cml-showflags[]" name="cml-showflags[]" value="never"  <?php checked( $show, "never" ) ?>/>
+      <label class="tipsy-me" title="<?php _e( "Don't show flags in this page", 'ceceppaml' ) ?>">
+        <input type="radio" id="cml-showflags" name="cml-showflags" value="never"  <?php checked( $show, "never" ) ?>/>
         <span><?php _e( 'never', 'ceceppaml' ) ?></span>
       </label>
 
     </div>
-    <div class="cml-show-always">
+    <div class="cml-show-always <?php echo $show ?>">
       <strong><?php _e( 'Size' ) ?></strong>
 
+      <?php
+        $size = ( isset( $override[ 'size' ] ) ) ? $override[ 'size' ] : $_cml_settings[ 'cml_option_flags_on_size' ];
+        $where = ( isset( $override[ 'where' ] ) ) ? $override[ 'where' ] : $_cml_settings[ 'cml_option_flags_on_pos'];
+
+      ?>
       <div class="cml-override-flags cml-flag-size">
         <label class="tipsy-me" title="<?php _e( "Small", 'ceceppaml' ) ?>">
-          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize" value="small"  <?php checked( $size, CML_FLAG_SMALL ) ?>/>
           <span>
             <?php echo CMLLanguage::get_flag_img( CMLLanguage::get_default_id(), CML_FLAG_SMALL ); ?>
           </span>
         </label>
         
         <label class="tipsy-me" title="<?php _e( "Tiny", 'ceceppaml' ) ?>">
-          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="tiny"  <?php checked( $show, CML_FLAG_TINY ) ?>/>
+          <input type="radio" id="cml-flagsize[]" name="cml-flagsize" value="tiny"  <?php checked( $size, CML_FLAG_TINY ) ?>/>
           <span>
             <?php echo CMLLanguage::get_flag_img( CMLLanguage::get_default_id(), CML_FLAG_TINY ); ?>
           </span>
@@ -172,7 +178,7 @@ function cml_admin_post_meta_box( $tag ) {
       <div class="cml-override-flags cml-flag-where">
 
         <label class="tipsy-me" title="<?php _e( "Before the title", 'ceceppaml' ) ?>">
-          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="before"  <?php checked( $where, 'before' ) ?>/>
           <span>
             <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>btitle.png" border="0" />
           </span>
@@ -180,7 +186,7 @@ function cml_admin_post_meta_box( $tag ) {
 
 
         <label class="tipsy-me" title="<?php _e( "After the title", 'ceceppaml' ) ?>">
-          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="after"  <?php checked( $where, 'after' ) ?>/>
           <span>
             <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>atitle.png" border="0" />
           </span>
@@ -188,7 +194,7 @@ function cml_admin_post_meta_box( $tag ) {
 
 
         <label class="tipsy-me" title="<?php _e( "Before content", 'ceceppaml' ) ?>">
-          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="top"  <?php checked( $where, 'top' ) ?>/>
           <span>
             <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>bcontent.png" border="0" />
           </span>
@@ -196,7 +202,7 @@ function cml_admin_post_meta_box( $tag ) {
 
 
         <label class="tipsy-me" title="<?php _e( "After content", 'ceceppaml' ) ?>">
-          <input type="radio" id="cml-flagsize[]" name="cml-flagsize[]" value="small"  <?php checked( $show, CML_FLAG_SMALL ) ?>/>
+          <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="bottom"  <?php checked( $where, 'bottom' ) ?>/>
           <span>
             <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>acontent.png" border="0" />
           </span>
@@ -289,12 +295,15 @@ function cml_admin_save_extra_post_fields( $term_id ) {
     $post_lang = intval( $_POST[ 'cml-lang' ] );
   }
 
-  cml_fix_update_post_categories();
+  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
+    cml_fix_update_post_categories();
+  }
 
   /*
-   * Quickedit?
+   * Normal edit or quickedit?
    */
   if( ! isset( $_POST[ 'cml-quick' ] ) ) {
+    //Normal edit
     $linkeds = array();
 
     foreach( CMLLanguage::get_all() as $lang ) {
@@ -303,6 +312,14 @@ function cml_admin_save_extra_post_fields( $term_id ) {
       //Set language of current post
       $linkeds[ $lang->id ] = @$_POST[ 'linked_post' ][ $lang->id ];
     }
+
+    //Override flags settings
+    $override = array(
+                      'show' => @$_POST[ 'cml-showflags' ],
+                      'size' => @$_POST[ 'cml-flagsize' ],
+                      'where' => @$_POST[ 'cml-flagwhere' ],
+                    );
+    update_post_meta( $post_id, "_cml_override_flags", $override );
   } else {
     $langs = CMLLanguage::get_all();
 

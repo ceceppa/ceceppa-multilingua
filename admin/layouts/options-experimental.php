@@ -11,14 +11,14 @@ function cml_admin_experimental_category() {
     <ul>
       <li>
         <label>
-          <input type="radio" name="xp-create-translated-category[]" value="0" <?php checked( CML_CREATE_CATEGORY_AS, CML_CATEGORY_AS_STRING ); ?> />
+          <input type="radio" name="xp-create-translated-category[]" value="0" <?php checked( CML_STORE_CATEGORY_AS, CML_CATEGORY_AS_STRING ); ?> />
           <?php _e( 'String', 'ceceppaml' ); ?>
         </label>
       </li>
 
       <li>
         <label>
-          <input type="radio" name="xp-create-translated-category[]" value="1" <?php checked( CML_CREATE_CATEGORY_AS, CML_CATEGORY_CREATE_NEW ); ?> />
+          <input type="radio" name="xp-create-translated-category[]" value="1" <?php checked( CML_STORE_CATEGORY_AS, CML_CATEGORY_CREATE_NEW ); ?> />
           <?php _e( 'New category', 'ceceppaml' ); ?>
         </label>
       </li>

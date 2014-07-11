@@ -13,6 +13,13 @@ class CMLFrontend extends CeceppaML {
   protected $_filter_search = true;
   protected $_filter_form_class = "#searchform";
   protected $_no_translate_menu_item = false;
+  
+  /*
+   * This var is needed to show correctly the flags before/after the title.
+   * Because SEO plugins, like YOAST put the post title also in header, but there I
+   * don't have to put the flags...
+   */
+  protected $_is_bodyclass_hook_executed = false;
 
   public function __construct() {
     parent::__construct();
@@ -55,7 +62,7 @@ class CMLFrontend extends CeceppaML {
     }
 	
     //Translate term
-    if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
+    if( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
       add_filter( 'get_term', array( & $this, 'translate_term' ), 10, 2 );
       add_filter( 'get_terms', array( & $this, 'translate_terms' ), 10, 3 );
       add_filter( 'get_the_terms', array( & $this, 'translate_terms' ), 0, 3 );
@@ -92,18 +99,9 @@ class CMLFrontend extends CeceppaML {
     }
 
     //Show flags on
-    if( $_cml_settings[ 'cml_option_flags_on_post' ] ||
-        $_cml_settings[ 'cml_option_flags_on_page' ] ||
-        $_cml_settings[ 'cml_option_flags_on_custom_type' ] ||
-        $_cml_settings[ 'cml_option_flags_on_the_loop' ] ) {
-
-      if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "bottom" ||
-          $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" ) {
-          add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
-      } else {
-          add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
-      }
-    } //endif;
+    add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
+    add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
+    add_filter( 'body_class', array( & $this, 'body_class_hook' ) ); //Tell to the plugin that body is started
 
     /*
      * filter search by language
@@ -247,45 +245,79 @@ class CMLFrontend extends CeceppaML {
   function add_flags_on_title( $title, $id = -1 ) {
     global $_cml_settings;
 
+    if( $id < 0 ||
+       ! $this->_is_bodyclass_hook_executed ) return $title;
+
+    $override = false;
+
     //flags already applied
-    if( isset( $this->_title_applied ) && is_singular() ) return $title;
-    if( $id < 0 ) return $title;
-    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $title;
-    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $title;
-    if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-       cml_is_custom_post_type() ) return $title;
-    if( ! $_cml_settings[ 'cml_option_flags_on_homepage' ] &&
-       cml_is_homepage() ) return $title;
+    if( is_single() ) {
+      $post_id = get_the_ID();
+      $value = null;
+      if( CML_GET_TRANSLATIONS_FROM_PO ) {
+        $key = "__cml_override_flags_{$post_id}";
+        $value = CMLUtils::_get_translation( $key );
+      }
 
-    if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
-          || is_category() ) return $title;
+      if( null == $value ) {
+        $value = get_post_meta( $post_id, "_cml_override_flags", true );
+      }
 
-    global $post;
+      if( ! isset( $value[ 'show' ] ) ||
+          $value[ 'show' ] == "never" ) {
+        return $title;
+      }
 
-    /*
-     * this filter is called many times, not only for single post title, so
-     * I have to check that $title is the title of current post
-     */
-    if( ! is_object( $post ) ) return $title;
-    if( esc_attr( $post->post_title ) == removesmartquotes( $title ) ) {
-      //Done, remove the filter :)
-      remove_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
-      $this->_title_applied = true;
+      //Always? If not use default settings
+      if( $value[ 'show' ] == "always" ) {
+        $where = $value[ 'where' ];
+        $size = $value[ 'size' ];
+
+        $override = true;
+      }
+    }
+
+    if( ! $override ) {
+      if( isset( $this->_title_applied ) && is_singular() ) return $title;
+      if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $title;
+      if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $title;
+      if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
+         cml_is_custom_post_type() ) return $title;
+      if( ! $_cml_settings[ 'cml_option_flags_on_homepage' ] &&
+         cml_is_homepage() ) return $title;
+  
+      if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
+            || is_category() ) return $title;
 
       $size = $_cml_settings['cml_option_flags_on_size'];
+      $where = $_cml_settings[ 'cml_option_flags_on_pos' ];
+    }
+    
+      global $post;
+  
+      /*
+       * this filter is called many times, not only for single post title, so
+       * I have to check that $title is the title of current post
+       */
+      if( ! is_object( $post ) ) return $title;
+      
+      if( esc_attr( $post->post_title ) == removesmartquotes( $title ) ) {
+        //Done, remove the filter :)
+        remove_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
+        $this->_title_applied = true;
+  
+        $args = array( "class" => "cml_flags_on_title_" . $where,
+                        "size" => $size, "sort" => true, "echo" => false );
+        $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
+                                cml_shortcode_other_langs_available( $args ) :
+                                cml_show_available_langs( $args );
 
-      $args = array( "class" => "cml_flags_on_title_" . $_cml_settings[ 'cml_option_flags_on_pos' ],
-                      "size" => $size, "sort" => true, "echo" => false );
-      $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
-                              cml_shortcode_other_langs_available( $args ) :
-                              cml_show_available_langs( $args );
-
-      if( 'after' == $_cml_settings[ 'cml_option_flags_on_pos' ] ) {
-        return $title . $flags;
-      }
-      else
-        return $flags . $title;
-    } //endif;
+        if( 'after' == $where ) {
+          return $title . $flags;
+        } else {
+          return $flags . $title;
+        }
+      } //endif;
 
     return $title;
   }
@@ -296,25 +328,58 @@ class CMLFrontend extends CeceppaML {
   function add_flags_on_content( $content ) {
     global $_cml_settings;
     
-    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $content;
-    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
-    if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-       cml_is_custom_post_type() ) return $content;
+    if( ! is_single() ) {
+      if( ! ( $_cml_settings[ 'cml_option_flags_on_post' ] ||
+              $_cml_settings[ 'cml_option_flags_on_page' ] ||
+              $_cml_settings[ 'cml_option_flags_on_custom_type' ] ||
+              $_cml_settings[ 'cml_option_flags_on_the_loop' ] ) ) return $content;
 
-    $size = $_cml_settings['cml_option_flags_on_size'];
+      if( ! $_cml_settings[ 'cml_option_flags_on_post' ] && is_single() ) return $content;
+      if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
+      if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
+         cml_is_custom_post_type() ) return $content;
+
+      $where = $_cml_settings[ 'cml_option_flags_on_pos' ];
+      $size = $_cml_settings['cml_option_flags_on_size'];
+    } else {
+      $post_id = get_the_ID();
+      $value = null;
+      if( CML_GET_TRANSLATIONS_FROM_PO ) {
+        $key = "__cml_override_flags_{$post_id}";
+        $value = CMLUtils::_get_translation( $key );
+      }
+
+      if( null == $value ) {
+        $value = get_post_meta( $post_id, "_cml_override_flags", true );
+      }
+
+      if( ! isset( $value[ 'show' ] ) ||
+          $value[ 'show' ] == "never" ) {
+        return $content;
+      }
+
+      $always = $value[ 'show' ] == "always";
+      $where = ( $always ) ? $value[ 'where' ] : $_cml_settings[ 'cml_option_flags_on_pos' ];
+      $size = ( $always ) ? $value[ 'size' ] : $_cml_settings[ 'cml_option_flags_on_size' ];
+    }
+
+    if( ! in_array( $where, array( "bottom", "top" ) ) ) return $content;
+
     $args = array(
                   "class" => "cml_flags_on_top",
                   "size" => $size,
                   "sort" => true,
+                  "echo" => false,
                   );
     $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
                           cml_shortcode_other_langs_available( $args ) :
                           cml_show_available_langs( $args );
 
-    if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" )
+    if( $where == "top" ) {
       return $flags . $content;
-    else
+    } else {
       return $content . $flags;
+    }
   }
 
   /*
@@ -594,6 +659,11 @@ EOT;
     $classes[] = " home";
     
     return $classes;
+  }
+
+  function body_class_hook( $c ) {
+    $this->_is_bodyclass_hook_executed = true;
+    return $c;
   }
 
   function get_archives_where( $where, $r ) {
@@ -883,7 +953,7 @@ EOT;
     }
 
     if( ! CMLLanguage::is_default() ) {
-      $lang_id = CMLUtils::_get( CMLUtils::_get( '_real_language' ) );
+      $lang_id = CMLUtils::_get( '_real_language' );
       $this->_force_post_lang = $lang_id;
 
       $slug = CMLLanguage::get_slug( $lang_id );
@@ -960,7 +1030,7 @@ EOT;
           }
 
           //Get term
-          if( CML_CREATE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
+          if( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
             $term = get_term( $item->object_id, $item->object );
   
             $url = get_term_link( $term );
@@ -1323,7 +1393,7 @@ EOT;
     //language detected?
     if( empty( $lang ) &&
        $this->_url_mode == PRE_LANG ) {
-        $lang = CMLLanguage::get_id_by_slug( esc_attr( $_GET[ 'lang' ] ) );
+        $lang = CMLLanguage::get_id_by_slug( esc_attr( @$_GET[ 'lang' ] ) );
     }
 
     if( ! empty( $lang ) ) {
@@ -1760,6 +1830,9 @@ EOT;
        isset( $this->_fake_language_id ) &&
        ! isset( $this->_include_current ) ) {
       $this->_looking_id_post = true;
+      if( ! isset( $this->_clean_url ) )
+        $this->_clean_url = CMLUtils::clear_url();
+
       $id = cml_get_page_id_by_path( $this->_clean_url );
 
       if( $id > 0 ) {

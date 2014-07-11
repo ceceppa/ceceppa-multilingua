@@ -180,6 +180,12 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
+= 1.4.29 =
+* Fixed support to wpml-config.xml for theme strings
+* Added options to disable "remove slug -##" features from post/page links
+* Fixed various bug
+* Added experimental tab in "Settings" page
+
 = 1.4.28 =
 * Now you can override "Show flags" settings for each post/page
 

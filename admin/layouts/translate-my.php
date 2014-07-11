@@ -86,7 +86,7 @@ EOT;
       //record id
       $id = intval( $_POST[ 'id' ][ $i ] );
       $text = esc_attr( $_POST[ 'string' ][ $i ] );
-      $group = esc_attr( $_POST[ 'group' ][ $i ] );
+      $group = sanitize_title( esc_attr( $_POST[ 'group' ][ $i ] ) );
 
       foreach( $langs as $lang ) {
         $value = esc_attr( $_POST[ 'values' ][ $lang->id ][ $i ] );
