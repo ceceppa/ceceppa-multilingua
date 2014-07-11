@@ -1169,6 +1169,8 @@ class CMLPost {
    * @param int $post_id the post id
    */
   public static function set_as_unique( $post_id ) {
+    update_option( "cml_get_translation_from_po", 0 );
+
     cml_migrate_database_add_item( 0, $post_id, 0, 0 );
   }
 
