@@ -307,7 +307,8 @@ function cml_fix_update_post_meta() {
  *
  */
 function cml_fix_rebuild_posts_info() {
-  global $wpdb, $_cml_language_columns;
+  global $wpdb;
+  $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
 
   $pids = array();
   $apids = array(); //All pids
@@ -338,8 +339,14 @@ function cml_fix_rebuild_posts_info() {
     $i++;
   }
 
-  foreach( $_cml_language_columns as $key => $l ) {
-    @update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
+  foreach( CMLLanguage::get_all() as $lang ) {
+    $key = $lang->id;
+
+    if( isset( $pids[ $key ] ) ) {
+      update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
+    } else {
+      update_option( "cml_posts_of_lang_" . $key, array() );
+    }
   }
 
   //unique posts
@@ -392,10 +399,12 @@ function cml_update_all_posts_language() {
                             'numberposts' => -1,
                             'posts_per_page' => 999999,
                             'status' => 'publish, draft, private'));
-  
+
+  $wpdb->query( "DELETE FROM " . CECEPPA_ML_RELATIONS );
+
   $did = CMLLanguage::get_default_id();
   foreach($posts as $post) {
-    echo "$post->ID,";
+    delete_post_meta( $post->ID, "_cml_lang_id" );
 
     CMLPost::set_language( $did,
                           $post->ID );

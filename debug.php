@@ -211,6 +211,7 @@ EOT;
         
         echo "\n\n<b>Linked pages:</b>\n";
         print_r( CMLPost::get_translations( get_the_ID() ) );
+        print_r( get_post_meta( get_the_ID(), "_cml_lang_id", true ) );
       }
 
       //echo "\nQueries: " . count( $this->queries ) . "\n";

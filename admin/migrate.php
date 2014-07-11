@@ -157,7 +157,7 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
 
   $record = _cml_migrate_get_record( $lang, $pid );
   if( ! empty( $record ) ) {
-    if( $record[ "lang_$llang" ] != $lpid ) {
+    if( $llang > 0 && $record[ "lang_$llang" ] != $lpid ) {
       if( $record[ "lang_$llang" ] > 0 ) {
         /*
          * I changed linked post, but I need to took other relations.
@@ -185,6 +185,7 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
       } else if( $lpid > 0 ) {
         //Remove old connections for "linked id"
         $rl = _cml_migrate_get_record_by_pid( $lpid );
+
         if( $rl[ 'id' ] != $record[ 'id' ] ) {
           _cml_migrate_set_pids_to_zero( $lpid, $rl );
         }

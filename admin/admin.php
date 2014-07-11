@@ -115,7 +115,7 @@ class CMLAdmin extends CeceppaML {
      * update existsings post to default language?
      */
     if( isset( $_GET[ 'cml_update_existings_posts' ] ) ) {
-     add_action( 'admin_footer', array( & $this, 'update_all_posts_language' ) );
+     add_action( 'plugins_loaded', array( & $this, 'update_all_posts_language' ) );
     }
 
     /*
@@ -673,7 +673,13 @@ EOT;
    * update language of existings posts
    */
   function update_all_posts_language() {
+    global $_cml_language_columns;
+
     cml_update_all_posts_language();
+
+    foreach( $_cml_language_columns as $key => $l ) {
+      delete_option( "cml_posts_of_lang_" . $key );
+    }
 
     cml_fix_rebuild_posts_info();
   }
