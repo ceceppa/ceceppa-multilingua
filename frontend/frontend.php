@@ -1892,6 +1892,12 @@ EOT;
   function hide_translations( $wp_query ) {
     global $wpdb, $_cml_settings;
 
+    if( is_feed() ) {
+      do_action_ref_array( array( & $this, 'filter_posts_by_language' ), $wp_query );
+
+      return;
+    }
+
     if( isset( $this->_looking_id_post ) ||
        CMLUtils::_get( '_is_sitemap' ) ) {
       return;

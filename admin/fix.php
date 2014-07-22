@@ -404,7 +404,7 @@ function cml_update_all_posts_language() {
 
   $did = CMLLanguage::get_default_id();
   foreach($posts as $post) {
-    delete_post_meta( $post->ID, "_cml_lang_id" );
+    update_post_meta( $post->ID, "_cml_lang_id", $did );
 
     CMLPost::set_language( $did,
                           $post->ID );

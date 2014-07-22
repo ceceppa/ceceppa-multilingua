@@ -5,9 +5,9 @@ jQuery(document).ready( function($) {
    * Languages
    */
   jQuery( "#cml-languages" ).sortable( { handle: ".handle",
-                                      stop: function() {
+                                        stop: function() {
                                         cml_admin_need_to_save();
-                                      }
+                                        }
                                       } );
 
   //Combo "Settings"
