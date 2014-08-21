@@ -683,4 +683,3 @@ if( is_admin() ) {
   
   $wpCeceppaML = new CMLFrontend();
 }
-?>
