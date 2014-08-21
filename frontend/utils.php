@@ -261,6 +261,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       $the_id = get_the_ID();
       $is_404 = is_404();
       $is_tag = is_tag();
+      $is_archive = is_archive();
     }
 
     /* Collego la categoria della lingua attuale con quella della linga della bandierina */
@@ -293,7 +294,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       }
     }
 
-    if( is_archive() && ! $is_category && ! is_post_type_archive() ) {
+    if( is_archive() && ! $is_category ) { //&& ! is_post_type_archive() ) {
       global $wp;
 
       $link = trailingslashit( home_url( $wp->request ) );

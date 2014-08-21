@@ -245,15 +245,17 @@ class CMLFrontend extends CeceppaML {
   function add_flags_on_title( $title, $id = -1 ) {
     global $_cml_settings;
 
+    //Some SEO plugins like YOAST call the_title before the <body> tag, and there I don't need the flags
     if( $id < 0 ||
        ! $this->_is_bodyclass_hook_executed ) return $title;
 
     $override = false;
 
     //flags already applied
-    if( is_single() ) {
+    if( is_singular() || cml_is_custom_post_type() ) {
       $post_id = get_the_ID();
       $value = null;
+
       if( CML_GET_TRANSLATIONS_FROM_PO ) {
         $key = "__cml_override_flags_{$post_id}";
         $value = CMLUtils::_get_translation( $key );
@@ -275,6 +277,8 @@ class CMLFrontend extends CeceppaML {
 
         $override = true;
       }
+    } else {
+        return $title;
     }
 
     if( ! $override ) {
