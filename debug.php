@@ -208,6 +208,9 @@ EOT;
         echo "\nis_page(): " . is_page();
         echo "\nis_category(): " . is_category();
         echo "\nis_archive(): " . is_archive();
+          
+        if( function_exists( 'is_woocommerce' ) )
+        echo "\nis_woocommerce(): " . is_woocommerce();
         
         echo "\n\n<b>Linked pages:</b>\n";
         print_r( CMLPost::get_translations( get_the_ID() ) );
@@ -223,4 +226,3 @@ EOT;
 }
 
 $cmlDebug = new CMLDebug();
-?>

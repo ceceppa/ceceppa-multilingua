@@ -52,6 +52,11 @@ class CMLFrontend extends CeceppaML {
       }
     }
 
+    //Filter the feed
+    if( $_cml_settings[ 'cml_option_filter_posts' ] == FILTER_NONE ) {
+        add_action( 'pre_get_posts', array( &$this, 'filter_feed' ), 0 );
+    }
+ 
     /*
     * If one or more post has same "title", wordpress add "-##" to end of permalink
     * I remove "-##" from the end of permalink, but I have to inform wordpress
@@ -1752,6 +1757,7 @@ EOT;
 
   function filter_get_pages( $pages ) {
     if( CMLUtils::_get( '_is_sitemap' ) ) return;
+    if( apply_filters( 'cml_is_special_page', false ) ) return $pages;
 
     foreach( $pages as $key => $page ) {
       if( CMLLanguage::get_id_by_post_id( $page->ID ) !=
@@ -1771,6 +1777,15 @@ EOT;
    */
   function filter_posts_by_language( $wp_query ) {
     global $wpdb, $_cml_settings;
+
+    /*
+     * Special page?
+     *
+     * Special page is a "virtual" page created by some plugins like WooCommerce checkout page
+     * They don't exists as page, so will not be included in CMLPost::get_posts_by_language array.
+     * To avoid 404 I'll ask to my "addons" if this is a special page, if true I have to exit from this function
+     */
+    if( apply_filters( 'cml_is_special_page', false ) ) return $wp_query;
 
     if( isset( $this->_looking_id_post ) ||
        CMLUtils::_get( '_is_sitemap' ) ) {
@@ -1896,9 +1911,10 @@ EOT;
   function hide_translations( $wp_query ) {
     global $wpdb, $_cml_settings;
 
+    if( apply_filters( 'cml_is_special_page', false ) ) return $wp_query;
+
     if( is_feed() ) {
       $wp_query = $this->filter_posts_by_language( $wp_query );
-      //do_action_ref_array( array( & $this, 'filter_posts_by_language' ), $wp_query );
 
       return;
     }
@@ -1932,6 +1948,13 @@ EOT;
     }
 
     return ( ! is_feed() ) ? $this->_hide_posts :  $wp_query;
+  }
+
+  //Filter the feed using filter_posts_by_language function
+  function filter_feed( $wp_query ) {
+      if( ! is_feed() ) return $wp_query;
+      
+      $wp_query = $this->filter_posts_by_language( $wp_query );
   }
 
   /*
@@ -2113,4 +2136,3 @@ EOT;
     $GLOBALS[ 'text_direction' ] = ( CMLLanguage::get_current()->cml_rtl == 1 ) ? 'rtl' : 'ltr';
   }
 }
-?>
