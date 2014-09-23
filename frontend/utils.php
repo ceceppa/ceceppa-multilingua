@@ -432,6 +432,14 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
   }
 
+  // Get the last character from the permalink structure definition
+  $permalink_structure = CMLUtils::get_permalink_structure();
+  if ( $permalink_structure !== '' ) {
+    if ( substr( $permalink_structure, -1 ) != '/' ) {
+      $link = untrailingslashit( $link );
+    }
+  }
+
   return $link;
 }
 

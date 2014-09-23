@@ -158,12 +158,12 @@ require_once( CML_PLUGIN_INCLUDES_PATH . "functions.php" );
 require_once CML_PLUGIN_INCLUDES_PATH . "widgets.php";
 
 //debug
- if( file_exists( CML_PLUGIN_PATH . "debug.php" ) &&
+if( file_exists( CML_PLUGIN_PATH . "debug.php" ) &&
      1 == get_option( "cml_debug_enabled" ) ) {
    define( 'CML_DEBUG', 1 );
 
- require_once( "debug.php" );
- }
+     require_once( "debug.php" );
+}
 
 //3rd party compatibility
 require_once( CML_PLUGIN_INCLUDES_PATH . 'compatibility.php' );
@@ -248,7 +248,7 @@ class CeceppaML {
   }
 
   /*
-   * yeah, the plugin is activaed :)
+   * yeah, the plugin is activated :)
    */
   function activated() {
     require_once ( CML_PLUGIN_ADMIN_PATH . "install.php" );

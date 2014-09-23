@@ -1209,7 +1209,7 @@ margin-bottom: 10px;
     
   .tablenav .cml-icon-wplang {
     display: inline-block;
-    width: 175px;
+    width: 165px;
     height: 28px;
   }
   
@@ -1869,4 +1869,8 @@ form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title
 
 .cml-show-always > div > label:hover > input + span {
   background: #80B3FF;
+}
+
+table .cml_enable_filter {
+  display: none;
 }

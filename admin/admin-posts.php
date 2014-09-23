@@ -347,7 +347,7 @@ function cml_admin_add_flag_columns( $columns ) {
   wp_enqueue_style('ceceppaml-style-all-posts', CML_PLUGIN_URL . 'css/all_posts.php?langs=' . count( $langs ) );
 
   $clang = isset( $_GET['cml-lang'] ) ? intval ( $_GET['cml-lang'] ) : CMLLanguage::get_default_id();
-  $img = "";
+  $img = '<span class="cml_enable_filter">' . __( 'Enable language filtering', 'ceceppaml' ) . '</span>';
   foreach( $langs as $lang ) {
     $class = ( $lang->id == $clang ) ? "cml-filter-current" : "";
 
@@ -448,23 +448,18 @@ EOT;
 }
 
 function cml_admin_add_meta_boxes() {
-  //Page and post meta box
-  add_meta_box( 'ceceppaml-meta-box', __('Post data', 'ceceppaml'), 'cml_admin_post_meta_box', 'post', 'side', 'high' );
-  add_meta_box( 'ceceppaml-meta-box', __('Page data', 'ceceppaml'), 'cml_admin_post_meta_box', 'page', 'side', 'high' );
-  
   //Add metabox to custom posts
   $post_types = get_post_types( array( '_builtin' => FALSE ), 'names'); 
-  $posts = array( "post", "page" );
+  $post_types[] = "post";
+  $post_type[] = "page";
 
   // remove_meta_box('tagsdiv-post_tag','post','side');
   // add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );
-
   $post_types = apply_filters( 'cml_manage_post_types', $post_types );
 
   foreach( $post_types as $post_type ) {
-    if( ! in_array( $post_type, $posts ) ) {
-      add_meta_box( 'ceceppaml-meta-box', __('Post data', 'ceceppaml'), 'cml_admin_post_meta_box', $post_type, 'side', 'high' );
-    }
+    //Exclude "post" and "page"
+    add_meta_box( 'ceceppaml-meta-box', __('Post data', 'ceceppaml'), 'cml_admin_post_meta_box', $post_type, 'side', 'high' );
   }
 }
 
@@ -482,11 +477,28 @@ function cml_admin_filter_all_posts_page() {
                                                   array( "draft", "trash" ) ) )
   $d = 0;
   $d = isset( $_GET[ 'cml-lang' ] ) ? $_GET[ 'cml-lang' ] : $d;
+   
+  //Check if language filtering is disabled for this post type
+  $is_disabled = get_hidden_columns( get_current_screen() );
+  if( in_array( "cml_flags", $is_disabled ) ) {
+      //Ignored post types
+      $list = get_option( "_cml_ignore_post_type", array() );
 
-  //All languages
-  echo '<span class="cml-icon-wplang tipsy-s" title="' . __( 'Language:', 'ceceppaml' ) . '">';
-  cml_dropdown_langs( "cml_language", $d, false, true, __('Show all languages', 'ceceppaml'), -1, 0 );
-  echo '</span>';
+      //Add current post type to "ignore" list
+      $post_type = ( isset( $_GET[ 'post_type' ] ) ) ? $_GET[ 'post_type' ] : "post";
+      if( ! in_array( $post_type, $list ) ) {
+          $list[] = $post_type;
+          
+          update_option( "_cml_ignore_post_type", $list );
+      }
+      
+      return;
+  } else {
+      //All languages
+      echo '<span class="cml-icon-wplang tipsy-s" title="' . __( 'Language:', 'ceceppaml' ) . '">';
+      cml_dropdown_langs( "cml_language", $d, false, true, __('Show all languages', 'ceceppaml'), -1, 0 );
+      echo '</span>';
+  }
 }
 
 function cml_admin_filter_all_posts_query( $query ) {
@@ -582,6 +594,17 @@ function cml_manage_posts_columns() {
   }
 }
 
+function cml_disable_filtering( $types ) {
+  static $list = null;
+    
+  //Ignored post types
+  if( $list == null ) {
+    $list = get_option( "_cml_ignore_post_type", array() );
+  }
+
+  return array_diff( $types, $list );
+}
+
 //Manage all posts columns
 add_action( 'admin_init', 'cml_manage_posts_columns', 10 );
 
@@ -602,4 +625,6 @@ add_action('delete_page', 'cml_admin_delete_extra_post_fields' );
 //Filters
 add_filter( 'parse_query', 'cml_admin_filter_all_posts_query' );
 add_action( 'restrict_manage_posts', 'cml_admin_filter_all_posts_page' );
-?>
+
+//Disable language filter for
+add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );

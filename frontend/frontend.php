@@ -1154,8 +1154,9 @@ EOT;
     global $wpdb;
 
     if( cml_is_homepage() ||
-      isset( $this->_looking_id_post ) ) {
-      return;
+      isset( $this->_looking_id_post ) || 
+      CMLUtils::_get( '_is_sitemap' ) ) {
+      return $query;
     }
 
     $this->_looking_id_post = true;
