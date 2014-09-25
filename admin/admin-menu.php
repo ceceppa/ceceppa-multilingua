@@ -286,4 +286,3 @@ add_action( 'wp_update_nav_menu', 'cml_generate_mo_from_translations', 10 );
 add_meta_box( 'ceceppaml-menu-box', 'CeceppaML: ' . __('Flags', 'ceceppaml'), 'cml_menu_meta_box', 'nav-menus', 'side', 'default' );
 
 add_action( 'admin_notices', 'cml_admin_select_menu' );
-?>

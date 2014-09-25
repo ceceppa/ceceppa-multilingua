@@ -1307,7 +1307,7 @@ class CMLPost {
     $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
     //Disabled?
-    if( $_cml_settings[ 'cml_remove_extra_slug' ] !== 1 ) return $permalink;
+    if( @$_cml_settings[ 'cml_remove_extra_slug' ] !== 1 ) return $permalink;
 
     $removed = false;
 

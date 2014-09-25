@@ -492,29 +492,13 @@ EOT;
     unset( $this->_force_post_lang );
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
 
-    if( CMLLanguage::is_current( $lang->id ) ) {
-      return CMLPost::remove_extra_number( $permalink, $page );
-    }
+//For WooCommerce
+//    if( CMLLanguage::is_current( $lang->id ) ) {
+//      return CMLPost::remove_extra_number( $permalink, $page );
+//    }
 
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
     $permalink = CMLPost::remove_extra_number( $permalink, $page );
-
-    /*
-     * Remove extra "number" from page parent
-     */
-    //if( $page->post_parent > 0 ) {
-    //  $p = get_page( $page->post_parent );
-    //
-    //  //Check if numbers in page slug is > than in page title
-    //  preg_match_all( "/\d+/", $p->post_title, $pout );
-    //  preg_match_all( "/-\d+/", $p->post_name, $out );
-    //
-    //  if( count( $pout[0] ) < count( $out[ 0 ] ) && CMLPost::has_translations( $p->ID ) ) {
-    //    $ppermalink = get_permalink( $page->post_parent );
-    //    
-    //    die();
-    //  }
-    //}
 
     $permalink = $this->convert_url( $permalink, $slug );
     

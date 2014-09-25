@@ -124,4 +124,3 @@ EOT;
     //generate .po
     cml_generate_mo_from_translations( "_X_", true );
   }
-?>

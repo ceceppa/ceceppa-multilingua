@@ -86,11 +86,13 @@ function cml_help_box_content() {
 <?php
 }
 
-add_meta_box("cml_about_me_box", __( 'About Ceceppa:', 'ceceppaml' ), 'cml_about_me_box_content', "cml_donate_box");
+function cml_donate_metaboxes() {
+    add_meta_box("cml_about_me_box", __( 'About Ceceppa:', 'ceceppaml' ), 'cml_about_me_box_content', "cml_donate_box");
 
-add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_content', "cml_donate_box");
-add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
+    add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_content', "cml_donate_box");
+    add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
 
-add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
+    add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
+}
 
-?>
+add_action( 'admin_init', 'cml_donate_metaboxes' );
