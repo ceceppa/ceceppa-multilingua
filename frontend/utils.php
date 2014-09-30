@@ -284,6 +284,15 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         $link = get_permalink( $linked_id );
         $link = CMLPost::remove_extra_number( $link, get_post( $linked_id ) );
 
+        /*
+         * Ignore for default language mode doesn't works properly
+         * ( doesn't add /##/ to "translated" link )
+         */
+        if( CMLUtils::get_url_mode() == PRE_PATH &&
+            $_cml_settings[ 'url_mode_remove_default' ] == 1 ) {
+            $link = $wpCeceppaML->convert_url( $link, $result->cml_language_slug );
+        }
+
         if( CMLUtils::_get( '_real_language' ) != CMLLanguage::get_current_id()
             && $linked_id == $the_id ) {
 

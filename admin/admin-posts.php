@@ -180,7 +180,7 @@ function cml_admin_post_meta_box( $tag ) {
         <label class="tipsy-me" title="<?php _e( "Before the title", 'ceceppaml' ) ?>">
           <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="before"  <?php checked( $where, 'before' ) ?>/>
           <span>
-            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>btitle.png" border="0" />
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>btitle.png"/>
           </span>
         </label>
 
@@ -188,7 +188,7 @@ function cml_admin_post_meta_box( $tag ) {
         <label class="tipsy-me" title="<?php _e( "After the title", 'ceceppaml' ) ?>">
           <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="after"  <?php checked( $where, 'after' ) ?>/>
           <span>
-            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>atitle.png" border="0" />
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>atitle.png"/>
           </span>
         </label>
 
@@ -196,7 +196,7 @@ function cml_admin_post_meta_box( $tag ) {
         <label class="tipsy-me" title="<?php _e( "Before content", 'ceceppaml' ) ?>">
           <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="top"  <?php checked( $where, 'top' ) ?>/>
           <span>
-            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>bcontent.png" border="0" />
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>bcontent.png"/>
           </span>
         </label>
 
@@ -204,7 +204,7 @@ function cml_admin_post_meta_box( $tag ) {
         <label class="tipsy-me" title="<?php _e( "After content", 'ceceppaml' ) ?>">
           <input type="radio" id="cml-flagwhere" name="cml-flagwhere" value="bottom"  <?php checked( $where, 'bottom' ) ?>/>
           <span>
-            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>acontent.png" border="0" />
+            <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>acontent.png"/>
           </span>
         </label>
 
@@ -281,7 +281,10 @@ EOT;
 function cml_admin_save_extra_post_fields( $term_id ) {
   global $wpdb, $pagenow;
 
-  //Dalla 3.5.2 questa funzione viene richiamata 2 volte :O, la seconda volta $_POST però è vuoto :O
+  //This function is also called on "comment" edit, and this will cause "language relations" lost...
+  if( ! isset( $_POST[ 'post_type' ] ) ) return;
+
+  //From Wp 3.5.2 this function is called twice, but second time $_POST is empty
   if( $pagenow == "nav-menus.php" || empty( $_POST ) ) {
     return;
   }

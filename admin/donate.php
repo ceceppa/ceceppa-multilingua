@@ -33,7 +33,7 @@ function cml_donate_box_content() {
       </div>
       
       <div class="method">
-        <a href="https://flattr.com/submit/auto?user_id=ceceppa&url=http%3A%2F%2Fwww.alessandrosenese.eu%2Fmyworks%2Fceceppa-multilingua" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
+        <a href="https://flattr.com/submit/auto?user_id=ceceppa&url=http%3A%2F%2Fwww.alessandrosenese.eu%2Fmyworks%2Fceceppa-multilingua" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this"></a>
       </div>
     </div>
 <?php
