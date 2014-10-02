@@ -405,7 +405,8 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          * no translation found, and user choosed to force page to flag language,
          * I add parameter "lang=##" to url
          */
-        $link = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $http = is_ssl() ? "https://" : "http://";
+        $link = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if( CMLPost::get_language_by_id( $the_id ) != $result->id ) {
           //Is internal link?
           //if( strpos( $link, CMLUtils::get_home_url() ) === FALSE ) {

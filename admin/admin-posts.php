@@ -442,7 +442,7 @@ echo <<< EOT
       </span>
       &nbsp;
       <input type="text" name="cml-trans[]" class="cml-input cml-hidden" value="" />
-      <span class="title tipsy-s" title="$click">ciao</span>
+      <span class="title tipsy-s" title="$click"></span>
       <a href="javascript:void(0)" class="button button-primary button-mini button-confirm" title="$translate" style="display: none">
         <img src="{$url}confirm.png" />
       </a>
@@ -473,7 +473,7 @@ function cml_admin_filter_all_posts_page() {
   if( isset( $_GET[ 'post_type' ] ) &&
      ! in_array( $_GET[ 'post_type' ], $post_types ) ) return;
 
-  //Se sto nel cestino di default visualizzo tutti gli articoli :)
+  //In the bin page I have to show all the posts :)
   $d = CMLLanguage::get_default_id();
 
   if( isset( $_GET[ 'post_status' ] ) && in_array( $_GET[ 'post_status' ],
@@ -483,20 +483,29 @@ function cml_admin_filter_all_posts_page() {
    
   //Check if language filtering is disabled for this post type
   $is_disabled = get_hidden_columns( get_current_screen() );
-  if( in_array( "cml_flags", $is_disabled ) ) {
-      //Ignored post types
-      $list = get_option( "_cml_ignore_post_type", array() );
+    
+  //Ignored post list
+  $list = get_option( "_cml_ignore_post_type", array() );
 
-      //Add current post type to "ignore" list
-      $post_type = ( isset( $_GET[ 'post_type' ] ) ) ? $_GET[ 'post_type' ] : "post";
+  //Add current post type to "ignore" list
+  $post_type = ( isset( $_GET[ 'post_type' ] ) ) ? $_GET[ 'post_type' ] : "post";
+  if( in_array( "cml_flags", $is_disabled ) ) {
       if( ! in_array( $post_type, $list ) ) {
           $list[] = $post_type;
           
           update_option( "_cml_ignore_post_type", $list );
       }
-      
+
       return;
   } else {
+      //Remove the current post from "ignore list"
+      $search = array_search( $post_type, $list );
+      if( $search !== FALSE ) {
+          unset( $list[ $search ] );
+
+          update_option( "_cml_ignore_post_type", $list );
+      }
+
       //All languages
       echo '<span class="cml-icon-wplang tipsy-s" title="' . __( 'Language:', 'ceceppaml' ) . '">';
       cml_dropdown_langs( "cml_language", $d, false, true, __('Show all languages', 'ceceppaml'), -1, 0 );
@@ -526,6 +535,14 @@ function cml_admin_filter_all_posts_query( $query ) {
   $id = array_key_exists('cml-lang', $_GET) ? intval($_GET['cml-lang']) : $d;
   
   if( is_admin() && $pagenow == "edit.php" ) {
+    //Show language filtering feature
+    if( isset( $_GET[ 'hide-filtering-notice' ] ) ) 
+        update_option( '_cml_hide_filtering_notice', 1 );
+
+    if( ! get_option( "_cml_hide_filtering_notice", 0 ) ) {
+        add_action( 'admin_notices', '_cml_show_filtering_notice' );
+    }
+
     if($id > 0) {
       $posts = CMLPost::get_posts_by_language( $id );
 
@@ -534,6 +551,25 @@ function cml_admin_filter_all_posts_query( $query ) {
   }
 
   return $query;
+}
+
+function _cml_show_filtering_notice() {
+    $msg = __( 'You can easily disable/enable language filtering for current post type, ', 'ceceppaml' );
+    $msg .= __( 'using the "Enable language filtering" in the "Screen Option" section', 'ceceppaml' );
+    $close = __( 'Close', 'ceceppaml' );
+    
+    $link = add_query_arg( array( "hide-filtering-notice" => 1 ) );
+
+echo <<< NOTICE
+    <div class="updated cml-notice">
+        <p>$msg</p>
+        <p class="submit">
+            <a class="button button-primary" style="float: right" href="$link">
+                $close
+            </a>
+        </p>
+    </div>
+NOTICE;
 }
 
 function cml_admin_delete_extra_post_fields( $id ) {
@@ -588,10 +624,15 @@ function _cml_clone_post_meta( $from, $new_post_id ) {
 
 function cml_manage_posts_columns() {
   //Show flags in list for all registered post types ( so also custom posts )
-  $post_types = get_post_types('','names');
-  $post_types = apply_filters( 'cml_manage_post_types', $post_types );
+  $all = get_post_types('','names');
+  $post_types = apply_filters( 'cml_manage_post_types', $all );
 
-  foreach ($post_types as $type ) {
+  /*
+   * In 1.4.33 I added "Enabled filter language" to easily allow user to disable language filtering
+   * on it own posts.
+   * I need to cycle $all because I need to show up the filtering option :)
+   */
+  foreach ($all as $type ) {
     add_action( "manage_${type}_posts_custom_column", 'cml_admin_add_flag_column', 10, 2);
     add_filter( "manage_${type}_posts_columns" , 'cml_admin_add_flag_columns' );
   }
