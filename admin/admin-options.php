@@ -77,6 +77,9 @@ case 4:
     delete_option( "cml_translated_fields_yoast" );
     delete_option( "cml_translated_fields_aioseo" );
 
+    delete_option( '_cml_hide_filtering_notice' );
+    delete_option( 'cml_hide_backup_warning' );
+
     /*
      * restore helps
      */

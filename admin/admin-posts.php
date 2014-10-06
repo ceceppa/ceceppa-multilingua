@@ -454,7 +454,7 @@ function cml_admin_add_meta_boxes() {
   //Add metabox to custom posts
   $post_types = get_post_types( array( '_builtin' => FALSE ), 'names'); 
   $post_types[] = "post";
-  $post_type[] = "page";
+  $post_types[] = "page";
 
   // remove_meta_box('tagsdiv-post_tag','post','side');
   // add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );

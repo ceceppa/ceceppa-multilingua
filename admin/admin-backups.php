@@ -2,7 +2,6 @@
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 require_once ( CML_PLUGIN_ADMIN_PATH . 'donate.php' );
-require_once ( CML_PLUGIN_LAYOUTS_PATH . 'class-backups.php' );
 
 $tab = intval( @$_GET[ 'tab' ] );
 $page = $_GET[ 'page' ];
@@ -12,32 +11,42 @@ $page = $_GET[ 'page' ];
   <h2 class="nav-tab-wrapper">
     <a class="nav-tab <?php echo $tab == 0 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=0"><?php _e('All backups', 'ceceppaml') ?></a>
     <a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=1"><?php _e('Backup', 'ceceppaml') ?></a>
+    <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=2"><?php _e('Import/Export', 'ceceppaml') ?></a>
   </h2>
 
+<?php
+    //Check if the folder exists ( doesn't matter the "hide" option )
+    if( ! _cml_check_backup_folder() ) {
+        _cml_backup_folder_failed( false );
+    }
+?>
     <div id="poststuff">
         <div id="post-body" class="columns-2 ceceppaml-metabox">
             <div id="post-body-content" class="cml-box-options">
-                <form class="ceceppa-form-translations" name="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo $_GET['page'] ?>">
-                  <input type="hidden" name="add" value="1" />
+                <form id="form" name="backup" method="POST" class="cml-ajax-form">
+                  <input type="hidden" name="page" value="<?php echo $_GET[ 'page' ] ?>" />
+                  <input type="hidden" name="tab" value="<?php echo $tab ?>" />
                   <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
-                  <input type="hidden" name="form" value="1" />
-                  <input type="hidden" name="tab" value="<?php echo @$_REQUEST[ 'tab' ] ?>" />
-                  <?php
-                    $table = new MyBackups_Table();
-                    $table->prepare_items();
 
-                    $table->display();
-                  ?>
-                  <div style="text-align:right">
-                    <p class="submit" style="float: right">
-                    <?php if( count( CMLLanguage::get_all() ) > 1 ) : ?>
-                    <input type="button" class="button button-secondaty" name="add" value="<?php _e('Add', 'ceceppaml') ?>" onclick="addRow(<?php echo count( $lkeys ) . ", '" . join(",", $lkeys ) ?>', <?php echo CMLLanguage::get_default_id() ?>)" />
-                    <?php endif; ?>
-                    <?php submit_button( __( 'Update', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
-                    </p>
-                  </div>
+                    <?php 
+                        switch( $tab )  {
+                            case 0:
+                                require_once( CML_PLUGIN_LAYOUTS_PATH . 'backups-list.php' );
+                                break;
+                            case 1:
+                                require_once( CML_PLUGIN_LAYOUTS_PATH . 'backups-do.php' );
+
+                                do_meta_boxes( 'cml_box_backup', 'advanced', null );
+                                break;
+                            case 2:
+                                require_once( CML_PLUGIN_LAYOUTS_PATH . 'backups-import-export.php' );
+    
+                                do_meta_boxes( 'cml_box_backup', 'advanced', null );
+
+                                break;
+                        }
+                    ?>
                 </form>
-
             </div>
 
             <div id="postbox-container-1" class="postbox-container cml-donate">
@@ -47,3 +56,29 @@ $page = $_GET[ 'page' ];
     </div>
 
 </div>
+
+<?php
+
+/*
+ * Backup status
+ *
+ *  -2: Folder not exists ( and creation failed )
+ *  -1: Failed to create the file
+ *   0: Everything ok
+ */
+if( isset( $_GET[ 'status' ] ) ) {
+    $status = intval( $_GET[ 'status' ] );
+
+    $callback = "";
+    switch( $status ) {
+        case -2:
+            _cml_backup_folder_not_exists();
+            break;
+        case -1:
+            _cml_backup_file_failed();
+            break;
+        default:
+            _cml_backup_done();
+            break;
+    }
+}

@@ -10,7 +10,12 @@ jQuery(document).ready( function($) {
   //jQuery( '.inside .cml-description' ).fadeOut();
   $( '.hndle .cml-help' ).click( function() {
     $( this ).toggleClass( 'active' );
-    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'active' );
+//    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'active' );
+    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'visible' )
+            .animate({
+                    height: "toggle",
+//                    opacity: "toggle"
+                }, "slow");
   });
   
   //Form submit
@@ -20,7 +25,11 @@ jQuery(document).ready( function($) {
   $( 'body' ).on( 'submit', 'form.cml-ajax-form', function() {
     $form = $( this );
 
-    $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeIn();
+    $spinner = $form.find( '.cml-submit-button > .wpspinner > .spinner' );
+    if( $spinner.length > 0 ) {
+        $form.find( 'input[type="submit"]' ).hide();
+        $spinner.fadeIn();
+    }
     $.ajax( {
       type: 'POST',
       url: ajaxurl,

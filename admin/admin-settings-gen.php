@@ -14,8 +14,18 @@ if( isset( $_GET[ 'cml-settings-updated' ] ) ) {
  * for reduce calls to database :)
  * 
  */
-function cml_generate_settings_php() {
-  $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
+function cml_generate_settings_php( $filename = "", 
+                                    $_cml_setttings = null,
+                                    $var_name = '$_cml_setttings',
+                                    $flag = 0 ) {
+    
+  if( null == $_cml_setttings ) {
+    $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
+  }
+
+  if( empty( $filename ) ) {
+      $filename = CML_UPLOAD_DIR . "settings.gen.php";
+  }
 
   update_option( "cml_use_settings_gen", false );
   if( empty( $_cml_setttings ) ) {
@@ -35,23 +45,25 @@ function cml_generate_settings_php() {
       $value = addslashes( $value );
       $val = is_numeric( $value ) ? $value : '"' . $value . '"';
 
-      $row[] = '$_cml_settings[ "' . $key . '"] = ' . $val . ';';
+      $row[] = $var_name . '[ "' . $key . '"] = ' . $val . ';';
     }
   }
   
-  $row[] = "\n";
-  foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
-    $row[] = '$_cml_language_columns[' . $key . '] = "' . $value . '";';
+  if( $flag == 0 ) {
+      $row[] = "\n";
+      foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
+        $row[] = '$_cml_language_columns[' . $key . '] = "' . $value . '";';
+      }
+
+      $row[] = "\n";
+      foreach( $GLOBALS[ '_cml_language_keys' ] as $key => $value ) {
+        $row[] = '$_cml_language_keys["' . $key . '"] = "' . $value . '";';
+      }
+
+/*      $row[] = "?>"; */
   }
 
-  $row[] = "\n";
-  foreach( $GLOBALS[ '_cml_language_keys' ] as $key => $value ) {
-    $row[] = '$_cml_language_keys["' . $key . '"] = "' . $value . '";';
-  }
-
-  $row[] = "?>";
-
-  $ok = @file_put_contents( CML_UPLOAD_DIR . "settings.gen.php", join( "\n", $row ) );
+  $ok = @file_put_contents( $filename, join( "\n", $row ), $flag );
 
   if( $ok ) update_option( "cml_use_settings_gen", 1 );
 }

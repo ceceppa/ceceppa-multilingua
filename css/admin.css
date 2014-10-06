@@ -813,15 +813,22 @@ display: none !important;
 
   .cml-description {
     color: #666;
-    height: 0;
     padding: 0 10px 0 10px !important;
-    overflow: hidden;
-    transition: all 0.2s ease;
+    display: none;
+/*    height: 0;*/
+/*    padding: 10px !important;*/
+/*    overflow: hidden;*/
+  }
+      
+  .cml-description > p {
+      margin: 0 !important;
+      padding: 10px 0 !important;
+      transition: all 0.6s ease;
+      opacity: 0;
   }
   
-    .cml-description.active {
-      height: auto;
-      padding: 10px !important;
+    .cml-description.visible > p {
+        opacity: 1;
     }
 
 .cml-box-options .hndle > span {
@@ -956,6 +963,11 @@ display: none !important;
 .cml-icon-comments {
   background: url(../images/icon_comments.png) center no-repeat;
 }
+
+.cml-icon-backup {
+  background: url(../images/icon_backup.png) center no-repeat;
+}
+
 
 /*
  * Widgets page
@@ -1873,4 +1885,14 @@ form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title
 
 table .cml_enable_filter {
   display: none;
+}
+
+.cml-notice p.submit {
+    margin-bottom: 30px;
+}
+
+.cml-notice .title {
+  display: block;
+  font-weight: bold;
+  padding-bottom: 1em;
 }
