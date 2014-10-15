@@ -14,18 +14,8 @@ if( isset( $_GET[ 'cml-settings-updated' ] ) ) {
  * for reduce calls to database :)
  * 
  */
-function cml_generate_settings_php( $filename = "", 
-                                    $_cml_setttings = null,
-                                    $var_name = '$_cml_setttings',
-                                    $flag = 0 ) {
-    
-  if( null == $_cml_setttings ) {
-    $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
-  }
-
-  if( empty( $filename ) ) {
-      $filename = CML_UPLOAD_DIR . "settings.gen.php";
-  }
+function cml_generate_settings_php() {
+  $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
 
   update_option( "cml_use_settings_gen", false );
   if( empty( $_cml_setttings ) ) {
@@ -45,25 +35,23 @@ function cml_generate_settings_php( $filename = "",
       $value = addslashes( $value );
       $val = is_numeric( $value ) ? $value : '"' . $value . '"';
 
-      $row[] = $var_name . '[ "' . $key . '"] = ' . $val . ';';
+      $row[] = '$_cml_settings[ "' . $key . '"] = ' . $val . ';';
     }
   }
   
-  if( $flag == 0 ) {
-      $row[] = "\n";
-      foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
-        $row[] = '$_cml_language_columns[' . $key . '] = "' . $value . '";';
-      }
-
-      $row[] = "\n";
-      foreach( $GLOBALS[ '_cml_language_keys' ] as $key => $value ) {
-        $row[] = '$_cml_language_keys["' . $key . '"] = "' . $value . '";';
-      }
-
-/*      $row[] = "?>"; */
+  $row[] = "\n";
+  foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
+    $row[] = '$_cml_language_columns[' . $key . '] = "' . $value . '";';
   }
 
-  $ok = @file_put_contents( $filename, join( "\n", $row ), $flag );
+  $row[] = "\n";
+  foreach( $GLOBALS[ '_cml_language_keys' ] as $key => $value ) {
+    $row[] = '$_cml_language_keys["' . $key . '"] = "' . $value . '";';
+  }
+
+  $row[] = "?>";
+
+  $ok = @file_put_contents( CML_UPLOAD_DIR . "settings.gen.php", join( "\n", $row ) );
 
   if( $ok ) update_option( "cml_use_settings_gen", 1 );
 }
@@ -108,7 +96,7 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
    * of same word cause wrong "return"
    */
   $langs = CMLLanguage::get_all();
-  if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) @mkdir( CML_PLUGIN_CACHE_PATH );
+  if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) mkdir( CML_PLUGIN_CACHE_PATH );
 
   //foreach( $langs as $lang ) {
     $filename = CML_PLUGIN_CACHE_PATH . "cmltrans-" . CMLLanguage::get_default_locale() . ".po";
@@ -155,9 +143,8 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
       fwrite( $fp, $s );
     }
 
-    //serialize post translations & override flags settings
+    //serialize post translations
     _cml_generate_translations( $fp );
-    _cml_generate_override_flags_settings( $fp );
 
     //menu meta
     _cml_generate_menu_meta( $fp );
@@ -208,28 +195,6 @@ function _cml_generate_translations( & $fp ) {
     
     $t = null;
   }
-}
-
-  /*
-   * for reduce database queries I store posts relations
-   * in .po serializing ::get_translations result
-   */
-function _cml_generate_override_flags_settings( & $fp ) {
-  global $wpdb;
-
-  $query = sprintf( "SELECT post_id, meta_value FROM %s WHERE meta_key = '_cml_override_flags'",
-                      $wpdb->postmeta );
-  $rows = $wpdb->get_results( $query );
-  foreach( $rows as $row ) {
-    $msgid = "__cml_override_flags_{$row->post_id}";
-
-    $o = 'msgid "' . $msgid . '"' . PHP_EOL;
-    $s = 'msgstr "' . addslashes( $row->meta_value ) . '"' . PHP_EOL . PHP_EOL;
-
-    fwrite( $fp, $o );
-    fwrite( $fp, $s );
-  }
-
 }
 
 function _cml_generate_menu_meta( & $fp ) {

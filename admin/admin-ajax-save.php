@@ -195,10 +195,7 @@ function cml_admin_save_options_actions() {
   if( $tab == 2 ) {
     update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
     update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );
-    update_option( "cml_remove_extra_slug", intval( @$_POST[ 'cml-extra' ] ) );
-  }
-  
-  if( $tab == 1 ) {
+  } else {
     //Redirect
     $redirect = array( "auto", "default", "others", "nothing" );
     $redirect = ( in_array( $_POST[ 'redirect' ], $redirect ) ) ? $_POST[ 'redirect' ] : "auto";
@@ -232,17 +229,6 @@ function cml_admin_save_options_actions() {
     }
   }
 
-  if( $tab == 3 ) {
-    $experiments = @$_POST[ 'experiments' ];
-    if( is_array( $experiments ) ) {
-      foreach( $experiments as $experiment ) {
-        $key = substr( $experiment, 3 );
-        $key = str_replace( "-", "_", $key );
-
-        @update_option( "cml_$key", ( int ) $_POST[ $experiment ][ 0 ] );
-      }
-    }
-  }
 
   $lstep = "";
   if( isset( $_POST[ 'wstep' ] ) ) {
@@ -305,7 +291,6 @@ function cml_admin_save_options_flags() {
   @update_option("cml_option_flags_on_post", intval($_POST['flags-on-posts']));
   @update_option("cml_option_flags_on_page", intval($_POST['flags-on-pages']));
   @update_option("cml_option_flags_on_custom_type", intval($_POST['flags-on-custom']));
-  @update_option("cml_option_flags_on_homepage", intval($_POST['flags-on-homepage']));
   @update_option("cml_option_flags_on_the_loop", intval($_POST['flags-on-loop']));
   @update_option("cml_option_flags_on_pos", sanitize_title( $_POST['flags_on_pos'] ) );
   @update_option("cml_options_flags_on_translations", intval( $_POST['flags-translated-only'] ) );
@@ -443,55 +428,4 @@ function cml_admin_generate_mo() {
   die( json_encode( $return ) );
 }
 
-
-/***********************
- *
- * Do Backup
- *
-************************/
-/**
- * Some user reported relation lost after update... I tried to fix the issue
- * with no success. 
- * So I decide to wrote a "backup" function that will be automatically exectuted after an update,
- * but manually as well
- */
-function cml_do_backup() {
-    if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
-
-    $page = $_POST[ 'page' ];
-    $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
-    
-    $status = "1";
-    if( !_cml_check_backup_folder() ) {
-        $status = "-2";
-    } else {
-        //Backup file
-        $backup_file = date( 'Ymd-His' );
-        $db_backup = $backup_file . '.db.sql';
-        $settings_backup = $backup_file . '.settings';
-        $settings_extra_backup = $backup_file . '.settings.extra';
-
-        //Backup tables
-        $db = $s1 = $s2 = 0;
-        if( isset( $_POST[ 'cml-tables' ] ) &&
-            intval( $_POST[ 'cml-tables' ] ) == 1 ) {
-            $db = _cml_backup_do_tables( CECEPPAML_BACKUP_PATH . $db_backup );
-        }
-
-        if( isset( $_POST[ 'cml-settings' ] ) &&
-            intval( $_POST[ 'cml-settings' ] ) == 1 ) {
-            $s1 = cml_generate_settings_php( CECEPPAML_BACKUP_PATH . $settings_backup );
-            $s2 = _cml_backup_do_settings_extra( CECEPPAML_BACKUP_PATH . $settings_backup );
-        }
-
-        $status .= "&file[]=" . join( "&file[]=", array( $db_backup, $settings_backup ) );
-        $status .= "&stat[]=" . join( "&stat[]=", array( $db, $s1, $s2 ) );
-    }
-    
-    $url = admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&status=' . $status );
-    $return = array( 
-                        "url" => $url,
-                    );
-
-  die( json_encode( $return ) );
-}
+?>

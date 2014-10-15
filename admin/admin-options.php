@@ -16,9 +16,6 @@ case 2:
   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-advanced.php' );
   break;
 case 3:
-  require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-experimental.php' );
-  break;
-case 4:
   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-uninstall.php' );
   
   if( isset( $_GET[ 'erase' ] ) && intval( $_GET[ 'erase' ] == 2 ) ) {
@@ -77,9 +74,6 @@ case 4:
     delete_option( "cml_translated_fields_yoast" );
     delete_option( "cml_translated_fields_aioseo" );
 
-    delete_option( '_cml_hide_filtering_notice' );
-    delete_option( 'cml_hide_backup_warning' );
-
     /*
      * restore helps
      */
@@ -102,8 +96,7 @@ $page = $_GET[ 'page' ];
     
     <?php if( empty( $wstep ) ) : ?>
     <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=2"><?php _e('Advanced', 'ceceppaml') ?></a>
-    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?> cml-experimental" href="?page=<?php echo $page ?>&tab=3"><?php _e('Experimental', 'ceceppaml') ?></a>
-    <a class="nav-tab <?php echo $tab == 4 ? "nav-tab-active" : "" ?> cml-uninstall" href="?page=<?php echo $page ?>&tab=4"><?php _e('Uninstall', 'ceceppaml') ?></a>
+    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?> cml-uninstall" href="?page=<?php echo $page ?>&tab=3"><?php _e('Uninstall', 'ceceppaml') ?></a>
     <?php endif; ?>
   </h2>
 
@@ -123,12 +116,14 @@ $page = $_GET[ 'page' ];
             do_meta_boxes( 'cml_box_options', 'advanced', null );
           ?>
         
+          <?php if( $tab <= 1 ) : ?>
           <div class="cml-submit-button">
             <div class="wpspinner">
               <span class="spinner"></span>
             </div>
             <?php submit_button(); ?>
           </div>
+          <?php endif; ?>
         </form>
       </div>
       <div id="postbox-container-1" class="postbox-container cml-donate">

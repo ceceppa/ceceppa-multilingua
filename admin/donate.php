@@ -33,7 +33,7 @@ function cml_donate_box_content() {
       </div>
       
       <div class="method">
-        <a href="https://flattr.com/submit/auto?user_id=ceceppa&url=http%3A%2F%2Fwww.alessandrosenese.eu%2Fmyworks%2Fceceppa-multilingua" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this"></a>
+        <a href="https://flattr.com/submit/auto?user_id=ceceppa&url=http%3A%2F%2Fwww.alessandrosenese.eu%2Fmyworks%2Fceceppa-multilingua" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
       </div>
     </div>
 <?php
@@ -86,13 +86,11 @@ function cml_help_box_content() {
 <?php
 }
 
-function cml_donate_metaboxes() {
-    add_meta_box("cml_about_me_box", __( 'About Ceceppa:', 'ceceppaml' ), 'cml_about_me_box_content', "cml_donate_box");
+add_meta_box("cml_about_me_box", __( 'About Ceceppa:', 'ceceppaml' ), 'cml_about_me_box_content', "cml_donate_box");
 
-    add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_content', "cml_donate_box");
-    add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
+add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_content', "cml_donate_box");
+add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
 
-    add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
-}
+add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
 
-add_action( 'admin_init', 'cml_donate_metaboxes' );
+?>

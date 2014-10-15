@@ -251,9 +251,7 @@ function cml_do_update_old() {
   //per avere la pagina iniziale in stile www.example.com/it dovevo modificare lo slug della
   //pagina in "it", dalla 1.2.6 basta mettere una pagina statica come iniziale, il plugin
   //si occuperà del resto...
-  if( $dbVersion <= 16 || true ) :
-    require_once( CML_PLUGIN_FRONTEND_PATH . "utils.php" );
-
+  if($dbVersion <= 16) :
     $id = cml_get_default_language_id();
     $info = CMLLanguage::get_by_id( $id );
 
@@ -264,12 +262,12 @@ function cml_do_update_old() {
   endif;
   
   if( $dbVersion <= 17 ) :
-    add_action( 'plugins_loaded', 'cml_fix_rebuild_posts_info' );
+  add_action( 'plugins_loaded', 'cml_fix_rebuild_posts_info' );
   endif;
   
   if( $dbVersion <= 18 ) :
     $wpdb->query( "ALTER TABLE  " . CECEPPA_ML_TABLE . " ADD  `cml_flag_path` TEXT" );
-  endif;
+    endif;
 }
 
 function cml_fix_update_post_meta() {
@@ -307,8 +305,7 @@ function cml_fix_update_post_meta() {
  *
  */
 function cml_fix_rebuild_posts_info() {
-  global $wpdb;
-  $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+  global $wpdb, $_cml_language_columns;
 
   $pids = array();
   $apids = array(); //All pids
@@ -339,14 +336,8 @@ function cml_fix_rebuild_posts_info() {
     $i++;
   }
 
-  foreach( CMLLanguage::get_all() as $lang ) {
-    $key = $lang->id;
-
-    if( isset( $pids[ $key ] ) ) {
-      update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
-    } else {
-      update_option( "cml_posts_of_lang_" . $key, array() );
-    }
+  foreach( $_cml_language_columns as $key => $l ) {
+    @update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
   }
 
   //unique posts
@@ -400,130 +391,12 @@ function cml_update_all_posts_language() {
                             'posts_per_page' => 999999,
                             'status' => 'publish, draft, private'));
 
-  $wpdb->query( "DELETE FROM " . CECEPPA_ML_RELATIONS );
-
   $did = CMLLanguage::get_default_id();
   foreach($posts as $post) {
-    update_post_meta( $post->ID, "_cml_lang_id", $did );
+    echo "$post->ID,";
 
     CMLPost::set_language( $did,
                           $post->ID );
   } //endforeach;
 }
-
-/*
- * The above function are used to migrate category information
- * between "simple string" to "new category"
- */
-function  cml_update_taxonomy_translations() {
-  global $wpdb;
-
-    CMLUtils::_set( "_saving_taxonomy", 1 );
-
-    $wpdb->query(  "ALTER TABLE  " . CECEPPA_ML_CATS . " ADD  `cml_translated_cat_id` INT;" );
-    
-    //Copy untranslated category
-    foreach( CMLLanguage::get_no_default() as $lang ) {
-      $query = "INSERT INTO " . CECEPPA_ML_CATS . " ( cml_cat_id, cml_cat_name, cml_cat_lang_id, cml_cat_translation, cml_cat_translation_slug, cml_taxonomy, cml_translated_cat_id ) SELECT t1.term_id, HEX(name), $lang->id,HEX(NAME),HEX(slug),taxonomy,t2.term_id FROM $wpdb->terms t1 INNER JOIN $wpdb->term_taxonomy t2 ON t1.term_id = t2.term_id WHERE t1.term_id NOT IN ( SELECT cml_cat_id FROM " . CECEPPA_ML_CATS . " UNION ALL SELECT cml_translated_cat_id FROM " . CECEPPA_ML_CATS . " )";
-      $wpdb->query( $query );
-    }
-
-    $rows = $wpdb->get_results( "SELECT *, UNHEX( cml_cat_name ) as name, UNHEX( cml_cat_translation ) as translation, UNHEX( cml_cat_translation_slug ) as slug FROM " . CECEPPA_ML_CATS );
-    $cmlcats = array();
-
-    foreach( $rows as $row ) {
-      $tterm = $row->cml_cat_id;
-      $exists = get_term_by( 'slug', $row->slug, $row->cml_taxonomy );
-      if( $row->cml_cat_name != $row->cml_cat_translation &&
-          $exists === false ) {
-        $cterm = get_term( $row->cml_cat_id, $row->cml_taxonomy );
-        $parent = CMLTranslations::get_linked_category( $cterm->parent, $row->cml_cat_lang_id );
-
-        $term = wp_insert_term( $row->translation, $row->cml_taxonomy, array(
-                                                                  'name' => $row->translation,
-                                                                  'description' => $row->translation,
-                                                                  'slug' => sanitize_title( $row->translation ),
-                                                                  'parent' => $parent,
-                                                                  )
-        );
-  
-        $class = @get_class( $term );
-        if( $class == "WP_Error" ) {
-          $tterm = @$term->error_data[ 'term_exists' ];
-        } else {
-          $tterm = $term[ 'term_id' ];
-        }
-      }
-
-      if( $exists != null ) {
-        $tterm = $exists->term_id;
-      }
-  
-      $wpdb->update( CECEPPA_ML_CATS,
-                      array( 'cml_translated_cat_id' => $tterm ),
-                      array( 'id' => $row->id ),
-                      array( '%d' ),
-                      array( '%d' )
-                   );
-
-      //Term with no translation exists in all language
-      if( ! isset( $cmlcats[ $row->cml_cat_lang_id ][ $row->cml_taxonomy ][ $tterm ] ) ) {
-        $cmlcats[ $row->cml_cat_lang_id ][ $row->cml_taxonomy ][] = $tterm;
-      }
-
-      if( ! isset( $cmlcats[ CMLLanguage::get_default_id() ][ $row->cml_taxonomy ][ $row->cml_cat_id ] ) ) {
-        $cmlcats[ CMLLanguage::get_default_id() ][ $row->cml_taxonomy ][] = CMLTranslations::get_linked_category( $row->cml_cat_id,
-                                                                                                                 CMLLanguage::get_default_id() );
-      }
-    }
-
-    $cats = array();
-    foreach( $cmlcats as $key => $taxonomies ) {
-      foreach( $taxonomies as $k => $ids ) {
-        $cats[ $key ][ $k ] = array_unique( $ids );
-      }
-    }
-
-    update_option( 'cml_categories', $cats );
-
-    cml_fix_update_post_categories();
-
-    CMLUtils::_del( "_saving_taxonomy" );
-}
-
-function cml_fix_update_post_categories() {
-  global $wpdb;
-
-  $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id <> cml_translated_cat_id", CECEPPA_ML_CATS );
-  $rows = $wpdb->get_results( $query );
-  
-  $categories = array();
-  foreach( $rows as $row ) {
-    $categories[] = $row->cml_cat_id;
-    $categories[] = $row->cml_translated_cat_id;
-  }
-
-  if( ! empty( $categories  ) ) {
-    $query = sprintf( "SELECT $wpdb->posts.ID, $wpdb->term_relationships.term_taxonomy_id, $wpdb->term_taxonomy.taxonomy FROM $wpdb->posts INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id WHERE 1=1  AND ( $wpdb->term_relationships.term_taxonomy_id IN ( %s ) ) GROUP BY $wpdb->posts.ID",
-                join( ", ", array_unique( $categories ) ) );
-
-    $posts = $wpdb->get_results( $query );
-
-    $categories = array(); // $post->term_taxonomy_id );
-    foreach( $posts as $post ) {
-
-      foreach( CMLLanguage::get_no_default() as $lang ) {
-        $categories[ $post->ID ][ $post->taxonomy ][] = ( int ) CMLTranslations::get_linked_category( $post->term_taxonomy_id, $lang->id );
-      }
-    }
-
-    foreach( $categories as $id => $post ) {
-      $keys = array_keys( $post );
-      foreach( $keys as $key ) {
-        wp_set_object_terms( $id, array_unique( $post[ $key ] ), $key );
-      }
-    }
-  }
-}
-
 ?>

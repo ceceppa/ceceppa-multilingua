@@ -124,6 +124,7 @@ function cml_admin_post_meta_box( $tag ) {
    * Override show flags settings
    * user can choose to override default show page settings for only this one
    */
+    return;  //Still working on
   echo "<h4>" . __( 'Show flags', 'ceceppaml' ) . "</h4>";
 
   $override = get_post_meta( $tag->ID, "_cml_override_flags", true );
@@ -298,9 +299,9 @@ function cml_admin_save_extra_post_fields( $term_id ) {
     $post_lang = intval( $_POST[ 'cml-lang' ] );
   }
 
-  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
-    cml_fix_update_post_categories();
-  }
+//  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
+//    cml_fix_update_post_categories();
+//  }
 
   /*
    * Normal edit or quickedit?

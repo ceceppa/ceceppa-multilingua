@@ -1,8 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
-require_once( CML_PLUGIN_ADMIN_PATH . "migrate.php" );
-
 /*
  * Ceceppa Multilingua API 1.4
  */
@@ -53,17 +51,6 @@ class CMLLanguage {
    * Small ~= 32x21
    */
   const FLAG_SMALL = "small";
-
-  /*
-   * return the count of configured languages
-   *
-   * @return int
-   */
-  public static function count() {
-    if( empty( self::$_all_languages ) ) self::get_all();
-    
-    return count( self::$_all_languages );
-  }
 
   /**
    * return object of default language 
@@ -218,9 +205,6 @@ class CMLLanguage {
    */
   public static function get_current() {
     if( empty( self::$_all_languages ) ) self::get_all();
-    if( ! isset( self::$_all_languages[ self::$_current_id ] ) ) {
-      self::$_current_id = CMLLanguage::get_default_id();
-    }
 
     return self::$_all_languages[ self::$_current_id ];
   }
@@ -400,12 +384,12 @@ class CMLLanguage {
    *
    * @return string
    */
-  public static function get_flag_img( $lang, $size = CML_FLAG_TINY, $class = "" ) {
+  public static function get_flag_img( $lang, $size = CML_FLAG_TINY ) {
     $url = self::get_flag_src( $lang, $size );
     $name = self::get_name( $lang );
     $slug = self::get_slug( $lang );
 
-    return "<img src='$url' border='0' alt='$slug' title='$name' class='" . $class . "'/>";
+    return "<img src='$url' border='0' alt='$slug' title='$name' />";
   }
    
    /**
@@ -789,28 +773,6 @@ class CMLTranslations {
                   ),
                   array( "%s", "%s" ) );
   }
-  
-  /**
-   * @ignore
-   */
-  public static function get_linked_category( $cat_id, $lang_id ) {
-    global $wpdb;
-
-    $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d OR cml_translated_cat_id = %d",
-                        CECEPPA_ML_CATS, $cat_id, $cat_id );
-
-    $rec = $wpdb->get_row( $query );
-    if( $rec == null ) return $cat_id;
-
-    if( CMLLanguage::is_default( $lang_id ) ) {
-      return $rec->cml_cat_id;
-    }
-
-    $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d ",
-                           CECEPPA_ML_CATS, $rec->cml_cat_id, $lang_id );
-
-    return $wpdb->get_var( $query );
-  }
 }
 
 /**
@@ -1142,19 +1104,13 @@ class CMLPost {
       unset( $translations[ $post_lang ] );
     }
 
-    if( CMLLanguage::count() > 1 ) {
-      foreach( $translations as $key => $id ) {
-        if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
-  
-        cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
-      }
-    } else {
-      cml_migrate_database_add_item( $post_lang, $post_id, 0, 0 );
+    foreach( $translations as $key => $id ) {
+      if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
+
+      cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
     }
 
     require_once( CML_PLUGIN_ADMIN_PATH . "admin-settings-gen.php" );
-
-    update_option( "cml_get_translation_from_po", 0 );
 
     // //Update info
     cml_fix_rebuild_posts_info();
@@ -1169,8 +1125,6 @@ class CMLPost {
    * @param int $post_id the post id
    */
   public static function set_as_unique( $post_id ) {
-    update_option( "cml_get_translation_from_po", 0 );
-
     cml_migrate_database_add_item( 0, $post_id, 0, 0 );
   }
 
@@ -1304,10 +1258,6 @@ class CMLPost {
    */
   public static function remove_extra_number( $permalink, $post ) {
     global $wpdb;
-    $_cml_settings = & $GLOBALS[ '_cml_settings' ];
-
-    //Disabled?
-    if( @$_cml_settings[ 'cml_remove_extra_slug' ] !== 1 ) return $permalink;
 
     $removed = false;
 
@@ -1518,8 +1468,8 @@ class CMLUtils {
       return self::$_language_detected;
     }
 
-    $http = is_ssl() ? "https://" : "http://";
     if( empty( self::$_url ) ) {
+      $http = ( ! is_ssl() ) ? "http://" : "https://";
       self::$_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
       self::$_request_url = str_replace( trailingslashit( self::home_url() ),
                                         "", self::$_url );
@@ -1541,6 +1491,7 @@ class CMLUtils {
     }
 
     $_url = $request_url;
+    $http = ( ! is_ssl() ) ? "http://" : "https://";
     $base_url = str_replace( $http . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
 
     if( preg_match( "#^([a-z]{2})(/.*)?$#i", $_url, $match ) ) {
@@ -1588,8 +1539,7 @@ class CMLUtils {
     if( ! empty( self::$_clean_url ) ) {
       return self::$_clean_url;
     } else {
-      $http = is_ssl() ? "https://" : "http://";
-
+      $http = ( ! is_ssl() ) ? "http://" : "https://";
       $_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
       
       return preg_replace( "/\?.*/", "", $_url );
@@ -1636,19 +1586,7 @@ class CMLUtils {
     
     self::$_vars[ $key ][] = $value;
   }
-
   
-  /**
-   * @ignore
-   */
-  public static function _get_option( $key, $default = null ) {
-    if( ! isset( self::$_vars[ $key ] ) ) {
-      self::$_vars[ $key ] = get_option( $key, $default );
-    }
-    
-    return self::$_vars[ $key ];
-  }
-
   /**
    * @ignore
    *
@@ -1670,47 +1608,3 @@ class CMLUtils {
     return null;
   }
 }
-
-class CMLMedia {
-  public static function get_alternative_text( $media_id, $lang = null ) {
-    $meta = get_post_meta( $media_id, '_cml_media_meta', true );
-    
-    //Nothing found
-    if( ! is_array( $meta ) || empty( $meta ) ) {
-      return get_post_meta($media_id,'_wp_attachment_image_alt',true);;
-    }
-
-    if( lang == null )
-      $lang = CMLLanguage::get_current_id();
-
-    
-    if( ! is_numeric( $lang ) ) {
-      $lang = CMLLanguage::get_id_by_slug( $lang );
-    }
-
-    $text = @$meta[ 'alternative-' . $lang ];
-
-    return ! empty( $text ) ? $text : get_post_meta( $media_id,'_wp_attachment_image_alt',true );
-  }
-  
-  public static function get_title( $media_id, $lang = null ) {
-    $meta = get_post_meta( $media_id, '_cml_media_meta', true );
-    
-    //Nothing found
-    if( ! is_array( $meta ) || empty( $meta ) ) {
-      return get_post_meta($media_id,'_wp_attachment_image_title',true);;
-    }
-
-    if( lang == null )
-      $lang = CMLLanguage::get_current_id();
-
-    if( ! is_numeric( $lang ) ) {
-      $lang = CMLLanguage::get_id_by_slug( $lang );
-    }
-
-    $text = @$meta[ 'title-' . $lang ];
-
-    return ! empty( $text ) ? $text : get_post_meta( $media_id,'_wp_attachment_image_title',true );
-  }
-}
-?>

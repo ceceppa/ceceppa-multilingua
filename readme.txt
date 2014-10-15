@@ -2,8 +2,8 @@
 Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
-Tested up to: 3.9
-Stable tag: 1.4.99
+Tested up to: 4.0
+Stable tag: 1.4.35
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -180,14 +180,33 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
+= 1.4.35 = 
+* Fixed "Post data" box in pages
+
+= 1.4.34 =
+* Fixex language detection on first install
+
+= 1.4.33 =
+* Fixed issue with HTTPS
+* Added option to easily disable language filtering ( dev time: 1h 30m )
+
+= 1.4.32 =
+* Fixed issue with category
+
+= 1.4.31 =
+* Fixed wrong link translation when enabled the "Ignore for default language" option
+
+= 1.4.30 =
+* Fixed the "Editing comments resets post language" issue
+* Fixed bug in "Translate theme" page
+* Fixed feed issue 
+
 = 1.4.29 =
-* Fixed support to wpml-config.xml for theme strings
-* Added options to disable "remove slug -##" features from post/page links
-* Fixed various bug
-* Added experimental tab in "Settings" page
+* Fixed issue with WooCommerce checkout page link
+* Added Norwegian translation ( thanks to Kurt-Håkon )
 
 = 1.4.28 =
-* Now you can override "Show flags" settings for each post/page
+* Fixed sitemap with yoast plugin
 
 = 1.4.27 =
 * Fixed "All languages" bug

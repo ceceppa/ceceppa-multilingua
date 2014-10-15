@@ -28,7 +28,6 @@
   $_cml_settings[ 'cml_option_flags_on_post' ] = get_option('cml_option_flags_on_post', true);
   $_cml_settings[ 'cml_option_flags_on_page' ] = get_option('cml_option_flags_on_page', true);
   $_cml_settings[ 'cml_option_flags_on_custom_type' ] = get_option('cml_option_flags_on_custom_type', 0);
-  $_cml_settings[ 'cml_option_flags_on_homepage' ] = get_option('cml_option_flags_on_homepage', 0);
   $_cml_settings[ 'cml_option_flags_on_pos' ] = get_option('cml_option_flags_on_pos', 'top');
   $_cml_settings[ 'cml_option_flags_on_the_loop' ] = get_option( 'cml_option_flags_on_the_loop' );
 
@@ -71,7 +70,6 @@
   $_cml_settings[ 'cml_show_html_items_style' ] = get_option( "cml_show_html_items_style", 1 );
   
   $_cml_settings[ 'cml_update_static_page' ] = get_option( "cml_update_static_page", 1 );
-  $_cml_settings[ 'cml_remove_extra_slug' ] = get_option( "cml_remove_extra_slug", 1 );
 
   $GLOBALS[ '_cml_settings' ] = & $_cml_settings;
 ?>

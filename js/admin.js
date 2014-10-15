@@ -10,12 +10,7 @@ jQuery(document).ready( function($) {
   //jQuery( '.inside .cml-description' ).fadeOut();
   $( '.hndle .cml-help' ).click( function() {
     $( this ).toggleClass( 'active' );
-//    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'active' );
-    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'visible' )
-            .animate({
-                    height: "toggle",
-//                    opacity: "toggle"
-                }, "slow");
+    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'active' );
   });
   
   //Form submit
@@ -25,11 +20,7 @@ jQuery(document).ready( function($) {
   $( 'body' ).on( 'submit', 'form.cml-ajax-form', function() {
     $form = $( this );
 
-    $spinner = $form.find( '.cml-submit-button > .wpspinner > .spinner' );
-    if( $spinner.length > 0 ) {
-        $form.find( 'input[type="submit"]' ).hide();
-        $spinner.fadeIn();
-    }
+    $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeIn();
     $.ajax( {
       type: 'POST',
       url: ajaxurl,
@@ -210,11 +201,6 @@ jQuery(document).ready( function($) {
   });
   
   $( 'form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"]' ).remove();
-  
-  //Override flags settings
-  $( '.cml-override-flags.cml-override input' ).click( function() {
-    $( '.cml-show-always' ).attr( 'class', 'cml-show-always' ).addClass( $( this ).val() ) ;
-  })
 });
 
 

@@ -1,10 +1,12 @@
 <?php
+add_action( 'admin_notices', 'cml_show_admin_notices' );
+
 function cml_show_admin_notices() {
   global $wpdb;
 
-  //if( ! current_user_can( 'manage_optios' ) ) {
-  //  return;
-  //}
+  if( ! current_user_can( 'manage_optios' ) ) {
+    return;
+  }
 
   if( isset( $_GET[ 'fix-upgrade' ] ) ) {
     update_option( "cml_db_version", 22 );
@@ -32,35 +34,5 @@ function cml_show_admin_notices() {
     </div>
 <?php
   }
-  
-  if( isset( $_GET[ 'cml_tax_0' ] ) ) {
-    update_option( "cml_update_taxonomy_translation", 1 );
-    update_option( "cml_categories", array() );
-  }
-  
-  if( isset( $_GET[ 'cml_tax' ] ) ) {
-    update_option( "cml_update_taxonomy_translation", 0 );
-    update_option( "cml_categories", array() );
-
-    cml_update_taxonomy_translations();
-  }
-
-  //translated category
-  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
-     get_option( "cml_update_taxonomy_translation", 1 ) == 1 ) {
-?>
-    <div class="updated">
-      <p>
-        <strong>Ceceppa Multilingua</strong>
-        <br /><br />
-        <?php printf( __('Update required, click <%s>here</a> for update posts taxonomy information', 'ceceppaml'),
-                     'a href="' . add_query_arg( array( "cml_tax" => 1 ) ) . '" class="button button-primary"' ); ?>
-      </p>
-    </div>
-<?php
-  }
 }
-
-add_action( 'admin_notices', 'cml_show_admin_notices' );
-
 ?>

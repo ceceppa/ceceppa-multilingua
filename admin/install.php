@@ -104,7 +104,7 @@ function cml_install_first_time() {
 
   /* Grab current language and add it to CECEPPA_ML_TABLE */
   $rtl = 0;
-  $locale = ( defined( 'WPLANG' ) ) ? WPLANG : get_locale();
+  $locale = ( defined ( 'WPLANG' ) ) ? WPLANG : get_locale();
   if( empty( $locale ) ) $locale = "en_US";
 
   //Search current WPLANG in my locales list :)

@@ -1,0 +1,15 @@
+!--cml-for-customizr/cml4customizr.php
+Name: Ceceppa Multilingua support for Customizr
+Description: Plugin to make Ceceppa Multilingua work with Customizr.
+Url:http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-customizr
+Wp:http://wordpress.org/plugins/ceceppa-multilingua-support-for-customizr/
+Git:https://github.com/ceceppa/cml-for-customizr
+--!
+
+!--/
+Name: Ceceppa Multilingua support for Woocommerce
+Description: Plugin to make Ceceppa Multilingua work with Woocommerce. The plugin is ready to test :)
+Url:http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-woocommerce
+Wp:
+Git:https://github.com/ceceppa/cml-for-woocommerce
+-->

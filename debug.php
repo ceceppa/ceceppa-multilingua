@@ -2,20 +2,29 @@
 
 class CMLDebug {
   public function __construct() {
-    add_action( 'admin_menu', array( &$this, 'debug' ) );
+    //add_action( 'admin_menu', array( &$this, 'debug' ) );
     add_action( 'wp_footer', array( &$this, 'footer' ) );
     add_action( 'admin_footer', array( &$this, 'footer' ) );
     //add_filter( 'query', array( & $this, 'query' ), 10, 1 );
   }
   
   public function query( $query ) {
+   // $traces = debug_backtrace();
+    // foreach( $traces as $trace ) {
+      // if( isset( $trace[ 'file' ] ) && false !== strpos( $trace[ 'file' ], "ceceppa-multilingua" ) ) {
     $this->queries[] = $query;
+    //if( strpos( $query, "wp_term_relationships.term_taxonomy_id" ) !== false ) {
+    //  print_r( debug_backtrace() );
+    //  die();
+    //}
+        // break;
+      // }
+    // }
   
     return $query;
   }
 
   public function debug() {
-    add_menu_page('Ceceppa ML Debug', __('Ceceppa Multilingua debug', 'ceceppaml'), 'administrator', 'ceceppaml-language-debug', array(&$this, 'debug_page') );
     //add_submenu_page('ceceppaml-language-page', __('Debug', 'ceceppaml'), __('Debug', 'ceceppaml'), 'manage_options', 'ceceppaml-debug-page', array( &$this, 'debug_page') );
   }
 
@@ -60,7 +69,7 @@ EOT;
     switch( $tab ) {
     case 0:
 //       echo "<h2>CECEPPA_ML_TABLE</h2>";
-      $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_custom_flag,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
+      $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_flag_path,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
     
       break;
     case 1:
@@ -154,15 +163,15 @@ EOT;
     global $wpCeceppaML, $wpdb;
 
     if( is_user_logged_in() || isset( $_GET[ "cdb" ] ) ) {
+      echo '<div id="cml-debug">';
+      echo '<div class="title">CML Debug</div>';
+      echo '<div class="content">';
       echo "This output is visible only to logged user...";
       
-      if( is_admin()) {
-        $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
-        $pdata = get_plugin_data( $pfile );
-  
-        echo "CeceppaML debug:" . $pdata[ 'Version' ];
-      }
+      $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
+      $pdata = get_plugin_data( $pfile );
 
+      echo "CeceppaML debug:" . $pdata[ 'Version' ];
       echo "<pre>";
 
       echo "\n\n<b>Languages:</b>\n";
@@ -170,7 +179,8 @@ EOT;
       //echo "\n\n<b>Version:</b>" . CML_CURRENT_VERSION . "\n";
       echo "\n\n<b>Homepage:</b>\n";
       echo "\n wpCeceppaML->_url: ";
-      print_r( "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+      $http = ( ! is_ssl() ) ? "http://" : "https://";
+      print_r( $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 
       echo "\n wpCeceppaML->_homeUrl: ";
       print_r( CMLUtils::home_url() );
@@ -208,21 +218,18 @@ EOT;
         echo "\nis_page(): " . is_page();
         echo "\nis_category(): " . is_category();
         echo "\nis_archive(): " . is_archive();
-          
-        if( function_exists( 'is_woocommerce' ) )
-        echo "\nis_woocommerce(): " . is_woocommerce();
         
         echo "\n\n<b>Linked pages:</b>\n";
         print_r( CMLPost::get_translations( get_the_ID() ) );
-        print_r( get_post_meta( get_the_ID(), "_cml_lang_id", true ) );
       }
 
       //echo "\nQueries: " . count( $this->queries ) . "\n";
       //echo join( "\n", $this->queries );
-      echo "</pre>";
+      echo "</pre></div></div>";
     }
   }
   
 }
 
 $cmlDebug = new CMLDebug();
+?>

@@ -142,18 +142,6 @@ function cml_admin_options_flags_show() {
         <label for="flags-translated-only"><span>||</span></label>
       </div>
       <label for="flags-translated-only"><?php _e( 'Show flags only on translated page.', 'ceceppaml' ) ?></label>
-
-      <br />
-      <ul>
-        <li>
-          <div class="cml-checkbox">
-            <input type="checkbox" id="flags-on-homepage" name="flags-on-homepage" value="1" <?php checked( $_cml_settings[ 'cml_option_flags_on_homepage' ], 1 ) ?> />
-            <label for="flags-on-homepage"><span>||</span></label>
-          </div>
-          <label for="flags-on-homepage"><?php _e( 'Homepage', 'ceceppaml' ) ?></label>
-        </li>
-      </ul>
-
     </div>
   </div>
 
