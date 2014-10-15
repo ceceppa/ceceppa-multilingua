@@ -282,6 +282,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
       if( ! empty( $linked_id ) ) {
         $link = get_permalink( $linked_id );
+
         $link = CMLPost::remove_extra_number( $link, get_post( $linked_id ) );
 
         /*
@@ -328,13 +329,13 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       if( is_array( $cat ) ) {
         $cat_id = ( isset( $cat[ 'term_id' ] ) ) ? $cat[ 'term_id' ] : ( $cat[ count($cat) - 1 ]->term_id );
 
-        if( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
+//        if( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
           //Mi recupererà il link tradotto dal mio plugin ;)
           CMLUtils::_set( '_force_category_lang', $result->id );
-        } else {
-          //Get translated category
-          $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $result->id );
-        }
+//        } else {
+//          //Get translated category
+//          $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $result->id );
+//        }
 
         $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
 
@@ -405,7 +406,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          * no translation found, and user choosed to force page to flag language,
          * I add parameter "lang=##" to url
          */
-        $http = is_ssl() ? "https://" : "http://";
+        $http = ( ! is_ssl() ) ? "http://" : "https://";
         $link = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         if( CMLPost::get_language_by_id( $the_id ) != $result->id ) {
           //Is internal link?
@@ -430,7 +431,6 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
         $link = CMLUtils::get_home_url( $result->cml_language_slug ) . $link;
       }
     }
-    
 
     $link = apply_filters( 'cml_get_the_link', $link, array(
                                                     "is_single" => $is_single,
@@ -738,5 +738,3 @@ function cml_get_menu() {
 
   return "cml_menu_" . $lang->cml_language_slug;
 }
-
-?>
