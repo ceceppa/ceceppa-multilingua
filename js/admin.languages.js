@@ -1,4 +1,5 @@
 var cml_not_saved = false;
+var cml_items_to_save = 0;
 
 jQuery(document).ready( function($) { 
   /*
@@ -265,6 +266,8 @@ jQuery(document).ready( function($) {
         if ( data === -1 ) {
           return;
         } else {
+          cml_items_to_save--;
+
           $lang = $form.parents( '.lang' );
           if ( data === "" ) {
             //removed
@@ -285,6 +288,11 @@ jQuery(document).ready( function($) {
               
               $html.transition( { scale: 1 }, 'fast' );
             });
+          }
+
+          if( cml_items_to_save <= 0 ) {
+              //No more save required
+              jQuery( '#cml-box-languages input[name="save-all"]' ).removeClass( 'save-required' );
           }
         }
       }
@@ -405,11 +413,16 @@ function cml_language_attention( $e, className, factor ) {
   cml_admin_need_to_save();
 }
 
+/*
+ * Save all the items
+ */
 function cml_save_all_items() {
   var $this = jQuery( '#cml-box-languages input[name="save-all"]' );
 
-  //No save required
-  jQuery( '#cml-box-languages input[name="save-all"]' ).removeClass( 'save-required' );
+  /*
+   * I need to check if all items are saved before remove the class 'save-required'
+   */
+  cml_items_to_save = jQuery( '#cml-box-languages #cml-languages > li' ).length;
 
   $langs = jQuery( "#cml-box-languages.postbox .lang" ).each( function( index ) {
     $this = jQuery( this );

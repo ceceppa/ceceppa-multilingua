@@ -321,8 +321,8 @@ label.cml-disabled {
 
   #cml-languages .lang > .title {
     background: #8f8f8f;
-    border-bottom: 1px solid #000080;
-    width: 225px;
+    border-bottom: 1px solid #00638A;
+    width: 227px;
     padding: 5px;
     position: relative;
     height: 15px;
@@ -330,6 +330,9 @@ label.cml-disabled {
     -moz-transition: opacity 0.2s ease-in-out;
     -o-transition: opacity 0.2s ease-in-out;
     transition: opacity 0.2s ease-in-out;
+    margin-left: -1px;
+    margin-top: -1px;
+    box-shadow: 0 2px 5px rgba(0,0,0, 0.2);
   }
     #cml-languages .lang.active > .title {
       background: #0074A2;
@@ -349,7 +352,7 @@ label.cml-disabled {
     }
     
 #cml-languages .lang > .title > .flag {
-  border: 1px solid rgba( 255, 255, 255, 0.8 );
+  border: 1px solid rgba( 255, 255, 255, 0.4 );
   width: 20px;
   height: 14px;
   overflow: hidden;
@@ -424,6 +427,7 @@ label.cml-disabled {
 #cml-box-available-languages #cml-languages.cml-custom-languages .lang > .title {
   background: #0074A2;
   color: #fff;
+  border-bottom: 1px solid #000080;
 }
 #cml-box-available-languages #cml-languages.cml-custom-languages .lang > .title {
   cursor: default;
