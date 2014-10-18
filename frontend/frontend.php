@@ -425,7 +425,7 @@ EOT;
     if( empty( $appendTo ) ) return;    //No element specified
 
     //what to shown
-    $show = array( "", "both", "text", "flag", "slug" );
+    $show = array( "", "text", "text", "flag", "slug", "slug" );
     $as = intval( $_cml_settings[ "cml_show_items_as" ] );
     $size = $_cml_settings[ "cml_show_items_size" ];
 
@@ -437,6 +437,7 @@ EOT;
       cml_show_flags( array(
                             "class" => "cml_append_flags_to",
                             "show" => $show[$as],
+                            "show_flag" => in_array( $as, array( 1, 3, 5 ) ),
                             "size" => $size,
                             "queried" => true,
                             ) );
@@ -461,7 +462,7 @@ EOT;
 
     wp_enqueue_style( 'ceceppaml-flying' );
 
-    $show = array( "", "both", "text", "flag", "slug" );
+    $show = array( "", "text", "text", "flag", "slug", "slug" );
     $as = intval( $_cml_settings[ "cml_show_float_items_as" ] );
     $size = $_cml_settings[ "cml_show_float_items_size" ];
     $style = $_cml_settings[ "cml_show_float_items_style" ];
@@ -470,6 +471,7 @@ EOT;
       if( $style == 1 ) {
         cml_show_flags( array(
                               "show" => $show[$as],
+                              "show_flag" => in_array( $as, array( 1, 3, 5 ) ),
                               "size" => $size,
                               "queried" => true,
                               ) );
@@ -774,10 +776,16 @@ EOT;
         continue;
       }
 
+      /*
+       * if translated name == original name I don't update the slug.
+       * Because if wp added -## to it I'll get an 404 page :(
+       */
+      $oname = $term->name;
       $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
 
       if( $this->_category_url_mode != PRE_LANG &&
-          null === CMLUtils::_get( '_no_translate_term' ) ) {
+          null === CMLUtils::_get( '_no_translate_term' ) &&
+          $term->name != $oname ) {
         $term->slug = sanitize_title( strtolower( $term->name ) );
       }
 

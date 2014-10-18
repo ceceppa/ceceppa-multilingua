@@ -132,10 +132,11 @@ class CMLLanguage {
       self::$_all_others = $others;
       self::$_all_languages = $all_languages_by_keys;
       self::$_all_by_slug = $byslug;
-      
-      if( ! empty( self::$_default_language ) ) {
+    }
+
+    if( ! empty( self::$_default_language ) &&
+        empty( self::$_current_id ) ) {
         self::$_current_id = self::$_default_language->id;
-      }
     }
 
     return self::$_all_languages;

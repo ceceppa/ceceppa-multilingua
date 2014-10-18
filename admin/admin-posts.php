@@ -459,7 +459,40 @@ function cml_admin_add_meta_boxes() {
 
   // remove_meta_box('tagsdiv-post_tag','post','side');
   // add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );
-  $post_types = apply_filters( 'cml_manage_post_types', $post_types );
+    $post_types = apply_filters( 'cml_manage_post_types', $post_types );
+
+    $post_id = intval( $_GET[ 'post' ] );
+    $type = get_post_type( $post_id );
+//    $type = ( ! isset( $_GET[ 'post_type' ] ) ) ? "post" : $_GET[ 'post_type' ];
+
+    /*
+     * To restore language filtering now have to click on "Aplly" after checked it.
+     * But as this is not too clear I'll check the status of this option for the current page
+     */
+    $hidden = get_user_option( 'manageedit-' . $type . 'columnshidden' );
+
+    //Ignored post list
+    $list = get_option( "_cml_ignore_post_type", array() );
+
+    //Remove from ignore list
+    if( ! in_array( $type, $post_types ) && ! in_array( 'cml_flags', $hidden ) ) {
+        $index = array_search( $type, $list );
+        unset( $list[ $index ] );
+
+        update_option( "_cml_ignore_post_type", $list );
+
+        $post_types[] = $type;
+    }
+
+    //Add to ignore list
+    if( in_array( $type, $post_types ) && in_array( 'cml_flags', $hidden ) ) {
+        $list[] = $post_type;
+
+        update_option( "_cml_ignore_post_type", $list );
+
+        $index = array_search( $type, $post_types );
+        unset( $post_types[ $index ] );
+    }
 
   foreach( $post_types as $post_type ) {
     //Exclude "post" and "page"
@@ -484,7 +517,7 @@ function cml_admin_filter_all_posts_page() {
    
   //Check if language filtering is disabled for this post type
   $is_disabled = get_hidden_columns( get_current_screen() );
-    
+
   //Ignored post list
   $list = get_option( "_cml_ignore_post_type", array() );
 

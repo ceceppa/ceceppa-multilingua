@@ -79,9 +79,18 @@ function cml_support_box_content() {
 function cml_help_box_content() {
 ?>
     <div class="content">
-      <a target="_blank" href="http://www.alessandrosenese.eu/en/ceceppa-multilingua/documentation">
-        <?php _e( 'Setting up a WordPress multilingual site with Ceceppa Multilingua', 'ceceppaml' ); ?>
-      </a>
+        <ul class="cml-donate">
+          <li>
+              <a target="_blank" href="http://www.alessandrosenese.eu/en/ceceppa-multilingua/documentation">
+                <?php _e( 'Setting up a WordPress multilingual site with Ceceppa Multilingua', 'ceceppaml' ); ?>
+              </a>
+            </li>
+            <li>
+              <a href="<?php echo admin_url() ?>admin.php?page=ceceppaml-api-page">
+                <?php _e( 'Api', 'ceceppaml' ); ?>
+              </a>
+            </li>
+        </ul>
     </div>
 <?php
 }
@@ -92,5 +101,3 @@ add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_conte
 add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
 
 add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
-
-?>
