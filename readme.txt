@@ -185,6 +185,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * Fixed Widget filtering
 * Fixed 404 when wp add extra "-##" to category slug
 * Fixed "Float and append" flag styles
+* Fixed language "combo" switcher for touch devices
 
 = 1.4.35 = 
 * Fixed "Post data" box in pages

@@ -42,4 +42,19 @@ jQuery(document).ready( function( $ ) {
   $( 'ul.cml-lang-js-sel' ).mouseover( function() {
     $( this ).find( 'ul' ).removeAttr( 'style' );
   });
+
+    if( is_touch_device() ) {
+        $( 'ul.cml-lang-sel > li > a' ).click( function() {
+            $( 'ul.cml-lang-sel > li > ul' ).toggle();
+
+            return false;
+        });
+
+        $( 'ul.cml-lang-sel > li > ul' ).hide();
+    }
 });
+
+function is_touch_device() {
+  return 'ontouchstart' in window // works on most browsers
+      || 'onmsgesturechange' in window; // works on ie10
+};
