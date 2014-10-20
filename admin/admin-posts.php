@@ -474,24 +474,26 @@ function cml_admin_add_meta_boxes() {
     //Ignored post list
     $list = get_option( "_cml_ignore_post_type", array() );
 
-    //Remove from ignore list
-    if( ! in_array( $type, $post_types ) && ! in_array( 'cml_flags', $hidden ) ) {
-        $index = array_search( $type, $list );
-        unset( $list[ $index ] );
+    if( is_array( $hidden ) && is_array( $post_types ) ) {
+        //Remove from ignore list
+        if( ! in_array( $type, $post_types ) && ! in_array( 'cml_flags', $hidden ) ) {
+            $index = array_search( $type, $list );
+            unset( $list[ $index ] );
 
-        update_option( "_cml_ignore_post_type", $list );
+            update_option( "_cml_ignore_post_type", $list );
 
-        $post_types[] = $type;
-    }
+            $post_types[] = $type;
+        }
 
-    //Add to ignore list
-    if( in_array( $type, $post_types ) && in_array( 'cml_flags', $hidden ) ) {
-        $list[] = $post_type;
+        //Add to ignore list
+        if( in_array( $type, $post_types ) && in_array( 'cml_flags', $hidden ) ) {
+            $list[] = $post_type;
 
-        update_option( "_cml_ignore_post_type", $list );
+            update_option( "_cml_ignore_post_type", $list );
 
-        $index = array_search( $type, $post_types );
-        unset( $post_types[ $index ] );
+            $index = array_search( $type, $post_types );
+            unset( $post_types[ $index ] );
+        }
     }
 
   foreach( $post_types as $post_type ) {
