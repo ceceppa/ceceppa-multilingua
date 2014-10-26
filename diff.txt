@@ -1,0 +1,3550 @@
+diff --git a/.directory b/.directory
+index ff4fa4a..62afa7e 100644
+--- a/.directory
++++ b/.directory
+@@ -1,3 +1,3 @@
+ [Dolphin]
+-Timestamp=2014,6,23,15,21,33
++Timestamp=2014,10,15,23,37,15
+ Version=3
+diff --git a/admin/admin-ajax-save.php b/admin/admin-ajax-save.php
+index 8633a3f..8249f9c 100755
+--- a/admin/admin-ajax-save.php
++++ b/admin/admin-ajax-save.php
+@@ -195,7 +195,10 @@ function cml_admin_save_options_actions() {
+   if( $tab == 2 ) {
+     update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
+     update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );
+-  } else {
++    update_option( "cml_remove_extra_slug", intval( @$_POST[ 'cml-extra' ] ) );
++  }
++  
++  if( $tab == 1 ) {
+     //Redirect
+     $redirect = array( "auto", "default", "others", "nothing" );
+     $redirect = ( in_array( $_POST[ 'redirect' ], $redirect ) ) ? $_POST[ 'redirect' ] : "auto";
+@@ -229,6 +232,17 @@ function cml_admin_save_options_actions() {
+     }
+   }
+ 
++  if( $tab == 3 ) {
++    $experiments = @$_POST[ 'experiments' ];
++    if( is_array( $experiments ) ) {
++      foreach( $experiments as $experiment ) {
++        $key = substr( $experiment, 3 );
++        $key = str_replace( "-", "_", $key );
++
++        @update_option( "cml_$key", ( int ) $_POST[ $experiment ][ 0 ] );
++      }
++    }
++  }
+ 
+   $lstep = "";
+   if( isset( $_POST[ 'wstep' ] ) ) {
+@@ -291,6 +305,7 @@ function cml_admin_save_options_flags() {
+   @update_option("cml_option_flags_on_post", intval($_POST['flags-on-posts']));
+   @update_option("cml_option_flags_on_page", intval($_POST['flags-on-pages']));
+   @update_option("cml_option_flags_on_custom_type", intval($_POST['flags-on-custom']));
++  @update_option("cml_option_flags_on_homepage", intval($_POST['flags-on-homepage']));
+   @update_option("cml_option_flags_on_the_loop", intval($_POST['flags-on-loop']));
+   @update_option("cml_option_flags_on_pos", sanitize_title( $_POST['flags_on_pos'] ) );
+   @update_option("cml_options_flags_on_translations", intval( $_POST['flags-translated-only'] ) );
+@@ -428,4 +443,55 @@ function cml_admin_generate_mo() {
+   die( json_encode( $return ) );
+ }
+ 
+-?>
++
++/***********************
++ *
++ * Do Backup
++ *
++************************/
++/**
++ * Some user reported relation lost after update... I tried to fix the issue
++ * with no success. 
++ * So I decide to wrote a "backup" function that will be automatically exectuted after an update,
++ * but manually as well
++ */
++function cml_do_backup() {
++    if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
++
++    $page = $_POST[ 'page' ];
++    $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
++    
++    $status = "1";
++    if( !_cml_check_backup_folder() ) {
++        $status = "-2";
++    } else {
++        //Backup file
++        $backup_file = date( 'Ymd-His' );
++        $db_backup = $backup_file . '.db.sql';
++        $settings_backup = $backup_file . '.settings';
++        $settings_extra_backup = $backup_file . '.settings.extra';
++
++        //Backup tables
++        $db = $s1 = $s2 = 0;
++        if( isset( $_POST[ 'cml-tables' ] ) &&
++            intval( $_POST[ 'cml-tables' ] ) == 1 ) {
++            $db = _cml_backup_do_tables( CECEPPAML_BACKUP_PATH . $db_backup );
++        }
++
++        if( isset( $_POST[ 'cml-settings' ] ) &&
++            intval( $_POST[ 'cml-settings' ] ) == 1 ) {
++            $s1 = cml_generate_settings_php( CECEPPAML_BACKUP_PATH . $settings_backup );
++            $s2 = _cml_backup_do_settings_extra( CECEPPAML_BACKUP_PATH . $settings_backup );
++        }
++
++        $status .= "&file[]=" . join( "&file[]=", array( $db_backup, $settings_backup ) );
++        $status .= "&stat[]=" . join( "&stat[]=", array( $db, $s1, $s2 ) );
++    }
++    
++    $url = admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&status=' . $status );
++    $return = array( 
++                        "url" => $url,
++                    );
++
++  die( json_encode( $return ) );
++}
+diff --git a/admin/admin-backup-fn.php b/admin/admin-backup-fn.php
+new file mode 100644
+index 0000000..ebf57f2
+--- /dev/null
++++ b/admin/admin-backup-fn.php
+@@ -0,0 +1,192 @@
++<?php
++if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
++
++define( 'CECEPPAML_BACKUP_PATH', CML_UPLOAD_DIR . trailingslashit( 'backup' ) );
++
++function &_cml_backup_tables() {
++    global $wpdb;
++
++    $data = "\n/*---------------------------------------------------------------".
++          "\n  SQL DB BACKUP ".date("d.m.Y H:i")." ".
++          "\n  ---------------------------------------------------------------*/\n";
++    $link = mysql_connect( DB_HOST, DB_USER, DB_PASSWORD );
++    mysql_select_db( DB_NAME, $link );
++    mysql_query( "SET NAMES `utf8` COLLATE `utf8_general_ci`" , $link ); // Unicode
++
++    $tables = array( CECEPPA_ML_TABLE, CECEPPA_ML_CATS, CECEPPA_ML_POSTS, CECEPPA_ML_RELATIONS );
++
++  foreach($tables as $table){
++    $data.= "\n/*---------------------------------------------------------------".
++            "\n  TABLE: `{$table}`".
++            "\n  ---------------------------------------------------------------*/\n";           
++    $data.= "DROP TABLE IF EXISTS `{$table}`;\n";
++    $res = mysql_query("SHOW CREATE TABLE `{$table}`", $link);
++    $row = mysql_fetch_row($res);
++    $data.= $row[1].";\n";
++
++    $result = mysql_query("SELECT * FROM `{$table}`", $link);
++    $num_rows = mysql_num_rows($result);    
++
++    if($num_rows>0){
++      $vals = Array(); $z=0;
++      for($i=0; $i<$num_rows; $i++){
++        $items = mysql_fetch_row($result);
++        $vals[$z]="(";
++        for($j=0; $j<count($items); $j++){
++          if (isset($items[$j])) { $vals[$z].= "'".mysql_real_escape_string( $items[$j], $link )."'"; } else { $vals[$z].= "NULL"; }
++          if ($j<(count($items)-1)){ $vals[$z].= ","; }
++        }
++        $vals[$z].= ")"; $z++;
++      }
++      $data.= "INSERT INTO `{$table}` VALUES ";      
++      $data .= "  ".implode(";\nINSERT INTO `{$table}` VALUES ", $vals).";\n";
++    }
++  }
++  mysql_close( $link );
++  return $data;
++}
++
++/*
++ * Check if the backup folder exists, otherwise try to create it
++ */
++function _cml_check_backup_folder() {
++    //Check if the backup folder exists
++    if( ! is_dir( CECEPPAML_BACKUP_PATH ) ) {
++        return mkdir( CECEPPAML_BACKUP_PATH, 0777 );
++    }
++
++    return true;
++}
++
++/*
++ * Failed to create backup folder :(
++ */
++function _cml_backup_folder_failed( $show_hide = true ) {
++    $title = __( 'Backup not available', 'ceceppaml' );
++    $msg = sprintf( __( 'Failed to create the backup folder: %s', 'ceceppaml' ), CECEPPAML_BACKUP_PATH );
++
++    $link = add_query_arg( array( 'hide-backup-warning' => 1 ) );
++    $close = __( 'Hide', 'ceceppaml' );
++
++    $button = "";
++    if( $show_hide ) {
++$button = <<< BUTTON
++    <p class="submit">
++        <a class="button button-primary" style="float: right" href="$link">
++            $close
++        </a>
++    </p>
++BUTTON;
++    }
++
++echo <<< ERROR
++    <div class="error cml-notice">
++        <p>
++            <span class="title">CML: $title</span>
++            $msg
++
++            $button
++        </p>
++    </div>
++ERROR;
++}
++
++//Backup tables
++function _cml_backup_do_tables( $filename ) {
++    $handle = fopen( $filename , 'w+' );
++    if( $handle !== false ) {
++
++        // get backup
++        $mybackup = _cml_backup_tables();
++
++        fwrite($handle,$mybackup);
++        fclose($handle);
++
++        return 1;
++    }
++    
++    return -1;
++}
++
++function _cml_backup_do_settings_extra( $filename ) {
++    global $_cml_settings, $wpdb;
++
++    cml_generate_settings_php( $filename );
++
++    /*
++     * Extra settings
++     * internal plugin settings used to show/hide notices,
++     */
++     $keys = array( "cml_modification_mode",
++                   "cml_modification_mode_default",
++                   "cml_erased",
++                   "_cml_update_existings_posts",
++                   "cml_show_wizard",
++                   '_cml_wpml_config',
++                   '_cml_scan_folders',
++                   'cml_add_items_to',
++                   'cml_add_slug_to_link',
++                   'cml_float_css',
++                   'cml_first_install',
++                   'cml_get_translation_from_po',
++                   'cml_is_first_time',
++                   'cml_languages_ids',
++                   'cml_languages_ids_keys',
++                   '_cml_wpml_config_paths',
++
++                   "cml_translated_fields_yoast",
++                   "cml_translated_fields_aioseo",
++
++                   '_cml_hide_filtering_notice',
++                   'cml_hide_backup_warning' );
++
++    $settings = array();
++    foreach( $keys as $key ) {
++        $settings[ $key ] = get_option( $key );
++    }
++
++    error_log( print_r( $settings, true ) );
++    chmod( $filename, 0777 );
++    cml_generate_settings_php( $filename . "a", $settings, '$_cml_extra', FILE_APPEND );
++
++    return 1;
++}
++
++function _cml_backup_folder_not_exists() {
++    _cml_wp_error_div( __( 'Backup failed', 'ceceppaml' ),
++                    __( "Backup folder doesn't exists", 'ceceppaml' )
++                  );
++}
++
++function _cml_backup_file_failed() {
++    $file = esc_html( $_GET[ 'file' ] );
++
++    _cml_wp_error_div( __( 'Backup failed', 'ceceppaml' ),
++                    sprintf( __( "Failed to create backup file: <i>%s</i>", 'ceceppaml' ), $file )
++                  );
++}
++
++function _cml_backup_done() {
++    $files = $_GET[ 'file' ];
++    
++    $list = '<ul class="cml-ul-list">';
++
++    foreach( $files as $file ) {
++        $list .= "<li>$file</li>";
++    }
++
++    $list .= "</ul>";
++
++    _cml_wp_updated_div( __( 'Backup succesfully created', 'ceceppaml' ),
++                      sprintf( __( 'Backup file: %s', 'ceceppaml' ), $list )
++                    );
++}
++
++if( isset( $_GET[ 'hide-backup-warning' ] ) ) {
++    update_option( 'cml_hide_backup_warning', 1 );
++}
++
++if( ! _cml_check_backup_folder() &&
++    ! get_option( 'cml_hide_backup_warning', 0 ) ) {
++    add_action( 'admin_notices', '_cml_backup_folder_failed' );
++}
+\ No newline at end of file
+diff --git a/admin/admin-backups.php b/admin/admin-backups.php
+new file mode 100644
+index 0000000..06f9150
+--- /dev/null
++++ b/admin/admin-backups.php
+@@ -0,0 +1,84 @@
++<?php
++if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
++
++require_once ( CML_PLUGIN_ADMIN_PATH . 'donate.php' );
++
++$tab = intval( @$_GET[ 'tab' ] );
++$page = $_GET[ 'page' ];
++?>
++
++<div class="wrap">
++  <h2 class="nav-tab-wrapper">
++    <a class="nav-tab <?php echo $tab == 0 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=0"><?php _e('All backups', 'ceceppaml') ?></a>
++    <a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=1"><?php _e('Backup', 'ceceppaml') ?></a>
++    <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=2"><?php _e('Import/Export', 'ceceppaml') ?></a>
++  </h2>
++
++<?php
++    //Check if the folder exists ( doesn't matter the "hide" option )
++    if( ! _cml_check_backup_folder() ) {
++        _cml_backup_folder_failed( false );
++    }
++?>
++    <div id="poststuff">
++        <div id="post-body" class="columns-2 ceceppaml-metabox">
++            <div id="post-body-content" class="cml-box-options">
++                <form id="form" name="backup" method="POST" class="cml-ajax-form">
++                  <input type="hidden" name="page" value="<?php echo $_GET[ 'page' ] ?>" />
++                  <input type="hidden" name="tab" value="<?php echo $tab ?>" />
++                  <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
++
++                    <?php 
++                        switch( $tab )  {
++                            case 0:
++                                require_once( CML_PLUGIN_LAYOUTS_PATH . 'backups-list.php' );
++                                break;
++                            case 1:
++                                require_once( CML_PLUGIN_LAYOUTS_PATH . 'backups-do.php' );
++
++                                do_meta_boxes( 'cml_box_backup', 'advanced', null );
++                                break;
++                            case 2:
++                                require_once( CML_PLUGIN_LAYOUTS_PATH . 'backups-import-export.php' );
++    
++                                do_meta_boxes( 'cml_box_backup', 'advanced', null );
++
++                                break;
++                        }
++                    ?>
++                </form>
++            </div>
++
++            <div id="postbox-container-1" class="postbox-container cml-donate">
++            <?php do_meta_boxes( 'cml_donate_box', 'advanced', null ); ?>
++            </div>
++        </div>
++    </div>
++
++</div>
++
++<?php
++
++/*
++ * Backup status
++ *
++ *  -2: Folder not exists ( and creation failed )
++ *  -1: Failed to create the file
++ *   0: Everything ok
++ */
++if( isset( $_GET[ 'status' ] ) ) {
++    $status = intval( $_GET[ 'status' ] );
++
++    $callback = "";
++    switch( $status ) {
++        case -2:
++            _cml_backup_folder_not_exists();
++            break;
++        case -1:
++            _cml_backup_file_failed();
++            break;
++        default:
++            _cml_backup_done();
++            break;
++    }
++}
+\ No newline at end of file
+diff --git a/admin/admin-menu.php b/admin/admin-menu.php
+new file mode 100755
+index 0000000..e5c78f5
+--- /dev/null
++++ b/admin/admin-menu.php
+@@ -0,0 +1,288 @@
++<?php
++/*
++ * original code https://gist.github.com/westonruter/3802459
++ */
++if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
++
++require_once ABSPATH . 'wp-admin/includes/nav-menu.php';
++require_once ( CML_PLUGIN_LAYOUTS_PATH . "menu.php" );
++
++class CML_Nav_Menu_Item_Custom_Fields {
++	static $options = array(
++		'item_tpl' => '
++			<p class="cml-menu-field cml-menu-field-{name} description description-thin">
++				<label for="edit-menu-item-{name}-{id}">
++                    <img src="{src}" alt="{label}"/>: {nlabel}
++                    <br>
++					<input
++						type="{input_type}"
++						id="edit-menu-item-{name}-{id}"
++						class="widefat code edit-menu-item-{name}"
++						name="menu-item-{name}[{id}]"
++						value="{title}">
++				</label>
++			</p>
++			<p class="cml-menu-field cml-menu-field-{name} description description-thin">
++				<label for="edit-menu-submenu-{name}-{id}">
++					<img src="{src}" alt="{label}"/>: {tattribute}
++                    <br>
++					<input
++						type="{input_type}"
++						id="edit-menu-item-submenu-{name}-{id}"
++						class="widefat code edit-menu-item-{name}"
++						name="menu-item-submenu-{name}[{id}]"
++						value="{attr_title}">
++				</label>
++			</p>
++		',
++		'custom_tpl' => '
++			<p class="cml-menu-field-{name} description description-wide">
++				<label for="edit-menu-item-url-{name}-{id}">
++					<img src="{src}" alt="{label}"/> URL:
++                    <br>
++					<input
++						type="{input_type}"
++						id="edit-menu-item-url-{name}-{id}"
++						class="widefat code edit-menu-url"
++						name="menu-item-url-{url_name}[{id}]"
++						value="{url_value}">
++				</label>
++			</p>
++			<p class="cml-menu-field cml-menu-field-{name} description description-thin">
++				<label for="edit-menu-item-{name}-{id}">
++					<img src="{src}" alt="{label}"/>: {nlabel}
++                    <br>
++					<input
++						type="{input_type}"
++						id="edit-menu-item-{name}-{id}"
++						class="widefat code edit-menu-item-{name}"
++						name="menu-item-{name}[{id}]"
++						value="{title}">
++				</label>
++			</p>
++			<p class="cml-menu-field cml-menu-field-{name} description description-thin">
++				<label for="edit-menu-submenu-{name}-{id}">
++					<img src="{src}" alt="{label}"/>: {tattribute}
++                    <br>
++					<input
++						type="{input_type}"
++						id="edit-menu-item-submenu-{name}-{id}"
++						class="widefat code edit-menu-item-{name}"
++						name="menu-item-submenu-{name}[{id}]"
++						value="{attr_title}">
++				</label>
++			</p>
++		',
++	);
++ 
++	static function setup() {
++      self::$options[ 'fields' ] = array();
++
++      foreach( CMLLanguage::get_no_default() as $lang ) {
++		$fields = array(
++			$lang->cml_language_slug => array(
++				'name' => $lang->cml_language_slug,
++                'url_name' => $lang->cml_language_slug,
++				'label' => $lang->cml_language,
++                'src' => CMLLanguage::get_flag_src( $lang->id ),
++                'nlabel' => __( 'Navigation Label' ),
++                'tattribute' => __( 'Title Attribute' ),
++				'input_type' => 'text',
++			),
++		);
++
++        self::$options[ 'fields' ] = array_merge( $fields, self::$options[ 'fields' ] );
++      }
++
++      //doesn't works with php < 5.3.0 :(
++//       add_filter( 'wp_edit_nav_menu_walker', function () {
++//           return 'CML_Walker_Nav_Menu_Edit';
++//       });
++      add_filter( 'wp_edit_nav_menu_walker', 'cml_return_nav_walker', 99, 2 );
++      add_filter( 'cml_nav_menu_item_additional_fields', array( __CLASS__, '_add_fields' ), 10, 5 );
++      add_action( 'save_post', array( __CLASS__, '_save_post' ) );
++	}
++ 
++	static function get_fields_schema() {
++		$schema = array();
++		foreach(self::$options['fields'] as $name => $field) {
++			if ( empty( $field['name'] ) ) {
++				$field['name'] = $name;
++			}
++			$schema[] = $field;
++		}
++
++		return $schema;
++	}
++
++	/**
++	 * Inject the 
++	 * @hook {action} save_post
++	 */
++	static function _add_fields( $new_fields, $item_output, $item, $depth, $args ) {
++		$schema = self::get_fields_schema($item->ID);
++		foreach( $schema as $field ) {
++          $name = $field[ 'name' ];
++          $values = get_post_meta( $item->ID,
++                                   "_cml_menu_meta_" . $name, false );
++          $field[ 'title' ] = @$values[0][ 'title' ];
++          $field[ 'url_value' ] = @$values[0][ 'url_value' ];
++          $field[ 'attr_title' ] = @$values[0][ 'attr_title' ];
++
++          $field[ 'id' ] = $item->ID;
++          $k = ( $item->object == 'custom' ) ? 'custom_tpl' : 'item_tpl';
++          
++          //php < 5.3.0
++          $func = create_function( '$key', 'return "{{$key}}";' );
++          $new_fields .= str_replace(
++//               array_map( function( $key ){ return '{' . $key . '}'; }, array_keys( $field ) ),
++              array_map( $func, array_keys( $field ) ),
++              array_values( array_map( 'esc_attr', $field ) ),
++              self::$options[ $k ]
++          );
++		}
++		return $new_fields;
++	}
++ 
++	/**
++	 * Save the newly submitted fields
++	 * @hook {action} save_post
++	 */
++	static function _save_post($post_id) {
++		if( get_post_type( $post_id ) !== 'nav_menu_item' ) {
++		  return;
++		}
++
++		$fields_schema = self::get_fields_schema($post_id);
++        
++		foreach( $fields_schema as $field_schema ) {
++			$form_field_name = 'menu-item-' . $field_schema['name'];
++			if (isset($_POST[$form_field_name][$post_id])) {
++              $key = "_cml_menu_meta_" . $field_schema['name'];
++              $values = get_post_meta( $post_id, $key, false );
++              if( empty( $values ) ) {
++                $values = array();
++              }
++              
++              if( isset( $values[ 0 ] ) ) {
++                $values = @$values[ 0 ];
++              }
++
++              $values[ 'title' ] = stripslashes( $_POST[ $form_field_name ][ $post_id ] );
++
++              update_post_meta( $post_id, $key, $values );
++			}
++            
++			$form_field_name = 'menu-item-url-' . $field_schema['name'];
++			if (isset( $_POST[ $form_field_name ][ $post_id ] ) ) {
++              $values = get_post_meta( $post_id, $key, false );
++              if( empty( $values ) ) {
++                $values = array();
++              }
++              
++              if( isset( $values[ 0 ] ) ) {
++                $values = @$values[ 0 ];
++              }
++
++              $values[ 'url_value' ] = stripslashes( $_POST[ $form_field_name ][ $post_id ] );
++
++              update_post_meta( $post_id, $key, $values );
++			}
++            
++			$form_field_name = 'menu-item-submenu-' . $field_schema['name'];
++			if ( isset( $_POST[ $form_field_name ][ $post_id ] ) ) {
++              $values = get_post_meta( $post_id, $key, false );
++              if( empty( $values ) ) {
++                $values = array();
++              }
++              
++              if( isset( $values[ 0 ] ) ) {
++                $values = @$values[ 0 ];
++              }
++
++              $values[ 'attr_title' ] = stripslashes( $_POST[ $form_field_name ][ $post_id ] );
++
++              update_post_meta( $post_id, $key, $values );
++			}
++		}
++        
++        CMLUtils::_del( 'no_generate' );
++	}
++ 
++}
++
++//If current theme have multiple menus, ask the user to set your primary one
++function cml_admin_select_menu() {
++  global $pagenow;
++  global $_wp_registered_nav_menus;
++
++  $menus = get_registered_nav_menus();
++  foreach( $menus as $key => $name ) {
++    if( substr( $key, 0, 4 ) == "cml_" ) unset( $menus[ $key ] );
++  }
++
++  if( $pagenow == 'nav-menus.php' && count( $menus ) > 1 ) {
++?>
++  <div class="updated cml-updated">
++    <form name="cml-menu-primary-name" method="get">
++      <input type="hidden" name="cml-form" value="menu-name" />
++      <?php
++      _e( 'Select the name of your primary menu:', 'ceceppaml' );
++      echo '<span class="cml-help cml-pointer-help cml-menu-help"></span>';
++
++      echo "<br />";
++  
++			if( isset( $_GET[ 'cml-name' ] ) ) {
++				update_option( "cml_primary_menu_name", esc_attr( $_GET[ 'cml-name' ] ) );
++			}
++
++      $name = get_option( "cml_primary_menu_name", "" );
++
++      //Se non inizia per cml_ allora sarà quella definito dal tema :)
++      if( is_array( $menus ) ) : ?>
++      <select name="cml-name" class="cml-select-menu">
++        <?php foreach( $menus as $key => $n ) {
++          if( substr( $key, 0, 4 ) == "cml_" ) continue;
++  
++          echo '<option value="' . str_replace( " ", "-", esc_attr( $key ) ) . '" ' . selected( $key, $name, false ) . '>' . $n . '</option>';
++        }?>
++      </select>
++      <?php endif; ?>
++      <p class="submit alignright">
++        <input type="submit" class="button button-primary" value="<?php _e( 'Save', 'ceceppaml' ) ?>" />
++      </p>
++    </form>
++  </div>
++<?php
++    }
++}
++
++class CML_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
++	function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
++		$item_output = '';
++		parent::start_el($item_output, $item, $depth, $args);
++		$new_fields = apply_filters( 'cml_nav_menu_item_additional_fields', '', $item_output, $item, $depth, $args );
++		// Inject $new_fields before: <div class="menu-item-actions description-wide submitbox">
++		if ($new_fields) {
++			$item_output = preg_replace('/(?=<div[^>]+class="[^"]*submitbox)/', $new_fields, $item_output);
++		}
++		$output .= $item_output;
++	}
++}
++
++//Added for compatibility with php < 5.3.0
++function cml_return_nav_walker() {
++	return 'CML_Walker_Nav_Menu_Edit';
++}
++
++CML_Nav_Menu_Item_Custom_Fields::setup();
++
++CMLUtils::_set( 'no_generate', true );
++
++//Avoid that cml_generate_mo_from_translations was called twice
++add_action( 'wp_update_nav_menu', 'cml_generate_mo_from_translations', 10 );
++
++//Languages box
++add_meta_box( 'ceceppaml-menu-box', 'CeceppaML: ' . __('Flags', 'ceceppaml'), 'cml_menu_meta_box', 'nav-menus', 'side', 'default' );
++
++add_action( 'admin_notices', 'cml_admin_select_menu' );
+diff --git a/admin/admin-notices.php b/admin/admin-notices.php
+index 647f937..b837dd5 100755
+--- a/admin/admin-notices.php
++++ b/admin/admin-notices.php
+@@ -1,12 +1,10 @@
+ <?php
+-add_action( 'admin_notices', 'cml_show_admin_notices' );
+-
+ function cml_show_admin_notices() {
+   global $wpdb;
+ 
+-  if( ! current_user_can( 'manage_optios' ) ) {
+-    return;
+-  }
++  //if( ! current_user_can( 'manage_optios' ) ) {
++  //  return;
++  //}
+ 
+   if( isset( $_GET[ 'fix-upgrade' ] ) ) {
+     update_option( "cml_db_version", 22 );
+@@ -34,5 +32,35 @@ function cml_show_admin_notices() {
+     </div>
+ <?php
+   }
+-}
++  
++  if( isset( $_GET[ 'cml_tax_0' ] ) ) {
++    update_option( "cml_update_taxonomy_translation", 1 );
++    update_option( "cml_categories", array() );
++  }
++  
++  if( isset( $_GET[ 'cml_tax' ] ) ) {
++    update_option( "cml_update_taxonomy_translation", 0 );
++    update_option( "cml_categories", array() );
++
++    cml_update_taxonomy_translations();
++  }
++
++  //translated category
++  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
++     get_option( "cml_update_taxonomy_translation", 1 ) == 1 ) {
+ ?>
++    <div class="updated">
++      <p>
++        <strong>Ceceppa Multilingua</strong>
++        <br /><br />
++        <?php printf( __('Update required, click <%s>here</a> for update posts taxonomy information', 'ceceppaml'),
++                     'a href="' . add_query_arg( array( "cml_tax" => 1 ) ) . '" class="button button-primary"' ); ?>
++      </p>
++    </div>
++<?php
++  }
++}
++
++add_action( 'admin_notices', 'cml_show_admin_notices' );
++
++?>
+\ No newline at end of file
+diff --git a/admin/admin-options.php b/admin/admin-options.php
+index d1b3f30..3b95b22 100755
+--- a/admin/admin-options.php
++++ b/admin/admin-options.php
+@@ -16,6 +16,9 @@ case 2:
+   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-advanced.php' );
+   break;
+ case 3:
++  require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-experimental.php' );
++  break;
++case 4:
+   require_once ( CML_PLUGIN_LAYOUTS_PATH . 'options-uninstall.php' );
+   
+   if( isset( $_GET[ 'erase' ] ) && intval( $_GET[ 'erase' ] == 2 ) ) {
+@@ -74,6 +77,9 @@ case 3:
+     delete_option( "cml_translated_fields_yoast" );
+     delete_option( "cml_translated_fields_aioseo" );
+ 
++    delete_option( '_cml_hide_filtering_notice' );
++    delete_option( 'cml_hide_backup_warning' );
++
+     /*
+      * restore helps
+      */
+@@ -96,7 +102,8 @@ $page = $_GET[ 'page' ];
+     
+     <?php if( empty( $wstep ) ) : ?>
+     <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $page ?>&tab=2"><?php _e('Advanced', 'ceceppaml') ?></a>
+-    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?> cml-uninstall" href="?page=<?php echo $page ?>&tab=3"><?php _e('Uninstall', 'ceceppaml') ?></a>
++    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?> cml-experimental" href="?page=<?php echo $page ?>&tab=3"><?php _e('Experimental', 'ceceppaml') ?></a>
++    <a class="nav-tab <?php echo $tab == 4 ? "nav-tab-active" : "" ?> cml-uninstall" href="?page=<?php echo $page ?>&tab=4"><?php _e('Uninstall', 'ceceppaml') ?></a>
+     <?php endif; ?>
+   </h2>
+ 
+@@ -116,14 +123,12 @@ $page = $_GET[ 'page' ];
+             do_meta_boxes( 'cml_box_options', 'advanced', null );
+           ?>
+         
+-          <?php if( $tab <= 1 ) : ?>
+           <div class="cml-submit-button">
+             <div class="wpspinner">
+               <span class="spinner"></span>
+             </div>
+             <?php submit_button(); ?>
+           </div>
+-          <?php endif; ?>
+         </form>
+       </div>
+       <div id="postbox-container-1" class="postbox-container cml-donate">
+@@ -132,4 +137,4 @@ $page = $_GET[ 'page' ];
+     </div>
+   </div>
+   
+-</div>
++</div>
+\ No newline at end of file
+diff --git a/admin/admin-posts.php b/admin/admin-posts.php
+index 688bf59..d50879f 100755
+--- a/admin/admin-posts.php
++++ b/admin/admin-posts.php
+@@ -124,7 +124,6 @@ function cml_admin_post_meta_box( $tag ) {
+    * Override show flags settings
+    * user can choose to override default show page settings for only this one
+    */
+-    return;  //Still working on
+   echo "<h4>" . __( 'Show flags', 'ceceppaml' ) . "</h4>";
+ 
+   $override = get_post_meta( $tag->ID, "_cml_override_flags", true );
+@@ -299,9 +298,9 @@ function cml_admin_save_extra_post_fields( $term_id ) {
+     $post_lang = intval( $_POST[ 'cml-lang' ] );
+   }
+ 
+-//  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
+-//    cml_fix_update_post_categories();
+-//  }
++  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
++    cml_fix_update_post_categories();
++  }
+ 
+   /*
+    * Normal edit or quickedit?
+@@ -459,42 +458,7 @@ function cml_admin_add_meta_boxes() {
+ 
+   // remove_meta_box('tagsdiv-post_tag','post','side');
+   // add_meta_box( 'ceceppaml-tags-meta-box', __('Tags', 'ceceppaml'), 'cml_admin_tags_meta_box', 'post', 'side', 'core' );
+-    $post_types = apply_filters( 'cml_manage_post_types', $post_types );
+-
+-    $post_id = intval( $_GET[ 'post' ] );
+-    $type = get_post_type( $post_id );
+-//    $type = ( ! isset( $_GET[ 'post_type' ] ) ) ? "post" : $_GET[ 'post_type' ];
+-
+-    /*
+-     * To restore language filtering now have to click on "Aplly" after checked it.
+-     * But as this is not too clear I'll check the status of this option for the current page
+-     */
+-    $hidden = get_user_option( 'manageedit-' . $type . 'columnshidden' );
+-
+-    //Ignored post list
+-    $list = get_option( "_cml_ignore_post_type", array() );
+-
+-    if( is_array( $hidden ) && is_array( $post_types ) ) {
+-        //Remove from ignore list
+-        if( ! in_array( $type, $post_types ) && ! in_array( 'cml_flags', $hidden ) ) {
+-            $index = array_search( $type, $list );
+-            unset( $list[ $index ] );
+-
+-            update_option( "_cml_ignore_post_type", $list );
+-
+-            $post_types[] = $type;
+-        }
+-
+-        //Add to ignore list
+-        if( in_array( $type, $post_types ) && in_array( 'cml_flags', $hidden ) ) {
+-            $list[] = $post_type;
+-
+-            update_option( "_cml_ignore_post_type", $list );
+-
+-            $index = array_search( $type, $post_types );
+-            unset( $post_types[ $index ] );
+-        }
+-    }
++  $post_types = apply_filters( 'cml_manage_post_types', $post_types );
+ 
+   foreach( $post_types as $post_type ) {
+     //Exclude "post" and "page"
+@@ -519,7 +483,7 @@ function cml_admin_filter_all_posts_page() {
+    
+   //Check if language filtering is disabled for this post type
+   $is_disabled = get_hidden_columns( get_current_screen() );
+-
++    
+   //Ignored post list
+   $list = get_option( "_cml_ignore_post_type", array() );
+ 
+@@ -707,4 +671,4 @@ add_filter( 'parse_query', 'cml_admin_filter_all_posts_query' );
+ add_action( 'restrict_manage_posts', 'cml_admin_filter_all_posts_page' );
+ 
+ //Disable language filter for
+-add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
++add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
+\ No newline at end of file
+diff --git a/admin/admin-quickedit.php b/admin/admin-quickedit.php
+index 154e30d..07acc15 100755
+--- a/admin/admin-quickedit.php
++++ b/admin/admin-quickedit.php
+@@ -75,7 +75,7 @@ function cml_admin_quick_edit_box_posts( $post_type ) {
+     ?>
+       </select>
+       <a name="none_<?php echo $lang->cml_language_slug ?>" class="button cml-quickedit-none" href="javascript:unsetTranslation( '<?php echo $lang->cml_language_slug ?>' )" title="<?php _e( 'Remove translation', 'ceceppaml' ) ?>">
+-        <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>none.png" border="0" />
++        <img src="<?php echo CML_PLUGIN_IMAGES_URL ?>none.png" />
+       </a>
+       </span>
+     </label>
+@@ -198,4 +198,4 @@ add_action( 'admin_footer', 'cml_quick_edit_javascript' );
+ //Quickedit
+ add_action('quick_edit_custom_box',  'cml_admin_quick_edit_box', 10, 2);
+ 
+-?>
++?>
+\ No newline at end of file
+diff --git a/admin/admin-settings-gen.php b/admin/admin-settings-gen.php
+index 4408b5f..79ed885 100755
+--- a/admin/admin-settings-gen.php
++++ b/admin/admin-settings-gen.php
+@@ -14,8 +14,18 @@ if( isset( $_GET[ 'cml-settings-updated' ] ) ) {
+  * for reduce calls to database :)
+  * 
+  */
+-function cml_generate_settings_php() {
+-  $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
++function cml_generate_settings_php( $filename = "", 
++                                    $_cml_setttings = null,
++                                    $var_name = '$_cml_setttings',
++                                    $flag = 0 ) {
++    
++  if( null == $_cml_setttings ) {
++    $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
++  }
++
++  if( empty( $filename ) ) {
++      $filename = CML_UPLOAD_DIR . "settings.gen.php";
++  }
+ 
+   update_option( "cml_use_settings_gen", false );
+   if( empty( $_cml_setttings ) ) {
+@@ -35,23 +45,25 @@ function cml_generate_settings_php() {
+       $value = addslashes( $value );
+       $val = is_numeric( $value ) ? $value : '"' . $value . '"';
+ 
+-      $row[] = '$_cml_settings[ "' . $key . '"] = ' . $val . ';';
++      $row[] = $var_name . '[ "' . $key . '"] = ' . $val . ';';
+     }
+   }
+   
+-  $row[] = "\n";
+-  foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
+-    $row[] = '$_cml_language_columns[' . $key . '] = "' . $value . '";';
+-  }
++  if( $flag == 0 ) {
++      $row[] = "\n";
++      foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
++        $row[] = '$_cml_language_columns[' . $key . '] = "' . $value . '";';
++      }
+ 
+-  $row[] = "\n";
+-  foreach( $GLOBALS[ '_cml_language_keys' ] as $key => $value ) {
+-    $row[] = '$_cml_language_keys["' . $key . '"] = "' . $value . '";';
+-  }
++      $row[] = "\n";
++      foreach( $GLOBALS[ '_cml_language_keys' ] as $key => $value ) {
++        $row[] = '$_cml_language_keys["' . $key . '"] = "' . $value . '";';
++      }
+ 
+-  $row[] = "?>";
++/*      $row[] = "?>"; */
++  }
+ 
+-  $ok = @file_put_contents( CML_UPLOAD_DIR . "settings.gen.php", join( "\n", $row ) );
++  $ok = @file_put_contents( $filename, join( "\n", $row ), $flag );
+ 
+   if( $ok ) update_option( "cml_use_settings_gen", 1 );
+ }
+@@ -96,7 +108,7 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
+    * of same word cause wrong "return"
+    */
+   $langs = CMLLanguage::get_all();
+-  if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) mkdir( CML_PLUGIN_CACHE_PATH );
++  if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) @mkdir( CML_PLUGIN_CACHE_PATH );
+ 
+   //foreach( $langs as $lang ) {
+     $filename = CML_PLUGIN_CACHE_PATH . "cmltrans-" . CMLLanguage::get_default_locale() . ".po";
+@@ -143,8 +155,9 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
+       fwrite( $fp, $s );
+     }
+ 
+-    //serialize post translations
++    //serialize post translations & override flags settings
+     _cml_generate_translations( $fp );
++    _cml_generate_override_flags_settings( $fp );
+ 
+     //menu meta
+     _cml_generate_menu_meta( $fp );
+@@ -197,6 +210,28 @@ function _cml_generate_translations( & $fp ) {
+   }
+ }
+ 
++  /*
++   * for reduce database queries I store posts relations
++   * in .po serializing ::get_translations result
++   */
++function _cml_generate_override_flags_settings( & $fp ) {
++  global $wpdb;
++
++  $query = sprintf( "SELECT post_id, meta_value FROM %s WHERE meta_key = '_cml_override_flags'",
++                      $wpdb->postmeta );
++  $rows = $wpdb->get_results( $query );
++  foreach( $rows as $row ) {
++    $msgid = "__cml_override_flags_{$row->post_id}";
++
++    $o = 'msgid "' . $msgid . '"' . PHP_EOL;
++    $s = 'msgstr "' . addslashes( $row->meta_value ) . '"' . PHP_EOL . PHP_EOL;
++
++    fwrite( $fp, $o );
++    fwrite( $fp, $s );
++  }
++
++}
++
+ function _cml_generate_menu_meta( & $fp ) {
+   global $wpdb;
+ 
+@@ -249,4 +284,4 @@ EOT;
+   $css = join( "\n", $tiny ) . "\n" . join( "\n", $small );
+   @file_put_contents( CML_PLUGIN_CACHE_PATH . "cml_flags.css", $css );
+ }
+-?>
++?>
+\ No newline at end of file
+diff --git a/admin/admin-taxonomies.php b/admin/admin-taxonomies.php
+index 7154f2e..e70999a 100755
+--- a/admin/admin-taxonomies.php
++++ b/admin/admin-taxonomies.php
+@@ -1,214 +1,9 @@
+ <?php
+-//if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
++if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
+ 
+-//die();
+-function cml_admin_taxonomy_add_form_fields( $tag ) {
+-?>
+-  <div class="form-field cml-form-field">
+-  <?php
+-      $langs = cml_get_languages( false, true );
+-
+-      foreach($langs as $lang) : ?>
+-        <label for="cat_name[ <?php echo $lang->id ?> ]">
+-          <?php echo CMLLanguage::get_flag_img( $lang->id ); ?>
+-          <?php echo $lang->cml_language ?>
+-        </label>
+-        <input type="text" name="cat_name[<?php echo $lang->id ?>]" id="cat_name[<?php echo $lang->id ?>]" size="40" />
+-    <?php endforeach; ?>
+-  </div>
+-<?php
+-}
+-
+-/**
+- * category translations form
+- */
+-function cml_admin_taxonomy_edit_form_fields( $tag ) {
+-  wp_enqueue_script('ceceppaml-cat');
+-
+-  $t_id = $tag->term_id;
+-?>
+-  <?php
+-    $langs = cml_get_languages( false );
+-
+-    foreach( $langs as $lang ) {
+-      if( ! $lang->cml_default ) {
+-        $id = $lang->id;
+-
+-        $img = CMLLanguage::get_flag_img( $lang->id );
+-
+-        //$value = get_option( "cml_category_" . $t_id . "_lang_$id", $tag->name );
+-        $tname = strtolower( $tag->taxonomy . "_" . $tag->name );
+-        $value = CMLTranslations::get( $lang->id, $tname, "C", true );
+-        if( empty( $value ) ) $value = $tag->name;
+-echo <<< EOT
+-  <tr class="form-field cml-form-field">
+-  <td>
+-      $img
+-      $lang->cml_language
+-  </td>
+-  <td>
+-      <input type="text" name="cat_name[$lang->id]" id="cat_name_{$lang->id}" size="40" value="$value"/>
+-  </td>
+-  </tr>
+-EOT;
+-      }
+-    }
+-}
+-
+-function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
+-  global $wpdb, $pagenow;
+-
+-  //In wp 3.6 viene richiamata questa funzione anche quando salvo i menu... :O
+-  if( strpos( $pagenow, "nav-menus" ) !== FALSE ) {
+-    return;
+-  }
+-
+-  //In Quickedit non devo fare nulla
+-  if( ! isset( $_POST['cat_name'] ) ) {
+-    return;
+-  }
+-
+-  /*
+-   * In 1.4 I store term translation in my transltions table, instead of "wordpress options" ( update_option )
+-   * because from "1.4" plugin generate .mo file with all translations, and I can use it instead
+-   * asking mysql for translations :)
+-   */
+-  $cats = $_POST[ 'cat_name' ];
+-  $name = isset( $_POST[ 'name' ] ) ? $_POST[ 'name' ] : $_POST[ 'tag-name' ];
+-  foreach( $cats as $key => $cat ) {
+-    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $_POST[ 'taxonomy' ] );
+-  }
+-}
+-
+-//quickedit
+-function _cml_admin_quickedit_taxonomy( $term_id ) {
+-  global $wpdb;
+-
+-  //Update translation
+-  $wpdb->update( CECEPPA_ML_CATS,
+-                array(
+-                      "cml_cat_translation" => bin2hex( esc_attr( $_POST[ 'name' ] ) ),
+-                      ),
+-                array(
+-                  "cml_cat_id" => $term_id,
+-                  "cml_cat_lang_id" => CMLLanguage::get_current_id(),
+-                ),
+-                array( "%s" ),
+-                array(
+-                      "%d",
+-                      "%d",
+-                      ) );
+-
+-  //restore original category name
+-  $query = sprintf( "SELECT UNHEX( cml_cat_name ) FROM %s WHERE cml_cat_id = %d",
+-                    CECEPPA_ML_CATS, $term_id );
+-
+-  $name = $wpdb->get_var( $query );
+-
+-  _cml_copy_taxonomies_to_translations();
+-
+-  //Update translations :)
+-  cml_generate_mo_from_translations( "_X_", false );
+-}
+-
+-function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $taxonomy ) {
+-  global $wpdb;
+-
+-  $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d",
+-                   CECEPPA_ML_CATS, $id, $lang_id );
+-  $q = $wpdb->get_row( $query );
+-
+-  $name = strtolower( $name );
+-  //$translation = strtolower( $translation );
+-  if( count( $q ) > 0 ) {
+-    $r_id = $q->id;
+-
+-    $wpdb->update( CECEPPA_ML_CATS,
+-		  array(
+-            "cml_cat_name" => bin2hex( $name ),
+-			"cml_cat_lang_id" => $lang_id,
+-			"cml_cat_translation" => bin2hex( $translation ),
+-			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
+-      "cml_taxonomy" => $taxonomy,
+-            ),
+-		  array( "id" => $r_id ),
+-		  array( '%s', '%d', '%s', '%s' ),
+-		  array( "%d" ) );
+-  } else {
+-    $wpdb->insert( CECEPPA_ML_CATS,
+-		  array(
+-            "cml_cat_name" => bin2hex( $name ),
+-			"cml_cat_lang_id" => $lang_id,
+-			"cml_cat_translation" => bin2hex( $translation ),
+-			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
+-			"cml_cat_id" => $id,
+-      "cml_taxonomy" => $taxonomy,
+-            ),
+-		  array('%s', '%d', '%s', '%s', '%d') );
+-  }
+-
+-  _cml_copy_taxonomies_to_translations();
+-
+-  //Update translations :)
+-  cml_generate_mo_from_translations( "_X_", false );
+-}
+-
+-function _cml_copy_taxonomies_to_translations() {
+-  global $wpdb;
+-
+-  //delete all translations
+-  CMLTranslations::delete( "C" );
+-
+-  //copy
+-  $query = sprintf( "INSERT INTO %s ( cml_text, cml_lang_id, cml_translation, cml_type) " .
+-                   "( SELECT HEX( CONCAT( cml_taxonomy, '_', UNHEX(cml_cat_name) ) ), cml_cat_lang_id, cml_cat_translation, 'C' FROM %s )",
+-                   CECEPPA_ML_TRANSLATIONS, CECEPPA_ML_CATS );
+-
+-  $wpdb->query( $query );
+-}
+-
+-function cml_admin_delete_extra_taxonomy_fields( $term_id ) {
+-  global $wpdb;
+-
+-  //Cancello la voce dal database
+-  $query = sprintf( "DELETE FROM %s WHERE cml_cat_id = %d", CECEPPA_ML_CATS, $term_id );
+-  $wpdb->query($query);
+-
+-  _cml_copy_taxonomies_to_translations();
+-}
+-
+-/*
+- * Add flags icon to all posts list header
+- */
+-function cml_admin_taxonomy_flag_columns( $columns ) {
+-  $langs = cml_get_languages( false );
+-
+-  //Non sono riuscito a trovare un altro modo per ridimensionare la larghezza del th...
+-  wp_enqueue_style('ceceppaml-style-all-posts', CML_PLUGIN_URL . 'css/all_posts.php?langs=' . count( $langs ) );
+-
+-  $clang = isset( $_GET['cml-lang'] ) ? intval ( $_GET['cml-lang'] ) : CMLLanguage::get_default_id();
+-  $img = "";
+-  foreach( $langs as $lang ) {
+-    $class = ( $lang->id == $clang ) ? "cml-filter-current" : "";
+-
+-    $a = add_query_arg( array( "cml-lang" => $lang->id ) );
+-    $img .= "<a class=\"$class tipsy-me\" href=\"$a\" title=\"" . __('Language: ', 'ceceppaml') . "<b>$lang->cml_language</b>\"><img src=\"" . cml_get_flag_by_lang_id( $lang->id, CML_FLAG_TINY ) . "\" alt=\"$lang->cml_language\" /></a>";
+-  }
+-
+-  $cols = array_merge( array_slice( $columns, 0, 2 ),
+-                        array("cml_flags" => $img),
+-                        array_slice( $columns, 2 ) );
+-
+-  return $cols;
+-}
+-
+-function cml_admin_taxonomy_disable_quickedit( $actions, $tag ) {
+-  unset( $actions['inline hide-if-no-js'] );
+-
+-  return $actions;
+-}
+-
+-if( ! CMLLanguage::is_default() ) {
+-  add_filter( 'tag_row_actions', 'cml_admin_taxonomy_disable_quickedit', 10, 2 );
++if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
++  require_once( "admin-taxonomies-store.php" );
++} else {
++  require_once( "admin-taxonomies-string.php" );
+ }
+-?>
++?>
+\ No newline at end of file
+diff --git a/admin/admin-translations.php b/admin/admin-translations.php
+index 27d7ac7..118159b 100755
+--- a/admin/admin-translations.php
++++ b/admin/admin-translations.php
+@@ -5,7 +5,7 @@ require_once ( CML_PLUGIN_ADMIN_PATH . 'donate.php' );
+ require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
+ 
+ //Current tab
+-$pages = array( "ceceppaml-translations-page", "ceceppaml-widgettitles-page", "ceceppaml-translations-title", "ceceppaml-translations-plugins-themes" );
++$pages = array( "ceceppaml-translations-page", "ceceppaml-translations-page", "ceceppaml-widgettitles-page", "ceceppaml-translations-title", "ceceppaml-translations-plugins-themes" );
+ $tab = array_search( $_GET[ 'page' ], $pages );
+ 
+ $page = $_GET[ 'page' ];
+@@ -13,9 +13,10 @@ $page = $_GET[ 'page' ];
+ <div class="wrap <?php echo sanitize_title( $_GET[ 'page' ] ) ?>">
+   <h2 class="nav-tab-wrapper">
+     <a class="nav-tab <?php echo $tab == 0 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[0] ?>&tab=0"><?php _e('My translations', 'ceceppaml') ?></a>
+-    <a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[1] ?>&tab=1"><?php _e('Widget titles', 'ceceppaml') ?></a>
+-    <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[2] ?>&tab=2"><?php printf( "%s / %s", __( 'Site Title' ), __( 'Tagline' ) ) ?></a>
+-    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[3] ?>&tab=3"><?php _e('Theme', 'ceceppaml') ?></a>
++    <!--<a class="nav-tab <?php echo $tab == 1 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[1] ?>&tab=1"><?php _e('Menu') ?></a>-->
++    <a class="nav-tab <?php echo $tab == 2 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[2] ?>&tab=2"><?php _e('Widget titles', 'ceceppaml') ?></a>
++    <a class="nav-tab <?php echo $tab == 3 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[3] ?>&tab=3"><?php printf( "%s / %s", __( 'Site Title' ), __( 'Tagline' ) ) ?></a>
++    <a class="nav-tab <?php echo $tab == 4 ? "nav-tab-active" : "" ?>" href="?page=<?php echo $pages[4] ?>&tab=4"><?php _e('Theme', 'ceceppaml') ?></a>
+   </h2>
+ 
+   <div id="poststuff">
+@@ -27,6 +28,9 @@ $page = $_GET[ 'page' ];
+         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-my.php' );
+         break;
+       case 1:
++        require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-menu.php' );
++        break;
++      case 2:
+         //I have to store translations?
+         if( isset( $_POST[ 'action' ] ) && wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) {
+           global $wpdb;
+@@ -53,7 +57,7 @@ $page = $_GET[ 'page' ];
+         require_once ( CML_PLUGIN_FRONTEND_PATH . 'utils.php' );
+         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-widget-titles.php' );
+         break;
+-      case 2:
++      case 3:
+         require_once ( CML_PLUGIN_LAYOUTS_PATH . 'translate-sitename.php' );
+ 
+         $page = $_GET[ 'page' ];
+@@ -79,7 +83,7 @@ EOT;
+           echo '</div>';
+         echo '</form>';
+         break;
+-      case 3:
++      case 4:
+         //CML parser, used for translate theme and plugin
+         require_once ( CML_PLUGIN_ADMIN_PATH . 'po-parser.php' );
+ 
+@@ -91,4 +95,4 @@ EOT;
+     </div>
+   </div>
+   
+-</div>
++</div>
+\ No newline at end of file
+diff --git a/admin/admin-utils.php b/admin/admin-utils.php
+index 3dabde4..f2db331 100755
+--- a/admin/admin-utils.php
++++ b/admin/admin-utils.php
+@@ -36,6 +36,7 @@ function _cml_restore_wp_pointers() {
+   update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', implode( ",", $misseds ) );
+ }
+ 
++
+ function _cml_no_tables_found() {
+ echo <<< EOT
+     <div class="error">
+@@ -54,3 +55,27 @@ echo <<< EOT
+     </div>
+ EOT;
+ }
++
++function _cml_wp_error_div( $title, $msg ) {
++    
++echo <<< ERROR
++    <div class="error cml-notice">
++        <p>
++            <span class="title">CML: $title</span>
++            $msg
++        </p>
++    </div>
++ERROR;
++}
++
++function _cml_wp_updated_div( $title, $msg ) {
++    
++echo <<< UPDATED
++    <div class="updated cml-notice">
++        <p>
++            <span class="title">CML: $title</span>
++            $msg
++        </p>
++    </div>
++UPDATED;
++}
+diff --git a/admin/admin.php b/admin/admin.php
+index 3da1ca1..fbdf4a1 100755
+--- a/admin/admin.php
++++ b/admin/admin.php
+@@ -1,6 +1,7 @@
+ <?php
+ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
+ 
++//Save
+ require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-ajax-save.php' );
+ 
+ //Utils
+@@ -34,6 +35,9 @@ require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
+ require_once( CML_PLUGIN_ADMIN_PATH . 'admin-quickedit.php' );
+ require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-posts.php' );
+ 
++//Backup functions
++require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-backup-fn.php' );
++
+ //Setting mode: basic, intermediate, advanced
+ $GLOBALS[ 'cml_show_mode' ] = get_option( "ceceppaml_admin_advanced_mode", "show-basic" );
+ 
+@@ -139,6 +143,9 @@ class CMLAdmin extends CeceppaML {
+     //generate mo file
+     add_action( 'wp_ajax_ceceppaml_generate_mo', 'cml_admin_generate_mo' );
+ 
++    //Create a backup
++      add_action( 'wp_ajax_ceceppaml_do_backup', 'cml_do_backup' );
++
+     //Widget page
+     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );
+     
+@@ -210,48 +217,50 @@ class CMLAdmin extends CeceppaML {
+   function add_menu_pages() {
+     $page[] = add_menu_page('Ceceppa ML Options', __('Ceceppa Multilingua', 'ceceppaml'), 'administrator', 'ceceppaml-language-page', array(&$this, 'form_languages'), CML_PLUGIN_IMAGES_URL . 'logo-mini.png');
+ 
+-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Translate', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+-
++    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator" >' . __( 'Translate', 'ceceppaml' ) . '</div>', 'administrator', '', null );
++    
+     $page[] = add_submenu_page('ceceppaml-language-page', __('My translations', 'ceceppaml'), __('My translations', 'ceceppaml'), 'manage_options', 'ceceppaml-translations-page', array(&$this, 'form_translations'));
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Widget titles', 'ceceppaml'), __('Widget titles', 'ceceppaml'), 'manage_options', 'ceceppaml-widgettitles-page', array(&$this, 'form_translations'));
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Site Title'), __( 'Site Title' ) . "/" . __( 'Tagline' ), 'manage_options', 'ceceppaml-translations-title', array(&$this, 'form_translations'));
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Plugin', 'ceceppaml'), __( 'Plugin', 'ceceppaml' ), 'manage_options', 'ceceppaml-language-page&tab=2', array(&$this, 'form_languages'));
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Theme', 'ceceppaml'), __( 'Theme', 'ceceppaml' ), 'manage_options', 'ceceppaml-translations-plugins-themes', array(&$this, 'form_translations'));
+-
+-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+-
++    
++    //$page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator">' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
++    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator">' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
++    
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Show flags', 'ceceppaml'), __('Show flags', 'ceceppaml'), 'manage_options', 'ceceppaml-flags-page', array( &$this, 'form_flags' ) );
+     
+-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Settings', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+-
++    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator" >' . __( 'Settings', 'ceceppaml' ) . '</div>', 'administrator', '', null );
++    
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Settings', 'ceceppaml'), __('Settings', 'ceceppaml'), 'manage_options', 'ceceppaml-options-page', array(&$this, 'form_options'));
+-
++    $page[] = add_submenu_page('ceceppaml-language-page', __('Backup', 'ceceppaml'), __('Backup', 'ceceppaml'), 'manage_options', 'ceceppaml-backup-page', array(&$this, 'form_backups'));
++    
+     //Addons
+-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Addons', 'ceceppaml' ) . '</div>', 'administrator', '', null );
++    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator">' . __( 'Addons', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+ 
+     $page[] = add_submenu_page('ceceppaml-language-page', __('Available addons', 'ceceppaml'), __('Available addons', 'ceceppaml'), 'manage_options', 'ceceppaml-addons-page', array( & $this, 'form_addons' ) );
+-
++    
+     //filter all installe addons
+     $addons = CMLUtils::_get( '_addons', array() );
+     $tab = 1;
+     foreach( $addons as $addon ) {
+       $title = $addon[ 'title' ];
+       $link = 'ceceppaml-addons-page&tab=' . $tab;
+-
++    
+       $page[] = add_submenu_page( 'ceceppaml-language-page', 
+                                   $title, 
+                                   $title,
+                                   'manage_options', 
+                                   $link, 
+                                   array( & $this, 'form_addons' ) );
+-
++    
+       $title = strtolower( $title );
+       CMLUtils::_set( "_addon_{$title}_page", $link );
+       $tab++;
+     }
+-
++    
+     //Documentation
+-    $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Documentation', 'ceceppaml' ) . '</div>', 'administrator', '', null );
++    $page[] = add_submenu_page( 'ceceppaml-language-page', 'cml-separator', '<div class="cml-separator" />' . __( 'Documentation', 'ceceppaml' ) . '</div>', 'administrator', '', null );
+     $page[] = add_submenu_page( 'ceceppaml-language-page', __('Shortcodes', 'ceceppaml'), __('Shortcode', 'ceceppaml'), 'manage_options', 'ceceppaml-shortcode-page', array( & $this, 'shortcode_page' ) );
+     $page[] = add_submenu_page( 'ceceppaml-language-page', __('Api', 'ceceppaml'), __('Api', 'ceceppaml'), 'manage_options', 'ceceppaml-api-page', array( & $this, 'api_page' ) );
+     
+@@ -305,6 +314,13 @@ class CMLAdmin extends CeceppaML {
+   }
+ 
+   /*
++   * Manage the backups
++   */
++  function form_backups() {
++    require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-backups.php' );
++  }
++
++  /*
+    * Flags options
+    */
+   function form_flags() {
+@@ -329,7 +345,7 @@ class CMLAdmin extends CeceppaML {
+ 
+ 
+   /*
+-   * Add "pointer"
++   * Add "pointer" ( wp pointers )
+    */
+   function add_pointers() {
+     global $pagenow;
+@@ -672,6 +688,8 @@ EOT;
+    * update language of existings posts
+    */
+   function update_all_posts_language() {
++    global $_cml_language_columns;
++
+     cml_update_all_posts_language();
+ 
+     cml_fix_rebuild_posts_info();
+@@ -738,4 +756,4 @@ EOT;
+     return $b;
+   }
+ }
+-?>
++?>
+\ No newline at end of file
+diff --git a/admin/donate.php b/admin/donate.php
+index 4972e88..b20c1dc 100755
+--- a/admin/donate.php
++++ b/admin/donate.php
+@@ -33,7 +33,7 @@ function cml_donate_box_content() {
+       </div>
+       
+       <div class="method">
+-        <a href="https://flattr.com/submit/auto?user_id=ceceppa&url=http%3A%2F%2Fwww.alessandrosenese.eu%2Fmyworks%2Fceceppa-multilingua" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0"></a>
++        <a href="https://flattr.com/submit/auto?user_id=ceceppa&url=http%3A%2F%2Fwww.alessandrosenese.eu%2Fmyworks%2Fceceppa-multilingua" target="_blank"><img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this"></a>
+       </div>
+     </div>
+ <?php
+@@ -79,25 +79,20 @@ function cml_support_box_content() {
+ function cml_help_box_content() {
+ ?>
+     <div class="content">
+-        <ul class="cml-donate">
+-          <li>
+-              <a target="_blank" href="http://www.alessandrosenese.eu/en/ceceppa-multilingua/documentation">
+-                <?php _e( 'Setting up a WordPress multilingual site with Ceceppa Multilingua', 'ceceppaml' ); ?>
+-              </a>
+-            </li>
+-            <li>
+-              <a href="<?php echo admin_url() ?>admin.php?page=ceceppaml-api-page">
+-                <?php _e( 'Api', 'ceceppaml' ); ?>
+-              </a>
+-            </li>
+-        </ul>
++      <a target="_blank" href="http://www.alessandrosenese.eu/en/ceceppa-multilingua/documentation">
++        <?php _e( 'Setting up a WordPress multilingual site with Ceceppa Multilingua', 'ceceppaml' ); ?>
++      </a>
+     </div>
+ <?php
+ }
+ 
+-add_meta_box("cml_about_me_box", __( 'About Ceceppa:', 'ceceppaml' ), 'cml_about_me_box_content', "cml_donate_box");
++function cml_donate_metaboxes() {
++    add_meta_box("cml_about_me_box", __( 'About Ceceppa:', 'ceceppaml' ), 'cml_about_me_box_content', "cml_donate_box");
+ 
+-add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_content', "cml_donate_box");
+-add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
++    add_meta_box("cml_donate_box", __('Donate:', 'ceceppaml'), 'cml_donate_box_content', "cml_donate_box");
++    add_meta_box("cml_support_box", __('Contribute:', 'ceceppaml'), 'cml_support_box_content', "cml_donate_box");
+ 
+-add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
++    add_meta_box("cml_help_box", __('Documentation:', 'ceceppaml'), 'cml_help_box_content', "cml_donate_box");
++}
++
++add_action( 'admin_init', 'cml_donate_metaboxes' );
+\ No newline at end of file
+diff --git a/admin/fix.php b/admin/fix.php
+index c6c90e8..11e5ffe 100755
+--- a/admin/fix.php
++++ b/admin/fix.php
+@@ -251,7 +251,9 @@ function cml_do_update_old() {
+   //per avere la pagina iniziale in stile www.example.com/it dovevo modificare lo slug della
+   //pagina in "it", dalla 1.2.6 basta mettere una pagina statica come iniziale, il plugin
+   //si occuperà del resto...
+-  if($dbVersion <= 16) :
++  if( $dbVersion <= 16 || true ) :
++    require_once( CML_PLUGIN_FRONTEND_PATH . "utils.php" );
++
+     $id = cml_get_default_language_id();
+     $info = CMLLanguage::get_by_id( $id );
+ 
+@@ -262,12 +264,12 @@ function cml_do_update_old() {
+   endif;
+   
+   if( $dbVersion <= 17 ) :
+-  add_action( 'plugins_loaded', 'cml_fix_rebuild_posts_info' );
++    add_action( 'plugins_loaded', 'cml_fix_rebuild_posts_info' );
+   endif;
+   
+   if( $dbVersion <= 18 ) :
+     $wpdb->query( "ALTER TABLE  " . CECEPPA_ML_TABLE . " ADD  `cml_flag_path` TEXT" );
+-    endif;
++  endif;
+ }
+ 
+ function cml_fix_update_post_meta() {
+@@ -305,7 +307,8 @@ function cml_fix_update_post_meta() {
+  *
+  */
+ function cml_fix_rebuild_posts_info() {
+-  global $wpdb, $_cml_language_columns;
++  global $wpdb;
++  $_cml_language_columns = & $GLOBALS[ '_cml_language_columns' ];
+ 
+   $pids = array();
+   $apids = array(); //All pids
+@@ -336,8 +339,14 @@ function cml_fix_rebuild_posts_info() {
+     $i++;
+   }
+ 
+-  foreach( $_cml_language_columns as $key => $l ) {
+-    @update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
++  foreach( CMLLanguage::get_all() as $lang ) {
++    $key = $lang->id;
++
++    if( isset( $pids[ $key ] ) ) {
++      update_option( "cml_posts_of_lang_" . $key, array_unique( $pids[ $key ] ) );
++    } else {
++      update_option( "cml_posts_of_lang_" . $key, array() );
++    }
+   }
+ 
+   //unique posts
+@@ -391,12 +400,130 @@ function cml_update_all_posts_language() {
+                             'posts_per_page' => 999999,
+                             'status' => 'publish, draft, private'));
+ 
++  $wpdb->query( "DELETE FROM " . CECEPPA_ML_RELATIONS );
++
+   $did = CMLLanguage::get_default_id();
+   foreach($posts as $post) {
+-    echo "$post->ID,";
++    update_post_meta( $post->ID, "_cml_lang_id", $did );
+ 
+     CMLPost::set_language( $did,
+                           $post->ID );
+   } //endforeach;
+ }
+-?>
++
++/*
++ * The above function are used to migrate category information
++ * between "simple string" to "new category"
++ */
++function  cml_update_taxonomy_translations() {
++  global $wpdb;
++
++    CMLUtils::_set( "_saving_taxonomy", 1 );
++
++    $wpdb->query(  "ALTER TABLE  " . CECEPPA_ML_CATS . " ADD  `cml_translated_cat_id` INT;" );
++    
++    //Copy untranslated category
++    foreach( CMLLanguage::get_no_default() as $lang ) {
++      $query = "INSERT INTO " . CECEPPA_ML_CATS . " ( cml_cat_id, cml_cat_name, cml_cat_lang_id, cml_cat_translation, cml_cat_translation_slug, cml_taxonomy, cml_translated_cat_id ) SELECT t1.term_id, HEX(name), $lang->id,HEX(NAME),HEX(slug),taxonomy,t2.term_id FROM $wpdb->terms t1 INNER JOIN $wpdb->term_taxonomy t2 ON t1.term_id = t2.term_id WHERE t1.term_id NOT IN ( SELECT cml_cat_id FROM " . CECEPPA_ML_CATS . " UNION ALL SELECT cml_translated_cat_id FROM " . CECEPPA_ML_CATS . " )";
++      $wpdb->query( $query );
++    }
++
++    $rows = $wpdb->get_results( "SELECT *, UNHEX( cml_cat_name ) as name, UNHEX( cml_cat_translation ) as translation, UNHEX( cml_cat_translation_slug ) as slug FROM " . CECEPPA_ML_CATS );
++    $cmlcats = array();
++
++    foreach( $rows as $row ) {
++      $tterm = $row->cml_cat_id;
++      $exists = get_term_by( 'slug', $row->slug, $row->cml_taxonomy );
++      if( $row->cml_cat_name != $row->cml_cat_translation &&
++          $exists === false ) {
++        $cterm = get_term( $row->cml_cat_id, $row->cml_taxonomy );
++        $parent = CMLTranslations::get_linked_category( $cterm->parent, $row->cml_cat_lang_id );
++
++        $term = wp_insert_term( $row->translation, $row->cml_taxonomy, array(
++                                                                  'name' => $row->translation,
++                                                                  'description' => $row->translation,
++                                                                  'slug' => sanitize_title( $row->translation ),
++                                                                  'parent' => $parent,
++                                                                  )
++        );
++  
++        $class = @get_class( $term );
++        if( $class == "WP_Error" ) {
++          $tterm = @$term->error_data[ 'term_exists' ];
++        } else {
++          $tterm = $term[ 'term_id' ];
++        }
++      }
++
++      if( $exists != null ) {
++        $tterm = $exists->term_id;
++      }
++  
++      $wpdb->update( CECEPPA_ML_CATS,
++                      array( 'cml_translated_cat_id' => $tterm ),
++                      array( 'id' => $row->id ),
++                      array( '%d' ),
++                      array( '%d' )
++                   );
++
++      //Term with no translation exists in all language
++      if( ! isset( $cmlcats[ $row->cml_cat_lang_id ][ $row->cml_taxonomy ][ $tterm ] ) ) {
++        $cmlcats[ $row->cml_cat_lang_id ][ $row->cml_taxonomy ][] = $tterm;
++      }
++
++      if( ! isset( $cmlcats[ CMLLanguage::get_default_id() ][ $row->cml_taxonomy ][ $row->cml_cat_id ] ) ) {
++        $cmlcats[ CMLLanguage::get_default_id() ][ $row->cml_taxonomy ][] = CMLTranslations::get_linked_category( $row->cml_cat_id,
++                                                                                                                 CMLLanguage::get_default_id() );
++      }
++    }
++
++    $cats = array();
++    foreach( $cmlcats as $key => $taxonomies ) {
++      foreach( $taxonomies as $k => $ids ) {
++        $cats[ $key ][ $k ] = array_unique( $ids );
++      }
++    }
++
++    update_option( 'cml_categories', $cats );
++
++    cml_fix_update_post_categories();
++
++    CMLUtils::_del( "_saving_taxonomy" );
++}
++
++function cml_fix_update_post_categories() {
++  global $wpdb;
++
++  $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id <> cml_translated_cat_id", CECEPPA_ML_CATS );
++  $rows = $wpdb->get_results( $query );
++  
++  $categories = array();
++  foreach( $rows as $row ) {
++    $categories[] = $row->cml_cat_id;
++    $categories[] = $row->cml_translated_cat_id;
++  }
++
++  if( ! empty( $categories  ) ) {
++    $query = sprintf( "SELECT $wpdb->posts.ID, $wpdb->term_relationships.term_taxonomy_id, $wpdb->term_taxonomy.taxonomy FROM $wpdb->posts INNER JOIN $wpdb->term_relationships ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) INNER JOIN $wpdb->term_taxonomy ON $wpdb->term_relationships.term_taxonomy_id = $wpdb->term_taxonomy.term_taxonomy_id WHERE 1=1  AND ( $wpdb->term_relationships.term_taxonomy_id IN ( %s ) ) GROUP BY $wpdb->posts.ID",
++                join( ", ", array_unique( $categories ) ) );
++
++    $posts = $wpdb->get_results( $query );
++
++    $categories = array(); // $post->term_taxonomy_id );
++    foreach( $posts as $post ) {
++
++      foreach( CMLLanguage::get_no_default() as $lang ) {
++        $categories[ $post->ID ][ $post->taxonomy ][] = ( int ) CMLTranslations::get_linked_category( $post->term_taxonomy_id, $lang->id );
++      }
++    }
++
++    foreach( $categories as $id => $post ) {
++      $keys = array_keys( $post );
++      foreach( $keys as $key ) {
++        wp_set_object_terms( $id, array_unique( $post[ $key ] ), $key );
++      }
++    }
++  }
++}
++
++?>
+\ No newline at end of file
+diff --git a/admin/install.php b/admin/install.php
+index 499015f..5433fbd 100755
+--- a/admin/install.php
++++ b/admin/install.php
+@@ -104,7 +104,7 @@ function cml_install_first_time() {
+ 
+   /* Grab current language and add it to CECEPPA_ML_TABLE */
+   $rtl = 0;
+-  $locale = ( defined ( 'WPLANG' ) ) ? WPLANG : get_locale();
++  $locale = ( defined( 'WPLANG' ) ) ? WPLANG : get_locale();
+   if( empty( $locale ) ) $locale = "en_US";
+ 
+   //Search current WPLANG in my locales list :)
+@@ -229,4 +229,4 @@ function cml_do_install() {
+   update_option( '_cml_scan_folders', 1 );
+ }
+ 
+-?>
++?>
+\ No newline at end of file
+diff --git a/admin/layouts/backups-do.php b/admin/layouts/backups-do.php
+new file mode 100644
+index 0000000..1e3c128
+--- /dev/null
++++ b/admin/layouts/backups-do.php
+@@ -0,0 +1,45 @@
++<?php
++//wp_enqueue_script( 'plugin-install' );
++//add_thickbox();
++
++function cml_admin_box_backup() {
++?>
++  <input type="hidden" name="action" value="ceceppaml_do_backup" />
++  <div id="minor-publishing">
++      <?php _e( 'Select what do you want to backup:', 'ceceppaml' ) ?>
++      <ul class="cml-ul-list">
++          <li>
++              <?php echo cml_utils_create_checkbox( "Tables", "cml-tables", "cml-tables", null, 1, 1 ) ?>
++          </li>
++          <li>
++              <?php echo cml_utils_create_checkbox( "Settings", "cml-settings", "cml-settings", null, 1, 1 ) ?>
++          </li>
++      </ul>
++
++      <div class="cml-submit-button" style="height: 30px">
++        <div class="wpspinner">
++          <span class="spinner"></span>
++        </div>
++        <?php if( _cml_check_backup_folder() ) : ?>
++          <?php submit_button( __( 'Back it up', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
++        <?php else: ?>
++          <span class="button button-disabled"><?php _e( 'Backup not available', 'ceceppaml' ) ?></span>
++        <?php endif; ?>
++      </div>
++
++      <div style="clear: both"></div>
++  </div>
++  <div id="major-publishing-actions" class="cml-description">
++      <p>
++        <?php _e( 'Use this option to manually backup your plugin data and settings.', 'ceceppaml' ); ?><br />
++        <?php printf( __( 'The backup will stored in <i>%s</i> folder', 'ceceppaml' ), CECEPPAML_BACKUP_PATH ); ?><br />
++      </p>
++  </div>
++
++<?php
++}
++
++//add_meta_box( 'cml-box-backup', __( 'Backup', 'ceceppaml' ), 'cml_admin_box_backup', 'cml_box_backup' );
++$help = __( 'Show/Hide help', 'ceceppaml' );
++
++add_meta_box( 'cml-box-backup', '<span class="cml-icon cml-icon-backup "></span>' . __( 'Backup', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_box_backup', 'cml_box_backup' );
+diff --git a/admin/layouts/backups-import-export.php b/admin/layouts/backups-import-export.php
+new file mode 100644
+index 0000000..eae06f1
+--- /dev/null
++++ b/admin/layouts/backups-import-export.php
+@@ -0,0 +1,87 @@
++<?php
++//wp_enqueue_script( 'plugin-install' );
++//add_thickbox();
++
++function cml_admin_box_backup_export() {
++?>
++  <input type="hidden" name="action" value="ceceppaml_export_backup" />
++  <div id="minor-publishing">
++      <?php _e( 'Select what do you want to backup:', 'ceceppaml' ) ?>
++      <ul class="cml-ul-list">
++          <li>
++              <?php echo cml_utils_create_checkbox( "Tables", "cml-tables", "cml-tables", null, 1, 1 ) ?>
++          </li>
++          <li>
++              <?php echo cml_utils_create_checkbox( "Settings", "cml-settings", "cml-settings", null, 1, 1 ) ?>
++          </li>
++      </ul>
++
++      <div class="cml-submit-button" style="height: 30px">
++        <div class="wpspinner">
++          <span class="spinner"></span>
++        </div>
++        <?php submit_button( __( 'Export', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
++      </div>
++
++      <div style="clear: both"></div>
++  </div>
++  <div id="major-publishing-actions" class="cml-description">
++      <p>
++        <?php _e( 'Use this option to manually backup your plugin data and settings.', 'ceceppaml' ); ?><br />
++        <?php printf( __( 'The backup will stored in <i>%s</i> folder', 'ceceppaml' ), CECEPPAML_BACKUP_PATH ); ?><br />
++      </p>
++  </div>
++
++<?php
++}
++
++function cml_admin_box_backup_import() {
++?>
++  <input type="hidden" name="action" value="ceceppaml_import_backup" />
++  <div id="minor-publishing">
++      <?php _e( 'Select files to import:', 'ceceppaml' ) ?>
++      <ul class="cml-ul-list">
++          <li>
++              <?php _e( 'Database ( *.sql )', 'ceceppaml' ) ?>
++              <blockquote>
++                  <input type="file" name="database" />
++              </blockquote>
++          </li>
++          <li>
++              <?php _e( 'Settings ( *.settings )', 'ceceppaml' ) ?>
++              <blockquote>
++                  <input type="file" name="settings" />
++              </blockquote>
++          </li>
++          <li>
++              <?php _e( 'Settings extra ( *.extra )', 'ceceppaml' ) ?>
++              <blockquote>
++                  <input type="file" name="sextra" />
++              </blockquote>
++          </li>
++      </ul>
++
++      <div class="cml-submit-button" style="height: 30px">
++        <div class="wpspinner">
++          <span class="spinner"></span>
++        </div>
++        <?php submit_button( __( 'Import', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
++      </div>
++
++      <div style="clear: both"></div>
++  </div>
++  <div id="major-publishing-actions" class="cml-description">
++      <p>
++        <?php _e( 'Use this option to manually backup your plugin data and settings.', 'ceceppaml' ); ?><br />
++        <?php printf( __( 'The backup will stored in <i>%s</i> folder', 'ceceppaml' ), CECEPPAML_BACKUP_PATH ); ?><br />
++      </p>
++  </div>
++
++<?php
++}
++
++//add_meta_box( 'cml-box-backup', __( 'Backup', 'ceceppaml' ), 'cml_admin_box_backup', 'cml_box_backup' );
++$help = __( 'Show/Hide help', 'ceceppaml' );
++
++add_meta_box( 'cml-box-backup-import', '<span class="cml-icon cml-icon-backup "></span>' . __( 'Import', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_box_backup_import', 'cml_box_backup' );
++add_meta_box( 'cml-box-backup-export', '<span class="cml-icon cml-icon-backup "></span>' . __( 'Export', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_box_backup_export', 'cml_box_backup' );
+diff --git a/admin/layouts/backups-list.php b/admin/layouts/backups-list.php
+new file mode 100644
+index 0000000..e0237c2
+--- /dev/null
++++ b/admin/layouts/backups-list.php
+@@ -0,0 +1,25 @@
++<?php
++    require_once ( CML_PLUGIN_LAYOUTS_PATH . 'class-backups.php' );
++?>
++
++<form class="ceceppa-form-translations" name="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo $_GET['page'] ?>">
++  <input type="hidden" name="add" value="1" />
++  <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
++  <input type="hidden" name="form" value="1" />
++  <input type="hidden" name="tab" value="<?php echo @$_REQUEST[ 'tab' ] ?>" />
++  <?php
++    $table = new MyBackups_Table();
++    $table->prepare_items();
++
++    $table->display();
++  ?>
++  <div style="text-align:right">
++    <p class="submit" style="float: right">
++    <?php if( count( CMLLanguage::get_all() ) > 1 ) : ?>
++    <input type="button" class="button button-secondaty" name="add" value="<?php _e('Add', 'ceceppaml') ?>" onclick="addRow(<?php echo count( $lkeys ) . ", '" . join(",", $lkeys ) ?>', <?php echo CMLLanguage::get_default_id() ?>)" />
++    <?php endif; ?>
++    <?php submit_button( __( 'Update', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
++    </p>
++  </div>
++</form>
++
+diff --git a/admin/layouts/class-backups.php b/admin/layouts/class-backups.php
+new file mode 100644
+index 0000000..38a2de6
+--- /dev/null
++++ b/admin/layouts/class-backups.php
+@@ -0,0 +1,224 @@
++<?php
++if ( ! defined( 'ABSPATH' ) ) die( 'Access denied' ); // Exit if accessed directly
++
++class MyBackups_Table extends WP_List_Table {
++    /** ************************************************************************
++     * REQUIRED. Set up a constructor that references the parent constructor. We 
++     * use the parent reference to set some default configs.
++     ***************************************************************************/
++    function __construct(){
++        global $status, $page;
++                
++        //Set parent defaults
++        parent::__construct( array(
++            'singular'  => 'mybackup',     //singular name of the listed records
++            'plural'    => 'mybackups',    //plural name of the listed records
++            'ajax'      => false        //does this table support ajax?
++        ) );
++    }
++
++    function column_title($item){
++      //Build row actions
++      $actions = array(
++          'edit'      => sprintf('<a href="?page=%s&action=%s&movie=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID']),
++          'delete'    => sprintf('<a href="?page=%s&action=%s&movie=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
++      );
++      
++      //Return the title contents
++      return sprintf('%1$s <span style="color:silver">(id:%2$s)</span>%3$s',
++          /*$1%s*/ $item['title'],
++          /*$2%s*/ $item['ID'],
++          /*$3%s*/ $this->row_actions($actions)
++      );
++    }
++
++    function column_cb($item){
++      return sprintf( '<img src="%sremove.png" title="Remove" />',
++                     CML_PLUGIN_IMAGES_URL );
++        //return sprintf(
++        //    '<input type="checkbox" name="%1$s[]" value="%2$s" />',
++        //    /*$1%s*/ $this->_args['singular'],  //Let's simply repurpose the table's singular label ("movie")
++        //    /*$2%s*/ $item['ID']                //The value of the checkbox should be the record's id
++        //);
++    }
++
++    function get_columns(){
++        $columns = array(
++            'backup' => __( 'Date', 'ceceppaml' ),
++            'database' => __( 'Database', 'ceceppaml' ),
++            'settings' => __( 'Settings', 'ceceppaml' ),
++//            'actions' => __( 'Actions', 'ceceppaml' ),
++        );
++
++        return $columns;
++    }
++    
++    function get_sortable_columns() {
++        
++        return null;
++    }
++    
++    
++    function get_bulk_actions() {
++      return array();
++    }
++    
++    function process_bulk_action() {
++      global $wpdb;
++    }
++    
++    function prepare_items() {
++      global $wpdb;
++
++
++      /**
++       * First, lets decide how many records per page to show
++       */
++      $per_page = 40;
++      
++      /**
++       */
++      $columns = $this->get_columns();
++      $hidden = array( 'id' );			//L'id mi serve ma non deve essere visibile ;)
++      $sortable = array(); //$this->get_sortable_columns();
++
++      $this->_column_headers = array( $columns, $hidden, $sortable );
++      $this->process_bulk_action();
++        
++      /* -- Preparing your query -- */
++      $search = isset( $_GET[ 's' ] ) ? mysql_real_escape_string( $_GET[ 's' ] ) : '';
++
++      $keys = array_keys( $this->_groups );
++      $query = "SELECT min(id) as id, UNHEX(cml_text) as cml_text, cml_type FROM " . CECEPPA_ML_TRANSLATIONS .
++                                " WHERE cml_type in ( '" . join( "', '", $keys ) . "' ) GROUP BY cml_text ORDER BY cml_type, UNHEX( cml_text ) ";
++
++      $data = $wpdb->get_results( $query );
++
++      $current_page = $this->get_pagenum();
++      
++      $total_items = count( $data );
++      
++      $data = array_slice($data,(($current_page-1)*$per_page),$per_page);
++      
++      $this->items = $data;
++      
++      $this->set_pagination_args( array(
++          'total_items' => $total_items,                  //WE have to calculate the total number of items
++          'per_page'    => $per_page,                     //WE have to determine how many items to show on a page
++          'total_pages' => ceil($total_items/$per_page)   //WE have to calculate the total number of pages
++      ) );
++    }
++    
++    function display_rows() {
++      global $wpdb;
++
++      //Get the records registered in the prepare_items method
++      $records = $this->items;
++
++      //Get the columns registered in the get_columns and get_sortable_columns methods
++      list( $columns, $hidden ) = $this->get_column_info();
++
++      $alternate = "";
++
++      //Loop for each record
++      if( ! empty( $records ) ) {
++        //Check for what language I have to hide translation field for default language
++        $hide_for = apply_filters( "cml_my_translations_hide_default", array( 'S' ) );
++
++        $langs = CMLLanguage::get_all();
++
++        foreach( $records as $rec ) {
++          //Open the line
++          $alternate = ( empty ( $alternate ) ) ? "alternate" : "";
++          
++          $group = $rec->cml_type;
++          if( in_array( $rec->cml_text, array( "_notice_page", "_notice_post" ) ) ) {
++            $group = "_cml_";
++          }
++          echo '<tr id="record_' . $rec->id . '" class="' . $alternate . ' row-domain string-' . $group . '">';
++          
++  
++          foreach ( $columns as $column_name => $column_display_name ) {
++            //Style attributes for each col
++            $attributes = "class='$column_name column-$column_name'";
++    
++            //Display the cell
++            switch ( $column_name ) {
++            case "remove":
++              echo '<td ' . $attributes . '>';
++              
++              if( ! in_array( $rec->cml_text, array( "_notice_page", "_notice_post" ) ) ) {
++                echo '<input type="checkbox" name="delete[]" value="' . esc_attr( $rec->cml_text ) . '" id="id-' . $rec->id . '" class="id-' . $rec->id . '" />';
++              }
++
++              echo '<input type="hidden" name="id[]" value="' . intval( $rec->id ) . '" class="id-' . $rec->id . '" />';
++              echo '<input type="hidden" name="group[]" value="' . $rec->cml_type . '" class="id-' . $rec->id . '" />';
++              echo '</td>';
++              break;
++            case "group":
++              echo '<td ' . $attributes . '>';
++              echo '<label for="id-' . $rec->id . '">';
++              echo $this->_groups[ $rec->cml_type ];
++              echo '</label>';
++              echo '</td>';
++              break;
++            case "string":
++              echo '<td ' . $attributes . '>';
++              
++              $title = $rec->cml_text;
++              if( "_notice_post" == $title ) {
++                $title = __( "Post notice:", "ceceppaml" );
++              }
++              
++              if( "_notice_page" == $title ) {
++                $title = __( "Page notice:", "ceceppaml" );
++              }
++
++              if( "_" == $title[ 0 ] ) {
++                $group = strtolower( $rec->cml_type ) . "_";
++                $title = str_replace( $group, "", $title );
++              }
++
++              $title = apply_filters( 'cml_my_translations_label', $title, $rec->cml_type );
++              echo '<input type="hidden" name="string[]" value="' . $rec->cml_text . '"/>';
++              echo $title;
++              echo '</td>';
++              break;
++            case "translation":
++              echo '<td ' . $attributes . '>';
++
++              /*
++               * Number of elements $values must be same for each language !
++               */
++              foreach( $langs as $lang ) {
++                $class = ( in_array( $rec->cml_type, $hide_for )
++                         && CMLLanguage::is_default( $lang->id )
++                         ) ? "cml-hidden" : "";
++
++                echo '<div class="cml-myt-flag ' . $class . '">';
++                echo CMLLanguage::get_flag_img( $lang->id );
++                
++                $value = CMLTranslations::get( $lang->id,
++                                           $rec->cml_text,
++                                           $rec->cml_type, true, true );
++
++                $q = sprintf( "SELECT id FROM %s WHERE cml_text = '%s' AND cml_lang_id = %d", CECEPPA_ML_TRANSLATIONS, bin2hex( $rec->cml_text ), $lang->id );
++                $recid = $wpdb->get_var( $q );
++
++                echo '<input type="hidden" name="ids[' . $rec->id . '][' . $lang->id .  ']" value="' . intval( $recid ) . '" />';
++                echo '&nbsp;<input type="text" name="values[' . $lang->id .  '][]" value="' . $value . '" style="width: 90%" />';
++                echo '</div>';
++              }
++              echo '</td>';
++              break;
++            default:
++              echo $column_name;
++            } //switch
++          } //endforeach; 	//$columns as $column_name
++          
++      	  echo'</tr>';
++        } //foreach
++      } //if
++    }
++}
++?>
+diff --git a/admin/layouts/options-advanced.php b/admin/layouts/options-advanced.php
+index e3c9d0e..daed9ab 100644
+--- a/admin/layouts/options-advanced.php
++++ b/admin/layouts/options-advanced.php
+@@ -83,7 +83,6 @@ function cml_admin_options_enable_debug() {
+   <div id="minor-publishing">
+     <div>
+         <?php echo cml_utils_create_checkbox( "Debug", "cml-debug", "cml-debug", null, 1, get_option( "cml_debug_enabled", 0 ) ) ?>
+-        <?php submit_button() ?>
+     </div>
+   </div>
+ 
+@@ -97,7 +96,6 @@ function cml_admin_options_update_static_page() {
+   <div id="minor-publishing">
+     <div>
+         <?php echo cml_utils_create_checkbox( __( 'Update static page', 'ceceppaml' ), "cml-static", "cml-static", null, 1, get_option( "cml_update_static_page", 1 ) ) ?>
+-        <?php submit_button() ?>
+     </div>
+   </div>
+ 
+@@ -107,15 +105,50 @@ function cml_admin_options_update_static_page() {
+ <?php
+ }
+ 
++function cml_admin_options_update_taxonomies() {
++  ?>
++  <div id="minor-publishing">
++    <div>
++        <?php printf( __('Update required, click <%s>here</a> for update posts taxonomy information', 'ceceppaml'),
++                     'a href="' . add_query_arg( array( "cml_tax" => 1 ) ) . '"' ); ?>
++    </div>
++  </div>
++
++  <div id="major-publishing-actions" class="cml-description">
++  </div>
++<?php
++}
++
++function cml_admin_remove_extra_slug() {
++  ?>
++  <div id="minor-publishing">
++    <div>
++        <?php echo cml_utils_create_checkbox( __( 'Remove the numeric append on duplicate wordpress titles', 'ceceppaml' ), "cml-extra", "cml-extra", null, 1, get_option( "cml_remove_extra_slug", 1 ) ) ?>
++    </div>
++  </div>
++
++  <div id="major-publishing-actions" class="cml-description">
++  </div>
++<?php
++}
++
+ $help = __( 'Show/Hide help', 'ceceppaml' );
+ 
+ add_meta_box( 'cml-box-start-wizard', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Wizard', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_wizard', 'cml_box_options' );
+ add_meta_box( 'cml-box-assign-to', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update language of existing posts', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_language', 'cml_box_options' );
+ add_meta_box( 'cml-box-restore-helps', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Restore helps', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_pointers', 'cml_box_options' );
+ add_meta_box( 'cml-box-update-relations', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update post relations', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_relations', 'cml_box_options' );
++
++if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
++  add_meta_box( 'cml-box-update-taxonomies', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update taxonomies', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_taxonomies', 'cml_box_options' );
++}
++
+ add_meta_box( 'cml-box-enable-static-change', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Static page', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_static_page', 'cml_box_options' );
+ 
++//Disattiva rimozione extra slug
++add_meta_box( 'cml-box-disable-extra-slug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Duplicated titles', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_remove_extra_slug', 'cml_box_options' );
++
+ if( file_exists( CML_PLUGIN_PATH . "debug.php" ) ) {
+   add_meta_box( 'cml-box-enable-debug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Debug', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_enable_debug', 'cml_box_options' );
+ }
+-?>
++?>
+\ No newline at end of file
+diff --git a/admin/layouts/options-experimental.php b/admin/layouts/options-experimental.php
+new file mode 100644
+index 0000000..3cb1151
+--- /dev/null
++++ b/admin/layouts/options-experimental.php
+@@ -0,0 +1,82 @@
++<?php
++require_once( CML_PLUGIN_FRONTEND_PATH . "utils.php" );
++
++function cml_admin_experimental_category() {
++  ?>
++  <div id="minor-publishing">
++    <div class="cml-indent">
++      <?php _e( 'Store translated category as', 'ceceppaml' ) ?>
++      <input type="hidden" name="experiments[]" value="xp-create-translated-category" />
++    </div>
++    <ul>
++      <li>
++        <label>
++          <input type="radio" name="xp-create-translated-category[]" value="0" <?php checked( CML_STORE_CATEGORY_AS, CML_CATEGORY_AS_STRING ); ?> />
++          <?php _e( 'String', 'ceceppaml' ); ?>
++        </label>
++      </li>
++
++      <li>
++        <label>
++          <input type="radio" name="xp-create-translated-category[]" value="1" <?php checked( CML_STORE_CATEGORY_AS, CML_CATEGORY_CREATE_NEW ); ?> />
++          <?php _e( 'New category', 'ceceppaml' ); ?>
++        </label>
++      </li>
++
++      <div class="cml-submit-button" style="height: 40px">
++        <div class="wpspinner">
++          <span class="spinner"></span>
++        </div>
++        <?php submit_button(); ?>
++      </div>
++    </ul>
++  </div>
++
++  <div id="major-publishing-actions" class="cml-description">
++    <dl class="cml-dl-list">
++      <dt>
++        <?php _e( 'String', 'ceceppaml' ); ?>
++        <dd>
++          <?php _e( 'This method store category translation as simple string', 'ceceppaml' ) ?>
++        </dd>
++    
++      <dt>
++        <?php _e( 'Create new', 'ceceppaml' ); ?>
++        <dd>
++          <?php _e( 'When use to translate a category the plugin will create a new category in wp', 'ceceppaml' ) ?>.
++        </dd>
++    </dl>
++  </div>
++<?php
++}
++
++function cml_admin_experimental_disclaimer() {
++  ?>
++  <div id="minor-publishing">
++    <div>
++      <?php
++        _e( 'Experimental features will be automatically enabled when they are ready to use.', 'ceceppaml' );
++      ?>
++      <br />
++      <h3 style="text-align: center; color: #f00">
++      <?php
++        _e( 'Enable them at your own risk', 'ceceppaml' );
++      ?>
++      </h3>
++    </div>
++  </div>
++
++  <div id="major-publishing-actions" class="cml-description">
++    <?php _e( 'If you need help, contact me', 'ceceppaml' ); ?>
++  </div>
++<?php
++}
++
++$help = __( 'Show/Hide help', 'ceceppaml' );
++
++//Disclaimer
++add_meta_box( 'cml-box-disclaimer', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Experimental features', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_experimental_disclaimer', 'cml_box_options' );
++
++//New category storing method
++add_meta_box( 'cml-box-category-method', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Category', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_experimental_category', 'cml_box_options' );
++?>
+\ No newline at end of file
+diff --git a/admin/layouts/options-filters.php b/admin/layouts/options-filters.php
+index 9d109a2..1e1cf3b 100755
+--- a/admin/layouts/options-filters.php
++++ b/admin/layouts/options-filters.php
+@@ -259,4 +259,3 @@ add_meta_box( 'cml-box-options-widgets', '<span class="cml-icon cml-icon-widgets
+ 
+ add_meta_box( 'cml-box-options-comments', '<span class="cml-icon cml-icon-comments"></span>' . __( 'Comments', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_filter_comments', 'cml_box_options' );
+ add_meta_box( 'cml-box-options-menu', '<span class="cml-icon cml-icon-menu "></span>' . __( 'Translate menu', 'ceceppaml' ) . "<span class=\"cml-help tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_translate_menu', 'cml_box_options' );
+-?>
+diff --git a/admin/layouts/options-flags.php b/admin/layouts/options-flags.php
+index cac9e3c..ed62594 100755
+--- a/admin/layouts/options-flags.php
++++ b/admin/layouts/options-flags.php
+@@ -142,6 +142,18 @@ function cml_admin_options_flags_show() {
+         <label for="flags-translated-only"><span>||</span></label>
+       </div>
+       <label for="flags-translated-only"><?php _e( 'Show flags only on translated page.', 'ceceppaml' ) ?></label>
++
++      <br />
++      <ul>
++        <li>
++          <div class="cml-checkbox">
++            <input type="checkbox" id="flags-on-homepage" name="flags-on-homepage" value="1" <?php checked( $_cml_settings[ 'cml_option_flags_on_homepage' ], 1 ) ?> />
++            <label for="flags-on-homepage"><span>||</span></label>
++          </div>
++          <label for="flags-on-homepage"><?php _e( 'Homepage', 'ceceppaml' ) ?></label>
++        </li>
++      </ul>
++
+     </div>
+   </div>
+ 
+diff --git a/admin/layouts/translate-my.php b/admin/layouts/translate-my.php
+index c65b4d9..771b10c 100755
+--- a/admin/layouts/translate-my.php
++++ b/admin/layouts/translate-my.php
+@@ -86,7 +86,7 @@ EOT;
+       //record id
+       $id = intval( $_POST[ 'id' ][ $i ] );
+       $text = esc_attr( $_POST[ 'string' ][ $i ] );
+-      $group = esc_attr( $_POST[ 'group' ][ $i ] );
++      $group = sanitize_title( esc_attr( $_POST[ 'group' ][ $i ] ) );
+ 
+       foreach( $langs as $lang ) {
+         $value = esc_attr( $_POST[ 'values' ][ $lang->id ][ $i ] );
+@@ -124,4 +124,3 @@ EOT;
+     //generate .po
+     cml_generate_mo_from_translations( "_X_", true );
+   }
+-?>
+diff --git a/admin/migrate.php b/admin/migrate.php
+index 98c8c7a..0bbca05 100755
+--- a/admin/migrate.php
++++ b/admin/migrate.php
+@@ -157,7 +157,7 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
+ 
+   $record = _cml_migrate_get_record( $lang, $pid );
+   if( ! empty( $record ) ) {
+-    if( $record[ "lang_$llang" ] != $lpid ) {
++    if( $llang > 0 && $record[ "lang_$llang" ] != $lpid ) {
+       if( $record[ "lang_$llang" ] > 0 ) {
+         /*
+          * I changed linked post, but I need to took other relations.
+@@ -185,6 +185,7 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
+       } else if( $lpid > 0 ) {
+         //Remove old connections for "linked id"
+         $rl = _cml_migrate_get_record_by_pid( $lpid );
++
+         if( $rl[ 'id' ] != $record[ 'id' ] ) {
+           _cml_migrate_set_pids_to_zero( $lpid, $rl );
+         }
+@@ -314,7 +315,7 @@ function _cml_migrate_add_record( $lang, $pid, $linked = 0 ) {
+ function cml_migrate_create_table() {
+   global $wpdb;
+ 
+-  $wpdb->query( "DROP TABLE IF EXISTS " . CECEPPA_ML_RELATIONS );
++  $wpdb->query( "DROP TABLE " . CECEPPA_ML_RELATIONS );
+ 
+   $langs = cml_get_languages( false );
+ 
+diff --git a/admin/po-parser.php b/admin/po-parser.php
+index 15bc81e..e419d1e 100644
+--- a/admin/po-parser.php
++++ b/admin/po-parser.php
+@@ -256,7 +256,6 @@ $in = $this->_translate_in;
+           }
+           
+         } //foreach
+-
+         $id++;
+ 
+         if( $translated == 0 ) {
+diff --git a/ceceppaml.php b/ceceppaml.php
+old mode 100644
+new mode 100755
+index 8a8dde5..8d470bd
+--- a/ceceppaml.php
++++ b/ceceppaml.php
+@@ -1,9 +1,9 @@
+ <?php
+ /*
+ Plugin Name: Ceceppa Multilingua
+-Plugin URI: http://www.alessandrosenese.eu/portfolio/ceceppa-multilingua
++Plugin URI: http://www.ceceppa.eu/portfolio/ceceppa-multilingua/
+ Description: Adds userfriendly multilingual content management and translation support into WordPress.
+-Version: 1.4.38
++Version: 1.4.999
+ Author: Alessandro Senese aka Ceceppa
+ Author URI: http://www.alessandrosenese.eu/
+ License: GPL3
+@@ -91,6 +91,14 @@ define( 'CML_PLUGIN_DOC_PATH', CML_PLUGIN_PATH . trailingslashit ( 'doc' ) );
+ define( 'CML_PLUGIN_FRONTEND_PATH', CML_PLUGIN_PATH . trailingslashit ( 'frontend' ) );
+ 
+ /*
++ * From 1.5 I'll create new category when the user decide to translate it
++ * for backward compatibility user can choose to use older method ( translation are stored only as a string )
++ */
++define( 'CML_CATEGORY_AS_STRING', 0 );
++define( 'CML_CATEGORY_CREATE_NEW', 1 );       //new method
++define( 'CML_STORE_CATEGORY_AS', get_option( "cml_create_translated_category", CML_CATEGORY_AS_STRING ) );
++
++/*
+  * Wordpress languages directory
+  */
+ define( 'CECEPPA_WP_LANGUAGES', WP_CONTENT_DIR . "/languages" );
+@@ -150,12 +158,12 @@ require_once( CML_PLUGIN_INCLUDES_PATH . "functions.php" );
+ require_once CML_PLUGIN_INCLUDES_PATH . "widgets.php";
+ 
+ //debug
+- if( file_exists( CML_PLUGIN_PATH . "debug.php" ) &&
++if( file_exists( CML_PLUGIN_PATH . "debug.php" ) &&
+      1 == get_option( "cml_debug_enabled" ) ) {
+    define( 'CML_DEBUG', 1 );
+ 
+- require_once( "debug.php" );
+- }
++     require_once( "debug.php" );
++}
+ 
+ //3rd party compatibility
+ require_once( CML_PLUGIN_INCLUDES_PATH . 'compatibility.php' );
+@@ -174,6 +182,7 @@ class CeceppaML {
+   protected $_request_url = null;
+   protected $_permalink_structure = null;
+   protected $_category_url_mode = null;
++  protected $_categories = null;
+ 
+   public function __construct() {
+     global $_cml_settings;
+@@ -181,10 +190,10 @@ class CeceppaML {
+       //Db
+     $GLOBALS[ 'cml_db_version' ] = get_option( 'cml_db_version', CECEPPA_DB_VERSION );
+ 
+-    $http = ( ! is_ssl() ) ? "http://" : "https://";
+-    $this->_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
++    $this->_http = is_ssl() ? "https://" : "http://";
++    $this->_url = $this->_http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+     $this->_homeUrl = home_url() . "/";
+-    $this->_base_url = str_replace( $http . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
++    $this->_base_url = str_replace( $this->_http  . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
+     $this->_request_url = str_replace($this->_homeUrl, "", $this->_url);
+     $this->_permalink_structure = get_option( "permalink_structure" );
+ 
+@@ -211,7 +220,6 @@ class CeceppaML {
+     add_filter( 'post_type_link', array( & $this, 'translate_post_link' ), 0, 3 );
+ 
+     if( $this->_url_mode > PRE_LANG ) {
+-//       add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
+       add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
+     }
+ 
+@@ -226,10 +234,21 @@ class CeceppaML {
+     }
+ 
+     CMLUtils::_set( 'cml_category_mode', $this->_category_url_mode );
++
++    /* create new category */
++    if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
++      //Taxonomies by language
++      $this->_categories = CMLUtils::_get_option( "cml_categories", array() );
++
++      //Translate term
++      add_filter( 'get_terms', array( & $this, 'get_object_terms' ), 0, 3 );
++      add_filter( 'get_the_terms', array( & $this, 'get_the_terms' ), 0, 3 );
++      add_filter( 'wp_get_object_terms', array( & $this, 'get_object_terms' ), 0, 3 );
++    }
+   }
+ 
+   /*
+-   * yeah, the plugin is activaed :)
++   * yeah, the plugin is activated :)
+    */
+   function activated() {
+     require_once ( CML_PLUGIN_ADMIN_PATH . "install.php" );
+@@ -339,6 +358,44 @@ EOT;
+                                      'parent' => $parent ) );
+   }
+ 
++
++  /* return only categories that exists in current language */
++  function get_the_terms( $terms, $post_id, $taxonomy ) {
++    $lang = CMLLanguage::get_id_by_post_id( $post_id );
++
++    foreach( $terms as $key => $term ) {
++      if( ! is_object( $term ) ) return $terms;
++
++      if( isset( $this->_categories[ $lang ][ $term->taxonomy ] ) && ! in_array( $term->term_id, $this->_categories[ $lang ][ $term->taxonomy ] ) ) {
++        unset( $terms[ $key ] );
++      }
++    }
++
++    return $terms;
++  }
++
++  function get_object_terms( $terms, $object_ids, $taxonomies ) {
++    global $pagenow;
++
++    $lang = isset( $_GET[ 'post' ] ) ? CMLLanguage::get_id_by_post_id( $_GET[ 'post' ] ) :
++                                        CMLLanguage::get_current_id();
++
++    if( isset( $_GET[ 'post-lang' ] ) ) {
++      $lang = intval( $_GET[ 'post-lang' ] );
++    }
++
++    foreach( $terms as $key => $term ) {
++      if( ! is_object( $term ) ) return $terms;
++
++      if( isset( $this->_categories[ $lang ][ $term->taxonomy ] ) &&
++         ! in_array( $term->term_id, $this->_categories[ $lang ][ $term->taxonomy ] ) ) {
++        unset( $terms[ $key ] );
++      }
++    }
++
++    return $terms;
++  }
++
+   function pre_post_link( $permalink, $post, $leavename ) {
+     if( is_preview() ) {
+       return $permalink;
+@@ -399,7 +456,7 @@ EOT;
+       $permalink = untrailingslashit( $permalink );
+     }
+ 
+-    if( isset( $post->post_name ) && $post->post_type == "page" ) {
++    if( isset( $post->post_name ) ) {
+       $permalink = $this->translate_page_link( $permalink, $post, $leavename );
+     }
+ 
+@@ -411,6 +468,8 @@ EOT;
+   }
+ 
+   function translate_page_link( $permalink, $page, $leavename ) {
++    $original = $permalink;
++
+     if( is_preview() ) {
+       return $permalink;
+     }
+@@ -433,36 +492,17 @@ EOT;
+     unset( $this->_force_post_lang );
+     unset( $GLOBALS[ '_cml_force_home_slug' ] );
+ 
+-/*
+- *  Commented out to allow WooCommerce link translation properly ( checkout )
+-*/
+-    if( ! defined( 'CML_WOOCOMMERCE_PATH' ) ) :
+-        if( CMLLanguage::is_current( $lang->id ) ) {
+-          return CMLPost::remove_extra_number( $permalink, $page );
+-        }
+-    endif;
++//For WooCommerce
++//    if( CMLLanguage::is_current( $lang->id ) ) {
++//      return CMLPost::remove_extra_number( $permalink, $page );
++//    }
+ 
+     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
+     $permalink = CMLPost::remove_extra_number( $permalink, $page );
+ 
+-    /*
+-     * Remove extra "number" from page parent
+-     */
+-    //if( $page->post_parent > 0 ) {
+-    //  $p = get_page( $page->post_parent );
+-    //
+-    //  //Check if numbers in page slug is > than in page title
+-    //  preg_match_all( "/\d+/", $p->post_title, $pout );
+-    //  preg_match_all( "/-\d+/", $p->post_name, $out );
+-    //
+-    //  if( count( $pout[0] ) < count( $out[ 0 ] ) && CMLPost::has_translations( $p->ID ) ) {
+-    //    $ppermalink = get_permalink( $page->post_parent );
+-    //
+-    //    die();
+-    //  }
+-    //}
+-
+-    return $this->convert_url( $permalink, $slug );
++    $permalink = $this->convert_url( $permalink, $slug );
++
++    return $permalink;
+   }
+ 
+   /*
+diff --git a/cmladdons.txt b/cmladdons.txt
+deleted file mode 100644
+index e5a29b0..0000000
+--- a/cmladdons.txt
++++ /dev/null
+@@ -1,15 +0,0 @@
+-!--cml-for-customizr/cml4customizr.php
+-Name: Ceceppa Multilingua support for Customizr
+-Description: Plugin to make Ceceppa Multilingua work with Customizr.
+-Url:http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-customizr
+-Wp:http://wordpress.org/plugins/ceceppa-multilingua-support-for-customizr/
+-Git:https://github.com/ceceppa/cml-for-customizr
+---!
+-
+-!--/
+-Name: Ceceppa Multilingua support for Woocommerce
+-Description: Plugin to make Ceceppa Multilingua work with Woocommerce. The plugin is ready to test :)
+-Url:http://www.alessandrosenese.eu/en/ceceppa-multilingua/ceceppa-multilingua-for-woocommerce
+-Wp:
+-Git:https://github.com/ceceppa/cml-for-woocommerce
+--->
+\ No newline at end of file
+diff --git a/css/admin.css b/css/admin.css
+index db96565..d550d49 100755
+--- a/css/admin.css
++++ b/css/admin.css
+@@ -321,8 +321,8 @@ label.cml-disabled {
+ 
+   #cml-languages .lang > .title {
+     background: #8f8f8f;
+-    border-bottom: 1px solid #00638A;
+-    width: 227px;
++    border-bottom: 1px solid #000080;
++    width: 225px;
+     padding: 5px;
+     position: relative;
+     height: 15px;
+@@ -330,9 +330,6 @@ label.cml-disabled {
+     -moz-transition: opacity 0.2s ease-in-out;
+     -o-transition: opacity 0.2s ease-in-out;
+     transition: opacity 0.2s ease-in-out;
+-    margin-left: -1px;
+-    margin-top: -1px;
+-    box-shadow: 0 2px 5px rgba(0,0,0, 0.2);
+   }
+     #cml-languages .lang.active > .title {
+       background: #0074A2;
+@@ -352,7 +349,7 @@ label.cml-disabled {
+     }
+     
+ #cml-languages .lang > .title > .flag {
+-  border: 1px solid rgba( 255, 255, 255, 0.4 );
++  border: 1px solid rgba( 255, 255, 255, 0.8 );
+   width: 20px;
+   height: 14px;
+   overflow: hidden;
+@@ -427,7 +424,6 @@ label.cml-disabled {
+ #cml-box-available-languages #cml-languages.cml-custom-languages .lang > .title {
+   background: #0074A2;
+   color: #fff;
+-  border-bottom: 1px solid #000080;
+ }
+ #cml-box-available-languages #cml-languages.cml-custom-languages .lang > .title {
+   cursor: default;
+@@ -817,15 +813,22 @@ display: none !important;
+ 
+   .cml-description {
+     color: #666;
+-    height: 0;
+     padding: 0 10px 0 10px !important;
+-    overflow: hidden;
+-    transition: all 0.2s ease;
++    display: none;
++/*    height: 0;*/
++/*    padding: 10px !important;*/
++/*    overflow: hidden;*/
++  }
++      
++  .cml-description > p {
++      margin: 0 !important;
++      padding: 10px 0 !important;
++      transition: all 0.6s ease;
++      opacity: 0;
+   }
+   
+-    .cml-description.active {
+-      height: auto;
+-      padding: 10px !important;
++    .cml-description.visible > p {
++        opacity: 1;
+     }
+ 
+ .cml-box-options .hndle > span {
+@@ -961,6 +964,11 @@ display: none !important;
+   background: url(../images/icon_comments.png) center no-repeat;
+ }
+ 
++.cml-icon-backup {
++  background: url(../images/icon_backup.png) center no-repeat;
++}
++
++
+ /*
+  * Widgets page
+  */
+@@ -1882,3 +1890,9 @@ table .cml_enable_filter {
+ .cml-notice p.submit {
+     margin-bottom: 30px;
+ }
++
++.cml-notice .title {
++  display: block;
++  font-weight: bold;
++  padding-bottom: 1em;
++}
+\ No newline at end of file
+diff --git a/css/ceceppaml.css b/css/ceceppaml.css
+index 299c621..a4a98dd 100755
+--- a/css/ceceppaml.css
++++ b/css/ceceppaml.css
+@@ -46,7 +46,7 @@ ul li#wp-admin-bar-cml_lang_sel img {
+     z-index: 999;
+     list-style: none !important;
+   }
+-
++  
+     #cml-lang > li > ul {
+       background: #fafafa;
+       margin: 0 !important;
+@@ -103,4 +103,4 @@ ul.cml_widget_flag {
+   ul.cml_widget_flag > li {
+     display: inline-block;
+     margin: 5px;
+-  }
++  }
+\ No newline at end of file
+diff --git a/debug.php b/debug.php
+index 39fb0fa..fead220 100755
+--- a/debug.php
++++ b/debug.php
+@@ -2,29 +2,20 @@
+ 
+ class CMLDebug {
+   public function __construct() {
+-    //add_action( 'admin_menu', array( &$this, 'debug' ) );
++    add_action( 'admin_menu', array( &$this, 'debug' ) );
+     add_action( 'wp_footer', array( &$this, 'footer' ) );
+     add_action( 'admin_footer', array( &$this, 'footer' ) );
+     //add_filter( 'query', array( & $this, 'query' ), 10, 1 );
+   }
+   
+   public function query( $query ) {
+-   // $traces = debug_backtrace();
+-    // foreach( $traces as $trace ) {
+-      // if( isset( $trace[ 'file' ] ) && false !== strpos( $trace[ 'file' ], "ceceppa-multilingua" ) ) {
+     $this->queries[] = $query;
+-    //if( strpos( $query, "wp_term_relationships.term_taxonomy_id" ) !== false ) {
+-    //  print_r( debug_backtrace() );
+-    //  die();
+-    //}
+-        // break;
+-      // }
+-    // }
+   
+     return $query;
+   }
+ 
+   public function debug() {
++    add_menu_page('Ceceppa ML Debug', __('Ceceppa Multilingua debug', 'ceceppaml'), 'administrator', 'ceceppaml-language-debug', array(&$this, 'debug_page') );
+     //add_submenu_page('ceceppaml-language-page', __('Debug', 'ceceppaml'), __('Debug', 'ceceppaml'), 'manage_options', 'ceceppaml-debug-page', array( &$this, 'debug_page') );
+   }
+ 
+@@ -69,7 +60,7 @@ EOT;
+     switch( $tab ) {
+     case 0:
+ //       echo "<h2>CECEPPA_ML_TABLE</h2>";
+-      $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_flag_path,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
++      $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_custom_flag,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
+     
+       break;
+     case 1:
+@@ -163,15 +154,15 @@ EOT;
+     global $wpCeceppaML, $wpdb;
+ 
+     if( is_user_logged_in() || isset( $_GET[ "cdb" ] ) ) {
+-      echo '<div id="cml-debug">';
+-      echo '<div class="title">CML Debug</div>';
+-      echo '<div class="content">';
+       echo "This output is visible only to logged user...";
+       
+-      $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
+-      $pdata = get_plugin_data( $pfile );
++      if( is_admin()) {
++        $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
++        $pdata = get_plugin_data( $pfile );
++  
++        echo "CeceppaML debug:" . $pdata[ 'Version' ];
++      }
+ 
+-      echo "CeceppaML debug:" . $pdata[ 'Version' ];
+       echo "<pre>";
+ 
+       echo "\n\n<b>Languages:</b>\n";
+@@ -179,8 +170,7 @@ EOT;
+       //echo "\n\n<b>Version:</b>" . CML_CURRENT_VERSION . "\n";
+       echo "\n\n<b>Homepage:</b>\n";
+       echo "\n wpCeceppaML->_url: ";
+-      $http = ( ! is_ssl() ) ? "http://" : "https://";
+-      print_r( $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
++      print_r( "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+ 
+       echo "\n wpCeceppaML->_homeUrl: ";
+       print_r( CMLUtils::home_url() );
+@@ -218,18 +208,21 @@ EOT;
+         echo "\nis_page(): " . is_page();
+         echo "\nis_category(): " . is_category();
+         echo "\nis_archive(): " . is_archive();
++          
++        if( function_exists( 'is_woocommerce' ) )
++        echo "\nis_woocommerce(): " . is_woocommerce();
+         
+         echo "\n\n<b>Linked pages:</b>\n";
+         print_r( CMLPost::get_translations( get_the_ID() ) );
++        print_r( get_post_meta( get_the_ID(), "_cml_lang_id", true ) );
+       }
+ 
+       //echo "\nQueries: " . count( $this->queries ) . "\n";
+       //echo join( "\n", $this->queries );
+-      echo "</pre></div></div>";
++      echo "</pre>";
+     }
+   }
+   
+ }
+ 
+ $cmlDebug = new CMLDebug();
+-?>
+diff --git a/frontend/frontend.php b/frontend/frontend.php
+index 68236a5..73b3b6c 100644
+--- a/frontend/frontend.php
++++ b/frontend/frontend.php
+@@ -425,7 +425,7 @@ EOT;
+     if( empty( $appendTo ) ) return;    //No element specified
+ 
+     //what to shown
+-    $show = array( "", "text", "text", "flag", "slug", "slug" );
++    $show = array( "", "both", "text", "flag", "slug" );
+     $as = intval( $_cml_settings[ "cml_show_items_as" ] );
+     $size = $_cml_settings[ "cml_show_items_size" ];
+ 
+@@ -437,7 +437,6 @@ EOT;
+       cml_show_flags( array(
+                             "class" => "cml_append_flags_to",
+                             "show" => $show[$as],
+-                            "show_flag" => in_array( $as, array( 1, 3, 5 ) ),
+                             "size" => $size,
+                             "queried" => true,
+                             ) );
+@@ -462,7 +461,7 @@ EOT;
+ 
+     wp_enqueue_style( 'ceceppaml-flying' );
+ 
+-    $show = array( "", "text", "text", "flag", "slug", "slug" );
++    $show = array( "", "both", "text", "flag", "slug" );
+     $as = intval( $_cml_settings[ "cml_show_float_items_as" ] );
+     $size = $_cml_settings[ "cml_show_float_items_size" ];
+     $style = $_cml_settings[ "cml_show_float_items_style" ];
+@@ -471,7 +470,6 @@ EOT;
+       if( $style == 1 ) {
+         cml_show_flags( array(
+                               "show" => $show[$as],
+-                              "show_flag" => in_array( $as, array( 1, 3, 5 ) ),
+                               "size" => $size,
+                               "queried" => true,
+                               ) );
+@@ -776,16 +774,10 @@ EOT;
+         continue;
+       }
+ 
+-      /*
+-       * if translated name == original name I don't update the slug.
+-       * Because if wp added -## to it I'll get an 404 page :(
+-       */
+-      $oname = $term->name;
+       $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
+ 
+       if( $this->_category_url_mode != PRE_LANG &&
+-          null === CMLUtils::_get( '_no_translate_term' ) &&
+-          $term->name != $oname ) {
++          null === CMLUtils::_get( '_no_translate_term' ) ) {
+         $term->slug = sanitize_title( strtolower( $term->name ) );
+       }
+ 
+diff --git a/images/.directory b/images/.directory
+deleted file mode 100755
+index ab24414..0000000
+--- a/images/.directory
++++ /dev/null
+@@ -1,4 +0,0 @@
+-[Dolphin]
+-PreviewsShown=true
+-Timestamp=2014,1,21,23,7,49
+-Version=3
+diff --git a/includes/api.php b/includes/api.php
+index 92a37e8..efa776a 100755
+--- a/includes/api.php
++++ b/includes/api.php
+@@ -1,6 +1,8 @@
+ <?php
+ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
+ 
++require_once( CML_PLUGIN_ADMIN_PATH . "migrate.php" );
++
+ /*
+  * Ceceppa Multilingua API 1.4
+  */
+@@ -52,6 +54,17 @@ class CMLLanguage {
+    */
+   const FLAG_SMALL = "small";
+ 
++  /*
++   * return the count of configured languages
++   *
++   * @return int
++   */
++  public static function count() {
++    if( empty( self::$_all_languages ) ) self::get_all();
++    
++    return count( self::$_all_languages );
++  }
++
+   /**
+    * return object of default language 
+    *
+@@ -132,11 +145,10 @@ class CMLLanguage {
+       self::$_all_others = $others;
+       self::$_all_languages = $all_languages_by_keys;
+       self::$_all_by_slug = $byslug;
+-    }
+-
+-    if( ! empty( self::$_default_language ) &&
+-        empty( self::$_current_id ) ) {
++      
++      if( ! empty( self::$_default_language ) ) {
+         self::$_current_id = self::$_default_language->id;
++      }
+     }
+ 
+     return self::$_all_languages;
+@@ -206,6 +218,9 @@ class CMLLanguage {
+    */
+   public static function get_current() {
+     if( empty( self::$_all_languages ) ) self::get_all();
++    if( ! isset( self::$_all_languages[ self::$_current_id ] ) ) {
++      self::$_current_id = CMLLanguage::get_default_id();
++    }
+ 
+     return self::$_all_languages[ self::$_current_id ];
+   }
+@@ -385,12 +400,12 @@ class CMLLanguage {
+    *
+    * @return string
+    */
+-  public static function get_flag_img( $lang, $size = CML_FLAG_TINY ) {
++  public static function get_flag_img( $lang, $size = CML_FLAG_TINY, $class = "" ) {
+     $url = self::get_flag_src( $lang, $size );
+     $name = self::get_name( $lang );
+     $slug = self::get_slug( $lang );
+ 
+-    return "<img src='$url' border='0' alt='$slug' title='$name' />";
++    return "<img src='$url' border='0' alt='$slug' title='$name' class='" . $class . "'/>";
+   }
+    
+    /**
+@@ -774,6 +789,28 @@ class CMLTranslations {
+                   ),
+                   array( "%s", "%s" ) );
+   }
++  
++  /**
++   * @ignore
++   */
++  public static function get_linked_category( $cat_id, $lang_id ) {
++    global $wpdb;
++
++    $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d OR cml_translated_cat_id = %d",
++                        CECEPPA_ML_CATS, $cat_id, $cat_id );
++
++    $rec = $wpdb->get_row( $query );
++    if( $rec == null ) return $cat_id;
++
++    if( CMLLanguage::is_default( $lang_id ) ) {
++      return $rec->cml_cat_id;
++    }
++
++    $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d ",
++                           CECEPPA_ML_CATS, $rec->cml_cat_id, $lang_id );
++
++    return $wpdb->get_var( $query );
++  }
+ }
+ 
+ /**
+@@ -1105,14 +1142,20 @@ class CMLPost {
+       unset( $translations[ $post_lang ] );
+     }
+ 
+-    foreach( $translations as $key => $id ) {
+-      if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
+-
+-      cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
++    if( CMLLanguage::count() > 1 ) {
++      foreach( $translations as $key => $id ) {
++        if( ! is_numeric( $key ) ) $key = CMLLanguage::get_id_by_slug( $key );
++  
++        cml_migrate_database_add_item( $post_lang, $post_id, $key, $id );
++      }
++    } else {
++      cml_migrate_database_add_item( $post_lang, $post_id, 0, 0 );
+     }
+ 
+     require_once( CML_PLUGIN_ADMIN_PATH . "admin-settings-gen.php" );
+ 
++    update_option( "cml_get_translation_from_po", 0 );
++
+     // //Update info
+     cml_fix_rebuild_posts_info();
+     cml_generate_mo_from_translations( "_X_" );
+@@ -1126,6 +1169,8 @@ class CMLPost {
+    * @param int $post_id the post id
+    */
+   public static function set_as_unique( $post_id ) {
++    update_option( "cml_get_translation_from_po", 0 );
++
+     cml_migrate_database_add_item( 0, $post_id, 0, 0 );
+   }
+ 
+@@ -1259,6 +1304,10 @@ class CMLPost {
+    */
+   public static function remove_extra_number( $permalink, $post ) {
+     global $wpdb;
++    $_cml_settings = & $GLOBALS[ '_cml_settings' ];
++
++    //Disabled?
++    if( @$_cml_settings[ 'cml_remove_extra_slug' ] !== 1 ) return $permalink;
+ 
+     $removed = false;
+ 
+@@ -1469,8 +1518,8 @@ class CMLUtils {
+       return self::$_language_detected;
+     }
+ 
++    $http = is_ssl() ? "https://" : "http://";
+     if( empty( self::$_url ) ) {
+-      $http = ( ! is_ssl() ) ? "http://" : "https://";
+       self::$_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+       self::$_request_url = str_replace( trailingslashit( self::home_url() ),
+                                         "", self::$_url );
+@@ -1492,7 +1541,6 @@ class CMLUtils {
+     }
+ 
+     $_url = $request_url;
+-    $http = ( ! is_ssl() ) ? "http://" : "https://";
+     $base_url = str_replace( $http . $_SERVER['HTTP_HOST'], "", get_option( 'home' ) );
+ 
+     if( preg_match( "#^([a-z]{2})(/.*)?$#i", $_url, $match ) ) {
+@@ -1540,7 +1588,8 @@ class CMLUtils {
+     if( ! empty( self::$_clean_url ) ) {
+       return self::$_clean_url;
+     } else {
+-      $http = ( ! is_ssl() ) ? "http://" : "https://";
++      $http = is_ssl() ? "https://" : "http://";
++
+       $_url = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+       
+       return preg_replace( "/\?.*/", "", $_url );
+@@ -1587,9 +1636,21 @@ class CMLUtils {
+     
+     self::$_vars[ $key ][] = $value;
+   }
++
+   
+   /**
+    * @ignore
++   */
++  public static function _get_option( $key, $default = null ) {
++    if( ! isset( self::$_vars[ $key ] ) ) {
++      self::$_vars[ $key ] = get_option( $key, $default );
++    }
++    
++    return self::$_vars[ $key ];
++  }
++
++  /**
++   * @ignore
+    *
+    * return translated string from .po file
+    */
+@@ -1609,3 +1670,47 @@ class CMLUtils {
+     return null;
+   }
+ }
++
++class CMLMedia {
++  public static function get_alternative_text( $media_id, $lang = null ) {
++    $meta = get_post_meta( $media_id, '_cml_media_meta', true );
++    
++    //Nothing found
++    if( ! is_array( $meta ) || empty( $meta ) ) {
++      return get_post_meta($media_id,'_wp_attachment_image_alt',true);;
++    }
++
++    if( lang == null )
++      $lang = CMLLanguage::get_current_id();
++
++    
++    if( ! is_numeric( $lang ) ) {
++      $lang = CMLLanguage::get_id_by_slug( $lang );
++    }
++
++    $text = @$meta[ 'alternative-' . $lang ];
++
++    return ! empty( $text ) ? $text : get_post_meta( $media_id,'_wp_attachment_image_alt',true );
++  }
++  
++  public static function get_title( $media_id, $lang = null ) {
++    $meta = get_post_meta( $media_id, '_cml_media_meta', true );
++    
++    //Nothing found
++    if( ! is_array( $meta ) || empty( $meta ) ) {
++      return get_post_meta($media_id,'_wp_attachment_image_title',true);;
++    }
++
++    if( lang == null )
++      $lang = CMLLanguage::get_current_id();
++
++    if( ! is_numeric( $lang ) ) {
++      $lang = CMLLanguage::get_id_by_slug( $lang );
++    }
++
++    $text = @$meta[ 'title-' . $lang ];
++
++    return ! empty( $text ) ? $text : get_post_meta( $media_id,'_wp_attachment_image_title',true );
++  }
++}
++?>
+\ No newline at end of file
+diff --git a/includes/compatibility.php b/includes/compatibility.php
+index 66d2a72..d3c9e1c 100755
+--- a/includes/compatibility.php
++++ b/includes/compatibility.php
+@@ -18,6 +18,7 @@ class CML_WPML_Parser {
+   protected $options = null;
+ 
+   function __construct( $filename, $group, $options = null, $generate_style = false ) {
++    $this->_filename = $filename;
+     $xml = file_get_contents( $filename );
+ 
+     $parser = xml_parser_create();
+@@ -27,7 +28,7 @@ class CML_WPML_Parser {
+     xml_parser_free( $parser );
+     
+     $this->options = $options;
+-    $this->group = $group;
++    $this->group = sanitize_title( $group );
+     $this->style = $generate_style;
+ 
+     $this->parse();    
+@@ -53,20 +54,15 @@ class CML_WPML_Parser {
+         } else {
+           if( isset( $value[ 'attributes' ] ) ) {
+             $name = $value[ 'attributes' ][ 'name' ];
++
++            if( isset( $this->options[ $name ] ) ) {
++              $v = $this->options[ $name ];
++            } else {
++              $v = get_option( $name, "" );
++            }
+             
+-//             if( is_array( $this->options ) ) {
+-              if( isset( $this->options[ $name ] ) ) {
+-                $v = $this->options[ $name ];
+-              } else {
+-                $v = "";
+-              }
+-
+-              $add = ! empty( $v );
+-//             } else {
+-//               $v = get_option( $name );
+-
+-//               $add = true;
+-//             }
++            $add = ! empty( $v );
++            $add = true;
+             
+             if( $add ) {
+               CMLTranslations::add( strtolower( $this->group ) . "_" . $name,
+@@ -162,6 +158,7 @@ class CML_WPML_Parser {
+     } else {
+       $names = join( ",", $this->names );
+     }
++
+     update_option( "cml_translated_fields" . strtolower( $this->group ), $names );
+     update_option( "cml_translated_fields" . strtolower( $this->group ) . "_key", $key );
+   }
+@@ -238,7 +235,11 @@ CMLUtils::_append( "_seo", array(
+ function cml_yoast_seo_strings( $types ) {
+   if( defined( 'WPSEO_VERSION' ) ) {
+     //CMLTranslations::delete( "_YOAST" );
+-    $options = get_wpseo_options();
++    if( function_exists( 'get_wpseo_options' ) ) {
++      $options = get_wpseo_options();
++    } else {
++      WPSEO_Options::get_all();
++    }
+ 
+     $xml = WPSEO_PATH . "wpml-config.xml";
+     new CML_WPML_Parser( $xml, "_YOAST", $options );
+@@ -265,7 +266,13 @@ function cml_yoast_translate_options() {
+   if( empty( $names ) ) return;
+ 
+   $names = explode( ",", $names );
+-  foreach( get_wpseo_options() as $key => $opt ) {
++  if( function_exists( 'get_wpseo_options' ) ) {
++    $options = get_wpseo_options();
++  } else {
++    WPSEO_Options::get_all();
++  }
++
++  foreach( $options as $key => $opt ) {
+     if( in_array( $key, $names ) ) {
+       $value = CMLTranslations::get( CMLLanguage::get_current_id(),
+                                                            "_yoast_$key",
+@@ -397,7 +404,7 @@ function cml_get_strings_from_wpml_config( $groups ) {
+ 
+   $root = trailingslashit( $theme->theme_root ) . $theme->template;
+   $filename = "$root/wpml-config.xml";
+-  $name = strtolower( $theme->get( 'Name' ) );
++  $name = sanitize_title( strtolower( $theme->get( 'Name' ) ) );
+ 
+   if( file_exists( $filename ) ) {
+     new CML_WPML_Parser( $filename, "_$name", null, true );
+@@ -454,6 +461,8 @@ function cml_translate_wpml_strings() {
+ }
+ 
+ function cml_change_wpml_settings_values( $group, $name ) {
++  $group = sanitize_title( $group );
++
+   $names = get_option( "cml_translated_fields_{$name}", array() );
+   if( empty( $names ) ) return;
+ 
+@@ -462,24 +471,41 @@ function cml_change_wpml_settings_values( $group, $name ) {
+     return;
+   }
+ 
++  /*
++   * For YOAST and All In One Seo pack store options in their own array
++   */
+   $options = & $GLOBALS[ $options ];
+-  if( ! is_array( $options ) ) return;
+-
+-  $names = explode( "/", $names );
+-  foreach( $options as $key => $value ) {
+-    if( ! in_array( $key, $names ) ) continue;
+-
+-    $v = CMLTranslations::get( CMLLanguage::get_current_id(),
+-                              "_{$group}_{$key}",
+-                              "_{$group}" );
+-
+-    if( empty( $v ) ) continue;
+-
+-    $options[ $key ] = $v;
++  if( is_array( $options ) ) {
++  
++    $names = explode( "/", $names );
++    foreach( $options as $key => $value ) {
++      if( ! in_array( $key, $names ) ) continue;
++  
++      $v = CMLTranslations::get( CMLLanguage::get_current_id(),
++                                "_{$group}_{$key}",
++                                "_{$group}" );
++                                
++      if( empty( $v ) ) continue;
++  
++      $options[ $key ] = $v;                            
++    }
++  } else {
++    //Update wp options
++    $names = explode( ",", $names );
++    foreach( $names as $key ) {
++      $key = trim( $key );
++      $v = CMLTranslations::get( CMLLanguage::get_current_id(),
++                                "_{$group}_{$key}",
++                                "_{$group}" );
++
++      if( ! empty( $v ) ) {
++        update_option( $key, $v );
++      }
++    }
+   }
+ }
+ 
+ add_filter( 'cml_my_translations', 'cml_get_strings_from_wpml_config', 99 );
+ add_action( 'wp_loaded', 'cml_translate_wpml_strings', 10 );
+ 
+-?>
++?>
+\ No newline at end of file
+diff --git a/js/admin.js b/js/admin.js
+index c311d61..08cfaac 100755
+--- a/js/admin.js
++++ b/js/admin.js
+@@ -10,7 +10,12 @@ jQuery(document).ready( function($) {
+   //jQuery( '.inside .cml-description' ).fadeOut();
+   $( '.hndle .cml-help' ).click( function() {
+     $( this ).toggleClass( 'active' );
+-    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'active' );
++//    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'active' );
++    $( this ).parents( '.postbox ').find( '.inside .cml-description' ).toggleClass( 'visible' )
++            .animate({
++                    height: "toggle",
++//                    opacity: "toggle"
++                }, "slow");
+   });
+   
+   //Form submit
+@@ -20,7 +25,11 @@ jQuery(document).ready( function($) {
+   $( 'body' ).on( 'submit', 'form.cml-ajax-form', function() {
+     $form = $( this );
+ 
+-    $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeIn();
++    $spinner = $form.find( '.cml-submit-button > .wpspinner > .spinner' );
++    if( $spinner.length > 0 ) {
++        $form.find( 'input[type="submit"]' ).hide();
++        $spinner.fadeIn();
++    }
+     $.ajax( {
+       type: 'POST',
+       url: ajaxurl,
+@@ -201,6 +210,11 @@ jQuery(document).ready( function($) {
+   });
+   
+   $( 'form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"]' ).remove();
++  
++  //Override flags settings
++  $( '.cml-override-flags.cml-override input' ).click( function() {
++    $( '.cml-show-always' ).attr( 'class', 'cml-show-always' ).addClass( $( this ).val() ) ;
++  })
+ });
+ 
+ 
+diff --git a/js/admin.languages.js b/js/admin.languages.js
+index 0689625..8032645 100755
+--- a/js/admin.languages.js
++++ b/js/admin.languages.js
+@@ -1,14 +1,13 @@
+ var cml_not_saved = false;
+-var cml_items_to_save = 0;
+ 
+ jQuery(document).ready( function($) { 
+   /*
+    * Languages
+    */
+   jQuery( "#cml-languages" ).sortable( { handle: ".handle",
+-                                      stop: function() {
++                                        stop: function() {
+                                         cml_admin_need_to_save();
+-                                      }
++                                        }
+                                       } );
+ 
+   //Combo "Settings"
+@@ -266,8 +265,6 @@ jQuery(document).ready( function($) {
+         if ( data === -1 ) {
+           return;
+         } else {
+-          cml_items_to_save--;
+-
+           $lang = $form.parents( '.lang' );
+           if ( data === "" ) {
+             //removed
+@@ -289,11 +286,6 @@ jQuery(document).ready( function($) {
+               $html.transition( { scale: 1 }, 'fast' );
+             });
+           }
+-
+-          if( cml_items_to_save <= 0 ) {
+-              //No more save required
+-              jQuery( '#cml-box-languages input[name="save-all"]' ).removeClass( 'save-required' );
+-          }
+         }
+       }
+     });
+@@ -413,16 +405,11 @@ function cml_language_attention( $e, className, factor ) {
+   cml_admin_need_to_save();
+ }
+ 
+-/*
+- * Save all the items
+- */
+ function cml_save_all_items() {
+   var $this = jQuery( '#cml-box-languages input[name="save-all"]' );
+ 
+-  /*
+-   * I need to check if all items are saved before remove the class 'save-required'
+-   */
+-  cml_items_to_save = jQuery( '#cml-box-languages #cml-languages > li' ).length;
++  //No save required
++  jQuery( '#cml-box-languages input[name="save-all"]' ).removeClass( 'save-required' );
+ 
+   $langs = jQuery( "#cml-box-languages.postbox .lang" ).each( function( index ) {
+     $this = jQuery( this );
+diff --git a/js/ceceppaml.js b/js/ceceppaml.js
+index 7ccf133..aa60c2a 100755
+--- a/js/ceceppaml.js
++++ b/js/ceceppaml.js
+@@ -42,19 +42,4 @@ jQuery(document).ready( function( $ ) {
+   $( 'ul.cml-lang-js-sel' ).mouseover( function() {
+     $( this ).find( 'ul' ).removeAttr( 'style' );
+   });
+-
+-    if( is_touch_device() ) {
+-        $( 'ul.cml-lang-sel > li > a' ).click( function() {
+-            $( 'ul.cml-lang-sel > li > ul' ).toggle();
+-
+-            return false;
+-        });
+-
+-        $( 'ul.cml-lang-sel > li > ul' ).hide();
+-    }
+ });
+-
+-function is_touch_device() {
+-  return 'ontouchstart' in window // works on most browsers
+-      || 'onmsgesturechange' in window; // works on ie10
+-};
+diff --git a/readme.txt b/readme.txt
+index 16db01b..283c756 100755
+--- a/readme.txt
++++ b/readme.txt
+@@ -2,8 +2,8 @@
+ Contributors: ceceppa
+ Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
+ Requires at least: 3.4.1
+-Tested up to: 4.0
+-Stable tag: 1.4.38
++Tested up to: 3.9
++Stable tag: 1.4.99
+ License: GPLv3 or later
+ License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
+@@ -180,43 +180,14 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
+ 
+ == Changelog ==
+ 
+-= 1.4.37 =
+-* Added warning in languages page if all the changes are not saved yet
+-
+-= 1.4.36 =
+-* Fixed "Enable Language filtering" option
+-* Fixed Widget filtering
+-* Fixed 404 when wp add extra "-##" to category slug
+-* Fixed "Float and append" flag styles
+-* Fixed language "combo" switcher for touch devices
+-
+-= 1.4.35 = 
+-* Fixed "Post data" box in pages
+-
+-= 1.4.34 =
+-* Fixex language detection on first install
+-
+-= 1.4.33 =
+-* Fixed issue with HTTPS
+-* Added option to easily disable language filtering ( dev time: 1h 30m )
+-
+-= 1.4.32 =
+-* Fixed issue with category
+-
+-= 1.4.31 =
+-* Fixed wrong link translation when enabled the "Ignore for default language" option
+-
+-= 1.4.30 =
+-* Fixed the "Editing comments resets post language" issue
+-* Fixed bug in "Translate theme" page
+-* Fixed feed issue 
+-
+ = 1.4.29 =
+-* Fixed issue with WooCommerce checkout page link
+-* Added Norwegian translation ( thanks to Kurt-Håkon )
++* Fixed support to wpml-config.xml for theme strings
++* Added options to disable "remove slug -##" features from post/page links
++* Fixed various bug
++* Added experimental tab in "Settings" page
+ 
+ = 1.4.28 =
+-* Fixed sitemap with yoast plugin
++* Now you can override "Show flags" settings for each post/page
+ 
+ = 1.4.27 =
+ * Fixed "All languages" bug
+@@ -768,4 +739,4 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
+ * Filter search in according to current language		
+ * Change wordpress locale according to current language, useful for localized themes		
+ * Show the list flag of available languages on top or bottom of page/post		
+-* Show list of all articles with their translatios, if exists
++* Show list of all articles with their translatios, if exists
+\ No newline at end of file
+diff --git a/settings.php b/settings.php
+index 6aa9ea4..c18ef6a 100755
+--- a/settings.php
++++ b/settings.php
+@@ -28,6 +28,7 @@
+   $_cml_settings[ 'cml_option_flags_on_post' ] = get_option('cml_option_flags_on_post', true);
+   $_cml_settings[ 'cml_option_flags_on_page' ] = get_option('cml_option_flags_on_page', true);
+   $_cml_settings[ 'cml_option_flags_on_custom_type' ] = get_option('cml_option_flags_on_custom_type', 0);
++  $_cml_settings[ 'cml_option_flags_on_homepage' ] = get_option('cml_option_flags_on_homepage', 0);
+   $_cml_settings[ 'cml_option_flags_on_pos' ] = get_option('cml_option_flags_on_pos', 'top');
+   $_cml_settings[ 'cml_option_flags_on_the_loop' ] = get_option( 'cml_option_flags_on_the_loop' );
+ 
+@@ -70,6 +71,7 @@
+   $_cml_settings[ 'cml_show_html_items_style' ] = get_option( "cml_show_html_items_style", 1 );
+   
+   $_cml_settings[ 'cml_update_static_page' ] = get_option( "cml_update_static_page", 1 );
++  $_cml_settings[ 'cml_remove_extra_slug' ] = get_option( "cml_remove_extra_slug", 1 );
+ 
+   $GLOBALS[ '_cml_settings' ] = & $_cml_settings;
+ ?>

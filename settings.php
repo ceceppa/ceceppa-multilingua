@@ -70,6 +70,7 @@
   $_cml_settings[ 'cml_show_html_items_style' ] = get_option( "cml_show_html_items_style", 1 );
   
   $_cml_settings[ 'cml_update_static_page' ] = get_option( "cml_update_static_page", 1 );
+  $_cml_settings[ 'cml_remove_extra_slug' ] = get_option( "cml_remove_extra_slug", 1 );
 
   $GLOBALS[ '_cml_settings' ] = & $_cml_settings;
 ?>

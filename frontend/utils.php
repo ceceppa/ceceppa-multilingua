@@ -168,18 +168,21 @@ function cml_get_page_by_path($page_path, $output = OBJECT, $post_type = array('
 }
 
 /**
- * return link of current page in according to selected $language, so if $result != current language
- * this function will return its translation link.
+ * This function will return the current link translated in desired language.
  *
- * @param stdObject $result - language object ( i.e. CMLLanguage::get_default() ) used to translate current link
+ * @param stdObject $result - language object ( i.e. CMLLanguage::get_default() ) or slug used to translate current link
  * @param boolean $linked - true, return linked translation, false return homepage link
  * @param boolean $only_existings - return linked post only if it exists, otherwise return blank link
  * @param boolean $queried - use get_queried_object_id instead of get_the_ID
  *
  * return string
  */
-function cml_get_the_link( $result, $linked = true, $only_existings = false, $queried = false ) {
+function cml_get_the_link( $result, $linked = true, $only_existings = false, $queried = true ) {
   global $wpCeceppaML, $_cml_settings;
+
+  if( ! is_object( $result ) ) {
+      $result = CMLLanguage::get_by_slug( $result );
+  }
 
   if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {
     //current page is homepage?

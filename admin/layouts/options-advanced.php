@@ -107,6 +107,25 @@ function cml_admin_options_update_static_page() {
 <?php
 }
 
+function cml_admin_remove_extra_slug() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+        <?php echo cml_utils_create_checkbox( __( 'Remove the numeric append on duplicate wordpress titles', 'ceceppaml' ), "cml-extra", "cml-extra", null, 1, get_option( "cml_remove_extra_slug", 1 ) ) ?>
+        <?php submit_button() ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+      <?php
+        _e( 'Wordpress automatically append a numeric flag in permalink when one or more post/page has the same name.', 'ceceppaml' );
+        _e( "The plugin will remove it, but you can disable this feature if doesn't works fine for you", 'ceceppaml' );
+      ?>
+  </div>
+<?php
+}
+
+
 $help = __( 'Show/Hide help', 'ceceppaml' );
 
 add_meta_box( 'cml-box-start-wizard', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Wizard', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_wizard', 'cml_box_options' );
@@ -115,7 +134,10 @@ add_meta_box( 'cml-box-restore-helps', '<span class="cml-icon cml-icon-redirect 
 add_meta_box( 'cml-box-update-relations', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update post relations', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_relations', 'cml_box_options' );
 add_meta_box( 'cml-box-enable-static-change', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Static page', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_static_page', 'cml_box_options' );
 
+//Disable extra slug remover
+add_meta_box( 'cml-box-disable-extra-slug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Duplicated titles', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_remove_extra_slug', 'cml_box_options' );
+
 if( file_exists( CML_PLUGIN_PATH . "debug.php" ) ) {
   add_meta_box( 'cml-box-enable-debug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Debug', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_enable_debug', 'cml_box_options' );
 }
-?>
+

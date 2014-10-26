@@ -1258,7 +1258,10 @@ class CMLPost {
    * same titles, but ONLY on translations.
    */
   public static function remove_extra_number( $permalink, $post ) {
-    global $wpdb;
+    $_cml_settings = & $GLOBALS[ '_cml_settings' ];
+
+    //Disabled?
+    if( @$_cml_settings[ 'cml_remove_extra_slug' ] !== 1 ) return $permalink;
 
     $removed = false;
 
@@ -1371,7 +1374,7 @@ class CMLUtils {
   public static function get_home_url( $slug = null ) {
     $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
-    if( null === $slug ) $slug = CMLLanguage::get_default()->cml_language_slug;
+    if( null === $slug ) $slug = CMLLanguage::get_current()->cml_language_slug;
 
     switch( CMLUtils::get_url_mode() ) {
     case PRE_PATH:

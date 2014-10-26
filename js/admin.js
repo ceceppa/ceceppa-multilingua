@@ -20,6 +20,8 @@ jQuery(document).ready( function($) {
   $( 'body' ).on( 'submit', 'form.cml-ajax-form', function() {
     $form = $( this );
 
+    //Hide all submit buttons
+    $( 'input[type="submit"]' ).animate( { opacity: 0 }, 'slow', function() { $( this ).attr( 'disabled', 'disabled' ) } );
     $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeIn();
     $.ajax( {
       type: 'POST',
