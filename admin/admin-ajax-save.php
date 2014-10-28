@@ -429,4 +429,74 @@ function cml_admin_generate_mo() {
   die( json_encode( $return ) );
 }
 
-?>
+/***********************
+ *
+ * Do Backup
+ *
+************************/
+/**
+ * Some user reported relation lost after update... I tried to fix the issue
+ * with no success.
+ * So I decide to wrote a "backup" function that will be automatically exectuted after an update,
+ * but manually as well
+ */
+function cml_backup_do() {
+    if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
+
+    $page = $_POST[ 'page' ];
+    $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
+
+    $status = "1";
+    if( !_cml_check_backup_folder() ) {
+        $status = "-2";
+    } else {
+        //Backup file
+        $backup_file = date( 'Ymd-His' );
+        $db_backup = $backup_file . '.db.sql';
+        $settings_backup = $backup_file . '.settings';
+        $settings_extra_backup = $backup_file . '.settings.extra';
+
+        //Backup tables
+        $db = $s1 = $s2 = 0;
+        if( isset( $_POST[ 'cml-tables' ] ) &&
+            intval( $_POST[ 'cml-tables' ] ) == 1 ) {
+            $db = _cml_backup_do_tables( CECEPPAML_BACKUP_PATH . $db_backup );
+        }
+
+        if( isset( $_POST[ 'cml-settings' ] ) &&
+            intval( $_POST[ 'cml-settings' ] ) == 1 ) {
+            $s1 = cml_generate_settings_php( CECEPPAML_BACKUP_PATH . $settings_backup );
+            $s2 = _cml_backup_do_settings_extra( CECEPPAML_BACKUP_PATH . $settings_backup );
+        }
+
+        $status .= "&file[]=" . join( "&file[]=", array( $db_backup, $settings_backup, $settings_backup . ".xtra" ) );
+        $status .= "&stat[]=" . join( "&stat[]=", array( $db, $s1, $s2 ) );
+    }
+
+    $url = admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&status=' . $status );
+    $return = array(
+                        "url" => $url,
+                    );
+
+  die( json_encode( $return ) );
+}
+
+function cml_backup_export() {
+    $s1 = CECEPPAML_BACKUP_PATH . "_tmp_";
+    $s2 = CECEPPAML_BACKUP_PATH . "_tmpx_";
+
+    cml_generate_settings_php( $s1 );
+    _cml_backup_do_settings_extra( $s2 );
+
+    $json = array( 'url' => add_query_arg(
+                                    array(
+                                            'page' => 'ceceppaml-backup-page',
+                                            'tab' => 2,
+                                            'download' => 1,
+                                         ),
+                                    admin_url() . "admin.php"
+                                    ),
+                   'show' => 1,
+                 );
+    die( json_encode( $json ) );
+}

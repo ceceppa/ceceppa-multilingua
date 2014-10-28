@@ -29,7 +29,6 @@ jQuery(document).ready( function($) {
       data: $( this ).serialize(),
       success: function( data ) {
         $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeOut();
-
         $data = null;
 
         if ( data == "-1" ) {
@@ -44,7 +43,12 @@ jQuery(document).ready( function($) {
         }
         
         if ( $data == null) return;
-        
+
+        if ( $data.show ) {
+            $( 'input[type="submit"]' ).animate( { opacity: 1 }, 'slow',
+                                                function() { $( this ).removeAttr( 'disabled' ) } );
+        }
+
         if ( $data.url ) window.location = $data.url;
       }
     } );

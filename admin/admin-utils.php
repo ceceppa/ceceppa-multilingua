@@ -54,3 +54,28 @@ echo <<< EOT
     </div>
 EOT;
 }
+
+
+function _cml_wp_error_div( $title, $msg ) {
+
+echo <<< ERROR
+    <div class="error cml-notice">
+        <p>
+            <span class="title">CML: $title</span>
+            $msg
+        </p>
+    </div>
+ERROR;
+}
+
+function _cml_wp_updated_div( $title, $msg ) {
+
+echo <<< UPDATED
+    <div class="updated cml-notice">
+        <p>
+            <span class="title">CML: $title</span>
+            $msg
+        </p>
+    </div>
+UPDATED;
+}

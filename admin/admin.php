@@ -34,6 +34,9 @@ require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
 require_once( CML_PLUGIN_ADMIN_PATH . 'admin-quickedit.php' );
 require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-posts.php' );
 
+//Backup functions
+require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-backup-fn.php' );
+
 //Setting mode: basic, intermediate, advanced
 $GLOBALS[ 'cml_show_mode' ] = get_option( "ceceppaml_admin_advanced_mode", "show-basic" );
 
@@ -139,6 +142,10 @@ class CMLAdmin extends CeceppaML {
     //generate mo file
     add_action( 'wp_ajax_ceceppaml_generate_mo', 'cml_admin_generate_mo' );
 
+    //Create a backup
+    add_action( 'wp_ajax_ceceppaml_do_backup', 'cml_backup_do' );
+    add_action( 'wp_ajax_ceceppaml_export_backup', 'cml_backup_export' );
+
     //Widget page
     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );
     
@@ -225,6 +232,7 @@ class CMLAdmin extends CeceppaML {
     $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Settings', 'ceceppaml' ) . '</div>', 'administrator', '', null );
 
     $page[] = add_submenu_page('ceceppaml-language-page', __('Settings', 'ceceppaml'), __('Settings', 'ceceppaml'), 'manage_options', 'ceceppaml-options-page', array(&$this, 'form_options'));
+    $page[] = add_submenu_page('ceceppaml-language-page', __('Backup', 'ceceppaml'), __('Backup', 'ceceppaml'), 'manage_options', 'ceceppaml-backup-page', array(&$this, 'form_backups'));
 
     //Addons
     $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Addons', 'ceceppaml' ) . '</div>', 'administrator', '', null );
@@ -303,6 +311,14 @@ class CMLAdmin extends CeceppaML {
   function form_options() {
     require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-options.php' );
   }
+
+  /*
+   * Manage the backups
+   */
+  function form_backups() {
+    require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-backups.php' );
+  }
+
 
   /*
    * Flags options
@@ -448,9 +464,9 @@ class CMLAdmin extends CeceppaML {
   }
 
   //Menu metabox
-  function page_menu() {
-    require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-menu.php' );
-  }
+//  function page_menu() {
+//    require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-menu.php' );
+//  }
 
   function admin_footer() {
     echo '<div class="cml-box-shadow"></div>';
@@ -608,6 +624,8 @@ class CMLAdmin extends CeceppaML {
     } else {
       if( isset( $_COOKIE[ '_cml_language' ] ) ) {
         $lang = $_COOKIE[ '_cml_language' ];
+
+        $slug = CMLLanguage::get_by_id( $lang );
       }
     }
 
@@ -738,4 +756,3 @@ EOT;
     return $b;
   }
 }
-?>
