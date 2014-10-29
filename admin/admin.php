@@ -609,25 +609,25 @@ class CMLAdmin extends CeceppaML {
     $slug = $lang->cml_language_slug;
 
     $logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
-    if( $logged_in ) {
-      if( ! defined( 'DOING_AJAX' ) ) {
-        global $current_user;
-  
-        get_currentuserinfo();
-  
-        $user = $current_user->user_login;
-        $slug = get_option( "cml_${user}_locale", CMLLanguage::get_default()->cml_language_slug );
-      } else {
-        $lang = get_user_meta( get_current_user_id(), 'cml_language', true );
-        $slug = CMLLanguage::get_slug( $lang );
-      }
-    } else {
+//    if( $logged_in ) {
+//      if( ! defined( 'DOING_AJAX' ) ) {
+//        global $current_user;
+//  
+//        get_currentuserinfo();
+//  
+//        $user = $current_user->user_login;
+//        $slug = get_option( "cml_${user}_locale", CMLLanguage::get_default()->cml_language_slug );
+//      } else {
+//        $lang = get_user_meta( get_current_user_id(), 'cml_language', true );
+//        $slug = CMLLanguage::get_slug( $lang );
+//      }
+//    } else {
       if( isset( $_COOKIE[ '_cml_language' ] ) ) {
         $lang = $_COOKIE[ '_cml_language' ];
 
         $slug = CMLLanguage::get_by_id( $lang );
       }
-    }
+//    }
 
     $slug = isset( $_GET[ 'lang' ] ) ? esc_attr( $_GET[ 'lang' ] ) : $slug;
 
@@ -640,10 +640,10 @@ class CMLAdmin extends CeceppaML {
       update_option( "cml_${user}_locale", $lang->cml_language_slug );
     }
 
-    if( defined( 'DOING_AJAX' ) ) {
-      $lang_id = get_user_meta( get_current_user_id(), 'cml_language', true );
-      $locale = CMLLanguage::get_by_id( $lang_id )->cml_locale;
-    }
+//    if( defined( 'DOING_AJAX' ) ) {
+//      $lang_id = get_user_meta( get_current_user_id(), 'cml_language', true );
+//      $locale = CMLLanguage::get_by_id( $lang_id )->cml_locale;
+//    }
 
     if( isset( $_POST[ 'lang' ] ) ) {
       $locale = $_POST[ 'lang' ];
