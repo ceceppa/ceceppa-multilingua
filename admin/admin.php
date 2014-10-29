@@ -645,6 +645,7 @@ class CMLAdmin extends CeceppaML {
 //      $locale = CMLLanguage::get_by_id( $lang_id )->cml_locale;
 //    }
 
+
     if( isset( $_POST[ 'lang' ] ) ) {
       $locale = $_POST[ 'lang' ];
 
