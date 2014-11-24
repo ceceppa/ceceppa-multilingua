@@ -15,9 +15,6 @@
   ?>
   <div style="text-align:right">
     <p class="submit" style="float: right">
-    <?php if( count( CMLLanguage::get_all() ) > 1 ) : ?>
-    <input type="button" class="button button-secondaty" name="add" value="<?php _e('Add', 'ceceppaml') ?>" onclick="addRow(<?php echo count( $lkeys ) . ", '" . join(",", $lkeys ) ?>', <?php echo CMLLanguage::get_default_id() ?>)" />
-    <?php endif; ?>
     <?php submit_button( __( 'Update', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
     </p>
   </div>

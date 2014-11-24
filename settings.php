@@ -5,7 +5,7 @@
  *
  * In questo file le opzioni vengono recuperate dal database...
  */
-  global $wpdb;
+  global $wpdb, $_cml_settings;
 
  //Lingue
   $_cml_settings[ 'default_language' ] = $wpdb->get_var("SELECT cml_language FROM " . CECEPPA_ML_TABLE . " WHERE cml_default = 1");

@@ -143,7 +143,7 @@ function _cml_backup_do_settings_extra( $filename ) {
         $settings[ $key ] = get_option( $key );
     }
 
-    cml_generate_settings_php( $filename . ".xtra", $settings, '$_cml_extra', FILE_APPEND );
+    cml_generate_settings_php( $filename, $settings, '$_cml_extra', FILE_APPEND );
 
     return 1;
 }

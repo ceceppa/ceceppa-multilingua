@@ -1405,7 +1405,7 @@ class CMLUtils {
       global $_cml_settings;
     
       self::$_url_mode = $_cml_settings[ 'url_mode' ];  //more easy
-      
+
       $permalink = self::get_permalink_structure();
       if( empty( $permalink ) && self::$_url_mode == PRE_PATH )
         self::$_url_mode = PRE_LANG;

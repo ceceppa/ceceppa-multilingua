@@ -442,7 +442,6 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
                                                     "the_id" => $the_id,
                                                     ),
                             $q, $result->id );
-
   }
 
   // Get the last character from the permalink structure definition

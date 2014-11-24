@@ -211,9 +211,13 @@ class CeceppaML {
     add_filter( 'post_type_link', array( & $this, 'translate_post_link' ), 0, 3 );
 
     if( $this->_url_mode > PRE_LANG ) {
-//       add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
+//      add_filter( 'post_type_link', array( & $this, 'translate_page_link' ), 0, 3 );
       add_filter( 'page_link', array ( & $this, 'translate_page_link' ), 0, 3 );
     }
+
+//    if( CMLUtils::get_permalink_structure() != '' ) {
+////      add_filter( '_get_page_link', array ( & $this, 'translate__page_link' ), 0, 2 );
+//    }
 
     //Switch language in menu
     add_action( 'admin_bar_menu', array( & $this, 'add_bar_menu' ), 1000 );
@@ -464,6 +468,20 @@ EOT;
 
     return $this->convert_url( $permalink, $slug );
   }
+
+  /**
+   * Check if the language slug is missing in the url, force the redirect
+   * to correct one, to avoid "duplicated links".
+   * This because wp does redirect only for post, not for page :(
+   */
+//  function translate__page_link( $link, $post_id ) {
+//    if( CMLUtils::_get( '_getting_real_page_link' ) == 1 ) return $link;
+//
+//    CMLUtils::_set( '_getting_real_page_link', 1 );
+//    echo get_page_link( $post_id );
+//    echo $link;
+//    die();
+//  }
 
   /*
    * change ( wrong? ) language slug in url

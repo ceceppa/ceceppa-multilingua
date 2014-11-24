@@ -162,6 +162,7 @@ EOT;
   public function footer () {
     global $wpCeceppaML, $wpdb;
 
+      return;
     if( is_user_logged_in() || isset( $_GET[ "cdb" ] ) ) {
       echo '<div id="cml-debug">';
       echo '<div class="title">CML Debug</div>';
@@ -169,9 +170,11 @@ EOT;
       echo "This output is visible only to logged user...";
       
       $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
-      $pdata = get_plugin_data( $pfile );
+      if( function_exists( 'get_plugin_data' ) ) {
+        $pdata = get_plugin_data( $pfile );
+        echo "CeceppaML debug:" . $pdata[ 'Version' ];
+      }
 
-      echo "CeceppaML debug:" . $pdata[ 'Version' ];
       echo "<pre>";
 
       echo "\n\n<b>Languages:</b>\n";

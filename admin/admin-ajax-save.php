@@ -482,11 +482,29 @@ function cml_backup_do() {
 }
 
 function cml_backup_export() {
-    $s1 = CECEPPAML_BACKUP_PATH . "_tmp_";
-    $s2 = CECEPPAML_BACKUP_PATH . "_tmpx_";
+    if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
 
-    cml_generate_settings_php( $s1 );
-    _cml_backup_do_settings_extra( $s2 );
+    //Settings?
+    $s1 = CECEPPAML_BACKUP_PATH . "_tmp_";
+
+    if( isset( $_POST[ 'cml-tables' ] ) ) {
+        file_put_contents( $s1, "<!-- Database -->" );
+
+        _cml_backup_do_tables( $s1 );
+    }
+
+    if( isset( $_POST[ 'cml-settings' ] ) ) {
+        file_put_contents( $s1, "<!-- Settings -->", FILE_APPEND );
+
+        cml_generate_settings_php( $s1,
+                                    null,
+                                    '$_cml_settings',
+                                    FILE_APPEND );
+
+        file_put_contents( $s1, "<!-- Extra Settings -->", FILE_APPEND );
+
+        _cml_backup_do_settings_extra( $s1 );
+    }
 
     $json = array( 'url' => add_query_arg(
                                     array(
@@ -498,5 +516,6 @@ function cml_backup_export() {
                                     ),
                    'show' => 1,
                  );
+
     die( json_encode( $json ) );
 }

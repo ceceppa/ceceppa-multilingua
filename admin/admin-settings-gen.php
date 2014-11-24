@@ -15,12 +15,12 @@ if( isset( $_GET[ 'cml-settings-updated' ] ) ) {
  * 
  */
 function cml_generate_settings_php( $filename = "",
-                                    $_cml_setttings = null,
-                                    $var_name = '$_cml_setttings',
+                                    $_cml_settings = null,
+                                    $var_name = '$_cml_settings',
                                     $flag = 0 ) {
 
-  if( null == $_cml_setttings ) {
-    $_cml_setttings = & $GLOBALS[ '_cml_settings' ];
+  if( null == $_cml_settings ) {
+    $_cml_settings = & $GLOBALS[ '_cml_settings' ];
   }
 
   if( empty( $filename ) ) {
@@ -28,7 +28,7 @@ function cml_generate_settings_php( $filename = "",
   }
 
   update_option( "cml_use_settings_gen", false );
-  if( empty( $_cml_setttings ) ) {
+  if( empty( $_cml_settings ) ) {
     return;
   }
 
@@ -40,7 +40,7 @@ function cml_generate_settings_php( $filename = "",
   $row[] = "<?php";
   $row[] = "if ( ! defined( 'ABSPATH' ) ) die( \"Access denied\" );";
   $row[] = "//Genetared by Ceceppa Multilingua - " . date( "Y-m-d H:i" );
-  foreach( $_cml_setttings as $key => $value ) {
+  foreach( $_cml_settings as $key => $value ) {
     if( ! is_array( $value ) ) {
       $value = addslashes( $value );
       $val = is_numeric( $value ) ? $value : '"' . $value . '"';
