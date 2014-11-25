@@ -552,7 +552,7 @@ EOT;
     global $wpdb, $_cml_settings;
 
     if( isset( $this->_static_page ) ) return $this->_static_page;
-    if( ! isset( $query->query_vars[ 'page_id' ] ) ) return;
+    if( ! $query->is_main_query() || ! isset( $query->query_vars[ 'page_id' ] ) ) return;
     if( is_search() ) return;
 
     //Recupero l'id della lingua
