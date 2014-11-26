@@ -3,11 +3,13 @@
 //add_thickbox();
 
 function cml_admin_box_backup() {
+  $tab = isset( $_GET[ 'tab' ] ) ? intval( $_GET[ 'tab' ] ) : 0;
 ?>
 <form id="form" name="backup" method="POST" class="cml-ajax-form">
   <input type="hidden" name="page" value="<?php echo $_GET[ 'page' ] ?>" />
   <input type="hidden" name="tab" value="<?php echo $tab ?>" />
   <input type="hidden" name="action" value="ceceppaml_do_backup" />
+  <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
   <div id="minor-publishing">
       <?php _e( 'Select what do you want to backup:', 'ceceppaml' ) ?>
       <ul class="cml-ul-list">

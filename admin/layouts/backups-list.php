@@ -1,5 +1,19 @@
 <?php
-    require_once ( CML_PLUGIN_LAYOUTS_PATH . 'class-backups.php' );
+if( ! defined( 'ABSPATH' ) ) die();
+
+require_once ( CML_PLUGIN_LAYOUTS_PATH . 'class-backups.php' );
+
+if( isset( $_GET[ 'delete' ] ) && isset( $_GET[ 'file' ] ) ) {
+  $filename = CECEPPAML_BACKUP_PATH . basename( $_GET[ 'file' ] );
+
+  $info = pathinfo( $filename );
+  $files = glob( CECEPPAML_BACKUP_PATH . $info[ 'filename' ] . "*" );
+
+  foreach( $files as $file ) {
+    unlink( $file );
+  }
+}
+
 ?>
 
 <form class="ceceppa-form-translations" name="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo $_GET['page'] ?>">

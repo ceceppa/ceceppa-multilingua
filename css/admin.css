@@ -1882,3 +1882,78 @@ table .cml_enable_filter {
 .cml-notice p.submit {
     margin-bottom: 30px;
 }
+
+.cml-notice .title {
+  font-weight: bold;
+  display: block;
+  padding-bottom: 1em;
+}
+
+.ceceppa-form-translations .column-date {
+  width: 70%;
+}
+
+.ceceppa-form-translations .column-database {
+  width: 40px;
+}
+
+.switch-me {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.switch-me:before {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.switch-me:after {
+  position: absolute;
+  left: 20px;
+  width: 20px;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+.switch-me.restore-none:before {
+  content: '-';
+}
+
+.switch-me.restore-none:after {
+  content: '\2716';
+  color: #BABDB6;
+}
+
+.switch-me.restore-yes:before {
+  content: '\2714';
+}
+
+.switch-me.restore-yes:after {
+  content: '\21F5';
+  color: #008C00;
+}
+
+.switch-me:hover:before {
+  left: -20px;
+}
+
+.switch-me:hover:after {
+  left: 0;
+}
+
+
+.ceceppa-form-translations .hide-me {
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.ceceppa-form-translations .hide-me:hover {
+/*  background: #590000;*/
+  opacity: 1;
+}

@@ -452,25 +452,24 @@ function cml_backup_do() {
     } else {
         //Backup file
         $backup_file = date( 'Ymd-His' );
-        $db_backup = $backup_file . '.db.sql';
+        $db_backup = $backup_file . '.db';
         $settings_backup = $backup_file . '.settings';
-        $settings_extra_backup = $backup_file . '.settings.extra';
 
         //Backup tables
         $db = $s1 = $s2 = 0;
         if( isset( $_POST[ 'cml-tables' ] ) &&
             intval( $_POST[ 'cml-tables' ] ) == 1 ) {
-            $db = _cml_backup_do_tables( CECEPPAML_BACKUP_PATH . $db_backup );
+            $db = _cml_backup_do_tables( "DB", CECEPPAML_BACKUP_PATH . $db_backup );
         }
 
         if( isset( $_POST[ 'cml-settings' ] ) &&
             intval( $_POST[ 'cml-settings' ] ) == 1 ) {
-            $s1 = cml_generate_settings_php( CECEPPAML_BACKUP_PATH . $settings_backup );
-            $s2 = _cml_backup_do_settings_extra( CECEPPAML_BACKUP_PATH . $settings_backup );
+            $s1 = _cml_backup_do_tables( "SETTINGS", CECEPPAML_BACKUP_PATH . $settings_backup,
+                                          " WHERE WHERE option_name LIKE 'cml_%' OR option_name LIKE '_cml_%' " );
         }
 
-        $status .= "&file[]=" . join( "&file[]=", array( $db_backup, $settings_backup, $settings_backup . ".xtra" ) );
-        $status .= "&stat[]=" . join( "&stat[]=", array( $db, $s1, $s2 ) );
+        $status .= "&file[]=" . join( "&file[]=", array( $db_backup, $settings_backup ) );
+        $status .= "&stat[]=" . join( "&stat[]=", array( $db, $s1 ) );
     }
 
     $url = admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&status=' . $status );
@@ -485,12 +484,10 @@ function cml_backup_export() {
     if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
 
     //Settings?
-    $s1 = CECEPPAML_BACKUP_PATH . "_tmp_";
+    $s1 = CECEPPAML_BACKUP_PATH . ".tmp";
 
     if( isset( $_POST[ 'cml-tables' ] ) ) {
-        file_put_contents( $s1, "<!-- Database -->" );
-
-        _cml_backup_do_tables( $s1 );
+        _cml_backup_do_tables( "DB", $s1 );
     }
 
     if( isset( $_POST[ 'cml-settings' ] ) ) {
@@ -500,8 +497,6 @@ function cml_backup_export() {
                                     null,
                                     '$_cml_settings',
                                     FILE_APPEND );
-
-        file_put_contents( $s1, "<!-- Extra Settings -->", FILE_APPEND );
 
         _cml_backup_do_settings_extra( $s1 );
     }
@@ -518,4 +513,51 @@ function cml_backup_export() {
                  );
 
     die( json_encode( $json ) );
+}
+
+
+function cml_backup_import() {
+  if( ! wp_verify_nonce( $_POST[ "security" ], "security" ) ) die( "-1" );
+  global $wpdb;
+
+  $url = array(
+                'page' => 'ceceppaml-backup-page',
+                'tab' => 2,
+             );
+
+  if( empty( $_FILES ) || $_FILES[ 'error' ] != 0 ) {
+    $url[ 'invalid' ] = 1;
+  } else {
+    $filename = $_FILES[ 'file' ][ 'tmp_name' ];
+    $content = file_get_contents( $filename );
+
+    //Check the string /**CML: xxxxx **/ into the file
+    if( preg_match_all("/\/\*\*CML:[^\/].*/", $content, $output) ) {
+      preg_replace("/\/\*\*CML:[^\/].*/", "<!!!>", $content);
+
+      $contents = explode( "<!!!>", $content );
+
+      foreach( $contents as $c ) {
+        //Database?
+        if( strpos( $c, "SQL DB" ) > 0 ) {
+          $wpdb->query( $c );
+        }
+
+        //Settings?
+        if( strpos( $c, "_cml_settings" ) ) {
+//          file_put_contents( CML_UPLOAD_DIR . "settings.gen.php" );
+
+//          get_option( "cml_use_settings_gen", 0 ) &&
+        }
+      }
+    } else {
+      $url[ 'invalid' ] = 2;
+    }
+  }
+
+  $json = array( 'url' => add_query_arg( $url,
+                                         admin_url() . "admin.php"
+                                       ) );
+
+  die( json_encode( $json ) );
 }

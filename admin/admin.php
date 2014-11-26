@@ -145,6 +145,7 @@ class CMLAdmin extends CeceppaML {
     //Create a backup
     add_action( 'wp_ajax_ceceppaml_do_backup', 'cml_backup_do' );
     add_action( 'wp_ajax_ceceppaml_export_backup', 'cml_backup_export' );
+    add_action( 'wp_ajax_ceceppaml_import_backup', 'cml_backup_import' );
 
     //Widget page
     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );

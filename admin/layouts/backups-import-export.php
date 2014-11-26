@@ -10,6 +10,7 @@ function cml_admin_box_backup_export() {
   <input type="hidden" name="page" value="<?php echo $_GET[ 'page' ] ?>" />
   <input type="hidden" name="tab" value="<?php echo $tab ?>" />
   <input type="hidden" name="action" value="ceceppaml_export_backup" />
+  <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
   <div id="minor-publishing">
       <?php _e( 'Select what do you want to backup:', 'ceceppaml' ) ?>
       <ul class="cml-ul-list">
@@ -43,30 +44,27 @@ function cml_admin_box_backup_export() {
 
 function cml_admin_box_backup_import() {
     global $tab;
+
+  if( isset( $_GET[ 'invalid' ] ) ) {
+    $msg = ( intval( $_GET[ 'invalid' ] ) == 1 ) ?
+      __( "No file selected", 'ceceppaml' ) :
+      __( "Selected file is not a valid Ceceppa's backup file", 'ceceppaml' );
+
+    _cml_wp_error_div( "Backup restore failed", $msg );
+  }
 ?>
-<form id="form" name="backup" method="POST" class="cml-ajax-form">
+<form id="form" name="backup" method="POST" class="cml-ajax-form" data-use-formdata="1">
   <input type="hidden" name="page" value="<?php echo $_GET[ 'page' ] ?>" />
   <input type="hidden" name="tab" value="<?php echo $tab ?>" />
   <input type="hidden" name="action" value="ceceppaml_import_backup" />
+  <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
+
   <div id="minor-publishing">
-      <?php _e( 'Select files to import:', 'ceceppaml' ) ?>
       <ul class="cml-ul-list">
           <li>
-              <?php _e( 'Database ( *.sql )', 'ceceppaml' ) ?>
+              <?php _e( "Select Ceceppa's backup file:", 'ceceppaml' ) ?>
               <blockquote>
                   <input type="file" name="database" />
-              </blockquote>
-          </li>
-          <li>
-              <?php _e( 'Settings ( *.settings )', 'ceceppaml' ) ?>
-              <blockquote>
-                  <input type="file" name="settings" />
-              </blockquote>
-          </li>
-          <li>
-              <?php _e( 'Settings extra ( *.extra )', 'ceceppaml' ) ?>
-              <blockquote>
-                  <input type="file" name="sextra" />
               </blockquote>
           </li>
       </ul>

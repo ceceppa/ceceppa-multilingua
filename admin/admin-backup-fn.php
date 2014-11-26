@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 define( 'CECEPPAML_BACKUP_PATH', CML_UPLOAD_DIR . trailingslashit( 'backup' ) );
 
-function &_cml_backup_tables() {
+function &_cml_backup_tables( $where = "" ) {
     global $wpdb;
 
     $data = "\n/*---------------------------------------------------------------".
@@ -15,16 +15,23 @@ function &_cml_backup_tables() {
 
     $tables = array( CECEPPA_ML_TABLE, CECEPPA_ML_CATS, CECEPPA_ML_POSTS, CECEPPA_ML_RELATIONS );
 
+    if( empty( $where ) ) {
+      $where = array( $wpdb->options );
+    }
+
   foreach($tables as $table){
     $data.= "\n/*---------------------------------------------------------------".
             "\n  TABLE: `{$table}`".
             "\n  ---------------------------------------------------------------*/\n";
-    $data.= "DROP TABLE IF EXISTS `{$table}`;\n";
-    $res = mysql_query("SHOW CREATE TABLE `{$table}`", $link);
-    $row = mysql_fetch_row($res);
-    $data.= $row[1].";\n";
 
-    $result = mysql_query("SELECT * FROM `{$table}`", $link);
+    if( empty( $where ) ) {
+      $data.= "DROP TABLE IF EXISTS `{$table}`;\n";
+      $res = mysql_query("SHOW CREATE TABLE `{$table}`", $link);
+      $row = mysql_fetch_row($res);
+      $data.= $row[1].";\n";
+    }
+
+    $result = mysql_query("SELECT * FROM `{$table}` {$where}", $link);
     $num_rows = mysql_num_rows($result);
 
     if($num_rows>0){
@@ -92,12 +99,14 @@ ERROR;
 }
 
 //Backup tables
-function _cml_backup_do_tables( $filename ) {
+function _cml_backup_do_tables( $what, $filename, $where = "" ) {
     $handle = fopen( $filename , 'w+' );
     if( $handle !== false ) {
 
         // get backup
-        $mybackup = _cml_backup_tables();
+        fwrite($handle, "/**CML: ${$what}**/");
+
+        $mybackup = _cml_backup_tables( $where );
 
         fwrite($handle,$mybackup);
         fclose($handle);
@@ -174,26 +183,34 @@ function _cml_backup_done() {
     $list .= "</ul>";
 
     _cml_wp_updated_div( __( 'Backup succesfully created', 'ceceppaml' ),
-                      sprintf( __( 'Backup file: %s', 'ceceppaml' ), $list )
+                      $list
                     );
 }
 
 function _cml_download_backup() {
-    $s1 = CECEPPAML_BACKUP_PATH . "_tmp";
-    $s2 = CECEPPAML_BACKUP_PATH . "_tmpx.xtra";
+    $file = CECEPPAML_BACKUP_PATH;
+    $remove = false;
 
-    header('Content-Type: application/octet-stream');
-    header("Content-Transfer-Encoding: Binary");
-    header("Content-disposition: attachment; filename=\"cmlsettings.dat\"");
-    readfile( $s1 );
+    $downloadFilename = 'cmlsettings';
+    if( isset( $_GET[ 'file' ] ) ) {
+      $downloadFilename = basename( $_GET[ 'file' ] );
+      $file .= $downloadFilename;
+    } else {
+      $file .= ".tmp";
 
-    echo "\n<:extra:>\n";
+      $remove = true;
+    }
 
-    readfile( $s2 );
+    header('Content-Type: text/plain');
+    header("Content-transfer-encoding: base64");
+    header("Content-disposition: attachment; filename=\"{$downloadFilename}\"");
+
+    readfile( $file );
 
     //remove temp file
-    unlink( $s1 );
-    unlink( $s2 );
+    if( $remove ) {
+      unlink( $file );
+    }
 
     die();
 }

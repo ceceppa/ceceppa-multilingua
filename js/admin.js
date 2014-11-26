@@ -23,14 +23,30 @@ jQuery(document).ready( function($) {
     //Hide all submit buttons
     $( 'input[type="submit"]' ).animate( { opacity: 0 }, 'slow', function() { $( this ).attr( 'disabled', 'disabled' ) } );
     $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeIn();
+
+    var data = $form.serialize();
+    if( $form.data( 'use-formdata' ) != undefined ) {
+      var formData = new FormData();
+
+      formData.append( 'action', $form.find( 'input[name="action"]' ).val() );
+      formData.append( 'security', $form.find( '#ceceppaml-nonce' ).val() );
+      formData.append( 'file', $form.find( 'input[type="file"]' )[ 0 ].files[ 0 ] );
+      formData.append( "data", $form.serialize() );
+
+      data = formData;
+    }
+
     $.ajax( {
       type: 'POST',
       url: ajaxurl,
-      data: $( this ).serialize(),
+      data: data,
+      processData: false,
+      contentType: false,
       success: function( data ) {
         $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeOut();
         $data = null;
 
+        console.log( data );
         if ( data == "-1" ) {
           alert( 'Failed!!!' );
           return;

@@ -37,7 +37,13 @@ function cml_generate_settings_php( $filename = "",
 
   cml_generate_lang_columns();
 
+  $row = array();
+  if( $flag == FILE_APPEND ) {
+    $row[] = "\n";
+  }
+
   $row[] = "<?php";
+  $row[] = "/**CML: SETTINGS**/";
   $row[] = "if ( ! defined( 'ABSPATH' ) ) die( \"Access denied\" );";
   $row[] = "//Genetared by Ceceppa Multilingua - " . date( "Y-m-d H:i" );
   foreach( $_cml_settings as $key => $value ) {
