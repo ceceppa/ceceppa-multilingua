@@ -25,6 +25,8 @@ jQuery(document).ready( function($) {
     $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeIn();
 
     var data = $form.serialize();
+    var processData = true;
+    var contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
     if( $form.data( 'use-formdata' ) != undefined ) {
       var formData = new FormData();
 
@@ -34,14 +36,16 @@ jQuery(document).ready( function($) {
       formData.append( "data", $form.serialize() );
 
       data = formData;
+      processData = false;
+      contentType = false;
     }
 
     $.ajax( {
       type: 'POST',
       url: ajaxurl,
       data: data,
-      processData: false,
-      contentType: false,
+      processData: processData,
+      contentType: contentType,
       success: function( data ) {
         $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeOut();
         $data = null;

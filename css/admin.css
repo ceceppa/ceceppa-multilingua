@@ -1890,11 +1890,15 @@ table .cml_enable_filter {
 }
 
 .ceceppa-form-translations .column-date {
-  width: 70%;
+  width: 80%;
 }
 
 .ceceppa-form-translations .column-database {
   width: 40px;
+}
+
+.ceceppa-form-translations .column-delete {
+  text-align: center;
 }
 
 .switch-me {
@@ -1918,7 +1922,7 @@ table .cml_enable_filter {
   left: 20px;
   width: 20px;
   text-align: center;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 }
 
 .switch-me.restore-none:before {
@@ -1939,6 +1943,15 @@ table .cml_enable_filter {
   color: #008C00;
 }
 
+.switch-me.icon-delete:before {
+  content: '\2219';
+  color: #E8B7D7;
+}
+
+.switch-me.icon-delete:after {
+  content: url('../images/icon-delete.png');
+}
+
 .switch-me:hover:before {
   left: -20px;
 }
@@ -1947,13 +1960,11 @@ table .cml_enable_filter {
   left: 0;
 }
 
-
 .ceceppa-form-translations .hide-me {
   opacity: 0;
   transition: all 0.3s ease;
 }
 
 .ceceppa-form-translations .hide-me:hover {
-/*  background: #590000;*/
   opacity: 1;
 }

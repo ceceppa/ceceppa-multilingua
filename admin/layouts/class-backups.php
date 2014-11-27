@@ -83,7 +83,8 @@ class MyBackups_Table extends WP_List_Table {
           $data[ $date ] = array(
                           'ID' => $id,
                           'date' => filemtime( $file ),
-                          'filename' => $info[ 'basename' ],
+                          'basename' => $info[ 'basename' ],
+                          'filename' => $info[ 'filename' ],
                           'database' => ( $ext == "db" ),
                           'settings' => ( $ext == "settings" ),
           );
@@ -149,7 +150,7 @@ class MyBackups_Table extends WP_List_Table {
                 if( $rec[ 'database' ] == 1 ) {
                   $link = add_query_arg( array(
                                                 'download' => 1,
-                                                'file' => $rec[ 'filename' ]
+                                                'file' => $rec[ 'filename' ] . ".db"
                   ) );
                 }
 
@@ -168,7 +169,7 @@ class MyBackups_Table extends WP_List_Table {
                 if( $rec[ 'settings' ] == 1 ) {
                   $link = add_query_arg( array(
                                                 'download' => 1,
-                                                'file' => $rec[ 'filename' ]
+                                                'file' => $rec[ 'filename' ] . ".settings"
                   ) );
                 }
 
@@ -186,8 +187,7 @@ class MyBackups_Table extends WP_List_Table {
                                     )
                  );
 
-                echo '<a class="button hide-me" href="' . $link . '">';
-                echo __( 'Delete', 'ceceppaml' );
+                echo '<a class="switch-me tipsy-me icon-delete" title="' . __( 'Delete', 'ceceppaml' ) . '" href="' . $link . '">';
                 echo '</a>';
 
                 echo "</td>";
@@ -202,4 +202,3 @@ class MyBackups_Table extends WP_List_Table {
       } //if
     }
 }
-?>

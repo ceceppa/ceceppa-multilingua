@@ -52,6 +52,13 @@ function cml_admin_box_backup_import() {
 
     _cml_wp_error_div( "Backup restore failed", $msg );
   }
+
+  if( isset( $_GET[ 'done' ] ) )
+  {
+      $msg = __( "Restore succesfully completed", 'ceceppaml' );
+
+    _cml_wp_updated_div( "Backup restore done", $msg );
+  }
 ?>
 <form id="form" name="backup" method="POST" class="cml-ajax-form" data-use-formdata="1">
   <input type="hidden" name="page" value="<?php echo $_GET[ 'page' ] ?>" />

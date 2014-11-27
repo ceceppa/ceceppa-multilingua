@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 define( 'CECEPPAML_BACKUP_PATH', CML_UPLOAD_DIR . trailingslashit( 'backup' ) );
 
-function &_cml_backup_tables( $where = "" ) {
+function &_cml_backup_tables( $select = "*", $where = "" ) {
     global $wpdb;
 
     $data = "\n/*---------------------------------------------------------------".
@@ -15,10 +15,11 @@ function &_cml_backup_tables( $where = "" ) {
 
     $tables = array( CECEPPA_ML_TABLE, CECEPPA_ML_CATS, CECEPPA_ML_POSTS, CECEPPA_ML_RELATIONS );
 
-    if( empty( $where ) ) {
-      $where = array( $wpdb->options );
+    if( ! empty( $where ) ) {
+      $tables = array( $wpdb->options );
     }
 
+  $fields = ( $select == "*" ) ? "" : "( $select )";
   foreach($tables as $table){
     $data.= "\n/*---------------------------------------------------------------".
             "\n  TABLE: `{$table}`".
@@ -31,7 +32,10 @@ function &_cml_backup_tables( $where = "" ) {
       $data.= $row[1].";\n";
     }
 
-    $result = mysql_query("SELECT * FROM `{$table}` {$where}", $link);
+    $query = "SELECT {$select} FROM `{$table}` {$where}";
+    $result = mysql_query($query, $link);
+//    $data .= $query;
+
     $num_rows = mysql_num_rows($result);
 
     if($num_rows>0){
@@ -44,9 +48,13 @@ function &_cml_backup_tables( $where = "" ) {
           if ($j<(count($items)-1)){ $vals[$z].= ","; }
         }
         $vals[$z].= ")"; $z++;
+
+        if( ! empty( $fields ) ) {
+          $data.= "DELETE FROM `{$table}` WHERE option_name = '" . $items[0] . "';\n";
+        }
       }
-      $data.= "INSERT INTO `{$table}` VALUES ";
-      $data .= "  ".implode(";\nINSERT INTO `{$table}` VALUES ", $vals).";\n";
+      $data.= "INSERT INTO `{$table}` {$fields} VALUES ";
+      $data .= "  ".implode(";\nINSERT INTO `{$table}` {$fields} VALUES ", $vals).";\n";
     }
   }
   mysql_close( $link );
@@ -99,14 +107,14 @@ ERROR;
 }
 
 //Backup tables
-function _cml_backup_do_tables( $what, $filename, $where = "" ) {
+function _cml_backup_do_tables( $what, $filename, $select = "*", $where = "" ) {
     $handle = fopen( $filename , 'w+' );
     if( $handle !== false ) {
 
         // get backup
-        fwrite($handle, "/**CML: ${$what}**/");
+        fwrite($handle, "/**CML: {$what}**/");
 
-        $mybackup = _cml_backup_tables( $where );
+        $mybackup = _cml_backup_tables( $select, $where );
 
         fwrite($handle,$mybackup);
         fclose($handle);
@@ -205,11 +213,14 @@ function _cml_download_backup() {
     header("Content-transfer-encoding: base64");
     header("Content-disposition: attachment; filename=\"{$downloadFilename}\"");
 
-    readfile( $file );
+    readfile( "{$file}1" );
 
     //remove temp file
     if( $remove ) {
-      unlink( $file );
+      readfile( "{$file}2" );
+
+      unlink( "{$file}1" );
+      unlink( "{$file}2" );
     }
 
     die();
