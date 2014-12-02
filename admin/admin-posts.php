@@ -217,10 +217,13 @@ function cml_admin_post_meta_box( $tag ) {
 function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id, $ajax = false ) {
   CMLUtils::_set( '_cml_no_filter_query', 1 );
 
-  $args = array('numberposts' => 10,
+  //In ajax display 20 items
+  $a = ( ! $ajax ) ? 1 : 2;
+
+  $args = array('numberposts' => 10 * $a,
                 'order' => 'ASC',
                 'orderby' => 'title',
-                'posts_per_page' => 10,
+                'posts_per_page' => 10 * $a,
                 'post_type' => $type,
                 'status' => 'publish,inherit,pending,private,future,draft'
                );
