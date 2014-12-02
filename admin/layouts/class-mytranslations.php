@@ -187,7 +187,7 @@ class MyTranslations_Table extends WP_List_Table {
               }
 
               $title = apply_filters( 'cml_my_translations_label', $title, $rec->cml_type );
-              echo '<input type="hidden" name="string[]" value="' . $rec->cml_text . '"/>';
+              echo '<input type="hidden" class="original" name="string[]" value="' . $rec->cml_text . '"/>';
               echo $title;
               echo '</td>';
               break;

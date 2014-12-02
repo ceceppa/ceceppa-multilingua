@@ -27,42 +27,64 @@ $others = apply_filters( 'cml_my_translations', array() );
     </p>
 </div>
 
-<div class="cml-tab-wrapper cml-tab-strings">
-  <ul id="cml-lang" class="cml-combo-sel cml-lang-sel post_lang cml-lang-js-sel ">
-    <li class="cml-nav-tab <?php echo ( ! isset( $_GET[ 'tab' ] ) ) ? "cml-nav-tab-active" : "" ?>" href="javascript:showStrings(0)">
-      <a cml-lang="1" href="javascript:void()">
+  <ul class="subsubsub cml-subsubsub">
+    <li>
+      <a class="cml-nav-tab <?php echo ( ! isset( $_GET[ 'tab' ] ) ) ? "current" : "" ?>" href="javascript:showStrings(0)">
         <?php _e( 'All', 'ceceppaml' ) ?>
       </a>
-      <ul>
-
-    <li class="cml-nav-tab" href="#" onclick="showStrings( 1, 'S' )"><?php _e( 'My translations', 'ceceppaml' ) ?></li>
-    <li class="cml-nav-tab" href="#" onclick="showStrings( 2, '_cml_' )"><?php _e( 'Plugin strings', 'ceceppaml' ) ?></li>
+       |
+    </li>
+    <li>
+      <a href="#" onclick="showStrings( 1, 'S' )">
+        <?php _e( 'My translations', 'ceceppaml' ) ?>
+      </a>
+       |
+    </li>
+    <li>
+       <a href="#" onclick="showStrings( 2, '_cml_' )">
+          <?php _e( 'Plugin strings', 'ceceppaml' ) ?>
+       </a>
+       |
+    </li>
   <?php
   $i = 3;
+  $item = array();
   foreach( $others as $key => $type ) {
-    $active = ( @$_REQUEST[ 'tab' ] == $key ) ? "cml-nav-tab-active" : "";
-echo <<< EOT
-  <li class="cml-nav-tab $active" href="#" onclick="showStrings( $i, '$key' )">$type</li>
+    $active = ( @$_REQUEST[ 'tab' ] == $key ) ? "current" : "";
+$items[] = <<< EOT
+    <a class="$active" href="#" onclick="showStrings( $i, '$key' )">
+      $type
+    </a>
 EOT;
 
     $i++;
   }
-  
+
+  echo "<li>" . join( ' |</li><li>', $items );
   $types = array_merge( $types, $others );
   ?>
-      </ul>
-    </li>
   </ul>
+  <div style="clear:both"></div>
 
+<div class="cml-tab-wrapper cml-tab-strings">
+  <div class="cml-left-items">
+    <div id="cml-search">
+      <input type="search" name="s" id="filter" placeholder="<?php _e( 'Search', 'ceceppaml' ) ?>" value="" size="40" />
+    </div>
+  </div>
   <div class="cml-right-items">
     <div class="empty"></div>
-    <div id="cml-search">
-      <input type="text" name="s" placeholder="<?php _e( 'Search', 'ceceppaml' ) ?>" value="" />
-    </div>
-    <a class="cml-button tipsy-me" id="cml-add" title="<?php _e( 'Add new record', 'ceceppaml' ) ?>">
+    <?php
+        $lkeys = array_keys( CMLLanguage::get_all() );
+        if( count( CMLLanguage::get_all() ) > 1 ) :
+    ?>
+    <a class="cml-button tipsy-me" id="cml-add" title="<?php _e( 'Add new record', 'ceceppaml' ) ?>"
+       onclick="addRow(<?php echo count( $lkeys ) . ", '" . join(",", $lkeys ) ?>', <?php echo CMLLanguage::get_default_id() ?>)" >
       +
     </a>
-    <a class="cml-button tipsy-me" id="cml-save" title="<?php _e( 'Save changes', 'ceceppaml' ) ?>">
+    <?php endif; ?>
+    <a class="cml-button tipsy-me" id="cml-save" title="<?php _e( 'Save changes', 'ceceppaml' ) ?>"
+       onclick="jQuery( '.ceceppa-form-translations' ).submit()">
       <?php _e( 'Update', 'ceceppaml' ) ?>
     </a>
   </div>
@@ -79,9 +101,8 @@ EOT;
         $table->prepare_items();
 
         $table->display();
-
-        $lkeys = array_keys( CMLLanguage::get_all() );
       ?>
+<!--
       <div style="text-align:right">
         <p class="submit" style="float: right">
         <?php if( count( CMLLanguage::get_all() ) > 1 ) : ?>
@@ -90,6 +111,7 @@ EOT;
         <?php submit_button( __( 'Update', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
         </p>
       </div>
+-->
     </form>
 
 <?php

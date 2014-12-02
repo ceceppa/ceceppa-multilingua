@@ -88,18 +88,18 @@ class CMLFrontend extends CeceppaML {
     }
 
     //Show flags on
-    if( $_cml_settings[ 'cml_option_flags_on_post' ] ||
-        $_cml_settings[ 'cml_option_flags_on_page' ] ||
-        $_cml_settings[ 'cml_option_flags_on_custom_type' ] ||
-        $_cml_settings[ 'cml_option_flags_on_the_loop' ] ) {
-
-      if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "bottom" ||
-          $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" ) {
+//    if( $_cml_settings[ 'cml_option_flags_on_post' ] ||
+//        $_cml_settings[ 'cml_option_flags_on_page' ] ||
+//        $_cml_settings[ 'cml_option_flags_on_custom_type' ] ||
+//        $_cml_settings[ 'cml_option_flags_on_the_loop' ] ) {
+//
+//      if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "bottom" ||
+//          $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" ) {
           add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
-      } else {
+//      } else {
           add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
-      }
-    } //endif;
+//      }
+//    } //endif;
 
     /*
      * filter search by language
@@ -250,11 +250,27 @@ class CMLFrontend extends CeceppaML {
 
     //flags already applied
     if( isset( $this->_title_applied ) && is_singular() ) return $title;
+
+    //Where?
+    $where = $_cml_settings[ 'cml_option_flags_on_pos' ];
+
+    //The post override current flags settings?
+    $override = false;
+    if( is_singular() ) {
+      $override = get_post_meta( get_the_ID(), "_cml_override_flags", true );
+
+      if( $override == 'never' ) return $title;
+      if( $override == 'show' ) {
+        $where = $override[ 'where' ];
+        $override = true;
+      }
+    }
+
     if( $id < 0 ) return $title;
-    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $title;
-    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $title;
+    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() && ! $override ) return $title;
+    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() && ! $override ) return $title;
     if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-       cml_is_custom_post_type() ) return $title;
+       cml_is_custom_post_type() && ! $override ) return $title;
 
     if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
           || is_category() ) return $title;
@@ -279,7 +295,7 @@ class CMLFrontend extends CeceppaML {
                               cml_shortcode_other_langs_available( $args ) :
                               cml_show_available_langs( $args );
 
-      if( 'after' == $_cml_settings[ 'cml_option_flags_on_pos' ] ) {
+      if( 'after' == $where ) {
         return $title . $flags;
       }
       else

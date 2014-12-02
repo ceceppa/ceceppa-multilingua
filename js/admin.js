@@ -1,3 +1,5 @@
+var _cml_searchTimeout = 0;
+
 jQuery(document).ready( function($) { 
   $( '.tipsy-me' ).tipsy( { html: true, fade: true } );
   $( '.tipsy-w' ).tipsy( { gravity: 'w', html: true, fade: true } );
@@ -98,17 +100,50 @@ jQuery(document).ready( function($) {
     
     $( this ).parents( 'ul.cml-dropdown-me' ).find( 'ul > li' ).show();
   }).keyup( function() {
-    $li = $( this ).parents( 'ul.cml-dropdown-me' ).find( 'ul > li' );
-    $val = $( this ).val();
+    clearTimeout( _cml_searchTimeout );
 
-    $li.each( function( $i ) {
-      $span = $( this ).find( ".title" );
-      if( $span.length > 0 ) {
-        var display = $span.html().toLowerCase().indexOf( $val );
+    var $s = $( this ).closest( '.no-traslation' ).find( '.spinner' );
+    $s.fadeIn();
 
-        $( this ).css( "display", ( display >= 0 ) ? "block" : "none" );
-      }
-    });
+    //Remove current items
+    var $ul = $( this ).parent().find( 'ul' );
+    $ul.children().remove();
+
+    //Exec ajax call
+    var data = {
+        'action': 'ceceppaml_get_posts',
+        'post_type': ceceppaml_admin.post_type,
+        'post_id': ceceppaml_admin.post_id,
+        'security': ceceppaml_admin.secret,
+        'lang_id': $( this ).data( 'lang' ),
+        'search': $( this ).val()
+    };
+
+    _cml_searchTimeout = setTimeout( function( data ) {
+      var $spinner = $s;
+      var $u = $ul;
+
+      $.post(ajaxurl, data, function(response) {
+//          alert('Got this from the server: ' + response);
+          $spinner.fadeOut();
+
+          if( response != "" ) {
+            $ul.append( $( response ) );
+          }
+      });
+    }, 1000, data );
+
+//    $li = $( this ).parents( 'ul.cml-dropdown-me' ).find( 'ul > li' );
+//    $val = $( this ).val();
+//
+//    $li.each( function( $i ) {
+//      $span = $( this ).find( ".title" );
+//      if( $span.length > 0 ) {
+//        var display = $span.html().toLowerCase().indexOf( $val );
+//
+//        $( this ).css( "display", ( display >= 0 ) ? "block" : "none" );
+//      }
+//    });
   });
   
   $( '*' ).mouseup( function(e) {
@@ -117,6 +152,16 @@ jQuery(document).ready( function($) {
     
       $( this ).parents( '.cml-dropdown-me' ).find( '> li > ul' ).hide();
     });
+  });
+
+  $( 'input' ).on ( 'blur', function(e) {
+    setTimeout( function() {
+      $input = $( '.cml-dropdown-me > li > input[type="text"]' ).each( function() {
+        $( this ).val( $( this ).attr( "original" ) );
+
+        $( this ).parents( '.cml-dropdown-me' ).find( '> li > ul' ).hide();
+      });
+    }, 300 );
   });
 
   $( '.cml-dropdown-me > li ul li' ).click( function() {
@@ -227,6 +272,11 @@ jQuery(document).ready( function($) {
   });
   
   $( 'form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title"]' ).remove();
+
+  //Override flags settings
+  $( '.cml-override-flags.cml-override input' ).click( function() {
+    $( '.cml-show-always' ).attr( 'class', 'cml-show-always' ).addClass( $( this ).val() ) ;
+  });
 });
 
 

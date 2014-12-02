@@ -124,7 +124,6 @@ function cml_admin_post_meta_box( $tag ) {
    * Override show flags settings
    * user can choose to override default show page settings for only this one
    */
-    return;  //Still working on
   echo "<h4>" . __( 'Show flags', 'ceceppaml' ) . "</h4>";
 
   $override = get_post_meta( $tag->ID, "_cml_override_flags", true );
@@ -215,14 +214,21 @@ function cml_admin_post_meta_box( $tag ) {
 <?php
 }
 
-function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id ) {
+function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id, $ajax = false ) {
   CMLUtils::_set( '_cml_no_filter_query', 1 );
 
-  $args = array('numberposts' => -1, 'order' => 'ASC', 'orderby' => 'title', 'posts_per_page' => -1,
-      'post_type' => $type,
-      // 'post__not_in' => CMLPost::get_posts_by_language( $lang ),
-      'status' => 'publish,inherit,pending,private,future,draft');
-  
+  $args = array('numberposts' => 10,
+                'order' => 'ASC',
+                'orderby' => 'title',
+                'posts_per_page' => 10,
+                'post_type' => $type,
+                'status' => 'publish,inherit,pending,private,future,draft'
+               );
+
+  if( $ajax ) {
+    $args[ 's' ] = $_POST[ 'search' ];
+  }
+
   $posts = new WP_Query( $args );
 
   $notrans = ""; 
@@ -230,17 +236,21 @@ function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id ) 
   $title = ( ! empty( $linked_id ) ) ? get_the_title( $linked_id ) : $notrans;
   $src = CMLLanguage::get_flag_src( $lang );
 
+  if( ! $ajax ) {
 echo <<< EOT
   <ul name="linked_post" class="cml-dropdown-me">
     <li>
       <img class="flag" src="$src" width="16" height="11" />
-      <input type="text" value="$title" original="$title" />
+      <span class="spinner"></span>
+      <input type="text" value="$title" original="$title" data-lang="$lang" />
       <input type="hidden" name="linked_post[$lang]" value="$linked_id" />
       <ul>
         <li class="no-hide">
           <i><span class="title">( $none )</span></i>
         </li>
 EOT;
+  }
+
   while( $posts->have_posts() ) {
     $posts->next_post();
 
@@ -267,11 +277,14 @@ EOT;
     echo "</li>";
   }
 
+  if( ! $ajax ) {
 echo <<< EOT
       </ul>
     </li>
   </ul>
 EOT;
+
+  }
 
   CMLUtils::_del( '_cml_no_filter_query', 1 );
 }

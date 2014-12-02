@@ -147,6 +147,9 @@ class CMLAdmin extends CeceppaML {
     add_action( 'wp_ajax_ceceppaml_export_backup', 'cml_backup_export' );
     add_action( 'wp_ajax_ceceppaml_import_backup', 'cml_backup_import' );
 
+    //Populate post list ( edit page )
+    add_action( 'wp_ajax_ceceppaml_get_posts', array( & $this, 'ceceppaml_get_posts_list' ) );
+
     //Widget page
     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );
     
@@ -170,6 +173,8 @@ class CMLAdmin extends CeceppaML {
   }
 
   function admin_scripts() {
+    global $pagenow;
+
     if( isset( $_GET[ 'page' ] ) && "ceceppaml-language-page" == $_GET[ 'page' ] ) {
       if( 0 == intval( @$_GET[ 'tab'] ) ) 
       wp_register_script( 'ceceppaml-admin-languages', CML_PLUGIN_JS_URL . 'admin.languages.js', array( 'ceceppaml-admin-script' ) );
@@ -208,6 +213,11 @@ class CMLAdmin extends CeceppaML {
                     'default_id' => CMLLanguage::get_default_id(),
                     'tags' => json_encode( $names),
                     );
+
+    if( 'post.php' == $pagenow ) {
+      $secret[ 'post_type' ] = get_post_type( intval( $_GET[ 'post' ] ) );
+    }
+
     wp_localize_script( 'ceceppaml-admin-script', 'ceceppaml_admin', $secret );
 
     //Styles
@@ -756,5 +766,14 @@ EOT;
     $GLOBALS[ '_cml_no_translate_home_url' ] = 1;
 
     return $b;
+  }
+
+  function ceceppaml_get_posts_list() {
+    if( ! check_ajax_referer( "ceceppaml-nonce", "security" ) ) {
+      echo -1;
+    }
+
+    _cml_admin_post_meta_translation( $_POST[ 'post_type' ], $_POST[ 'lang_id' ], 0, 0, true );
+    die();
   }
 }

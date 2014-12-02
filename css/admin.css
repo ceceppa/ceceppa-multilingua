@@ -1087,6 +1087,13 @@ display: none !important;
     color: #4E4E57;
   }
 
+  .cml-tab-strings .cml-left-items {
+    float: left;
+    margin-top: -6px;
+    height: 34px;
+    line-height: 34px;
+  }
+
   .cml-tab-strings .cml-right-items {
     float: right;
     margin-top: -6px;
@@ -1319,6 +1326,16 @@ margin-bottom: 10px;
     position: absolute;
   }
   
+  .cml-post-translations {
+    position: relative;
+  }
+
+  .cml-post-translations > li .spinner {
+    position: absolute;
+    top: 2px;
+    left: 1px;
+  }
+
   .cml-post-translations > li > ul {
     width: 85%;
     display: inline-block;
@@ -1863,11 +1880,12 @@ form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title
   line-height: 10px;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 .cml-override-flags > label {
   display: inline-block;
-  width: 32.5%;
+  width: 32%;
   text-align: center;
   padding: 0;
   margin: 0;
@@ -1965,8 +1983,12 @@ form#post table.compat-attachment-fields tr[class*="compat-field-cml-media-title
   height: 24px;
 }
 
+.cml-flag-where {
+  text-align: center;
+}
+
 .cml-flag-where > label {
-  width: 24%;
+  width: 23.5%;
 }
 
 .cml-show-always > div > label:hover > input + span {
@@ -2074,3 +2096,5 @@ table .cml_enable_filter {
   background: #f1f1f5;
   box-shadow: 0px 0px 2px rgba(0,0,0,0.04);
 }
+
+
