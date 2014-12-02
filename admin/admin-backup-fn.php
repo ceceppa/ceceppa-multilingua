@@ -215,6 +215,7 @@ function _cml_download_backup() {
 
     readfile( "{$file}1" );
 
+  error_log( $file );
     //remove temp file
     if( $remove ) {
       readfile( "{$file}2" );

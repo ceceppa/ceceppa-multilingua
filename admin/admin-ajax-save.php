@@ -486,7 +486,7 @@ function cml_backup_export() {
 
     //Settings?
     $s1 = CECEPPAML_BACKUP_PATH . ".tmp1";
-    $s1 = CECEPPAML_BACKUP_PATH . ".tmp2";
+    $s2 = CECEPPAML_BACKUP_PATH . ".tmp2";
 
     if( isset( $_POST[ 'cml-tables' ] ) ) {
         _cml_backup_do_tables( "DB", $s1 );
@@ -530,7 +530,18 @@ function cml_backup_import() {
     //Check the string /**CML: xxxxx **/ into the file
     if( preg_match_all("/\/\*\*CML:[^\/].*/", $content, $output) ) {
 
-      $wpdb->query( $content );
+      /**
+       * mysql_query() sends a unique query (multiple queries are not supported)
+       */
+      $queries = explode( ";\n", $content );
+
+      foreach( $queries as $query ) {
+        $query = trim( $query );
+        if( empty( $query ) ) continue;
+
+        $query .= ";";
+        $wpdb->query( $query );
+      }
 
       $url[ 'done' ] = 1;
     } else {

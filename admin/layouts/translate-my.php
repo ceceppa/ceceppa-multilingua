@@ -27,17 +27,22 @@ $others = apply_filters( 'cml_my_translations', array() );
     </p>
 </div>
 
-<h2 class="nav-tab-wrapper cml-tab-wrapper tab-strings">
-  &nbsp;
-  <a class="nav-tab <?php echo ( ! isset( $_GET[ 'tab' ] ) ) ? "nav-tab-active" : "" ?>" href="javascript:showStrings(0)"><?php _e( 'All strings', 'ceceppaml' ) ?></a>
-  <a class="nav-tab" href="#" onclick="showStrings( 1, 'S' )"><?php _e( 'My translations', 'ceceppaml' ) ?></a>
-  <a class="nav-tab" href="#" onclick="showStrings( 2, '_cml_' )"><?php _e( 'Plugin strings', 'ceceppaml' ) ?></a>
+<div class="cml-tab-wrapper cml-tab-strings">
+  <ul id="cml-lang" class="cml-combo-sel cml-lang-sel post_lang cml-lang-js-sel ">
+    <li class="cml-nav-tab <?php echo ( ! isset( $_GET[ 'tab' ] ) ) ? "cml-nav-tab-active" : "" ?>" href="javascript:showStrings(0)">
+      <a cml-lang="1" href="javascript:void()">
+        <?php _e( 'All', 'ceceppaml' ) ?>
+      </a>
+      <ul>
+
+    <li class="cml-nav-tab" href="#" onclick="showStrings( 1, 'S' )"><?php _e( 'My translations', 'ceceppaml' ) ?></li>
+    <li class="cml-nav-tab" href="#" onclick="showStrings( 2, '_cml_' )"><?php _e( 'Plugin strings', 'ceceppaml' ) ?></li>
   <?php
   $i = 3;
   foreach( $others as $key => $type ) {
-    $active = ( @$_REQUEST[ 'tab' ] == $key ) ? "nav-tab-active" : "";
+    $active = ( @$_REQUEST[ 'tab' ] == $key ) ? "cml-nav-tab-active" : "";
 echo <<< EOT
-  <a class="nav-tab $active" href="#" onclick="showStrings( $i, '$key' )">$type</a>
+  <li class="cml-nav-tab $active" href="#" onclick="showStrings( $i, '$key' )">$type</li>
 EOT;
 
     $i++;
@@ -45,7 +50,25 @@ EOT;
   
   $types = array_merge( $types, $others );
   ?>
-</h2>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="cml-right-items">
+    <div class="empty"></div>
+    <div id="cml-search">
+      <input type="text" name="s" placeholder="<?php _e( 'Search', 'ceceppaml' ) ?>" value="" />
+    </div>
+    <a class="cml-button tipsy-me" id="cml-add" title="<?php _e( 'Add new record', 'ceceppaml' ) ?>">
+      +
+    </a>
+    <a class="cml-button tipsy-me" id="cml-save" title="<?php _e( 'Save changes', 'ceceppaml' ) ?>">
+      <?php _e( 'Update', 'ceceppaml' ) ?>
+    </a>
+  </div>
+
+  <div style="clear:both"></div>
+</div>
     <form class="ceceppa-form-translations" name="wrap" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>?page=<?php echo $_GET['page'] ?>">
       <input type="hidden" name="add" value="1" />
       <?php wp_nonce_field( "security", "ceceppaml-nonce" ) ?>
