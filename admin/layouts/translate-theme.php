@@ -38,4 +38,3 @@ EOT;
 
 
 $parser = new CMLParser( wp_get_theme()->name, get_template_directory(), $path );
-?>

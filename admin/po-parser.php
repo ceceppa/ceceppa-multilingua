@@ -164,10 +164,6 @@ $in = $this->_translate_in;
       <a class="nav-tab" href="javascript:showStrings( 1, 'to-translate' )"><?php _e( 'To translate', 'ceceppaml' ) ?><span></span></a>
       <a class="nav-tab" href="javascript:showStrings( 2, 'incomplete' )"><?php _e( 'Incomplete', 'ceceppaml' ) ?><span></span></a>
       <a class="nav-tab" href="javascript:showStrings( 3, 'translated' )"><?php _e( 'Translated', 'ceceppaml' ) ?><span></span></a>
-      <p class="submit">
-        <span class="spinner"></span>
-        <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes', 'ceceppaml' ) ?>"  />
-      </p>
     </h2>
 
     <?php
@@ -178,12 +174,23 @@ $in = $this->_translate_in;
         return;
       }
     ?>
-    <div class="search">
-      <label  style="float:right">
-        <?php _e( 'Search', 'ceceppaml' ) ?>:
-        <input type="text" name="s" class="s" value=""/>
-      </label>
-    </div> 
+
+<div class="cml-tab-wrapper cml-tab-strings">
+  <div class="cml-left-items">
+    <div id="cml-search">
+      <input type="search" name="s" id="filter" placeholder="<?php _e( 'Search', 'ceceppaml' ) ?>" value="" size="40" />
+    </div>
+  </div>
+  <div class="cml-right-items">
+    <div class="empty"></div>
+    <a class="cml-button tipsy-me" id="cml-save" title="<?php _e( 'Save changes', 'ceceppaml' ) ?>"
+       onclick="jQuery( '.ceceppa-form-translations' ).submit()">
+      <?php _e( 'Save Changes', 'ceceppaml' ) ?>
+    </a>
+  </div>
+
+  <div style="clear:both"></div>
+</div>
     <table class="widefat ceceppaml-theme-translations">
       <thead>
         <tr>

@@ -386,6 +386,7 @@ class CMLLanguage {
    * @return string
    */
   public static function get_flag_img( $lang, $size = CML_FLAG_TINY ) {
+    if( is_object( $lang ) ) $lang = $lang->id;
     $url = self::get_flag_src( $lang, $size );
     $name = self::get_name( $lang );
     $slug = self::get_slug( $lang );

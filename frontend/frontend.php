@@ -254,6 +254,7 @@ class CMLFrontend extends CeceppaML {
     //Where?
     $where = $_cml_settings[ 'cml_option_flags_on_pos' ];
 
+
     //The post override current flags settings?
     $override = false;
     if( is_singular() ) {

@@ -235,6 +235,7 @@ class CMLAdmin extends CeceppaML {
     $page[] = add_submenu_page('ceceppaml-language-page', __('Site Title'), __( 'Site Title' ) . "/" . __( 'Tagline' ), 'manage_options', 'ceceppaml-translations-title', array(&$this, 'form_translations'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Plugin', 'ceceppaml'), __( 'Plugin', 'ceceppaml' ), 'manage_options', 'ceceppaml-language-page&tab=2', array(&$this, 'form_languages'));
     $page[] = add_submenu_page('ceceppaml-language-page', __('Theme', 'ceceppaml'), __( 'Theme', 'ceceppaml' ), 'manage_options', 'ceceppaml-translations-plugins-themes', array(&$this, 'form_translations'));
+    $page[] = add_submenu_page('ceceppaml-language-page', __('Custom post slug', 'ceceppaml'), __('Custom post slug', 'ceceppaml'), 'manage_options', 'ceceppaml-translate-slug', array(&$this, 'form_translations'));
 
     $page[] = add_submenu_page( 'ceceppaml-language-page', '<div class="separator" /></div>', '<div class="cml-separator" />' . __( 'Flags', 'ceceppaml' ) . '</div>', 'administrator', '', null );
 

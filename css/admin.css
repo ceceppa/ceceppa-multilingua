@@ -1010,6 +1010,7 @@ display: none !important;
   margin-top: -52px;
   line-height: 30px;
 }
+  .tab-strings,
   .cml-tab-strings {
     padding-bottom: 0 !important;
   }
