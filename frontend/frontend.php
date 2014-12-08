@@ -45,6 +45,13 @@ class CMLFrontend extends CeceppaML {
       }
     }
 
+    //Posts to not filter
+    $post_types = get_post_types( array( '_builtin' => FALSE ), 'names');
+    $post_types[] = "post";
+    $post_types[] = "page";
+
+    $this->_post_types = apply_filters( 'cml_manage_post_types', $post_types );
+
     /*
     * If one or more post has same "title", wordpress add "-##" to end of permalink
     * I remove "-##" from the end of permalink, but I have to inform wordpress
@@ -254,15 +261,14 @@ class CMLFrontend extends CeceppaML {
     //Where?
     $where = $_cml_settings[ 'cml_option_flags_on_pos' ];
 
-
     //The post override current flags settings?
     $override = false;
     if( is_singular() ) {
-      $override = get_post_meta( get_the_ID(), "_cml_override_flags", true );
+      $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
 
-      if( $override == 'never' ) return $title;
-      if( $override == 'show' ) {
-        $where = $override[ 'where' ];
+      if( $o == 'never' ) return $title;
+      if( $o == 'show' ) {
+        $where = $o[ 'where' ];
         $override = true;
       }
     }
@@ -312,10 +318,22 @@ class CMLFrontend extends CeceppaML {
   function add_flags_on_content( $content ) {
     global $_cml_settings;
     
-    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $content;
-    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
+    //The post override current flags settings?
+    $override = false;
+    if( is_singular() ) {
+      $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
+
+      if( $o == 'never' ) return $title;
+      if( $o == 'show' ) {
+        $where = $o[ 'where' ];
+        $override = true;
+      }
+    }
+
+    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() && ! $override ) return $content;
+    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() && ! $override ) return $content;
     if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-       cml_is_custom_post_type() ) return $content;
+       cml_is_custom_post_type()  && ! $override ) return $content;
 
     $size = $_cml_settings['cml_option_flags_on_size'];
     $args = array(
@@ -1714,6 +1732,11 @@ EOT;
     if( isset( $this->_looking_id_post ) ||
        CMLUtils::_get( '_is_sitemap' ) ) {
       return;
+    }
+
+    //Check if the post_type is the ignore list
+    if( ! in_array( $wp_query->query['post_type'], $this->_post_types ) ) {
+      return $wp_query;
     }
 
     //Skip attachment type & nav_menu_item
