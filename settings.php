@@ -72,5 +72,9 @@
   $_cml_settings[ 'cml_update_static_page' ] = get_option( "cml_update_static_page", 1 );
   $_cml_settings[ 'cml_remove_extra_slug' ] = get_option( "cml_remove_extra_slug", 1 );
 
+  //Translated slugs
+  $_cml_settings[ 'cml_translated_slugs' ] = get_option( "cml_translated_slugs", array() );
+
   $GLOBALS[ '_cml_settings' ] = & $_cml_settings;
-?>
+
+

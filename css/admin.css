@@ -451,7 +451,7 @@ label.cml-disabled {
 }
 
 /* advanced */
-.advanced {
+.cml-wrap .advanced {
   background: #fff;
   cursor: default !important;
   display: block !important;
@@ -464,15 +464,15 @@ label.cml-disabled {
   transition: all 0.2s ease-in-out;
 }
   
-.advanced > form > dl {
+.cml-wrap .advanced > form > dl {
   margin-top: 5px;
   color: #4c4c4c;
   padding: 5px;
   margin: 0;
 }
 
-.advanced > form > dl > dd,
-.advanced > form > dl > dt {
+.cml-wrap .advanced > form > dl > dd,
+.cml-wrap .advanced > form > dl > dt {
   display: inline-block;
   vertical-align: middle;
   margin-bottom: 10px;
@@ -482,14 +482,14 @@ label.cml-disabled {
   transition: opacity 0.2s ease-in-out;
 }
 
-.advanced > form > dl > dd {
+.cml-wrap .advanced > form > dl > dd {
   margin: 0;
   padding-right: 10px;
   width: 80px;
   height: 30px;
 }
 
-  .advanced > form > dl > dt {
+  .cml-wrap .advanced > form > dl > dt {
     width: 130px;
     max-width: 130px;
     height: 30px; max-height: 30px;
@@ -497,21 +497,21 @@ label.cml-disabled {
     overflow: hidden;
   }
 
-  .advanced > form > dl > dt span.date-format {
+  .cml-wrap .advanced > form > dl > dt span.date-format {
     position: absolute;
     max-height: 30px;
     overflow: hidden;
     width: 120px;
     text-align: right;
   }
-  .advanced > form > dl > dt input[type="checkbox"] {
+  .cml-wrap .advanced > form > dl > dt input[type="checkbox"] {
     margin-top: 0px;
   }
-  .advanced > form > dl > dt input[type="text"] {
+  .cml-wrap .advanced > form > dl > dt input[type="text"] {
     /*max-width: 80px;*/
     width: 98%;
   }
-  .advanced > form > dl > dt input.hidden {
+  .cml-wrap .advanced > form > dl > dt input.hidden {
     display: none;
   }
 

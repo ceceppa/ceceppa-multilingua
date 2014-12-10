@@ -17,7 +17,7 @@ case 2:
   break;
 }
 ?>
-<div class="wrap">
+<div class="wrap cml-wrap">
   <h2 class="nav-tab-wrapper">
     <a class="nav-tab <?php echo $tab == 0 ? "nav-tab-active" : "" ?>" href="?page=ceceppaml-language-page&tab=0"><?php _e('Languages', 'ceceppaml') ?></a>
     

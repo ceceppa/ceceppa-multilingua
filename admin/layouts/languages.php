@@ -110,4 +110,3 @@ $available_title = '<div class="cml-box-right">';
   $available_title .= '</div>';
   
   add_meta_box( 'cml-box-available-languages', __( 'Available languages', 'ceceppaml' ) . $available_title, 'cml_admin_box_available_languages', 'cml_box_languages' );
-?>

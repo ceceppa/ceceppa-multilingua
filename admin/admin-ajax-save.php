@@ -555,3 +555,33 @@ function cml_backup_import() {
 
   die( json_encode( $json ) );
 }
+
+function cml_admin_translated_slugs() {
+  if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
+
+  //Get all the active slugs
+  $slugs = array();
+  foreach( $_POST[ 'slug' ] as $key => $slug ) {
+    $enabled = isset( $_POST[ 'senabled' ][ $key ] );
+    $translations = $_POST[ 'tslug' ][ $key ];
+    $type = $_POST[ 'slug' ][ $key ];
+
+    foreach( $translations as $lang => $trans ) {
+      if( ! empty( $trans ) ) {
+        $slugs[ $type ][ 'enabled' ] = $enabled;
+        $slugs[ $type ][ $lang ] = $trans;
+      }
+    }
+  }
+  update_option( 'cml_translated_slugs', $slugs );
+
+  $url = array(
+                'page' => $_POST[ 'page' ],
+             );
+
+  $json = array( 'url' => add_query_arg( $url,
+                                         admin_url() . "admin.php"
+                                       ) );
+
+  die( json_encode( $json ) );
+}

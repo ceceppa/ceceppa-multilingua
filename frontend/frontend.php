@@ -46,11 +46,7 @@ class CMLFrontend extends CeceppaML {
     }
 
     //Posts to not filter
-    $post_types = get_post_types( array( '_builtin' => FALSE ), 'names');
-    $post_types[] = "post";
-    $post_types[] = "page";
-
-    $this->_post_types = apply_filters( 'cml_manage_post_types', $post_types );
+    $this->_excluded_post_types = apply_filters( '_cml_ignore_post_type', array() );
 
     /*
     * If one or more post has same "title", wordpress add "-##" to end of permalink
@@ -1735,7 +1731,8 @@ EOT;
     }
 
     //Check if the post_type is the ignore list
-    if( ! in_array( $wp_query->query['post_type'], $this->_post_types ) ) {
+    if( isset( $wp_query->query['post_type'] ) &&
+        in_array( $wp_query->query['post_type'], $this->_excluded_post_types ) ) {
       return $wp_query;
     }
 
@@ -1865,6 +1862,12 @@ EOT;
     if( isset( $this->_looking_id_post ) ||
        CMLUtils::_get( '_is_sitemap' ) ) {
       return;
+    }
+
+    //Check if the post_type is the ignore list
+    if( isset( $wp_query->query['post_type'] ) &&
+        in_array( $wp_query->query['post_type'], $this->_excluded_post_types ) ) {
+      return $wp_query;
     }
 
     if( $wp_query != null && ( is_page() || is_single() || isCrawler() ) ) return;

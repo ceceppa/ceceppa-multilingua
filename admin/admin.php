@@ -150,6 +150,9 @@ class CMLAdmin extends CeceppaML {
     //Populate post list ( edit page )
     add_action( 'wp_ajax_ceceppaml_get_posts', array( & $this, 'ceceppaml_get_posts_list' ) );
 
+    //Store custom posts slug
+    add_action( 'wp_ajax_ceceppaml_translate_slugs', 'cml_admin_translated_slugs' );
+
     //Widget page
     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );
     
@@ -170,6 +173,9 @@ class CMLAdmin extends CeceppaML {
     
     //Contextual help
     add_filter( 'contextual_help', array( & $this, 'add_tips_to_help_tab' ), 10 );
+
+    /* REWRITE RULES */
+    add_action( 'init', array( & $this, 'rewrite_rules' ), 99 );
   }
 
   function admin_scripts() {
@@ -777,4 +783,26 @@ EOT;
     _cml_admin_post_meta_translation( $_POST[ 'post_type' ], $_POST[ 'lang_id' ], 0, 0, true );
     die();
   }
+
+
+  function rewrite_rules() {
+    $slugs = get_option( "cml_translated_slugs", array() );
+    foreach( $slugs as $key => $slug ) {
+      if( $slug[ 'enabled' ] == 0 ) continue;
+
+      foreach( CMLLanguage::get_no_default() as $lang ) {
+        if( ! isset( $slug[ $lang->id ] ) ) continue;
+
+        $category = $slug[ $lang->id ];
+
+        add_rewrite_rule( $category . '/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$','index.php?' . $key . '=$matches[1]&feed=$matches[2]', 'top' );
+        add_rewrite_rule( $category . '/(.+?)/(feed|rdf|rss|rss2|atom)/?$','index.php?' . $key . '=$matches[1]&feed=$matches[2]', 'top' );
+        add_rewrite_rule( $category . '/(.+?)/page/?([0-9]{1,})/?$','index.php?' . $key . '=$matches[1]&paged=$matches[2]', 'top' );
+        add_rewrite_rule( $category . '/(.+?)/?$','index.php?' . $key . '=$matches[1]', 'top' );
+      }
+    }
+
+    flush_rewrite_rules();
+  }
+
 }

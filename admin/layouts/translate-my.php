@@ -85,7 +85,7 @@ EOT;
     <?php endif; ?>
     <a class="cml-button tipsy-me" id="cml-save" title="<?php _e( 'Save changes', 'ceceppaml' ) ?>"
        onclick="jQuery( '.ceceppa-form-translations' ).submit()">
-      <?php _e( 'Update', 'ceceppaml' ) ?>
+      <?php _e( 'Save changes', 'ceceppaml' ) ?>
     </a>
   </div>
 
