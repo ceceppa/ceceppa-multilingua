@@ -202,6 +202,9 @@ class CMLFrontend extends CeceppaML {
     //Get translated media fields
     add_filter( 'wp_get_attachment_image_attributes', array( & $this, 'get_translated_media_fields' ), 10, 2 );
     add_filter( 'the_title', array( & $this, 'get_translated_title' ), 10, 2 );
+
+    //Add current language to the body classes
+    add_filter( 'body_class', array( & $this, 'add_current_language' ) );
   }
 
   /*
@@ -625,6 +628,15 @@ EOT;
     return $classes;
   }
 
+  /*
+   * Add the "lang-##" to the body tag
+   */
+  function add_current_language( $classes ) {
+    $classes[] = " lang-" . CMLLanguage::get_current_slug();
+
+    return $classes;
+  }
+
   function get_archives_where( $where, $r ) {
     $posts = CMLPost::get_posts_by_language();
     if( empty( $posts ) ) return $where;
@@ -730,7 +742,7 @@ EOT;
     }
 
     if( empty( $lang_id ) ) {
-      if( null === $post_id ) {
+      if( null === $post_id || is_array( $post_id ) ) {
         $lang_id = CMLLanguage::get_current_id();
       } else {
         $lang_id = CMLPost::get_language_id_by_id( $post_id );

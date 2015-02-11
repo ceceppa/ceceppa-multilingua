@@ -2,6 +2,8 @@
 if ( ! defined( 'ABSPATH' ) ) die( 'Access denied' ); // Exit if accessed directly
 
 class MyTranslations_Table extends WP_List_Table {
+    private $_groups = null;
+
     /** ************************************************************************
      * REQUIRED. Set up a constructor that references the parent constructor. We 
      * use the parent reference to set some default configs.
@@ -77,11 +79,10 @@ class MyTranslations_Table extends WP_List_Table {
     function prepare_items() {
       global $wpdb;
 
-
       /**
        * First, lets decide how many records per page to show
        */
-      $per_page = 40;
+      $per_page = 1;
       
       /**
        */

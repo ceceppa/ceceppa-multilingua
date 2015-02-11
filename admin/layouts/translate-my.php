@@ -35,13 +35,13 @@ $others = apply_filters( 'cml_my_translations', array() );
        |
     </li>
     <li>
-      <a href="#" onclick="showStrings( 1, 'S' )">
+      <a href="javascript:showStrings( 1, 'S' )">
         <?php _e( 'My translations', 'ceceppaml' ) ?>
       </a>
        |
     </li>
     <li>
-       <a href="#" onclick="showStrings( 2, '_cml_' )">
+       <a href="javascript:showStrings( 2, '_cml_' )">
           <?php _e( 'Plugin strings', 'ceceppaml' ) ?>
        </a>
        |
@@ -52,7 +52,7 @@ $others = apply_filters( 'cml_my_translations', array() );
   foreach( $others as $key => $type ) {
     $active = ( @$_REQUEST[ 'tab' ] == $key ) ? "current" : "";
 $items[] = <<< EOT
-    <a class="$active" href="#" onclick="showStrings( $i, '$key' )">
+    <a class="$active" href="javascript:showStrings( $i, '$key' )">
       $type
     </a>
 EOT;
@@ -69,7 +69,8 @@ EOT;
 <div class="cml-tab-wrapper cml-tab-strings">
   <div class="cml-left-items">
     <div id="cml-search">
-      <input type="search" name="s" id="filter" placeholder="<?php _e( 'Search', 'ceceppaml' ) ?>" value="" size="40" />
+      <input type="search" name="s" id="filter" placeholder="<?php _e( 'Text to search', 'ceceppaml' ) ?>" value="" size="30" />
+      <input type="button" name="search" class="button cml-button-search" value="<?php _e( 'Search', 'ceceppaml' ) ?>" />
     </div>
   </div>
   <div class="cml-right-items">
@@ -102,16 +103,6 @@ EOT;
 
         $table->display();
       ?>
-<!--
-      <div style="text-align:right">
-        <p class="submit" style="float: right">
-        <?php if( count( CMLLanguage::get_all() ) > 1 ) : ?>
-        <input type="button" class="button button-secondaty" name="add" value="<?php _e('Add', 'ceceppaml') ?>" onclick="addRow(<?php echo count( $lkeys ) . ", '" . join(",", $lkeys ) ?>', <?php echo CMLLanguage::get_default_id() ?>)" />
-        <?php endif; ?>
-        <?php submit_button( __( 'Update', 'ceceppaml' ), "button-primary", "action", false, 'class="button button-primary"' ); ?>
-        </p>
-      </div>
--->
     </form>
 
 <?php

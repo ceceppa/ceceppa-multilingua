@@ -1347,6 +1347,10 @@ margin-bottom: 10px;
     margin-left: -1px !important;
   }
 
+  .cml-button-search {
+    margin-top: 2px !important;
+  }
+
   .cml-button-add {
     background-image:  url(../images/add.png) !important;
     background-position: center !important;

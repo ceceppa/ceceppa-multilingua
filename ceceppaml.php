@@ -100,8 +100,13 @@ define( 'CECEPPA_WP_LANGUAGES', WP_CONTENT_DIR . "/languages" );
  * The plugin use it for store custom flags
  */
 $upload_dir = wp_upload_dir();
+$baseurl = $upload_dir[ 'baseurl' ];
+if( is_ssl() ) {
+    $baseurl = str_replace( 'http://', "https://", $baseurl);
+}
+
 define( 'CML_UPLOAD_DIR', trailingslashit( $upload_dir[ 'basedir' ] ) . trailingslashit( "ceceppaml" ) );
-define( 'CML_UPLOAD_URL', trailingslashit( $upload_dir[ 'baseurl' ] ) . trailingslashit ( "ceceppaml" ) );
+define( 'CML_UPLOAD_URL', trailingslashit( $baseurl ) . trailingslashit ( "ceceppaml" ) );
 
 //Cache
 define( 'CML_PLUGIN_CACHE_PATH', CML_UPLOAD_DIR . trailingslashit( 'cache' ) );
@@ -391,6 +396,7 @@ EOT;
        */
       $permalink = preg_replace( "/\?lang.*/", "", $permalink );
 
+      //Language slug
       $slug = CMLPost::get_language_slug_by_id( $post->ID );
 
       return add_query_arg( array(
@@ -403,7 +409,8 @@ EOT;
       $permalink = untrailingslashit( $permalink );
     }
 
-    if( isset( $post->post_name ) && $post->post_type == "page" ) {
+//    if( isset( $post->post_name ) && $post->post_type == "page" ) {
+    if( $post->post_type != "post" ) {
       $permalink = $this->translate_page_link( $permalink, $post, $leavename );
     }
 
