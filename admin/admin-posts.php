@@ -701,6 +701,17 @@ function cml_disable_filtering( $types ) {
   return array_diff( $types, $list );
 }
 
+function cml_clone_post_data( $data ) {
+  if( ! isset( $_GET[ 'link-to' ] ) ) return $data;   //I'm not adding a translation
+
+  //Get the original post date
+  $id = intval( $_GET[ 'link-to' ] );
+  $datetime = get_post_time( 'Y-m-d H:i:s', false, $id );
+  $data[ 'post_date' ] = $datetime;
+  
+  return $data;
+}
+
 //Manage all posts columns
 add_action( 'admin_init', 'cml_manage_posts_columns', 10 );
 
@@ -724,3 +735,6 @@ add_action( 'restrict_manage_posts', 'cml_admin_filter_all_posts_page' );
 
 //Disable language filter for
 add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
+
+//Clone the post date
+add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );

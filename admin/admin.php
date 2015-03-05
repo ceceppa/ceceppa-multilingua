@@ -72,9 +72,10 @@ class CMLAdmin extends CeceppaML {
     */
     $seo = CMLUtils::_get( '_seo' );
     if( is_array( $seo ) ) {
+      $page = isset($_POST['page']) ? $_POST['page'] : '';
       foreach( $seo as $s ) {
         if( $s[ 'pagenow' ] == $pagenow ) {
-          if( isset( $s[ 'page' ] ) && $s[ 'page' ] != $_GET[ 'page' ] ) {
+          if( isset( $s[ 'page' ] ) && $s[ 'page' ] != $page ) {
             break;
           }
 
@@ -481,10 +482,10 @@ class CMLAdmin extends CeceppaML {
     require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-widgets.php' );
   }
 
-  //Menu metabox
-//  function page_menu() {
+  //  Menu metabox
+  function page_menu() {
 //    require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-menu.php' );
-//  }
+  }
 
   function admin_footer() {
     echo '<div class="cml-box-shadow"></div>';

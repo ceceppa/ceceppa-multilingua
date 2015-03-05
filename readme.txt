@@ -180,6 +180,9 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
+= 1.5.0 = 
+* Added serbian thanks to ( http://www.webhostinghub.com )
+
 = 1.4.37 =
 * Added warning in languages page if all the changes are not saved yet
 

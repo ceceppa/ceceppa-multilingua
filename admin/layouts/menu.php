@@ -59,4 +59,3 @@ function cml_menu_meta_box() {
   </div>
   <?php
 }
-?>

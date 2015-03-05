@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
  * current page is front page or its translation
  *
  * @param string $url - ( optional ) url to check
- * 
+ *
  */
 function cml_is_homepage( $url = null ) {
   global $wpdb;
@@ -46,7 +46,7 @@ function cml_is_homepage( $url = null ) {
       } else {
         if( is_object( get_post() ) ) {
           $the_id = get_the_ID();
-          
+
           $GLOBALS[ '_cml_get_queried_object_id' ] = $the_id;
         }
       }
@@ -85,7 +85,7 @@ function cml_is_homepage( $url = null ) {
  *
  * On some site I can't use url_to_postid() because
  * $wp_reqruite is empty...
- * 
+ *
  */
 function cml_get_page_id_by_path($url, $types = null) {
   $url = untrailingslashit( $url );
@@ -177,16 +177,16 @@ function cml_get_page_by_path($page_path, $output = OBJECT, $post_type = array('
  *
  * return string
  */
-function cml_get_the_link( $result, $linked = true, $only_existings = false, $queried = true ) {
+function cml_get_the_link( $lang, $linked = true, $only_existings = false, $queried = true ) {
   global $wpCeceppaML, $_cml_settings;
 
-  if( ! is_object( $result ) ) {
-      $result = CMLLanguage::get_by_slug( $result );
+  if( ! is_object( $lang ) ) {
+      $lang = CMLLanguage::get_by_slug( $lang );
   }
 
   if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {
     //current page is homepage?
-    $link = CMLUtils::get_home_url( $result->cml_language_slug );
+    $link = CMLUtils::get_home_url( $lang->cml_language_slug );
 
     /*
      * on mobile detect the language correctly only if the
@@ -202,10 +202,10 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
      * language...
      */
     if( $_cml_settings[ 'url_mode_remove_default' ] == 1 &&
-        CMLLanguage::is_default( $result->id ) &&
+        CMLLanguage::is_default( $lang->id ) &&
         CMLUtils::get_url_mode() == PRE_PATH ) {
 
-      $args[ 'lang' ] = $result->cml_language_slug;
+      $args[ 'lang' ] = $lang->cml_language_slug;
       $link = add_query_arg( $args, trailingslashit( $link ) );
     }
     if( is_search() ) {
@@ -214,18 +214,18 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       }
 
       if( CMLUtils::get_url_mode() <= PRE_LANG ) {
-        $args[ 'lang' ] = $result->cml_language_slug;
+        $args[ 'lang' ] = $lang->cml_language_slug;
       }
 
       $link = add_query_arg( $args, trailingslashit( $link ) );
     }
   } else {
-    $GLOBALS[ '_cml_force_home_slug' ] = $result->cml_language_slug;
-    CMLUtils::_set( "_forced_language_slug", $result->cml_language_slug );
-    CMLUtils::_set( "_forced_language_id", $result->id );
+    $GLOBALS[ '_cml_force_home_slug' ] = $lang->cml_language_slug;
+    CMLUtils::_set( "_forced_language_slug", $lang->cml_language_slug );
+    CMLUtils::_set( "_forced_language_id", $lang->id );
 
-    //I have to force language to $result one
-    $wpCeceppaML->force_category_lang( $result->id );
+    //I have to force language to $lang one
+    $wpCeceppaML->force_category_lang( $lang->id );
 
     if( $queried ) {
       if( empty( $GLOBALS[ '_cml_get_queried_object' ] ) ) {
@@ -281,7 +281,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
      * the plugin will return wrong link
      */
     if( ( ( $is_single || $is_page ) ||  $linked ) && ! $is_category ) {
-      $linked_id = CMLPost::get_translation( $result->id, $the_id );
+      $linked_id = CMLPost::get_translation( $lang->id, $the_id );
 
       if( ! empty( $linked_id ) ) {
         $link = get_permalink( $linked_id );
@@ -294,14 +294,14 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          */
         if( CMLUtils::get_url_mode() == PRE_PATH &&
             $_cml_settings[ 'url_mode_remove_default' ] == 1 ) {
-            $link = $wpCeceppaML->convert_url( $link, $result->cml_language_slug );
+            $link = $wpCeceppaML->convert_url( $link, $lang->cml_language_slug );
         }
 
         if( CMLUtils::_get( '_real_language' ) != CMLLanguage::get_current_id()
             && $linked_id == $the_id ) {
 
           if( CMLUtils::get_url_mode() == PRE_PATH ) {
-            $link = $wpCeceppaML->convert_url( $link, $result->cml_language_slug );
+            $link = $wpCeceppaML->convert_url( $link, $lang->cml_language_slug );
           }
         }
       }
@@ -314,7 +314,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
       if( CMLUtils::get_url_mode() == PRE_NONE ||
           CMLUtils::get_url_mode() == PRE_LANG ) {
-        $link = add_query_arg( array( "lang" => $result->cml_language_slug ), $link );
+        $link = add_query_arg( array( "lang" => $lang->cml_language_slug ), $link );
       }
     }
 
@@ -334,10 +334,10 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
 //        if( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) {
           //Mi recupererà il link tradotto dal mio plugin ;)
-          CMLUtils::_set( '_force_category_lang', $result->id );
+          CMLUtils::_set( '_force_category_lang', $lang->id );
 //        } else {
 //          //Get translated category
-//          $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $result->id );
+//          $cat_id = (int) CMLTranslations::get_linked_category( $cat_id, $lang->id );
 //        }
 
         $link = get_term_link( $cat_id, $cat[ 'taxonomy' ] );
@@ -350,10 +350,10 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
 
       if( CMLUtils::get_category_url_mode() == PRE_LANG &&
           CMLUtils::get_url_mode() == PRE_NONE ) {
-        $link = add_query_arg( array( 'lang' => $result->cml_language_slug ), $link );
+        $link = add_query_arg( array( 'lang' => $lang->cml_language_slug ), $link );
       }
     }
-    
+
     if( $queried && $is_tag ) { //&& false !== strpos( CMLUtils::get_clean_url(), "/tag/" ) ) ) {
       if( ! empty( $q ) ) {
         $term_id = $q->term_id;
@@ -362,7 +362,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
       }
 
       if( ! empty( $term_id ) ) {
-        CMLUtils::_set( '_force_category_lang', $result->id );
+        CMLUtils::_set( '_force_category_lang', $lang->id );
 
         $link = get_tag_link( $term_id );
 
@@ -371,7 +371,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
     }
 
     if( is_paged() ) {
-      $link = add_query_arg( array( "lang" => $result->cml_language_slug ) );
+      $link = add_query_arg( array( "lang" => $lang->cml_language_slug ) );
     }
 
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
@@ -399,9 +399,9 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          */
         if( $is_single || $is_page ) {
           $l = cml_get_linked_post( $the_id, CMLLanguage::get_default_id() );
-          
+
           if( $l == $the_id ) {
-            return add_query_arg( array( "lang" => $result->cml_language_slug ), get_permalink( $l ) );
+            return add_query_arg( array( "lang" => $lang->cml_language_slug ), get_permalink( $l ) );
           }
         }
 
@@ -411,27 +411,27 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
          */
         $http = ( ! is_ssl() ) ? "http://" : "https://";
         $link = $http . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        if( CMLPost::get_language_by_id( $the_id ) != $result->id ) {
+        if( CMLPost::get_language_by_id( $the_id ) != $lang->id ) {
           //Is internal link?
           //if( strpos( $link, CMLUtils::get_home_url() ) === FALSE ) {
-            //$link = add_query_arg( array( "lang" => $result->cml_language_slug ), $link );
+            //$link = add_query_arg( array( "lang" => $lang->cml_language_slug ), $link );
           //} else {
             $link = str_replace( CMLUtils::get_home_url( CMLLanguage::get_current_slug() ),
-                                 CMLUtils::get_home_url( $result->cml_language_slug ),
-                                 $link );            
+                                 CMLUtils::get_home_url( $lang->cml_language_slug ),
+                                 $link );
           //}
         }
       } else {
-        $link = CMLUtils::get_home_url( $result->cml_language_slug );
+        $link = CMLUtils::get_home_url( $lang->cml_language_slug );
       }
 
       if( ( $is_tag || ( isset( $is_404 ) && $is_404 ) ) && CMLUtils::get_url_mode() > PRE_LANG ) {
         $clean = CMLUtils::get_clean_url();
         $url = CMLUtils::home_url();
-        
+
         //Change slug in url instead of append ?lang arg
         $link = str_replace( $url, "", $clean );
-        $link = CMLUtils::get_home_url( $result->cml_language_slug ) . $link;
+        $link = CMLUtils::get_home_url( $lang->cml_language_slug ) . $link;
       }
     }
 
@@ -441,7 +441,7 @@ function cml_get_the_link( $result, $linked = true, $only_existings = false, $qu
                                                     "is_tag" => $is_tag,
                                                     "the_id" => $the_id,
                                                     ),
-                            $q, $result->id );
+                            $q, $lang->id );
   }
 
   // Get the last character from the permalink structure definition
@@ -492,14 +492,14 @@ function cml_get_browser_lang() {
     $i = 0;
     while( empty( $lang ) && $i < count( $locale ) ) {
       $l = $locale[$i];
-    
+
       if( strlen( $l ) > 2 ) {
         $lang = CMLLanguage::get_id_by_locale( $l );
       } else {
         //Se ho solo 2 caratteri, cerco negli "slug"
         $lang = CMLLanguage::get_id_by_slug( $l );
       }
-    
+
       $i++;
     } //endwhile;
 
@@ -517,7 +517,7 @@ function cml_get_browser_lang() {
  * return post/page notice in selected language
  *
  * @param sting $lang_slug - language slug
- * 
+ *
  * @return string return translated notice
  */
 function cml_get_notice( $lang ) {
@@ -611,7 +611,7 @@ function cml_show_flags( $args ) {
   $width = ( $size == "tiny" ) ? 16 : 32;
 
   $r = "<ul class=\"cml_flags $class\">";
-  
+
   //Post language...
   $lang_id = ( ! $sort ) ? -1 : CMLPost::get_language_by_id( get_the_ID() );
   $items = array();
@@ -635,7 +635,8 @@ function cml_show_flags( $args ) {
     }
 
     $class = ( $result->id == CMLLanguage::get_current_id() ) ? "current" : "";
-    $li = "<li class=\"$class\"><a href=\"$link\">{$img}{$lang}</a></li>";
+    $slug = ( CMLLanguage::is_default( $result ) ) ? "x-default" : str_replace( "_", "-", $result->cml_language_slug() );
+    $li = "<li class=\"$class\"><a rel=\"alternate\" href=\"$link\" hreflang=\"{$slug}\">{$img}{$lang}</a></li>";
     if( $sort && is_array( $items ) && $result->id == $lang_id ) {
       array_unshift( $items, $li );
     } else {
@@ -648,7 +649,7 @@ function cml_show_flags( $args ) {
   $r .= join( "\n", $items );
   $r .= "</ul>";
 
-  if( $echo ) 
+  if( $echo )
     echo $r;
   else
     return $r;
@@ -656,12 +657,12 @@ function cml_show_flags( $args ) {
 
 /**
  * @ignore
- * 
+ *
  * Check if current post is a custom post
  */
 function cml_is_custom_post_type() {
   $types = get_post_types( array ( '_builtin' => FALSE ), 'names' );
-  
+
   if( empty( $types) ) return FALSE;
 
   $name = get_post_type();
@@ -676,13 +677,13 @@ function removesmartquotes($content) {
   $content = str_replace('&#8221;', '&quot;', $content);
   $content = str_replace('&#8216;', '&#39;', $content);
   $content = str_replace('&#8217;', '&#39;', $content);
- 
+
   return $content;
 }
 
 /**
  * @ignore
- * 
+ *
  * http://www.cult-f.net/detect-crawlers-with-php/
  *
  * Questa funzione server per evitare di reindirizzare o nascondere i post nella lingua differente
@@ -693,13 +694,13 @@ function removesmartquotes($content) {
 function isCrawler()
 {
   global $wp_query;
-  
+
   if( ! empty( $wp_query ) && $wp_query->is_robots() ) {
     CMLUtils::_set( "is_crawler", 1 );
 
     return true;
   }
-  
+
     $USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
 
     // to get crawlers string used in function uncomment it
@@ -707,7 +708,7 @@ function isCrawler()
     // global $crawlers
     // $crawlers_agents = implode('|',$crawlers);
     $crawlers_agents = 'Google|msnbot|Rambler|Yahoo|AbachoBOT|accoona|AcioRobot|ASPSeek|CocoCrawler|Dumbot|FAST-WebCrawler|GeonaBot|Gigabot|Lycos|MSRBOT|Scooter|AltaVista|IDBot|eStyle|Scrubby';
- 
+
     if ( strpos($crawlers_agents , $USER_AGENT) === false )
        return false;
     // crawler detected
@@ -727,7 +728,7 @@ function isCrawler()
  * The plugin automatically switch menu in according to current language,
  * you can use this function if automatic switch doesn't works with your theme/framework
  * or if you to force a theme.
- * 
+ *
  * @example
  * <?php;<br />
  *	$menu = cml_get_menu();<br />
