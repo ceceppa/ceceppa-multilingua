@@ -43,6 +43,9 @@ class CMLFrontend extends CeceppaML {
       } else {
         add_action( 'pre_get_posts', array( & $this, 'hide_translations' ), 0 );
       }
+    } else {
+      //If is_feed I need to force posts filtering
+      add_action( 'pre_get_posts', array( & $this, 'check_is_feed' ), 0 );
     }
 
     //Posts to not filter
@@ -1911,6 +1914,15 @@ EOT;
     }
 
     return $this->_hide_posts;
+  }
+
+  /**
+   * is feed?
+   */
+  function check_is_feed( $wp_query ) {
+    if( ! is_feed() ) return;
+
+    $wp_query = $this->filter_posts_by_language( $wp_query );
   }
 
   /*
