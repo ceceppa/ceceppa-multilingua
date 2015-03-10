@@ -1,0 +1,2295 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Prova\n"
+"POT-Creation-Date: 2014-10-21 23:23+0100\n"
+"PO-Revision-Date: 2015-02-19 17:24+0100\n"
+"Last-Translator: Alessandro Senese <senesealessandro@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"Language: sr_RS\n"
+"X-Poedit-SearchPath-0: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/"
+"ceceppa-multilingua\n"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/debug.php:63
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-languages.php:22
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:86
+msgid "Languages"
+msgstr "Jezici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/debug.php:64
+msgid "Post relations"
+msgstr "Relacije posta"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/debug.php:65
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:35
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:415
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:418
+msgid "Translations"
+msgstr "Prevodi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/ceceppaml.php:314
+msgid "Manage languages"
+msgstr "Upravljaj jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:11
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:255
+msgid "Shortcodes"
+msgstr "Shortcode-ovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:15
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:23
+msgid "Translate strings in different languages"
+msgstr "Prevedi nizove na različite jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:16
+msgid "How to use the translations saved in \"My Translations\" page"
+msgstr "Kako da koristite prevode sačuvane na stranici \"Moji prevodi\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:17
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:95
+msgid ""
+"Execute another shortcode and pass parameters in according to current "
+"language"
+msgstr ""
+"Izvršite drugi shortcode i unesite parametre u skladu sa trenutnim jezikom"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:18
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:122
+msgid "How to show all available languages"
+msgstr "Kako prikazati sve raspoložive jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:19
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:170
+msgid "How to show in which language is available current page/post"
+msgstr "Kako prikazati koji je jezik raspoloživ na tekućoj stranici/postu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:20
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:196
+msgid "How to show flags only when translation exists"
+msgstr "Kako prikazati zastavice samo kad ima prevoda"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:29
+msgid "Where ## is the language slug"
+msgstr "Gde ## je slug za jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:56
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:82
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:114
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:160
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:187
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:214
+msgid "Example:"
+msgstr "Primer:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:46
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:72
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:102
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:131
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:178
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:204
+msgid "Usage:"
+msgstr "Upotreba:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:65
+msgid "How to use the translations stored in \"My Translations\" page"
+msgstr "Kako da koristite prevode sačuvane na stranici \"Moji prevodi\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:84
+msgid ""
+"Suppose that our default language is <strong>\"English\"</strong>, and we "
+"have:"
+msgstr ""
+"Pretpostavimo da nam je podrazumevani jezik <strong>\"Engleski\"</strong> i "
+"imamo:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:86
+msgid ""
+"If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", "
+"we have to write:"
+msgstr ""
+"Ako želimo da prevedemo reč <strong>\"Hello\"</strong> na \"Italijanski\", "
+"moramo da napišemo:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:127
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:175
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:201
+msgid "This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list"
+msgstr "Ovaj shortcode vraća &lt;ul&gt;...&lt;/ul&gt; listu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:128
+msgid ""
+"This shortcode is available also as function with same name and paramaters"
+msgstr ""
+"Ovaj shortcode raspoloživ je kao funkcija sa istim imenom i parametrima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-addons.php:17
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:232
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/addons.php:8
+msgid "Available addons"
+msgstr "Raspoloživi dodaci"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:14
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:66
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:72
+msgid "Manage your languages"
+msgstr "Upravljajte svojim jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:20
+msgid "Choose filter and url style"
+msgstr "Izaberite filter i stil url-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:26
+msgid "Translate your site"
+msgstr "Prevedite svoj site"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:35
+msgid "Welcome to Ceceppa Multilingua"
+msgstr "Dobro došli na Ceceppa Multilingua"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:37
+msgid "These wizard will guides you in basic configure of the plugin"
+msgstr "Ovaj čarobnjak će vas provesti kroz osnovnu konfiguraciju plugin-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:52
+msgid "Update your posts language"
+msgstr "Ažurirajte jezik svojih postova"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:54
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:56
+#, php-format
+msgid ""
+"Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages."
+msgstr ""
+"Kliknite <a href=\"%s\">ovde</a> da biste dodelili \"%s\" postojećim "
+"postovima i stranicama."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:59
+msgid "detected language"
+msgstr "otkriveni jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:62
+msgid "was automatically added to your languages"
+msgstr "automatski je dodat vašim jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:67
+#, php-format
+msgid "Click <%s>here</a> to manage languages"
+msgstr "Kliknite <%s>ovde</a> da biste upravljali jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:73
+msgid "Add your languages"
+msgstr "Dodajte svoje jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:80
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:128
+msgid "go to step"
+msgstr "idi na korak"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:89
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:94
+msgid "Filters"
+msgstr "Filteri"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:92
+msgid "Customize which posts show in according to current language"
+msgstr "Prilagodite koji će se postovi prikazivati "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:96
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:95
+msgid "Actions"
+msgstr "Aktivnosti"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:99
+msgid "Choose the style of your"
+msgstr "Izaberite stil svoje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:103
+msgid "Homepage"
+msgstr "Početne stranice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:104
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:373
+msgid "Detect browser language and:"
+msgstr "Odredite jezik pretraživača i:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:107
+msgid "Links"
+msgstr "Linkovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:108
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:374
+msgid "Url Modification mode:"
+msgstr "Url režim izmena:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:111
+msgid "Enable notices"
+msgstr "Aktiviraj obaveštenja"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:112
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:375
+msgid "Show notice"
+msgstr "Prikaži obaveštenje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:119
+msgid ""
+"During Wizard will be shown only basic settings, click on \"Ceceppa "
+"Multilingua\" -> \"Settings\" for see all available options"
+msgstr ""
+"Tokom čarobnjaka biće prikazana samo osnovna podešavanja, kliknite na "
+"\"Ceceppa Multilingua\" -> \"Podešavanja\" da biste videli sve raspoložive "
+"opcije"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:124
+msgid "Don't forget to click on \"Save\" button before change tab."
+msgstr ""
+"Ne zaboravite da kliknete na taster  \"Sačuvaj\" pre nego što promenite "
+"tabulator. "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:138
+msgid "Now you can start to translate"
+msgstr "Sad možete početi da prevodite"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:143
+msgid "Your posts"
+msgstr "Vaši postovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:148
+msgid "Site Title/Tagline"
+msgstr "Naslov site-a/tekst oznake"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:154
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:216
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:16
+msgid "Widget titles"
+msgstr "Naslovi widget-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:160
+msgid "Current theme"
+msgstr "Trenutna tema"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:166
+msgid "This plugin"
+msgstr "Ovaj plugin"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:175
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:108
+msgid "or"
+msgstr "ili"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:180
+msgid "Enable flags on your site/pages"
+msgstr "Aktivirajte zastavice na svom site-u/stranicama"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:185
+msgid "Filter widgets by language"
+msgstr "Filtriraj widget-e prema jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:190
+msgid "See all available options"
+msgstr "Vidi sve raspoložive opcije"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:198
+msgid "Done, close wizard"
+msgstr "Govoto, zatvori čarobnjaka"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:21
+msgid "Language"
+msgstr "Jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:405
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:16
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:23
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:26
+msgid "All languages"
+msgstr "Svi jezici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:105
+msgid "Add translation"
+msgstr "Dodaj prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:105
+msgid "Edit"
+msgstr "Uredi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:128
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:223
+msgid "Show flags"
+msgstr "Prikaži zastavice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:135
+msgid "Use default 'Show flags' settings"
+msgstr "Koristi podrazumevana ‘Prikaži zastavice’ podešavanja "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:137
+msgid "default"
+msgstr "podrazumevani"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:140
+msgid "Always show flags in current page"
+msgstr "Uvek prikaži zastavice na tekućoj stranici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:142
+msgid "always"
+msgstr "uvek"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:145
+msgid "Don't show flags in this page"
+msgstr "Ne prikazuj zastavice na ovoj stranici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:147
+msgid "never"
+msgstr "nikad"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:152
+msgid "Size"
+msgstr "Veličina"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:160
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:366
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:280
+msgid "Small"
+msgstr "Mali"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:167
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:373
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:286
+msgid "Tiny"
+msgstr "Majušan"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:177
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:103
+msgid "Where:"
+msgstr "Gde:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:181
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:109
+msgid "Before the title"
+msgstr "Pre naslova"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:189
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:115
+msgid "After the title"
+msgstr "Posle naslova"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:197
+msgid "Before content"
+msgstr "Pre sadržaja"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:205
+msgid "After content"
+msgstr "Posle sadržaja"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:229
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:127
+msgid "None"
+msgstr "Nijedan"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:263
+#, php-format
+msgid "current %s"
+msgstr "trenutni %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:354
+msgid "Enable language filtering"
+msgstr "Omogući filtriranje jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:359
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-taxonomies-store.php:275
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-taxonomies-string.php:194
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-taxonomies.php:195
+msgid "Language: "
+msgstr "Jezik:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:394
+msgid "Edit post: "
+msgstr "Uredi post:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:399
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:124
+msgid "Translate in:"
+msgstr "Prevedi na:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:417
+msgid ""
+"This post is a translations, you have to translate existing tag instead of "
+"add new one."
+msgstr ""
+"Ovaj post je prevod; treba da prevedete postojeću oznaku umesto da dodajete "
+"novu."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:419
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:344
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:392
+msgid "Help"
+msgstr "Pomoć"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:423
+msgid "Search existing tag:"
+msgstr "Pretraži postojeću oznaku:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:425
+msgid "Add new tag"
+msgstr "Dodaj novu oznaku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:434
+msgid "Confirm translation"
+msgstr "Potvrdi prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:435
+msgid "Click to translate"
+msgstr "Kliknite da biste preveli"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:501
+msgid "Post data"
+msgstr "Podaci o postu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:546
+msgid "Language:"
+msgstr "Jezik:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:547
+msgid "Show all languages"
+msgstr "Prikaži sve jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:593
+msgid ""
+"You can easily disable/enable language filtering for current post type, "
+msgstr ""
+"Lako možete deaktivirati/aktivirati filtere jezika za trenutnu vrstu posta."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:594
+msgid ""
+"using the \"Enable language filtering\" in the \"Screen Option\" section"
+msgstr "koristeći \"Aktiviraj filtriranje jezika\" u delu \"Opcije ekrana\" "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:595
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:141
+msgid "Close"
+msgstr "Zatvori"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-notices.php:31
+#, php-format
+msgid "Something goes wrong during upgrade, click <%s>here</a> to fix "
+msgstr ""
+"Došlo je do problema tokom nadgradnje, kliknite <%s>ovde</a> da biste to "
+"popravili"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-settings-gen.php:109
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:338
+#, php-format
+msgid "Error writing file: %s"
+msgstr "Došlo je do greške prilikom pisanja datoteke: %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-utils.php:45
+msgid "No tables found!"
+msgstr "Nisu pronađene tabele!"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-utils.php:46
+msgid ""
+"If you have uninstalled the plugin, you can remove the plugin now, or "
+"deactivate and activete it again to rebuild tables."
+msgstr ""
+"Ako ste deinstalirali plugin, možete ga sad ukloniti ili deaktivirati i "
+"ponovo ga aktivirati da biste ponovo izgradili tabele."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-utils.php:48
+#, php-format
+msgid ""
+"If you haven't uninstalled the plugin, something goes wrong, please contact "
+"me <%s>here"
+msgstr ""
+"Ako niste deinstalirali plugin i ako nešto ne bude kako treba, pišite mi <"
+"%s>ovde"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:98
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:353
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:82
+msgid "Advanced"
+msgstr "Napredni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:99
+msgid "Uninstall"
+msgstr "Deinstaliraj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:193
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr "Izmene koje ste napravili biće izgubljene ako odete sa ove stranice."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:194
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:146
+msgid "Less"
+msgstr "Manje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:195
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:146
+msgid "More"
+msgstr "Vise"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:196
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:141
+msgid "Delete"
+msgstr "Obriši"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:197
+msgid "Restore"
+msgstr "Vrati"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:198
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:110
+msgid "Custom"
+msgstr "Prilagođeni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:211
+msgid "Ceceppa Multilingua"
+msgstr "Ceceppa Multilingua"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:213
+msgid "Translate"
+msgstr "Prevedi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:215
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:15
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:14
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:33
+msgid "My translations"
+msgstr "Moji prevodi "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:217
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:17
+msgid "Site Title"
+msgstr "Naslov site-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:217
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:17
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-sitename.php:21
+msgid "Tagline"
+msgstr "Tekst oznake"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:218
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:425
+msgid "Plugin"
+msgstr "Plugin"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:219
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:18
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:412
+msgid "Theme"
+msgstr "Tema"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:221
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-flags.php:12
+msgid "Flags"
+msgstr "Zastave"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:225
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:227
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:357
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:84
+msgid "Settings"
+msgstr "Podesavanja"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:230
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/addons.php:98
+msgid "Addons"
+msgstr "Dodaci"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:254
+msgid "Documentation"
+msgstr "Dokumentacija"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:255
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:256
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:90
+msgid "Api"
+msgstr "Api"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:345
+msgid "Click here to show the meaning of language fields"
+msgstr "Kliknite ovde da biste prikazali značenje polja za jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:351
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:80
+msgid "Basic"
+msgstr "Osnovni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:351
+msgid "You can order languages, set the default one, enable/disable them "
+msgstr ""
+"Možete preraspodeliti jezike, podesiti podrazumevani jezik, aktivirati ih i "
+"deaktivirati "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:352
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:81
+msgid "Intermediate"
+msgstr "Srednji"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:352
+msgid "You can also edit language name and date format"
+msgstr "Možete, takođe, urediti naziv jezika i format datuma"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:353
+msgid "You can change flag and edit all language fields"
+msgstr "Možete promeniti zastavicu i urediti sva polja za jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:356
+msgid "Choose settings level"
+msgstr "Odaberite nivo podešavanja"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:360
+msgid "This is the list of your languages."
+msgstr "Ovo je lista vaših jezika."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:361
+msgid "Drag items for change its order."
+msgstr "Prevucite stavke da biste im promenili redosled."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:363
+msgid "Flag"
+msgstr "Zastava"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:364
+msgid "Click on flag for change or customize"
+msgstr "Kliknite na zastavicu da biste je promenili ili prilagodili"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:367
+msgid "Click on heart for set default language"
+msgstr "Kliknite na srce da biste podesili podrazumevani jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:370
+msgid "Click on &#10004; for set enable/disable language"
+msgstr "Kliknite na &#10004; za skup aktiviraj/deaktiviraj jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:372
+msgid "Your languages"
+msgstr "Vaši jezici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:375
+msgid "Add language"
+msgstr "Dodaj jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:375
+msgid ""
+"List of all available languages.<br /> Click on item to choose flag and add "
+"it to your languages"
+msgstr ""
+"Lista svih raspoloživih jezika. <br /> Kliknite na njih da biste izabrali "
+"zastavicu i dodali je svojim jezicima."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:378
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:106
+msgid "Search language"
+msgstr "Pretraži jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:378
+msgid "Search the language from the availables and click for add it"
+msgstr ""
+"Pretražite jezik iz skupa raspoloživih jezika i kliknite da biste ga dodali"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:381
+msgid "Add custom language"
+msgstr "Dodaj prilagođeni jezik "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:381
+msgid "Click here for add custom language"
+msgstr "Kliknite ovde da biste dodali prilagođeni jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:384
+msgid "Save languages"
+msgstr "Sačuvaj jezike"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:384
+msgid "Click here for save changes"
+msgstr "Kliknite ovde da biste sačuvali izmene"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:387
+msgid "Theme language"
+msgstr "Jezik teme"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:387
+msgid "Choose in which languages translate:"
+msgstr "Odaberite na koji jezik prevodite:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:392
+msgid "Click here for show/hide help"
+msgstr "Kliknite ovde da biste prikazali/sakrili pomoć"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:397
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:398
+msgid "Filter list"
+msgstr "Filter lista"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:397
+msgid "Filter list by language"
+msgstr "Filter lista po jezicima "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:398
+msgid "Click here to filter list by language"
+msgstr "Kliknite ovde da biste filtrirali listu po jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:399
+msgid "Active language"
+msgstr "Aktivni jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:399
+msgid "This is the style of current language"
+msgstr "Ovo je stil trenutnog jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:404
+msgid "Choose the language of current post/page."
+msgstr "Izaberite jezik trenutnog posta/stranice."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:406
+msgid "means that post/page will available in all languages"
+msgstr "znači da će post/stranica biti raspoloživ na svim jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:408
+msgid "Post/Page language"
+msgstr "Jezik posta/stranice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:411
+msgid "Assign translations"
+msgstr "Dodeli prevode"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:412
+msgid "Assign the same post to multiple languages."
+msgstr "Dodeli isti post različitim jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:413
+msgid "If you need you can assign post to multiple language"
+msgstr "Dodeli isti post različitim jezicima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:414
+msgid ""
+"In this case you can't choose the option \"All languages\" from \"Language\" "
+"combo, so you have to choose one of it existing languages, isn't important "
+"which one."
+msgstr ""
+"U ovom slučaju, ne možete birati opciju  \"Svi jezici\" iz kombinacije "
+"\"Jezici\", tako da morate izabrati jedan od postojećih jezika, nije važno "
+"koji."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:418
+msgid "Click here Add/Edit translation"
+msgstr "Kliknite ovde da biste dodali/uredili prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:421
+msgid ""
+"Permalink will modified in according to current \"Url modification mode\" "
+"setting."
+msgstr ""
+"Permalink će biti izmenjen u zavisnosti od podešavanja \"Url režim izmena\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:422
+msgid ""
+"When two post/page has same title Wordpress automatically append a number -"
+"## to permalink, don't worry the plugin will remove it in fronted."
+msgstr ""
+"Kad dva posta/stranice imaju isti naziv, Wordpress automatski dodaje broj -"
+"## permalinku. Ne brinite, plugin će ga ukloniti u čeonom programu.  "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:423
+msgid "Permalink"
+msgstr "Permalink"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:427
+msgid ""
+"For each languages you can customize \"Navigation label\" or url, but you "
+"have to save menu first"
+msgstr ""
+"Za svaki jezik možete prilagoditi  \"Oznaku navigacije\" ili url, ali prvo "
+"morate da sačuvate meni."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:430
+msgid "Customize labels"
+msgstr "Prilagodi oznake"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:435
+msgid "Set menu to switch"
+msgstr "Podesi meni za zamenu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:436
+msgid ""
+"Your theme support multiple menus, if you need to use different menu for "
+"each language you have to choose witch one switch"
+msgstr ""
+"Vaša tema podržava različite menije. Ako su vam potrebni različiti meniji za "
+"različite jezike, morate odabrati koji ćete da promenite"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:660
+msgid "No tables found, Ceceppa Multilingua can't works correctly."
+msgstr "Nisu pronađene tabele, Ceceppa Multilingua ne radi kako treba."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:661
+msgid "Disable and enable again the plugin for rebuild tables."
+msgstr "Deaktiviraj i opet aktiviraj plugin za ponovnu izgradnju tabela. "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:5
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:12
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:28
+msgid "Tip"
+msgstr "Savet"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:6
+msgid "You can translate widget titles, or filter its visibility by language"
+msgstr ""
+"Možete prevesti naslove widget-a ili filtrirati njegovu vidljivost u "
+"zavisnosti od jezika "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:13
+msgid ""
+"All items will be automatically translated when user switch between "
+"languages."
+msgstr "Sve stavke biće automatski prevedene kad korisnik promeni jezik. "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:14
+msgid ""
+"Add only pages existing in your default language, not their translation."
+msgstr ""
+"Dodaj samo stranice koje postoje na vašem podrazumevanom jeziku, ali ne i "
+"njihov prevod."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:16
+msgid ""
+"You can customize navigation label in all language, or, for custom link, set "
+"different url for each language"
+msgstr ""
+"Možete prilagoditi oznaku navigacije za svaki jezik ili podesiti različit "
+"url za za svaki jezik prilagođenog linka"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:19
+msgid ""
+"If you need different items for each languages, you can create menu for each "
+"language"
+msgstr ""
+"Ako su vam potrebne različite stavke za sve jezike, možete kreirati meni za "
+"svaki jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:29
+msgid ""
+"Clicke here for translate the \"Site Title\" and \"Tagline\" in other "
+"languages"
+msgstr ""
+"Kliknite ovde da biste preveli  \"Naslov site-a\" i \"Tekst oznake\" na "
+"druge jezike "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:30
+msgid "Your theme must use the function: "
+msgstr "Vaša tema mora koristiti funkciju:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:32
+msgid "not: "
+msgstr "ne:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:34
+msgid "Or Site/Tagline will not be translated!"
+msgstr "Ili Site/Tekst oznake neće biti preveden!"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:35
+msgid ""
+"N.B.: When make changes to Site Title or Tagline you have to update "
+"translations"
+msgstr ""
+"Napomena: Kad menjate naziv site-a ili tekst oznake morate ažurirati prevode"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:42
+#, php-format
+msgid ""
+"You can override flags style by creating new file in: <i>%s</i> named: <b>"
+"\"ceceppaml.css\"</b>"
+msgstr ""
+"Možete poništiti stil zastavice tako što ćete kreirati novu datoteku u: <i>"
+"%s</i> pod nazivom <b>\"ceceppaml.css\"</b>"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:46
+msgid ""
+"The class base is \"cml_flags\", and second class is added by each option"
+msgstr "Osnovna klasa je \"cml_flags\", a drugu klasu dodaje svaka opcija"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:48
+msgid ""
+"Each option will generate &lt;ul&gt; list and current language will have "
+"\"current\" class"
+msgstr ""
+"Svaka opcija će generisati &lt;ul&gt; listu i trenutni jezik će imati klasu "
+"\"trenutni\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:49
+msgid "Class used by options:"
+msgstr "Klase koje koriste opcije:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:51
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:421
+msgid "Show flags:"
+msgstr "Prikaži zastavice:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:52
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:423
+msgid "Add float div to website:"
+msgstr "Dodaj plutajući div web site-u:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:53
+msgid ""
+"This option will generate &lt;div&gt; with id #flying-flags that will "
+"contain the &lt;ul&gt; list"
+msgstr ""
+"Ova opcija će generisati &lt;div&gt; sa id-jem #flying-flags koji će "
+"sadržavati &lt;ul&gt; listu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:54
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:427
+msgid "Append flag to html element:"
+msgstr "Dodaj zastavicu html elementu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:55
+msgid ""
+"Don't overwrite \"ceceppaml.css\" in plugin path, because it will be "
+"overwritten by next update"
+msgstr ""
+"Nemojte da poništite  \"ceceppaml.css\" u putanji plugin-a, jer će biti "
+"poništen sledećim ažuriranjem "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:94
+msgid "In \"My Languages\" box are listed your languages."
+msgstr "U okviru \"Moji jezici\" izlistani su vaši jezici."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:95
+msgid ""
+"For add new language click on item listed in \"Available languages\", and "
+"click on wanted flag to add it."
+msgstr ""
+"Za dodavanje novog jezika kliknite na stavku prikazanu u \"Raspoloživim "
+"jezicima\", a zatim na željenu zastavicu da biste je dodali."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:96
+msgid ""
+"You can also use search box to search a language, or click on \"Add custon\" "
+"button to add custom one."
+msgstr ""
+"Možete koristiti polje za pretragu da biste pretražili jezik ili kliknite na "
+"taster \"Dodaj prilagođeni\" kako biste dodali prilagođeni jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:98
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:123
+msgid "Name"
+msgstr "Naziv"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:99
+msgid "it is the name of language."
+msgstr "ovo je naziv jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:101
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:125
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:379
+msgid "Date format"
+msgstr "Format datuma"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:102
+msgid "you can use different date format for language."
+msgstr "možete koristiti različite formate datuma za jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:104
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:131
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:348
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:252
+msgid "Language slug"
+msgstr "Slug jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:105
+msgid "this code will be used to build url. Example: it, en, ch, de"
+msgstr "ovaj kod biće korišćen za pravljenje url-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:107
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:133
+msgid "WP Locale"
+msgstr "Lokalni WP"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:108
+msgid "it is the code used by WordPress for each language."
+msgstr "ovo je kod koji WordPress koristi za svaki jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:110
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:135
+msgid "Right to left"
+msgstr "S desna na levo"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:111
+msgid "it is used for right to left languages like Arabian, Hebrew and others."
+msgstr ""
+"koristi se za jezike čije se pismo čita s desna na levo, kao što su arapski, "
+"hebrejski i drugi."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:115
+msgid "The order of language items will be used for sort generated flags."
+msgstr ""
+"Raspored stavki jezika biće korišćen za sortiranje generisanih zastavica"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:121
+msgid ""
+"When you choose to upload custom flags the plugin will create two copy of "
+"image Small ( 32x23 ) and Tiny ( 16x11 )."
+msgstr ""
+"Kad odaberete otpremanje prilagođenih zastavica, plugin će kreirati dve "
+"kopije slike Malu (32x23) i Majušnu (16x11)."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:123
+#, php-format
+msgid ""
+"If you don't like the quality of genearted images you can do manually for "
+"both size, and store it in %s, and later choose it from list."
+msgstr ""
+"Ako vam se ne dopada kvalitet generisanih slika, možete ih manuelno obraditi "
+"u obe veličine, sačuvati u %s i kasnije ih odabrati sa liste."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:127
+#, php-format
+msgid "Custom flags will be stored in: %s path."
+msgstr "Prilagođene zastavice biće sačuvane na %s putanji."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:133
+msgid "You are using IE <= 9"
+msgstr "Prilagođene zastavice biće sačuvane na %s putanji."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:135
+#, php-format
+msgid ""
+"If you need to use custom flags you hate to <%s>upload them manually</a>."
+msgstr ""
+"Ako treba da koristite prilagođene zastavice, morate ih <%s> otpremati "
+"ručno</a>."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:151
+msgid "Hide this message"
+msgstr "Sakrij ovu poruku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-ajax-save.php:29
+msgid "Security error"
+msgstr "Bezbednosna greška"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-ajax-save.php:152
+msgid "Invalid image: "
+msgstr "Nevažeća slika:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/install.php:122
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:60
+msgid "Default language"
+msgstr "Podrazumevani jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-languages.php:25
+msgid "Language files"
+msgstr "Datoteke jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-languages.php:26
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:53
+msgid "Ceceppa Multilingua in your language"
+msgstr "Ceceppa Multilingua na vašem jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:77
+msgid "Remove translation"
+msgstr "Ukloni prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:182
+msgid "Edit this item inline"
+msgstr "Uredi ovu stavku inline"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:184
+msgid "Quick&nbsp;Edit"
+msgstr "Quick&nbsp;"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:19
+msgid "Thanks for using Ceceppa Multilingua"
+msgstr "Hvala što koristite Ceceppa Multilingua"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:27
+msgid ""
+"If you like this plugin, please donate to support development and maintenance"
+msgstr ""
+"Ako vam se sviđa ovaj plugin, molimo vas da donirate kako biste podržali "
+"razvoj i održavanje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:47
+#, php-format
+msgid "Rate Ceceppa Multilingua 5%s's on WordPress.org"
+msgstr "Ocenite Ceceppa Multilingua sa 5%s na WordPress.org"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:49
+msgid "Talk about it on your site and link back to the"
+msgstr "Pomenite ga na svom site-u i stavite link za "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:50
+msgid "plugin page."
+msgstr "stranicu plugin-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:53
+msgid "I use Ceceppa Multilingua for WordPress and you should too"
+msgstr "stranicu plugin-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:54
+msgid "Tweet about it."
+msgstr ""
+"Koristim plugin Ceceppa Multilingua za WordPress, a trebalo bi da ga i vi "
+"koristite."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:59
+msgid "Translate it in your language."
+msgstr "Objavite tweet o njemu."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:63
+#, php-format
+msgid ""
+"Don't hesitate to report bugs or ask for new features on the <%s>support "
+"forum.</a>"
+msgstr "Prevedite ga na svoj jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:66
+#, php-format
+msgid "Subscribe to official <%s>Google + page</a>,"
+msgstr "Pretplatite se na zvaničnu <%s>Google + stranicu</a>,"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:67
+msgid ""
+"I use to announce development versions and then, test the new versions and "
+"report bugs before the final release."
+msgstr "Pretplatite se na zvaničnu <%s>Google + stranicu</a>,"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:71
+msgid "Development code is available on github"
+msgstr "Kod za razvoj raspoloživ je na github-u"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:85
+msgid "Setting up a WordPress multilingual site with Ceceppa Multilingua"
+msgstr "Podešavanje WordPress multilingual site-a uz Ceceppa Multilingua"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:98
+msgid "About Ceceppa:"
+msgstr "O Ceceppa:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:100
+msgid "Donate:"
+msgstr "Donirajte:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:101
+msgid "Contribute:"
+msgstr "Doprinesite:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:103
+msgid "Documentation:"
+msgstr "Doprinesite:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:53
+#, php-format
+msgid "No .po files found for %s"
+msgstr "Nisu pronađene .po datoteke za %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:123
+msgid "Available languages: "
+msgstr "Raspoloživi jezici:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:125
+msgid "Choose in which languages you want to translate: "
+msgstr "Izaberite jezik na koji želite da prevodite"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:163
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:32
+msgid "All strings"
+msgstr "Svi stringovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:164
+msgid "To translate"
+msgstr "Svi stringovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:165
+msgid "Incomplete"
+msgstr "Nedovršeni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:166
+msgid "Translated"
+msgstr "Prevedeni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:169
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:151
+msgid "Save Changes"
+msgstr "Sačuvaj izmene"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:175
+msgid "You have to choose in which language you want to translate: "
+msgstr "Morate izabrati na koji jezik želite da prevodite:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:183
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:257
+msgid "Search"
+msgstr "Pretraži"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:190
+msgid "Text"
+msgstr "Pretraži"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:191
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:53
+msgid "Translation"
+msgstr "Prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:254
+msgid "fuzzy"
+msgstr "nejasan"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:287
+#, php-format
+msgid "Failed to open stream %s: Permission denied"
+msgstr "Neuspešno otvaranje stream-a %s: Dozvola odbijena"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:302
+msgid "Something goes wrong :'(. I don't know where to store .mo file"
+msgstr "Nešto nije u redu :'(. Ne znam gde da sačuvam .mo datoteku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:308
+#, php-format
+msgid "Failed to create folder: %s"
+msgstr "Neuspelo kreiranje foldera: %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:314
+#, php-format
+msgid "tmp.pot not found: %s"
+msgstr "tmp.pot nije pronađen: %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:395
+msgid "Generated files:"
+msgstr "Generisane datoteke:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:79
+msgid "Translate title in:"
+msgstr "Prevedite naslov u"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:104
+msgid "Filter widget"
+msgstr "Filtriraj widget"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:110
+msgid "Show"
+msgstr "Prikaži"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:111
+msgid "Hide"
+msgstr "Sakrij"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:113
+msgid "If current language is: "
+msgstr "Ako je trenutni jezik:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:26
+msgid "Alternative Text"
+msgstr "Alternativni tekst"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:26
+msgid "Alt Text"
+msgstr "Alt tekst"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:29
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:40
+msgid "Title"
+msgstr "Naslov"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:126
+#, php-format
+msgid "Title in %s"
+msgstr "Naslov na %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/migrate.php:357
+msgid "Update required, click here for update posts relations"
+msgstr "Neophodno je ažuriranje, kliknite ovde za ažuriranje povezanih postova"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:51
+msgid "Group name"
+msgstr "Naziv grupe"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:52
+msgid "String"
+msgstr "String"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:177
+msgid "Post notice:"
+msgstr "Napomena posta:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:181
+msgid "Page notice:"
+msgstr "Napomena stranice:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:15
+msgid "Notice"
+msgstr "NoticeNapomena:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:24
+msgid "You can use this translation with shortcode \"cml_translate\"."
+msgstr "Možete koristiti ovaj prevod uz pomoć shortcode-a \"cml_translate\"."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:25
+msgid "Click here to see the shortcode page"
+msgstr "Kliknite ovde da biste videli stranicu za shortcode "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:34
+msgid "Plugin strings"
+msgstr "Stringovi plugin-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:65
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:144
+msgid "Add"
+msgstr "Dodaj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:67
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:84
+msgid "Update"
+msgstr "Ažuriraj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:62
+msgid "Show only posts in current language"
+msgstr "Prikaži samo postove na tekućem jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:38
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:69
+msgid "Show all posts, but hide their translation"
+msgstr "Prikaži sve postove, ali sakrij njihov prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:44
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:76
+msgid "Hide empty translations of posts and show in default language"
+msgstr "Sakrij prazne prevode postova i prikaži post na podrazumevanom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:51
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:84
+msgid "Don't filter"
+msgstr "Ne filtriraj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:59
+msgid "Choose which posts show"
+msgstr "Izaberite postove za prikazivanje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:65
+msgid "Show only the posts that exists in current language"
+msgstr "Prikaži samo postove koji postoje na datom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:72
+msgid "Show also posts that has no translation in current language."
+msgstr "Prikaži i postove koji nemaju prevod na dati jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:79
+msgid ""
+"If a post doesn't have a translation in current language, post in \"default "
+"language\" will be shown"
+msgstr ""
+"Ako post nema prevod na dati jezik, biće prikazan post na \"podrazumevanom "
+"jeziku\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:87
+msgid "Don't filter wordpress queries, useful for one page themes"
+msgstr ""
+"Nemojte filtrirati wordpress pretrage, korisne su za teme na jednoj strani"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:101
+msgid ""
+"Allows you to filter the result of some widgets to display only those "
+"records relating to the current language."
+msgstr ""
+"Omogućava vam da filtrirate rezultat nekih widget-a za prikazivanje "
+"isključivo onih zapisa koji su na određenom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:103
+msgid "Supported widgets:"
+msgstr "Podržani widget-i:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:105
+msgid "Least reads posts"
+msgstr "Postovi sa najmanjim brojem pregleda:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:106
+msgid "Most commented"
+msgstr "Postovi sa najvećim brojem komentara:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:114
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:134
+msgid "Enable"
+msgstr "Aktiviraj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:118
+msgid ""
+"If enabled the plugin filter the query of Least reads posts and Most "
+"commented"
+msgstr ""
+"Ako je aktiviran, filter plugin-a suziće pretragu na postove sa najmanjim "
+"brojem pregleda i na postove sa najvecim brojem komentara."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:120
+msgid "The others widget will be filtered only if they use the WP_Query class."
+msgstr "Drugi widget-i biće filtrirani samo ako koriste WP_Query klasu."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:139
+msgid "Filter wordpress search query"
+msgstr "Filtriraj wordpress pretragu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:153
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:169
+msgid "Group"
+msgstr "Grupiši"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:159
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:176
+msgid "Ungroup"
+msgstr "Rasformiraj grupu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:166
+msgid "When use is viewing a single post/page"
+msgstr "Kad korisnik pregleda pojedinačni post/stranicu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:172
+msgid "Show also comments of its translation"
+msgstr "Prikaži i komentare prevoda"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:179
+msgid "Each post shown only its comments"
+msgstr "Prikaži samo komentare za svaki post"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:197
+msgid "Translate menu items"
+msgstr "Prevedi stavke menija"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:205
+msgid "Force language of items"
+msgstr "Primeni jezik stavki"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:213
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:233
+msgid "Hide items that doesn't exists in current language"
+msgstr "Sakrij stavke koje ne postoje na datom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:219
+msgid "Items will be changed with their translation"
+msgstr "Stavke će biti promenjene sa svojim prevodom"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:222
+msgid "Page and category items will replace with their translation, if exists"
+msgstr ""
+"Stranica i stavke kategorije biće zamenjeni svojim prevodom, ako postoji "
+"prevod"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:226
+msgid "Force items language "
+msgstr "Primeni stavke jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:229
+msgid ""
+"If an item doesn't exists in current language, the plugin will add ?lang "
+"parameter to force item in current language"
+msgstr ""
+"Ako stavka ne postoji na datom jeziku, plugin će dodati ?lang parametar kako "
+"bi ih primenio na dati jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:236
+msgid ""
+"If the plugin doesn't translate correctly menu items when switching "
+"language, "
+msgstr "Ako plugin ne prevodi tačno stavke menija prilikom promene jezika,"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:237
+msgid "add items in all languages to menu and enable this option"
+msgstr "dodajte meniju stavke na svim jezicima i aktivirajte ovu opciju "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:238
+msgid ""
+"The plugin will remove elements that doesn't exists in current language from "
+"menu"
+msgstr "Plugin će iz menija ukloniti elemente koji ne postoje na datom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:245
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:369
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:418
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:110
+msgid "Show/Hide help"
+msgstr "Prikaži/Sakrij pomoć"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:250
+msgid "Filter posts:"
+msgstr "Filtriraj postove:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:253
+msgid "Filter widgets"
+msgstr "Filtriraj widget-e"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:260
+msgid "Comments"
+msgstr "Komentari"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:261
+msgid "Translate menu"
+msgstr "Prevedi meni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:13
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:16
+msgid "Current language"
+msgstr "Tekući jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:33
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:36
+msgid "All languages except current"
+msgstr "Svi jezici, osim tekućeg"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:14
+msgid "Something goes wrong, cannot generate .mo files :("
+msgstr "Nešto nije u redu, .mo datoteke ne mogu da se generišu :( "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:16
+#, php-format
+msgid "Ensure that folder <b>%s</b> is writable"
+msgstr "Proverite da li je moguće pisati u folderu <b>%s</b>"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:20
+msgid "Thanks for translated Ceceppa Multilingua in your language."
+msgstr "Hvala vam što ste preveli Ceceppa Multilingua na svoj jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:21
+msgid ""
+"If translation is complete and you want to share it with us, download it:"
+msgstr "Hvala vam što ste preveli Ceceppa Multilingua na svoj jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:34
+#, php-format
+msgid "and send it <%s>to me</a>, add also your name or nickname"
+msgstr "i pošaljite ga <%s>meni</a>, napišite svoje ime ili nadimak"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:39
+msgid ""
+"If you like the plugin and you want translate it in your language, you can "
+"do from this page."
+msgstr ""
+"Ako vam se sviđa ovaj plugin i ako želite da ga prevedete na svoj jezik, "
+"možete to uraditi sa ove stranice."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:40
+msgid ""
+"After clicked on \"Save Changes\" button, follow the instructions and send "
+"me the translation, thanks"
+msgstr ""
+"Kad kliknete na taster \"Sačuvaj izmene\", pratite uputstva i pošaljite mi "
+"prevod. Hvala! "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/addons.php:11
+msgid "Update available addons list"
+msgstr "Ažurirajte listu raspoloživih dodataka"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:29
+msgid ""
+"If you want to customize widget titles you have to assign a title for each "
+"of them in \"Appearance\" -> \"Widgets\""
+msgstr "Ažurirajte listu raspoloživih dodataka"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:83
+msgid "Reset titles"
+msgstr "Vrati nazive na početne vrednosti"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-sitename.php:14
+msgid "Site title"
+msgstr "Naziv site-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:12
+msgid "This procedure will erase all plugin data from database"
+msgstr "Ova procedura obrisaće sve podatke o plugin-u iz baze podataka"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:13
+msgid "Following tables will be dropped"
+msgstr "Sledeće tabele biće obrisane"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:36
+msgid "This procedure cannot be undone!!!"
+msgstr "Ova procedura ne može se poništiti!!!"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:41
+msgid ""
+"This procedure will remove ONLY plugin data, posts and other data will NOT "
+"be erased."
+msgstr "Ova procedura ne može se poništiti!!!"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:46
+msgid "For recreate tables you have to disable and enable the plugin."
+msgstr ""
+"Da biste ponovo kreirali tabele, morate deaktivirati i ponovo aktivirati "
+"plugin."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:52
+msgid "Yes, I read and I want to erase all data"
+msgstr "Da, pročitao sam i hoću da obrišem sve podatke"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:67
+msgid "Yes, I'm sure. DO IT!"
+msgstr "Da, siguran sam. URADI TO!"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:71
+msgid ""
+"Uninstall completed. Deactivate and activate the plugin to rebuild tables"
+msgstr ""
+"Deinstaliranje završeno. Deaktivirajte i aktivirajte plugin da biste ponovo "
+"izgradili tabele"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:81
+msgid "Uninstall the plugin:"
+msgstr "Deinstalirajte plugin:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:83
+msgid "Are you sure?"
+msgstr "Jeste li sigurni?"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:71
+msgid "You can change the flag only after adding language."
+msgstr "Možete promeniti zastavicu tek posle dodavanja jezika."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:93
+msgid "Show help"
+msgstr "Prikaži pomoć"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:98
+msgid "Save"
+msgstr "Sačuvaj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:102
+msgid "My languages"
+msgstr "Moji jezici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:109
+msgid "Add custom"
+msgstr "Dodaj prilagođeni"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:112
+msgid "Available languages"
+msgstr "Raspoloživi jezici"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-theme.php:10
+msgid "Translations generated succesfully"
+msgstr "Prevodi uspešno generisani"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-theme.php:27
+#, php-format
+msgid "Error generating translations, ensure that the folder %s is writable"
+msgstr ""
+"Došlo je do greške prilikom generisanja prevoda, proverite da li se može "
+"pisati u folderu %s "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:33
+msgid "Oops, something goes wrong"
+msgstr "Ups, nešto nije u redu "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:54
+msgid "Click for change or upload custom flag"
+msgstr "Kliknite da biste promenili ili otpremili prilagođenu zastavicu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:61
+msgid "Enable/Disable language"
+msgstr "Aktiviraj/Deaktiviraj jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:118
+msgid "Upload custom image"
+msgstr "Otpremi prilagođenu sliku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:127
+#, php-format
+msgid "Date format: %s. <br /> Click for edit"
+msgstr "Format datuma: %s. <br /> Kliknite za uređivanje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:20
+msgid ""
+"Automatically redirects the browser depending on the visitor's language."
+msgstr "Automatski preusmerava pretraživač u zavisnosti od jezika posetioca."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:26
+msgid "Automatically redirects the default language."
+msgstr "Automatski preusmerava podrazumevani jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:61
+msgid "Redirect only if visitor language is different from default one"
+msgstr ""
+"Preusmerava samo ako je jezik posetioca različit od podrazumevanog jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:38
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:68
+msgid "Do nothing"
+msgstr "Nemoj ništa da radiš"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:45
+msgid "Choose what to do when user visit your homepage"
+msgstr "Izaberite šta treba raditi kad vam posetilac dođe na početnu stranu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:48
+msgid "Redirects the browser depending on the user's language."
+msgstr "Preusmerava pretraživač u zavisnosti od jezika korisnika."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:51
+msgid "User will be redirected to their language, otherwise to default one"
+msgstr ""
+"Korisnik će biti preusmeren na svoj jezik, u suprotnom jezik ostaje "
+"podrazumevani"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:54
+msgid "Automatically redirects to default language."
+msgstr "Automatski preusmerava na podrazumevani jezik."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:57
+msgid "The plugin add the slug of default language"
+msgstr "Plugin dodaje slug podrazumevanog jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:64
+msgid "The plugin doesn't add language slug to url for default language"
+msgstr "Plugin ne dodaje slug za jezik na url podrazumevanog jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:71
+msgid ""
+"The plugin does nothing, doesn't modify the home url.<br /> The content of "
+"site will be in default language"
+msgstr ""
+"Plugin ne radi ništa, ne menja url početne stranice. <br /> Sadržaj site-a "
+"biće na podrazumevanom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:77
+msgid "Default language will be used if visitor language isn't available"
+msgstr "Podrazumevani jezik biće korišćen ako nije raspoloživ jezik posetioca."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:95
+msgid "Use Pre-Path Mode"
+msgstr "Koristi režim pre-putanje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:98
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:139
+msgid "This mode doesn't work with default permalink!!!"
+msgstr "Ovaj režim ne funkcioniše sa podrazumevanim permalink"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:107
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:152
+msgid "Ignore for default language"
+msgstr "Zanemari za podrazumevani jezik"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:115
+msgid "Use Pre-Domain Mode"
+msgstr "Koristi pre-domen režim"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:121
+msgid "Append the suffix <strong>&amp;lang=</strong> to the url"
+msgstr "Dodajte sufiks <strong>&amp;lang=</strong> na url"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:134
+msgid "Choose the style of your links. Example:"
+msgstr "Izaberite stil svojih linkova.Primer:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:137
+msgid "Pre-Path"
+msgstr "pre-putanje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:143
+msgid "Default, puts /[language slug]/ in front of URL"
+msgstr "Podrazumevano, stavlja  /[slug za jezik]/ ispred URL-a "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:152
+msgid "If you enable the option: "
+msgstr "Ako aktivirate ovu opciju:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:153
+msgid "language slug will be added only to translations"
+msgstr "slug za jezik biće dodat samo prevodima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:159
+msgid "Default"
+msgstr "Podrazumevani"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:168
+msgid "Pre-Domain"
+msgstr "pre-domen"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:171
+msgid "Append suffix"
+msgstr "Dodaj sufiks"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:194
+msgid "Translate categoriy url"
+msgstr "Prevedi kategoriju url-a"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:198
+msgid "Translate the url for category links."
+msgstr "Prevedi url za linkove kategorija."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:199
+msgid "Example"
+msgstr "Primer:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:225
+msgid "When the post/page is available in visitor language:"
+msgstr "Kad su post/stranica raspoloživi na jeziku posetioca:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:232
+msgid "Add notice to:"
+msgstr "Dodaj obaveštenje za:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:239
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:74
+msgid "Posts"
+msgstr "Postove"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:246
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:81
+msgid "Pages"
+msgstr "Stranice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:254
+msgid "Ignore"
+msgstr "Zanemari"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:260
+msgid "Where to show the alert"
+msgstr "Gde prikazati obaveštenje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:264
+msgid "On the top of page/post"
+msgstr "Na početku stranice/posta"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:268
+msgid "On the bottom of page/post"
+msgstr "Na kraju stranice/posta"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:274
+msgid "Cusomize notice:"
+msgstr "Prilagodi obaveštenje:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:278
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:303
+msgid "Click here for translate notice"
+msgstr "Kliknite ovde da biste preveli obaveštenje"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:284
+msgid "Before:"
+msgstr "Pre:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:290
+msgid "After:"
+msgstr "Posle:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:300
+msgid ""
+"Notice visitor that post/page that is visiting is available in his language"
+msgstr ""
+"Obavestite posetioca da su postovi/stranice, koje trenutno posećuje, "
+"raspoloživi na njegovom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:320
+msgid "Change date format"
+msgstr "Promeni format datuma"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:324
+msgid "Apply date format defined in language item"
+msgstr "Primeni format datuma određen na stavki jezika "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:340
+msgid "Set the language of wordpress, in according of selected language"
+msgstr "Podešava jezik wordpress-a prema odabranom jeziku"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:344
+msgid "Change wordpress locale in according to current language."
+msgstr "Promenite lokalni wordpress u skladu sa tekućim jezikom."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:345
+msgid ""
+"If enabled language of all plugins and theme will switch in current "
+"language, if a translation exists"
+msgstr ""
+"Ako je aktivirana ova opcija, jezik svih dodataka i tema prebaciće se na "
+"trenutni jezik, ukoliko postoji prevod."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:359
+msgid "Add [cml_media] shortcode to media inserted in editor"
+msgstr "Dodajte [cml_media] shortcode medijima ubačenim u uređivač"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:363
+msgid ""
+"If enabled the plugin will insert inside [cml_media] shortcode to allow \"alt"
+"\" attribute to be translated in frontend"
+msgstr ""
+"Ako je ova opcija aktivirana, plugin će ubaciti [cml_media] shortcode kako "
+"bi omogućio da \"alt\" atribut bude preveden na čeonom programu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:378
+msgid "Categories & Tags"
+msgstr "Kategorije i oznake"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:380
+msgid "Change wordpress language:"
+msgstr "Promenite wordpress jezik:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:381
+msgid "Translate media in Editor:"
+msgstr "Prevedite medije u uređivaču:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:25
+msgid ""
+"When you add a language the plugin will try to download corresponding "
+"WordPress language files. If for, some reason, it fails you can try to "
+"download them at: "
+msgstr ""
+"Kad dodate jezik, plugin će pokušati da preuzme odgovarajuće WordPress "
+"datoteke jezika. Ako, iz nekog razloga, preuzimanje ne uspe, možete pokušati "
+"da ih preuzmete na:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:30
+msgid ""
+"You then would have to upload these files to the '/wp-content/languages/' "
+"directory"
+msgstr ""
+"Zatim biste morali da otpremite te datoteke u direktorijum '/wp-content/"
+"languages/' "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:33
+msgid ""
+"If your language is not available on previous link you have to install it "
+"manually. For more information"
+msgstr ""
+"Ako vaš jezik nije raspoloživ na prethodnom linku, morate ga instalirati "
+"ručno. Za više informacija"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:16
+msgid "If translation of current post/page doesn't exists in flag language:"
+msgstr "Ako prevod tekućeg posta/stranice ne postoji na jeziku zastavice:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:24
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:40
+msgid "Switch always to flag language"
+msgstr "Ako prevod tekućeg posta/stranice ne postoji na jeziku zastavice:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:30
+msgid "Go to homepage"
+msgstr "Idi na početnu stranicu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:37
+msgid ""
+"Set the behavior of the flags when current page doesn't exists in flag "
+"language"
+msgstr ""
+"Podesite ponašanje ovih zastavica kad data stranica ne postoji na jeziku "
+"zastavice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:44
+msgid ""
+"The plugin will add language slug ( ?lang=## ) to url when translation "
+"doesn't exists in flag language"
+msgstr ""
+"Plugin će dodati slug za jezik (?lang=##) na url kad nema prevoda na jeziku "
+"zastavice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:63
+msgid "Show flags on:"
+msgstr ""
+"Plugin će dodati slug za jezik (?lang=##) na url kad nema prevoda na jeziku "
+"zastavice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:88
+msgid "Custom posts"
+msgstr "Prilagođeni postovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:96
+msgid "Loop"
+msgstr "Prilagođeni postovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:121
+msgid "Before post/page content"
+msgstr "Petlja"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:126
+msgid "After post/page content"
+msgstr "Posle sadržaja posta/stranice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:137
+msgid "When:"
+msgstr "Kad:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:144
+msgid "Show flags only on translated page."
+msgstr "Prikaži zastavice samo na prevedenoj stranici. "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:149
+msgid "Choose where show flags"
+msgstr "Odaberite gde ćete prikazati zastavice"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:174
+msgid " Custom css:"
+msgstr "Prilagođeni CSS:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:184
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:222
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:301
+msgid " Display items as:"
+msgstr "Prikaži stavke kao:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:198
+msgid "Add a div, with #flying-flags, after the footer of the page."
+msgstr "Dodajte div, sa #lepršavim zastavama posle podnožja stranice."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:199
+msgid "Use the textarea for customize the style."
+msgstr "Koristite oblast za tekst kako biste prilagodili stil."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:213
+msgid "Id or class of element to add flags:"
+msgstr "id ili element klase za dodavanje zastavica:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:217
+msgid "use # for id, or . for class"
+msgstr "koristite # za id ili . za klasu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:236
+msgid ""
+"Create a div with id #cml-lang, and append it to desired element throught "
+"append method of jQuery"
+msgstr ""
+"Kreirajte div koji ima id #cml-lang  i dodajte ga željenom elementu putem "
+"metoda dodavanja za jQuery"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:252
+msgid "Style"
+msgstr "Stil"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:258
+msgid "Add an item for each language"
+msgstr "Dodaj stavku za svaki jezik "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:264
+msgid "Add items in submenu"
+msgstr "Dodaj stavke podmeniju"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:271
+msgid "Add to"
+msgstr "Dodaj"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:311
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:45
+msgid ""
+"You can add flags to menu throught <b>Aspect -> Menu page</b>, or enabling "
+"this option."
+msgstr ""
+"Možete dodati zastavice meniju kroz <b>Aspekt -> Stranicu menija</b> ili "
+"aktiviranjem ove opcije."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:312
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:46
+msgid ""
+"Use this box for also customize the style of items added throught <b>Aspect -"
+"> Menu page</b>"
+msgstr ""
+"Koristite ovaj okvir da biste prilagodili stil stavki dodatih preko "
+"<b>Aspekta -> Stranice menija</b>"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:324
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:246
+msgid "Flag + name"
+msgstr "Zastavica + naziv"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:330
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:240
+msgid "Name only"
+msgstr "Samo naziv"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:336
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:234
+msgid "Flag only"
+msgstr "Samo zastavica"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:342
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:258
+msgid "Flag + Language slug"
+msgstr "Zastavica + slug jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:360
+msgid "Flags size:"
+msgstr "Veličina zastavica"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:385
+msgid " Style:"
+msgstr "Stil"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:391
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:264
+msgid "List"
+msgstr "Lista"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:406
+msgid "Combo"
+msgstr "Kombinacija"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:420
+msgid "Translation not available:"
+msgstr "Prevod nije raspoloživ:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:431
+msgid "Add flags to menu:"
+msgstr "Dodaj zastavice meniju:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:7
+msgid "Helps restored succesfully"
+msgstr "Pomoć uspešno vraćena na početne vrednosti"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:23
+msgid "Start wizard"
+msgstr "Pokreni čarobnjaka"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:29
+msgid "Start wizard againg. Current settings will not be erased"
+msgstr "Ponovo pokreni čarobnjaka. Tekuća podešavanja neće biti obrisana"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:39
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:114
+msgid "Restore helps"
+msgstr "Vrati pomoć na početnu vrednost"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:63
+msgid "Automatically assign default language to existing posts"
+msgstr "Automatski dodeli podrazumevani jezik postojećim postovima"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:99
+msgid "Update static page"
+msgstr "Ažuriraj statičku stranicu"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:105
+msgid ""
+"Update Wordpress static page settings. If the plugin set random page as "
+"homepage try to deactivat this option"
+msgstr ""
+"Ažurirajte podešavanja Wordpress statičke stranice. Ako je plugin podesio "
+"nasumičnu stranicu kao početnu stranicu, probajte da deaktivirate ovu opciju."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:112
+msgid "Wizard"
+msgstr "Carobnjak"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:113
+msgid "Update language of existing posts"
+msgstr "Ažuriraj jezik postojećih postova"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:115
+msgid "Update post relations"
+msgstr "Ažuriraj relacije posta"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:116
+msgid "Static page"
+msgstr "Statička stranica"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:119
+msgid "Debug"
+msgstr "Otkloni greške"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/frontend/utils.php:628
+#, php-format
+msgid "%1$ flag"
+msgstr "%1$ zastavica"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:155
+msgid "generated from \"wpml-config.xml\""
+msgstr "Generisano od \"wpml-config.xml\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:186
+msgid ""
+"Current plugins contains WPML Language Configuration Files ( wpml-config."
+"xml )"
+msgstr ""
+"Tekući dodaci sadrže WPML datoteke za konfiguraciju jezika (wpml-config.xml )"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:193
+msgid "officially supported"
+msgstr "zvanično podržani"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:213
+#, php-format
+msgid ""
+"Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</"
+"a> page"
+msgstr ""
+"Sad možete prevesti Admin tekstove/ wp_opcije na stranici <%s>\"Moji prevodi"
+"\"</a> page"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:216
+msgid ""
+"Support to wpml-config.xml is experimental and could not works correctly"
+msgstr ""
+"Podrška za wpml-config.xml je eksperimentalna i može se desiti da ne radi "
+"kako treba."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:302
+#, php-format
+msgid "Go to <%s>My Translations</a> page to translate \"Titles & Metadata\""
+msgstr ""
+"Idite na stranicu <%s>Moji prevodi</a> da biste preveli \"Naslove i meta-"
+"podatke\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:377
+#, php-format
+msgid "Go to <%s>My Translations</a> page to translate \"Title Settings\""
+msgstr ""
+"Idite na stranicu <%s>Moji prevodi</a> da biste preveli \"Podešavanja naslova"
+"\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:406
+msgid "Your theme is designed for WPML"
+msgstr "Vaša tema je napravljena za WPML"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:407
+msgid ""
+"Support for theme compatible with WPML is experimental and could not works "
+"correctly, if you need help contact me."
+msgstr ""
+"Podrška za temu kompatibilnu sa WPML-om je eksperimentalna i može se desiti "
+"da ne radi kako treba. Ako vam je potrebna pomoć, pišite mi."
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:22
+msgid "CML: Recent Posts"
+msgstr "CML: Novi postovi"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:23
+msgid "The most recent posts on your site"
+msgstr "Najnoviji post na vašem site-u"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:109
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:220
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:366
+msgid "Title:"
+msgstr "Naslov:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:114
+msgid "Number of posts to show:"
+msgstr "Broj postova za prikazivanje:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:126
+msgid "CML: Language Chooser"
+msgstr "CML: Birač jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:127
+msgid "Show the list of available languages"
+msgstr "Prikaži listu raspoloživih jezika"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:226
+msgid "Show:"
+msgstr "Prikaži:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:272
+msgid "Flag's size:"
+msgstr "Veličina zastavice:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:294
+msgid "Css ClassName:"
+msgstr "Naziv CSS klase:"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:308
+msgid "CML: Text"
+msgstr "CML: Tekst"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:309
+msgid "You can write arbitrary text or HTML separately for each language"
+msgstr "Možete napisati arbitrarni tekst ili HTML za svaki jezik posebno"
