@@ -17,9 +17,9 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
       echo -1;
     } else
       update_option( 'ceceppaml_admin_advanced_mode', $_POST[ 'mode' ] );
-    die();    
+    die();
   }
- 
+
   /*
    * Save language item
    */
@@ -37,14 +37,14 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
     //Extract data
     if( $data == null ) $data = $_POST[ 'data' ];
     parse_str( $data, $form );
-  
+
     //Uploading custom flag?
     $flag = $form[ 'flag' ];
     $error = "";
-  
+
     if ( isset( $_FILES[ 'flag' ] ) ) {
       $error = cml_admin_upload_custom_get_flag( $form );
-      
+
       $flag = $form[ 'wp-locale' ];
     }
 
@@ -63,7 +63,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
                   "cml_locale" => @$form[ 'wp-locale' ],
                   );
     $data_format = array( "%d", "%d", "%d", "%d", "%d", "%s", "%s", "%s", "%s", "%s" );
-  
+
     $id = intval( $form[ 'id' ] );
 
     //Remove?
@@ -86,10 +86,10 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
                                                       ), $data_format, array( "%d" ) );
       } else {
         $wpdb->insert( CECEPPA_ML_TABLE, $data, $data_format );
-        
+
         //Return the id of inserted element..
         $id = $wpdb->insert_id;
-        
+
         //Add the new column to CECEPPA_ML_RELATIONS
         $sql = sprintf( "ALTER TABLE %s ADD lang_%d bigint(20) NOT NULL DEFAULT 0",
                        CECEPPA_ML_RELATIONS, $id );
@@ -112,14 +112,14 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
       //Try to download language pack
       cml_download_mo_file( @$form[ 'wp-locale' ] );
     }
-    
+
     //update settings
     cml_generate_settings_php();
 
     //generate css
     cml_generate_cml_flags_css();
 
-    if( ! empty( $error ) ) { 
+    if( ! empty( $error ) ) {
       $out = array( "error" => $error );
     }
 
@@ -131,13 +131,13 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
     die();
   }
-  
+
   /*
    * Upload custom flag and store it in "uploads/ceceppaml"
    */
   function cml_admin_upload_custom_get_flag( $form ) {
     $return = "";
-  
+
     //Error?
     if ( $_FILES[ "flag" ][ "error" ] > 0 ) {
       $return .= '<div class="error">';
@@ -145,7 +145,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
       $return .= '</div>';
     } else {
       $imageData = @getimagesize( $_FILES["flag"]["tmp_name"] );
-  
+
       //Check image type... Invalid?
       if( $imageData === FALSE || !( $imageData[2] == IMAGETYPE_GIF || $imageData[2] == IMAGETYPE_JPEG || $imageData[2] == IMAGETYPE_PNG ) ) {
         $return .= '<div class="error">';
@@ -155,21 +155,21 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
         $upload_dir = wp_upload_dir();
         $temp = $_FILES[ "flag" ]["tmp_name"];
         $outname = $form[ 'wp-locale' ] . ".png";
-  
+
         //Resize the image
         list( $width, $height ) = getimagesize( $temp );
         $src = imagecreatefromstring( file_get_contents( $temp ) );
-        
+
         //Make directories
         if( ! is_dir( $upload_dir[ 'basedir' ] . "/ceceppaml/tiny/" ) ) mkdir( $upload_dir[ 'basedir' ] . "/ceceppaml/tiny/" );
         if( ! is_dir( $upload_dir[ 'basedir' ] . "/ceceppaml/small/" ) ) mkdir( $upload_dir[ 'basedir' ] . "/ceceppaml/small/" );
-  
+
         //Tiny
         $out = $upload_dir[ 'basedir' ] . "/ceceppaml/tiny/" . $outname;
         $tiny = imagecreatetruecolor( 16, 11 );
         imagecopyresized( $tiny, $src, 0, 0, 0, 0, 16, 11, $width, $height );
         imagepng( $tiny, $out );
-  
+
         //Small
         $out = $upload_dir[ 'basedir' ] . "/ceceppaml/small/" . $outname;
         $small = imagecreatetruecolor( 32, 23 );
@@ -177,7 +177,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
         imagepng( $small, $out );
       }
     }
-  
+
     return $return;
   }
 
@@ -221,7 +221,7 @@ function cml_admin_save_options_actions() {
     if( ! isset( $_POST[ 'wstep' ] ) ) {
       //Date format
       @update_option('cml_change_date_format', intval( $_POST['date-format'] ) );
-    
+
       //Change locale
       update_option("cml_option_change_locale", intval( @$_POST['change-locale'] ) );
 
@@ -234,7 +234,7 @@ function cml_admin_save_options_actions() {
   $lstep = "";
   if( isset( $_POST[ 'wstep' ] ) ) {
     $lstep = "&wstep=" . intval( $_POST[ 'wstep' ] );
-  } 
+  }
   $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&cml-settings-updated=true' . $lstep ) );
 
   die( json_encode( $return ) );
@@ -253,19 +253,19 @@ function cml_admin_save_options_filters() {
   if( ! isset( $_POST[ 'wstep' ] ) ) {
     //Filter translations
     @update_option("cml_option_filter_translations", intval($_POST['filter-translations']));
-  
+
     //Filter query
     @update_option("cml_option_filter_query", intval($_POST['filter-query']));
-      
+
     //Filter search
     @update_option("cml_option_filter_search", intval($_POST['filter-search']));
     @update_option("cml_option_filter_form_class", esc_html($_POST['filter-form']));
-  
+
     //Translate menu items?
     @update_option( "cml_option_action_menu", intval( $_POST['action-menu'] ) );
     @update_option( 'cml_option_menu_hide_items', intval( $_POST[ 'menu-hide-items' ] ) );
     @update_option( 'cml_option_action_menu_force', intval( $_POST[ 'force-menu' ] ) );
-  
+
     //Comments ( group / ungroup )
     @update_option('cml_option_comments', sanitize_title( $_POST['comments'] ) );
   }
@@ -281,7 +281,7 @@ function cml_admin_save_options_filters() {
 
 function cml_admin_save_options_flags() {
   if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
-  
+
   $page = $_POST[ 'page' ];
   $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
 
@@ -295,25 +295,25 @@ function cml_admin_save_options_flags() {
   @update_option("cml_option_flags_on_the_loop", intval($_POST['flags-on-loop']));
   @update_option("cml_option_flags_on_pos", sanitize_title( $_POST['flags_on_pos'] ) );
   @update_option("cml_options_flags_on_translations", intval( $_POST['flags-translated-only'] ) );
-  
+
   //Size
   @update_option("cml_option_flags_on_size", sanitize_title($_POST['flag-size']));
-  
+
   //Float
   @update_option("cml_add_float_div", intval( $_POST['float-div'] ) );
   $css = addslashes( $_POST['custom-css'] );
   update_option( 'cml_float_css', $css ); //Non posso scrivere su file, sennò ad ogni aggiornamento viene sovrascritto ;)
-  
+
   if( ! file_exists( CML_UPLOAD_DIR ) ) @mkdir( CML_UPLOAD_DIR );
   @file_put_contents( CML_UPLOAD_DIR . "/float.css", $css );
-  
+
   //Show as...
   @update_option( "cml_show_float_items_as", intval( $_POST[ 'float-as' ] ) );
   @update_option( "cml_show_float_items_style", intval( $_POST[ 'float-style' ] ) ); //list or combo?
-  
+
   //Flag size...
   @update_option("cml_show_float_items_size", $_POST['float-size']);
-  
+
   //Append
   @update_option("cml_append_flags", intval($_POST['append-flags']));
   update_option("cml_append_flags_to", esc_html( $_POST['id-class'] ) );
@@ -321,29 +321,29 @@ function cml_admin_save_options_flags() {
 
   //Show as...
   @update_option("cml_show_items_as", intval($_POST['show-items-as']));
-  
+
   //Flag size...
   @update_option( "cml_show_items_size", sanitize_title( $_POST['item-as-size'] ) );
-  
+
   //Menu
   @update_option("cml_add_flags_to_menu", intval($_POST['to-menu']));
-  
+
   //Menu location
   $menus = isset( $_POST['cml_add_items_to'] ) ?
                   $_POST['cml_add_items_to'] : array();
 
   if( ! is_array( $menus ) ) $menus = array();
   @update_option( "cml_add_items_to", $menus );
-  
+
   //Add items as...
   @update_option("cml_add_items_as", intval($_POST['add-as']));
-  
+
   //Show as...
   @update_option("cml_show_in_menu_as", intval($_POST['show-as']));
-  
+
   //Flag size...
   @update_option("cml_show_in_menu_size", sanitize_title( $_POST['submenu-size'] ) );
-  
+
   $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&cml-settings-updated=true' ) );
 
   die( json_encode( $return ) );
@@ -357,12 +357,12 @@ function cml_admin_save_options_flags() {
 ************************/
 function cml_admin_save_site_title() {
   if( ! wp_verify_nonce( $_POST[ "ceceppaml-nonce" ], "security" ) ) die( "-1" );
-  
+
   $page = $_POST[ 'page' ];
   $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
 
   CMLTranslations::delete( "T" );
-  
+
   $blog_title = get_bloginfo( 'name' );
   $blog_tagline = get_bloginfo( 'description' );
 
@@ -376,7 +376,7 @@ function cml_admin_save_site_title() {
     CMLTranslations::set( $id,
                          $blog_tagline,
                          $_POST[ 'tagline' ][ $i ], "T" );
-    
+
     $i++;
   }
 
@@ -425,7 +425,7 @@ function cml_admin_generate_mo() {
   } else {
     $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab ) );
   }
-  
+
   die( json_encode( $return ) );
 }
 
@@ -549,8 +549,11 @@ function cml_backup_import() {
     }
   }
 
+  //I need to force the settings.php re-generation
+  update_option('cml_use_settings_gen', 0);
+
   $json = array( 'url' => add_query_arg( $url,
-                                         admin_url() . "admin.php"
+                                         admin_url() . "admin.php?cml-settings-updated=1"
                                        ) );
 
   die( json_encode( $json ) );

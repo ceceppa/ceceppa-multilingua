@@ -234,6 +234,10 @@ class CeceppaML {
       $this->_category_url_mode = PRE_LANG;
     }
 
+		//Custom post slug translation
+    /* REWRITE RULES */
+    add_action( 'init', array( & $this, 'rewrite_rules' ), 99 );
+
     CMLUtils::_set( 'cml_category_mode', $this->_category_url_mode );
   }
 
@@ -422,6 +426,8 @@ EOT;
   }
 
   function translate_page_link( $permalink, $page, $leavename ) {
+		global $_cml_settings;
+
     if( is_preview() ) {
       return $permalink;
     }
@@ -444,51 +450,40 @@ EOT;
     unset( $this->_force_post_lang );
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
 
+		//Translate custom post slug, if requested link is for a custom one...
+		$slugs = get_option('cml_translated_slugs', array());
+		$customs = array_keys( $slugs );
+
+		if( is_singular( $customs ) ) {
+			$post_obj = get_queried_object();
+			$type = $post_obj->post_type;
+
+			//Translating?
+			// $lang_id = ( empty( $lang ) ) ? CMLLanguage::get_default_id() : $lang->id;
+			$lang_id = CMLUtils::_get( "_forced_language_id", CMLLanguage::get_current_id() );
+			if( $slugs[ $type ]['enabled'] ) {
+				$trans = $slugs[$type][$lang_id];
+
+				if( ! empty( $trans ) ) {
+					$permalink = str_replace( "/{$type}/", "/{$trans}/", $permalink );
+				}
+			}
+		}
+
 /*
  *  Commented out to allow WooCommerce link translation properly ( checkout )
 */
-    if( ! defined( 'CML_WOOCOMMERCE_PATH' ) ) :
+    if( ! defined( 'CML_WOOCOMMERCE_PATH' ) ) {
         if( CMLLanguage::is_current( $lang->id ) ) {
           return CMLPost::remove_extra_number( $permalink, $page );
         }
-    endif;
+    }
 
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
     $permalink = CMLPost::remove_extra_number( $permalink, $page );
 
-    /*
-     * Remove extra "number" from page parent
-     */
-    //if( $page->post_parent > 0 ) {
-    //  $p = get_page( $page->post_parent );
-    //
-    //  //Check if numbers in page slug is > than in page title
-    //  preg_match_all( "/\d+/", $p->post_title, $pout );
-    //  preg_match_all( "/-\d+/", $p->post_name, $out );
-    //
-    //  if( count( $pout[0] ) < count( $out[ 0 ] ) && CMLPost::has_translations( $p->ID ) ) {
-    //    $ppermalink = get_permalink( $page->post_parent );
-    //
-    //    die();
-    //  }
-    //}
-
     return $this->convert_url( $permalink, $slug );
   }
-
-  /**
-   * Check if the language slug is missing in the url, force the redirect
-   * to correct one, to avoid "duplicated links".
-   * This because wp does redirect only for post, not for page :(
-   */
-//  function translate__page_link( $link, $post_id ) {
-//    if( CMLUtils::_get( '_getting_real_page_link' ) == 1 ) return $link;
-//
-//    CMLUtils::_set( '_getting_real_page_link', 1 );
-//    echo get_page_link( $post_id );
-//    echo $link;
-//    die();
-//  }
 
   /*
    * change ( wrong? ) language slug in url
@@ -562,6 +557,26 @@ EOT;
   function get_url() {
     return $this->_url;
   }
+
+	function rewrite_rules() {
+		$slugs = get_option( "cml_translated_slugs", array() );
+		foreach( $slugs as $key => $slug ) {
+			if( $slug[ 'enabled' ] == 0 ) continue;
+
+			foreach( CMLLanguage::get_no_default() as $lang ) {
+				if( ! isset( $slug[ $lang->id ] ) ) continue;
+
+				$category = $slug[ $lang->id ];
+
+				add_rewrite_rule( $category . '/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$','index.php?' . $key . '=$matches[1]&feed=$matches[2]', 'top' );
+				add_rewrite_rule( $category . '/(.+?)/(feed|rdf|rss|rss2|atom)/?$','index.php?' . $key . '=$matches[1]&feed=$matches[2]', 'top' );
+				add_rewrite_rule( $category . '/(.+?)/page/?([0-9]{1,})/?$','index.php?' . $key . '=$matches[1]&paged=$matches[2]', 'top' );
+				add_rewrite_rule( $category . '/(.+?)/?$','index.php?' . $key . '=$matches[1]', 'top' );
+			}
+		}
+
+   flush_rewrite_rules();
+	}
 
   /*
    *

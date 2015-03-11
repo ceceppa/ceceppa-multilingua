@@ -45,7 +45,6 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
         //Translated slugs
         $translated = get_option( "cml_translated_slugs", array() );
-
         $alternate = "";
         $i = 0;
         foreach( $post_types as $post_type ) :
@@ -68,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
           ?>
            <div class="cml-myt-flag ">
              <?php echo CMLLanguage::get_flag_img( $lang ); ?>
-            <input type="text" name="tslug[<?php echo $i ?>][<?php echo $lang->id ?>]" value="<?php echo @$translated[ $post_type ][ $lang->slug ] ?>" placeholder="<?php _e( "Leave empty if you don't want to translate this slug", "ceceppaml" ) ?>" style="width: 90%" />
+            <input type="text" name="tslug[<?php echo $i ?>][<?php echo $lang->id ?>]" value="<?php echo @$translated[ $post_type ][ $lang->id ] ?>" placeholder="<?php _e( "Leave empty if you don't want to translate this slug", "ceceppaml" ) ?>" style="width: 90%" />
           </div>
           <?php
             endforeach;

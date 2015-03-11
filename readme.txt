@@ -184,6 +184,11 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * Added serbian thanks to ( http://www.webhostinghub.com )
 * Added support to hreflang tag
 * Fixed feed when "Do nothing" filter is selected
+* Added settings backup/restore
+* Fixed sitemap generation
+* various bug fixes
+* Now you can easily translate any custom post slug
+* forced redirect for translated post/page permalink
 
 = 1.4.37 =
 * Added warning in languages page if all the changes are not saved yet

@@ -12,7 +12,7 @@ if( isset( $_GET[ 'cml-settings-updated' ] ) ) {
 /*
  * Generate file "settings.php"
  * for reduce calls to database :)
- * 
+ *
  */
 function cml_generate_settings_php( $filename = "",
                                     $_cml_settings = null,
@@ -54,7 +54,7 @@ function cml_generate_settings_php( $filename = "",
       $row[] = $var_name . '[ "' . $key . '"] = ' . $val . ';';
     }
   }
-  
+
   if( $flag == 0 ) {
       $row[] = "\n";
       foreach( $GLOBALS[ '_cml_language_columns' ] as $key => $value ) {
@@ -101,7 +101,7 @@ function cml_generate_lang_columns() {
  */
 function cml_generate_mo_from_translations( $type = null, $echo = false ) {
   global $wpdb;
-  
+
   if( CMLUtils::_get( 'no_generate', false ) ) return;
 
   require_once( CML_PLUGIN_ADMIN_PATH . 'php-mo.php' );
@@ -132,7 +132,7 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
 
     //.po header
     $h = file_get_contents( CML_PLUGIN_ADMIN_PATH . "header.po" );
-    
+
     $user = wp_get_current_user();
     $h = str_replace( '%PROJECT%', "cml_translations", $h );
     $h = str_replace( '%AUTHOR%', $user->user_firstname . " " . $user->user_lastname, $h );
@@ -169,12 +169,12 @@ function cml_generate_mo_from_translations( $type = null, $echo = false ) {
     _cml_generate_menu_meta( $fp );
 
     fclose( $fp );
-    
+
     //Convert .po in .mo
     try {
       //Tadaaaaa, file generato... genero il .mo
       phpmo_convert( $filename );
-      
+
       //update_option( "cml_get_translation_from_po_$type", true );
       update_option( "cml_get_translation_from_po", 1 );
     } catch (Exception $e) {
@@ -211,7 +211,7 @@ function _cml_generate_translations( & $fp ) {
         fwrite( $fp, $s );
       }
     }
-    
+
     $t = null;
   }
 }
@@ -243,7 +243,7 @@ function _cml_generate_menu_meta( & $fp ) {
 
   $query = "SELECT * FROM  $wpdb->postmeta WHERE  `meta_key` LIKE  '_cml_menu_meta_%'";
   $rows = $wpdb->get_results( $query );
-  
+
   foreach( $rows as $row ) {
     $msgid = "{$row->meta_key}_{$row->post_id}";
 
@@ -286,7 +286,7 @@ EOT;
   }
 
   if( ! is_dir( CML_PLUGIN_CACHE_PATH ) ) mkdir( CML_PLUGIN_CACHE_PATH );
-  
+
   $css = join( "\n", $tiny ) . "\n" . join( "\n", $small );
   @file_put_contents( CML_PLUGIN_CACHE_PATH . "cml_flags.css", $css );
 }

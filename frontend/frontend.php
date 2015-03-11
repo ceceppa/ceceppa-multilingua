@@ -211,6 +211,17 @@ class CMLFrontend extends CeceppaML {
 
     //Add hreflang tag
     add_action('wp_head', array( & $this, 'add_hreflang') );
+
+    /*
+     * Sometimes wp doesn't redirect a page to it's "correct" language link.
+     * And so, the page is available with and withouth the language slug...
+     * And even if the user choosed to translate the permalink, the page is "available"
+     * with original and translated permalink...
+     * This code jst check if a redirect if required, if so force it...
+     */
+     if( ! empty( $this->_permalink_structure ) ) {
+       add_action( 'template_redirect', array( & $this, 'force_redirect' ), 99 );
+     }
   }
 
   /*
@@ -929,9 +940,10 @@ EOT;
   function translate_menu_item( $item ) {
     global $_cml_settings;
 
-    //Se l'utente ha scelto un menu differente per la lingua corrente
-    //non devo applicare nessun tipo di filtro agli elementi del menu, esco :)
-    //Questo è vero solo per le pagine... altrimenti non mi traduce il nome delle categorie
+    /*
+     * If the user selected a different for the current language I don't have to
+     * apply any filter to its items... quit :)
+     */
     if( $this->_no_translate_menu_item == true ) { //&& $item->object == 'page' ) {
       remove_filter( 'wp_setup_nav_menu_item', array( & $this, 'translate_menu_item') );
       return $item;
@@ -2041,6 +2053,35 @@ EOT;
 
       wp_redirect( $location );
       exit;
+    }
+  }
+
+  /**
+   * Force the permalink to be redirect to the corrent url
+   */
+  function force_redirect( $requested_url = null, $do_redirect = true ) {
+    /*
+     * For the custom post types the function get_permalink is not called, or anyway
+     * it isn't before this one...
+     */
+    if( ! is_singular() ) return;
+
+    if ( !$requested_url ) {
+  		// build the URL in the address bar
+  		$requested_url  = is_ssl() ? 'https://' : 'http://';
+  		$requested_url .= $_SERVER['HTTP_HOST'];
+  		$requested_url .= $_SERVER['REQUEST_URI'];
+      $original = $requested_url;
+  	}
+
+    $id = get_queried_object_id();
+    $translated = get_permalink( $id );
+
+    //No redirect
+    if( null == $original || null == $translated ) return;
+
+    if( $original != $translated ) {
+      wp_redirect($translated, 301);
     }
   }
 
