@@ -13,8 +13,6 @@ if( $supports_html5_storage ) {
 
     if( old == null || old.id != ceceppa_ml.id ) {
       sessionStorage.clear();
-
-      console.log( "Clear" );
     }
   }
 
