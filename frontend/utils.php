@@ -180,11 +180,30 @@ function cml_get_page_by_path($page_path, $output = OBJECT, $post_type = array('
 function cml_get_the_link( $lang, $linked = true, $only_existings = false, $queried = true ) {
   global $wpCeceppaML, $_cml_settings;
 
+  //Extra link parameters
+  $args = array();
+  if( $queried ) {
+    if( null == CMLUtils::_get( '_query_string', null ) ) {
+      $parameters = explode( "&", $_SERVER[ 'QUERY_STRING' ] );
+
+      foreach( $parameters as $p ) {
+        list( $key, $val ) = explode( "=", $p );
+
+        $args[ $key ] = $val;
+      }
+
+      //Avoid to calculate this array for each call...
+      CMLUtils::_set( '_query_string', $args );
+    } else {
+      $args = CMLUtils::_get( '_query_string', array() );
+    }
+  }
+
   if( ! is_object( $lang ) ) {
       $lang = CMLLanguage::get_by_slug( $lang );
   }
 
-  if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {
+  if( $queried && ( cml_is_homepage() || is_search() ) ) { //&& cml_use_static_page() ) {rs
     //current page is homepage?
     $link = CMLUtils::get_home_url( $lang->cml_language_slug );
 
@@ -401,7 +420,9 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
           $l = cml_get_linked_post( $the_id, CMLLanguage::get_default_id() );
 
           if( $l == $the_id ) {
-            return add_query_arg( array( "lang" => $lang->cml_language_slug ), get_permalink( $l ) );
+            $lang = array( "lang" => $lang->cml_language_slug );
+            $args = array_merge( $lang, $args );
+            return add_query_arg( $args, get_permalink( $l ) );
           }
         }
 
@@ -452,7 +473,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
     }
   }
 
-  return $link;
+  return add_query_arg( $args, $link );
 }
 
 /**
@@ -600,7 +621,7 @@ function cml_show_flags( $args ) {
                       "linked" => true,
                       "only_existings" => false,
                       "sort" => false,
-                      "queried" => false,
+                      "queried" => true,
                       "show_flag" => true,
                       ), $args ) );
 

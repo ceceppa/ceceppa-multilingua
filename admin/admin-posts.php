@@ -21,7 +21,7 @@ function cml_admin_post_meta_box( $tag ) {
   _e( 'Language', 'ceceppaml' );
   echo '<span class="cml-help cml-pointer-help cml-post-help"></span>';
   echo "</h4>";
-  
+
   //Fix "All languages" issue
   $meta_lang = get_post_meta( $tag->ID, "_cml_lang_id", true );
   if( empty( $meta_lang ) ) $meta_lang = CMLPost::get_language_id_by_id( $tag->ID, true );
@@ -37,50 +37,19 @@ function cml_admin_post_meta_box( $tag ) {
   //Linked post?
   if( isset( $_GET[ 'link-to' ] ) ) {
     $link_id = intval( $_GET[ 'link-to' ] );
-    
-    /* recover category from linked id */
-    $categories = wp_get_post_categories( $link_id );
-    if( ! empty( $categories ) ) {
-      if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW &&
-         ! CMLLanguage::is_default( $post_lang ) ) {
-          $c = array();
-          foreach( $categories as $cat ) {
-            $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
-                                  CECEPPA_ML_CATS, $post_lang, $cat );
-  
-            $c[] = $wpdb->get_var( $query );
-          } //endforeach;
-  
-          if( ! empty( $c ) ) {
-            $categories = $c;
-          }
-        } //endif
-      
-      wp_set_post_categories( $tag->ID, $categories );
-    } // ! empty
 
-    /* recover tags */
-    $tags = wp_get_post_tags( $link_id );
-    if( ! empty( $tags ) ) {
-      $ltags = array();
-      foreach( $tags as $t ) {
-        $ltags[] = ( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
-                      $t->name :
-                      CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
-      }
-
-      wp_set_post_tags( $tag->ID, $ltags );
-    }
+    //Clone categories & tags
+    _cml_clone_taxonomies( $linked_id, $tag->ID, $post_lang );
 
     //for page get parent
     $post = get_post( $link_id );
-    
+
     //Has translation?
     $parent_t = CMLPost::get_translation( $post_lang, $post->post_parent );
     $tag->post_parent = ( ! empty( $parent_t ) ) ? $parent_t : $post->post_parent;
-    
+
     //Clone post meta
-    _cml_clone_post_meta( $link_id, $tag->ID ); 
+    _cml_clone_post_meta( $link_id, $tag->ID );
   } else {
     $link_id = 0;
   }
@@ -97,7 +66,7 @@ function cml_admin_post_meta_box( $tag ) {
   echo '<ul class="cml-post-translations">';
   foreach( CMLLanguage::get_all() as $lang ) {
     if( $lang->id == $post_lang ) continue;
-    
+
     //Translation id
     $t_id = @$translations[ $lang->cml_language_slug ];
     $class = ( empty( $t_id ) ) ? "no-traslation" : "" ;
@@ -107,7 +76,7 @@ function cml_admin_post_meta_box( $tag ) {
     $title = empty( $class ) ? get_the_title( $t_id ) : "";
 
     $href = admin_url() . "post-new.php?post_type={$tag->post_type}&link-to={$tag->ID}&post-lang={$lang->id}";
-    
+
     $GLOBALS[ '_cml_no_translate_home_url' ] = 1;
     $link = empty( $t_id ) ? $href : get_edit_post_link( $t_id );
     unset( $GLOBALS[ '_cml_no_translate_home_url' ] );
@@ -117,7 +86,7 @@ function cml_admin_post_meta_box( $tag ) {
     echo "<a href=\"$link\" class=\"button cml-button-$bclass tipsy-s\" title=\"$msg\"></a>";
     echo " </li>";
   }
-  
+
   echo "</ul>";
 
   /*
@@ -162,7 +131,7 @@ function cml_admin_post_meta_box( $tag ) {
             <?php echo CMLLanguage::get_flag_img( CMLLanguage::get_default_id(), CML_FLAG_SMALL ); ?>
           </span>
         </label>
-        
+
         <label class="tipsy-me" title="<?php _e( "Tiny", 'ceceppaml' ) ?>">
           <input type="radio" id="cml-flagsize[]" name="cml-flagsize" value="tiny"  <?php checked( $size, CML_FLAG_TINY ) ?>/>
           <span>
@@ -234,7 +203,7 @@ function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id, $
 
   $posts = new WP_Query( $args );
 
-  $notrans = ""; 
+  $notrans = "";
   $none = __( 'None', 'ceceppaml' );
   $title = ( ! empty( $linked_id ) ) ? get_the_title( $linked_id ) : $notrans;
   $src = CMLLanguage::get_flag_src( $lang );
@@ -292,11 +261,14 @@ EOT;
   CMLUtils::_del( '_cml_no_filter_query', 1 );
 }
 
-/* 
+/*
  * Salvo il collegamento tra i post
  */
 function cml_admin_save_extra_post_fields( $term_id ) {
   global $wpdb, $pagenow;
+
+  //quick edit mode is storing/updating a translation...do nothing :)
+  if( 1 === CMLUtils::_get( '_no_store' ) ) return;
 
   //This function is also called on "comment" edit, and this will cause "language relations" lost...
   if( ! isset( $_POST[ 'post_type' ] ) ) return;
@@ -354,7 +326,54 @@ function cml_admin_save_extra_post_fields( $term_id ) {
 
   CMLPost::set_translations( $post_id, $linkeds, $post_lang );
 
+  //Quick edit mode, store the translations
+  cml_store_quick_edit_translations( $term_id );
+
   update_post_meta( $post_id, "_cml_lang_id", $post_lang );
+
+  CMLUtils::_del( '_no_store' );
+}
+
+function cml_store_quick_edit_translations( $term_id ) {
+  CMLUtils::_set( '_no_store', 1 );
+
+  foreach( CMLLanguage::get_no_default() as $lang ) {
+    //No title, skip...
+    if( ! isset( $_POST[ 'cml_post_title_' . $lang->id ] ) ) continue;
+
+    //Translation id
+    $t_id = intval( $_POST[ 'linked_post'][ $lang->id ] );
+
+    $my_post = array(
+                'post_title'    => $_POST[ 'cml_post_title_' . $lang->id ],
+                'post_content'  => $_POST[ 'ceceppaml_content_' . $lang->id ],
+                // 'post_status'   => 'publish',
+                // 'post_author'   => 1,
+                // 'post_category' => array(8,39)
+              );
+
+    //New translation?
+    if( $t_id == 0 ) {
+      $t_id = wp_insert_post( $my_post );
+
+      //Clone the categories
+      _cml_clone_taxonomies( $term_id, $t_id, $lang->id );
+
+      //Clone the meta
+      _cml_clone_post_meta( $term_id, $t_id );
+
+      //Clone the date
+      $datetime = get_post_time( 'Y-m-d H:i:s', false, $term_id );
+      $my_post[ 'post_date' ] = $datetime;
+    } else {
+      $my_post[ 'ID' ] = $t_id;
+      wp_update_post( $my_post );
+    }
+
+    update_post_meta( $t_id, "_cml_lang_id", $lang->id );
+
+    CMLPost::set_translation( $term_id, $lang->id, $t_id );
+  }
 }
 
 /*
@@ -395,7 +414,7 @@ function cml_admin_add_flag_column( $col_name, $id ) {
 
   //Recupero la lingua del post/pagina
   $xid = CMLPost::get_language_id_by_id( $id );
-  
+
   $langs = cml_get_languages( false );
   $linked = CMLPost::get_translations( $id, true );
 
@@ -409,14 +428,14 @@ function cml_admin_add_flag_column( $col_name, $id ) {
       echo '<a href="' . get_edit_post_link($link) . '">';
       echo '    <img class="tipsy-me" src="' . cml_get_flag_by_lang_id($lang->id, "tiny") . '" title="' . __('Edit post: ', 'ceceppaml') . $title . '"/>';
       echo '</a>';
-      
+
     } else {
       echo '<a href="' . get_bloginfo( "wpurl" ) . '/wp-admin/post-new.php?post_type=' . $post_type . '&link-to=' . $id . '&post-lang=' . $lang->id . '">';
       echo '    <img class="add tipsy-me" src="' . CML_PLUGIN_URL . 'images/edit.png" title="' . __( 'Translate in:', 'ceceppaml' ) . ' ' . $lang->cml_language . '" />';
       echo '</a>';
     }
   }
-  
+
   unset( $GLOBALS[ '_cml_no_translate_home_url' ] );
 }
 
@@ -469,7 +488,7 @@ EOT;
 
 function cml_admin_add_meta_boxes() {
   //Add metabox to custom posts
-  $post_types = get_post_types( array( '_builtin' => FALSE ), 'names'); 
+  $post_types = get_post_types( array( '_builtin' => FALSE ), 'names');
   $post_types[] = "post";
   $post_types[] = "page";
 
@@ -532,7 +551,7 @@ function cml_admin_filter_all_posts_page() {
                                                   array( "draft", "trash" ) ) )
   $d = 0;
   $d = isset( $_GET[ 'cml-lang' ] ) ? $_GET[ 'cml-lang' ] : $d;
-   
+
   //Check if language filtering is disabled for this post type
   $is_disabled = get_hidden_columns( get_current_screen() );
 
@@ -544,7 +563,7 @@ function cml_admin_filter_all_posts_page() {
   if( in_array( "cml_flags", $is_disabled ) ) {
       if( ! in_array( $post_type, $list ) ) {
           $list[] = $post_type;
-          
+
           update_option( "_cml_ignore_post_type", $list );
       }
 
@@ -567,7 +586,7 @@ function cml_admin_filter_all_posts_page() {
 
 function cml_admin_filter_all_posts_query( $query ) {
   global $pagenow, $wpdb;
-  
+
   //$this->_no_filter_query is set when the function "quick_edit_box_posts" is called,
   //I have to exit from that function or all WP_Query return only items in current language...
   if( null !== CMLUtils::_get( '_cml_no_filter_query' ) ) return $query;
@@ -577,7 +596,7 @@ function cml_admin_filter_all_posts_query( $query ) {
   else
       $post_type = $_GET[ 'post_type' ];
 
-  $post_types = get_post_types( array( '_builtin' => TRUE ), 'names'); 
+  $post_types = get_post_types( array( '_builtin' => TRUE ), 'names');
   $post_types = apply_filters( 'cml_manage_post_types', $post_types );
   if( ! in_array( $post_type, $post_types ) ) return $query;
 
@@ -585,10 +604,10 @@ function cml_admin_filter_all_posts_query( $query ) {
   $d = CMLLanguage::get_default_id();
   if( isset( $_GET[ 'post_status' ] ) && in_array( $_GET[ 'post_status' ], array( "draft", "trash" ) ) ) $d = 0;
   $id = array_key_exists('cml-lang', $_GET) ? intval($_GET['cml-lang']) : $d;
-  
+
   if( is_admin() && $pagenow == "edit.php" ) {
     //Show language filtering feature
-    if( isset( $_GET[ 'hide-filtering-notice' ] ) ) 
+    if( isset( $_GET[ 'hide-filtering-notice' ] ) )
         update_option( '_cml_hide_filtering_notice', 1 );
 
     if( ! get_option( "_cml_hide_filtering_notice", 0 ) ) {
@@ -609,7 +628,7 @@ function _cml_show_filtering_notice() {
     $msg = __( 'You can easily disable/enable language filtering for current post type, ', 'ceceppaml' );
     $msg .= __( 'using the "Enable language filtering" in the "Screen Option" section', 'ceceppaml' );
     $close = __( 'Close', 'ceceppaml' );
-    
+
     $link = add_query_arg( array( "hide-filtering-notice" => 1 ) );
 
 echo <<< NOTICE
@@ -649,6 +668,42 @@ function cml_admin_delete_extra_post_fields( $id ) {
 
   //Ricreo la struttura degli articoli, questo metodo rallenterà soltanto chi scrive l'articolo... tollerabile :D
   cml_fix_rebuild_posts_info();
+}
+
+/*
+ * Clone the taxonomies from original post to its translation
+ */
+function _cml_clone_taxonomies( $from, $to, $post_lang ) {
+  /* recover category from linked id */
+  $categories = wp_get_post_categories( $link_id );
+  if( ! empty( $categories ) ) {
+    $c = array();
+    foreach( $categories as $cat ) {
+      $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
+                            CECEPPA_ML_CATS, $post_lang, $cat );
+
+      $c[] = $wpdb->get_var( $query );
+    } //endforeach;
+
+    if( ! empty( $c ) ) {
+      $categories = $c;
+    }
+
+    wp_set_post_categories( $to, $categories );
+  } // ! empty
+
+  /* recover tags */
+  $tags = wp_get_post_tags( $from );
+  if( ! empty( $tags ) ) {
+    $ltags = array();
+    foreach( $tags as $t ) {
+      $ltags[] = ( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
+                    $t->name :
+                    CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
+    }
+
+    wp_set_post_tags( $ID, $ltags );
+  }
 }
 
 /*
@@ -692,7 +747,7 @@ function cml_manage_posts_columns() {
 
 function cml_disable_filtering( $types ) {
   static $list = null;
-    
+
   //Ignored post types
   if( $list == null ) {
     $list = get_option( "_cml_ignore_post_type", array() );
@@ -708,8 +763,89 @@ function cml_clone_post_data( $data ) {
   $id = intval( $_GET[ 'link-to' ] );
   $datetime = get_post_time( 'Y-m-d H:i:s', false, $id );
   $data[ 'post_date' ] = $datetime;
-  
+
   return $data;
+}
+
+/**
+ * quick edit mode... allow to see and translate the current document in multiple languages
+ */
+function cml_quick_edit_mode_editor( $post ) {
+  $tabs = "";
+  $titles = "";
+  $editors = "";
+  $permalinks = "";
+
+  $view = __( 'View', 'ceceppaml' );
+
+  $url = "";
+
+  //Translations
+  $translations = CMLPost::get_translations( $post->ID );
+	foreach( CMLLanguage::get_all() as $lang ) :
+    $title = $content = $short = "";
+
+    //Translated id
+    $t_id = $translations[ $lang->cml_language_slug ];
+
+		$label = sprintf( __( 'Title in %s', 'ceceppaml' ), $lang->cml_language );
+
+		$img = CMLLanguage::get_flag_src( $lang->id );
+
+    if( $t_id > 0 ) {
+      $t = get_post( $t_id );
+  		$title = $t->post_title;
+  		$content = $t->post_content;
+    }
+
+		if( ! $lang->cml_default ) :
+$titles .= <<< EOT
+<div id="titlewrap" class="cml-hidden ceceppaml-titlewrap">
+	<img class="tipsy-s" title="$label" src="$img" />
+	<input type="text" class="ceceppaml-title" name="cml_post_title_{$lang->id}" size="30" id="title_{$lang->id}" autocomplete="off" value="$title" placeholder="$label" />
+</div>
+EOT;
+
+      $url = ( $t_id > 0 ) ? get_permalink( $t_id ) : "";
+$permalinks .= <<< EOT
+<div id="edit-slug-box" class="cml-permalink hide-if-no-js" cml-lang="$lang->id">
+    <input type="hidden" name="custom_permalink_$lang->id" class="custom-permalink" value="$url" />
+	<strong><img class="tipsy-s" title="$label" src="$img" /></strong>
+    <span id="sample-permalink" tabindex="-1">$url</span>
+    <span id="view-post-btn" class="cml-view-product"><a href="javascript:void(0)" class="button button-small" target="_blank">$view</a></span>
+    <span class="spinner ceceppaml-spinner">&nbsp;</span>
+</div>
+EOT;
+  endif;
+
+	$active = ( $lang->cml_default ) ? "nav-tab-active" : "";
+
+	if( ! $lang->cml_default )  {
+		echo '<div id="ceceppaml-editor" class="ceceppaml-editor-' . $lang->id . ' ceceppaml-editor-wrapper cml-hidden postarea edit-form-section">';
+			wp_editor( htmlspecialchars_decode( $content ), "ceceppaml_content_" . $lang->id );
+		echo '</div>';
+	}
+
+	$img = CMLLanguage::get_flag_img( $lang->id );
+
+$tabs .= <<< EOT
+	<a id="ceceppaml-editor-$lang->id" class="nav-tab $active ceceppaml-switch" onclick="CML_QEM.switchTo( $lang->id, '' );">
+		$img
+		$lang->cml_language
+	</a>
+EOT;
+  	endforeach;
+
+		echo $titles;
+    echo $permalinks;
+
+		echo '<h2 class="nav-tab-wrapper ceceppaml-nav-tab">&nbsp;&nbsp;';
+		echo $tabs;
+		echo '</h2>';
+
+		echo '<h2 class="nav-tab-wrapper ceceppaml-short-nav-tab ceceppaml-nav-tab cml-hidden">&nbsp;&nbsp;';
+		echo $short_tabs;
+		echo '</h2>';
 }
 
 //Manage all posts columns
@@ -719,6 +855,7 @@ add_action( 'admin_init', 'cml_manage_posts_columns', 10 );
 add_action( 'add_meta_boxes', 'cml_admin_add_meta_boxes' );
 
 //Save language & translations info
+add_action( 'save_post', 'cml_admin_save_extra_post_fields' );
 add_action( 'edit_post', 'cml_admin_save_extra_post_fields' );
 add_action( 'edit_page_form', 'cml_admin_save_extra_post_fields' );
 add_action( 'publish_my_custom_post_type', 'cml_admin_save_extra_post_fields' );
@@ -738,3 +875,6 @@ add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
 
 //Clone the post date
 add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );
+
+//Quick edit mode
+// add_action( 'edit_form_after_title', 'cml_quick_edit_mode_editor', 10, 1 );

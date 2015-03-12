@@ -266,8 +266,12 @@ class CMLFrontend extends CeceppaML {
   function add_flags_on_title( $title, $id = -1 ) {
     global $_cml_settings;
 
+    //If SEO meta tag title is empty, yoast call the_title, so I have to avoid
+    //to put the flags in the header...
+    if( 1 !== CMLUtils::_get( '_after_wp_head') ) return $title;
+
     if( ( ! is_singular() && ! cml_is_custom_post_type() ) ||
-        is_archive() ) {
+        is_archive() || is_feed() ) {
       return $title;
     }
 
@@ -333,6 +337,9 @@ class CMLFrontend extends CeceppaML {
    */
   function add_flags_on_content( $content ) {
     global $_cml_settings;
+
+    //Avoid to put flags into the header meta description field, for a post with empty SEO...
+    if( is_feed() || 1 !== CMLUtils::_get( '_after_wp_head') ) return $content;
 
     //The post override current flags settings?
     $override = false;
@@ -2080,6 +2087,10 @@ EOT;
     //No redirect
     if( null == $original || null == $translated ) return;
 
+    //Remove all the parameters ?###
+    $original = preg_replace( '/\?.*/', '', $original );
+    $translated = preg_replace( '/\?.*/', '', $original );
+
     if( $original != $translated ) {
       wp_redirect($translated, 301);
     }
@@ -2160,5 +2171,7 @@ EOT;
     }
 
     echo join( "\n", $head_link ) . "\n";
+
+    CMLUtils::_set( '_after_wp_head', 1 );
   }
 }

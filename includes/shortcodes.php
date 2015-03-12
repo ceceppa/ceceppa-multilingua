@@ -5,16 +5,16 @@
   * restituita la stringa associata alla lingua di default
   *
   *  cml_text - serve a tradurre stringhe in verie lingue.
-  *      Utilizzo: 
+  *      Utilizzo:
   *       [cml_text lingua1="valore" lingua2="valore" ...]
   *
-  *      Esempio: 
+  *      Esempio:
   *       [cml_text it="Stringa in italiano" en="String in English" epo="Teksto en Esperanto"]
   *
   *  cml_shortcode - serve a eseguire un'altro shortcode e passargli parametri in base alla lingua
   *    Utilizzo:
   *      [cml_shortcode shortcode="[shortcode]" [parameters]="[valore]" [languages]="[elenco_valori]"
-  *        
+  *
   *      @shortcode - nome dello shortcode da eseguire
   *      @params - parametri "fissi" da passare allo shortcode
   *      @[languages] - serve a specificare valori per ogni lingua
@@ -34,7 +34,7 @@
   *        @size - dimensione dell'immagine. I valori possibili sono
   *                "tiny" = 20x15
   *                "small" = 80x55
-  *        
+  *
   */
 add_shortcode( "cml_text", 'cml_shortcode_text' );
 add_shortcode( "cml_shortcode", 'cml_do_shortcode' );
@@ -65,9 +65,9 @@ function cml_shortcode_text($attrs) {
 function cml_shortcode_translate( $attrs ) {
   global $wpCeceppaML;
 
-  extract(shortcode_atts( array( "string" => "", 
+  extract(shortcode_atts( array( "string" => "",
                                 "in" => "" ), $attrs ) );
-  
+
   $id = ( ! empty( $in ) ) ? CMLLanguage::get_by_slug( $in ) : CMLLanguage::get_current_id();
 
   return cml_translate( $string, $id );
@@ -78,7 +78,7 @@ function cml_do_shortcode( $attrs, $content = null ) {
 
   $shortcode = $attrs['shortcode'];
   $params = @$attrs['params'];
-  
+
   $lang = @$attrs[ CMLLanguage::get_current_slug() ];
 
   if( null == $content ) {
@@ -86,14 +86,14 @@ function cml_do_shortcode( $attrs, $content = null ) {
   } else {
     $do = "[$shortcode $params $lang]" . $content . "[/$shortcode]";
   }
-  
+
   return do_shortcode( $do );
 }
 
 function cml_show_available_langs( $args ) {
   $args[ 'only_existings' ] = true;
   $args[ 'sort' ] = false;
-  $args[ 'queried' ] = false;
+  $args[ 'queried' ] = true;
 
   return cml_show_flags( $args );
 }
@@ -106,7 +106,7 @@ function cml_shortcode_other_langs_available( $attrs ) {
 
   if( CMLPost::has_translations( $id ) )
     return cml_show_available_langs( $attrs );
-    
+
   return "";
 }
 
@@ -115,7 +115,7 @@ function cml_shortcode_show_flags($attrs) {
     $args[ 'queried' ] = false;
   }
 
-  return cml_show_flags( $attrs ); 
+  return cml_show_flags( $attrs );
 }
 
 function cml_quick_shortcode( $attrs, $content = null, $shortcode ) {
@@ -147,7 +147,7 @@ function cml_quick_shortcode_qml( $attrs, $content = null, $shortcode ) {
 
 function cml_translate_media_alt( $attrs, $content ) {
   $lang = CMLLanguage::get_current_id();
-  
+
   if( CMLLanguage::is_default( $lang ) ) return $content;
 
   $id = $attrs[ 'id' ];
@@ -155,10 +155,10 @@ function cml_translate_media_alt( $attrs, $content ) {
   $meta = get_post_meta( $id, '_cml_media_meta', true );
   if( isset( $meta[ 'alternative-' . $lang ] ) &&
       ! empty( $meta[ 'alternative-' . $lang ] ) ) {
-    
+
     return $meta[ 'alternative-' . $lang ];
   }
-  
+
   return $content;
 }
 ?>
