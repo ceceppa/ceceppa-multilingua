@@ -3,7 +3,7 @@ $supports_html5_storage = ( 'sessionStorage' in window && window.sessionStorage 
 if( $supports_html5_storage ) {
   //Old lang?
   var old = sessionStorage.getItem( 'ceceppa_ml' );
-  
+
   if( old != null ) {
     old = JSON.parse( old );
   }
@@ -14,7 +14,7 @@ if( $supports_html5_storage ) {
     if( old == null || old.id != ceceppa_ml.id ) {
       sessionStorage.clear();
 
-      console.log( "Clear" );
+      // console.log( "Clear" );
     }
   }
 
@@ -27,18 +27,18 @@ jQuery(document).ready( function( $ ) {
     $ul.find( "*" ).removeClass( 'item-hidden' );
 
     $a = $ul.find( '> li > a' );
-    
+
     $( $ul.find( '> li > a' ) ).html( $( this ).html() );
     $( this ).parent().addClass( 'item-hidden' );
-    
+
     if ( $a.attr( 'cml-lang' ) == "x" ) {
       $ul.find( "li.cml-lang-x" ).show();
     }
-    
+
     $ul.find( 'input' ).val( $( this ).attr( 'cml-lang' ) );
     $ul.find( 'ul' ).css( 'visibility', 'hidden' );
   });
-  
+
   $( 'ul.cml-lang-js-sel' ).mouseover( function() {
     $( this ).find( 'ul' ).removeAttr( 'style' );
   });

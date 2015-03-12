@@ -52,7 +52,7 @@ jQuery(document).ready( function($) {
         $form.find( '.cml-submit-button > .wpspinner > .spinner' ).fadeOut();
         $data = null;
 
-        console.log( data );
+        // console.log( data );
         if ( data == "-1" ) {
           alert( 'Failed!!!' );
           return;

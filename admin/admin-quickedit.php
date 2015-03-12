@@ -33,7 +33,7 @@ function cml_admin_quick_edit_box( $column_name, $post_type ) {
 
 function cml_admin_quick_edit_box_posts( $post_type ) {
   $langs = CMLLanguage::get_all();
-  
+
   $d = CMLLanguage::get_default_id();
   if( isset( $_GET[ 'post_status' ] ) && in_array( $_GET[ 'post_status' ], array( "draft", "trash" ) ) )
     $d = 0;
@@ -62,15 +62,15 @@ function cml_admin_quick_edit_box_posts( $post_type ) {
     <?php
       while( $posts->have_posts() ) {
         $posts->next_post();
-  
+
         $post = $posts->post;
-  
+
         //Seleziono il post corretto da quickedit.php
         $lang_id = CMLPost::get_language_id_by_id( $post->ID );
         $slug = CMLLanguage::get_slug( $lang_id );
         echo "<option value=\"$post->ID\">$post->post_title ( $slug )</option>";
       }
-      
+
       wp_reset_postdata();
     ?>
       </select>
@@ -81,19 +81,19 @@ function cml_admin_quick_edit_box_posts( $post_type ) {
     </label>
   <?php
   } //endforeach;
-  
+
   CMLUtils::_del( '_cml_no_filter_query' );
 }
 
 function cml_quick_edit_javascript() {
     global $current_screen;
-//     if (($current_screen->id != 'edit-post') || ($current_screen->post_type != 'post')) return; 
-     
+//     if (($current_screen->id != 'edit-post') || ($current_screen->post_type != 'post')) return;
+
     ?>
     <script type="text/javascript">
     <!--
     function unsetTranslation( lang ) {
-      console.log( 'select[name="linked_' + lang + '"]' );
+      // console.log( 'select[name="linked_' + lang + '"]' );
       jQuery( 'select[name="linked_' + lang + '"]' ).find( 'option' ).first().attr( 'selected', 'selected' )
     }
 
@@ -101,19 +101,19 @@ function cml_quick_edit_javascript() {
         // revert Quick Edit menu so that it refreshes properly
         inlineEditPost.revert();
         var $select = jQuery( 'select#cml-lang' );
-        
+
         // check option manually
         $select.children().map(function() {
           var $this = jQuery(this);
           var val = $this.val();
-    
+
           if(val == lang) {
             $this.attr('selected', true);
           } else {
             $this.removeAttr('selected', true);
           }
         });
-        
+
         //Json
         $keys = keys.split( "," );
         $values = values.split( "," );
@@ -148,7 +148,7 @@ function cml_quick_edit_javascript() {
             });
           }
         });
-        
+
         //Hide selected of current language
         jQuery( 'select#cml-lang' ).trigger( 'change' );
       }
@@ -160,7 +160,7 @@ function cml_quick_edit_javascript() {
 function cml_expand_quick_edit_link($actions, $post) {
     global $current_screen;
 
-//     if (($current_screen->id != 'edit-post') || ($current_screen->post_type != 'post')) return $actions; 
+//     if (($current_screen->id != 'edit-post') || ($current_screen->post_type != 'post')) return $actions;
 
     $lang = CMLPost::get_language_id_by_id( $post->ID, true );
 
@@ -175,22 +175,22 @@ function cml_expand_quick_edit_link($actions, $post) {
 
       $keys = join(",", array_keys( $posts ) );
       $vals = join(",", array_values( $posts ) );
-    } 
+    }
 
-    $widget_id = get_post_meta( $post->ID, 'post_widget', TRUE); 
+    $widget_id = get_post_meta( $post->ID, 'post_widget', TRUE);
     $actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="';
     $actions['inline hide-if-no-js'] .= esc_attr( __( 'Edit this item inline' ) ) . '" ';
-    $actions['inline hide-if-no-js'] .= " onclick=\"set_inline_widget_set('{$widget_id}', '{$lang}', '{$keys}', '{$vals}', '{$post->ID}')\">"; 
+    $actions['inline hide-if-no-js'] .= " onclick=\"set_inline_widget_set('{$widget_id}', '{$lang}', '{$keys}', '{$vals}', '{$post->ID}')\">";
     $actions['inline hide-if-no-js'] .= __( 'Quick&nbsp;Edit' );
     $actions['inline hide-if-no-js'] .= '</a>';
 
-    return $actions;    
+    return $actions;
 }
 
 // Add to our admin_init function
 add_filter( 'post_row_actions', 'cml_expand_quick_edit_link', 10, 2 );
 add_filter( 'page_row_actions', 'cml_expand_quick_edit_link', 10, 2 );
- 
+
 /* http://shibashake.com/wordpress-theme/expand-the-wordpress-quick-edit-menu */
 //Funzioni necessarie per modificare la lingua nel quick edit box
 add_action( 'admin_footer', 'cml_quick_edit_javascript' );

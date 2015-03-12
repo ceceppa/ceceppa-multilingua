@@ -391,6 +391,11 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
 
     if( is_paged() ) {
       $link = add_query_arg( array( "lang" => $lang->cml_language_slug ) );
+
+      // it the language is pre_path there is no need to add the query string. This will fix 404 when navigating between post pages
+      if( CMLUtils::get_url_mode() != PRE_PATH ) {
+        $link = add_query_arg( array( "lang" => $lang->cml_language_slug ) );
+      }
     }
 
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
