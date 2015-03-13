@@ -197,5 +197,3 @@ add_action( 'admin_footer', 'cml_quick_edit_javascript' );
 
 //Quickedit
 add_action('quick_edit_custom_box',  'cml_admin_quick_edit_box', 10, 2);
-
-?>

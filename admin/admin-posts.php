@@ -337,7 +337,13 @@ function cml_admin_save_extra_post_fields( $term_id ) {
 function cml_store_quick_edit_translations( $term_id ) {
   CMLUtils::_set( '_no_store', 1 );
 
-  foreach( CMLLanguage::get_no_default() as $lang ) {
+  //Current post language
+  $post_lang = $_POST[ 'cml-lang' ];
+  if( $post_lang == 'x' ) return; //Nothing to do...
+  foreach( CMLLanguage::get_all() as $lang ) {
+    //Is this the post language?
+    if( $post_lang == $lang->id ) continue;
+
     //No title, skip...
     if( ! isset( $_POST[ 'cml_post_title_' . $lang->id ] ) ) continue;
 
@@ -770,7 +776,7 @@ function cml_clone_post_data( $data ) {
 /**
  * quick edit mode... allow to see and translate the current document in multiple languages
  */
-function cml_quick_edit_mode_editor( $post ) {
+function cml_easy_edit_mode_editor( $post ) {
   $tabs = "";
   $titles = "";
   $editors = "";
@@ -782,8 +788,15 @@ function cml_quick_edit_mode_editor( $post ) {
 
   //Translations
   $translations = CMLPost::get_translations( $post->ID );
+  $post_lang = CMLLanguage::get_id_by_post_id( $post->ID );
+
+  //This post exists in all languages?
+  if( CMLPost::is_unique( $post->ID ) ) $post_lang = CMLLanguage::get_default_id();
 	foreach( CMLLanguage::get_all() as $lang ) :
     $title = $content = $short = "";
+
+    //Is the current language the same of the post?
+    $is_post_lang = $lang->id == $post_lang;
 
     //Translated id
     $t_id = $translations[ $lang->cml_language_slug ];
@@ -792,13 +805,13 @@ function cml_quick_edit_mode_editor( $post ) {
 
 		$img = CMLLanguage::get_flag_src( $lang->id );
 
-    if( $t_id > 0 ) {
+    if( $t_id > 0 && $t_id != $post->ID ) {
       $t = get_post( $t_id );
   		$title = $t->post_title;
   		$content = $t->post_content;
     }
 
-		if( ! $lang->cml_default ) :
+		if( ! $is_post_lang ) :
 $titles .= <<< EOT
 <div id="titlewrap" class="cml-hidden ceceppaml-titlewrap">
 	<img class="tipsy-s" title="$label" src="$img" />
@@ -818,9 +831,9 @@ $permalinks .= <<< EOT
 EOT;
   endif;
 
-	$active = ( $lang->cml_default ) ? "nav-tab-active" : "";
+	$active = ( $is_post_lang ) ? "nav-tab-active" : "";
 
-	if( ! $lang->cml_default )  {
+	if( ! $is_post_lang )  {
 		echo '<div id="ceceppaml-editor" class="ceceppaml-editor-' . $lang->id . ' ceceppaml-editor-wrapper cml-hidden postarea edit-form-section">';
 			wp_editor( htmlspecialchars_decode( $content ), "ceceppaml_content_" . $lang->id );
 		echo '</div>';
@@ -828,8 +841,9 @@ EOT;
 
 	$img = CMLLanguage::get_flag_img( $lang->id );
 
+  $is_post_language = ( $is_post_lang ) ? 1 : 0;
 $tabs .= <<< EOT
-	<a id="ceceppaml-editor-$lang->id" class="nav-tab $active ceceppaml-switch" onclick="CML_QEM.switchTo( $lang->id, '' );">
+	<a id="ceceppaml-editor-$lang->id" class="nav-tab $active ceceppaml-switch" onclick="CML_EEM.switchTo( $lang->id, '', $is_post_language );">
 		$img
 		$lang->cml_language
 	</a>
@@ -877,4 +891,4 @@ add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
 add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );
 
 //Quick edit mode
-// add_action( 'edit_form_after_title', 'cml_quick_edit_mode_editor', 10, 1 );
+add_action( 'edit_form_after_title', 'cml_easy_edit_mode_editor', 10, 1 );

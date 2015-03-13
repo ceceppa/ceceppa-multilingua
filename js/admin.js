@@ -299,8 +299,8 @@ function cml_move_widget_titles( ) {
   });
 }
 
-var CML_QEM = {
-	switchTo: function( index, type ) {
+var CML_EEM = {
+	switchTo: function( index, type, is_post_lang ) {
 		jQuery( '.ceceppaml-' + type + 'nav-tab > a' ).removeClass( 'nav-tab-active' );
 		jQuery( '.ceceppaml-' + type + 'nav-tab > a#ceceppaml-' + type + 'editor-' + index ).addClass( 'nav-tab-active' );
 
@@ -308,7 +308,7 @@ var CML_QEM = {
 		jQuery( '.ceceppaml-' + type + 'editor-' + index ).removeClass( 'cml-hidden' );
 
 		//Show default editor
-		if( index == ceceppaml_admin.default_id ) {
+		if( is_post_lang ) {
 			jQuery( '#ceceppaml-' + type + 'editor' ).addClass( 'cml-hidden' );
 
 			if( type === "" ) {
