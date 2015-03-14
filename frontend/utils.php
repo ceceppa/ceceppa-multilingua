@@ -186,10 +186,12 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
     if( null == CMLUtils::_get( '_query_string', null ) ) {
       $parameters = explode( "&", $_SERVER[ 'QUERY_STRING' ] );
 
-      foreach( $parameters as $p ) {
-        list( $key, $val ) = explode( "=", $p );
+      if( ! $parameters ) {
+        foreach( $parameters as $p ) {
+          list( $key, $val ) = explode( "=", $p );
 
-        $args[ $key ] = $val;
+          $args[ $key ] = $val;
+        }
       }
 
       if( isset( $args[ 'lang' ] ) )

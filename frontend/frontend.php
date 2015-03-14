@@ -286,18 +286,23 @@ class CMLFrontend extends CeceppaML {
     if( is_singular() ) {
       $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
 
-      if( $o['show'] == 'never' ) return $title;
-      if( $o['show'] == 'show' ) {
-        $where = $o[ 'where' ];
-        $override = true;
+      if( is_array( $o ) ) {
+        if( $o['show'] == 'never' ) return $title;
+        if( $o['show'] == 'show' ) {
+          $where = $o[ 'where' ];
+          $override = true;
+        }
       }
     }
 
     if( $id < 0 ) return $title;
-    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() && ! $override ) return $title;
-    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() && ! $override ) return $title;
-    if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-       cml_is_custom_post_type() && ! $override ) return $title;
+
+    if( ! $override ) {
+      if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $title;
+      if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $title;
+      if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
+         cml_is_custom_post_type() ) return $title;
+    }
 
     if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
           || is_category() ) return $title;
@@ -346,7 +351,7 @@ class CMLFrontend extends CeceppaML {
     if( is_singular() ) {
       $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
 
-      if( ! empty( $o ) ) {
+      if( is_array() ) {
         if( $o['show'] == 'never' ) return $content;
         if( $o['show'] == 'show' ) {
           $where = $o[ 'where' ];
@@ -355,10 +360,13 @@ class CMLFrontend extends CeceppaML {
       }
     }
 
-    if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() && ! $override ) return $content;
-    if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() && ! $override ) return $content;
-    if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
-       cml_is_custom_post_type()  && ! $override ) return $content;
+    if( ! $override ) {
+      if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $content;
+      if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
+      if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
+         cml_is_custom_post_type() ) return $content;
+    }
+
     if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
           || is_category() ) return $content;
 
