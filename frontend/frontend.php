@@ -351,7 +351,7 @@ class CMLFrontend extends CeceppaML {
     if( is_singular() ) {
       $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
 
-      if( is_array() ) {
+      if( is_array( $o ) ) {
         if( $o['show'] == 'never' ) return $content;
         if( $o['show'] == 'show' ) {
           $where = $o[ 'where' ];
