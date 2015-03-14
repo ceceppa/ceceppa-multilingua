@@ -193,9 +193,11 @@ function cml_admin_save_options_actions() {
   $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
 
   if( $tab == 2 ) {
+    update_option( "cml_qem_enabled", intval( @$_POST[ 'cml-qem' ] ) );
     update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
     update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );
     update_option( "cml_remove_extra_slug", intval( @$_POST[ 'cml-extra' ] ) );
+    update_option( "cml_force_redirect", intval( @$_POST[ 'cml-redirect' ] ) );
   } else {
     //Redirect
     $redirect = array( "auto", "default", "others", "nothing" );

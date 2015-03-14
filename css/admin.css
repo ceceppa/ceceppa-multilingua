@@ -691,11 +691,18 @@ display: none !important;
   top: 0;
   height: 100%;
   width: 100%;
-  z-index: 999;
+  z-index: 9999;
   opacity: 0.6;
   display: none;
 }
 
+#cml-load-content {
+  z-index: 1000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: none;
+}
 .cml-error {
   box-shadow: 0 0 5px #f00 !important;
 }
@@ -1356,6 +1363,7 @@ margin-bottom: 10px;
     background-position: center !important;
     background-repeat: no-repeat !important;
     width: 35px;
+    transition: all 0.4s ease;
   }
 
  .cml-button-edit {
@@ -1363,6 +1371,19 @@ margin-bottom: 10px;
     background-position: center !important;
     background-repeat: no-repeat !important;
     width: 35px;
+    transition: all 0.4s ease;
+  }
+
+  .cml-button-add.disabled,
+  .cml-button-edit.disabled {
+    /*opacity: 0.6;*/
+    pointer-events: none;
+  }
+
+  .cml-button-add + span,
+  .cml-button-edit + span {
+    left: auto !important;
+    right: 7px;
   }
 
   .ceceppa-form-translations .spinner {
@@ -2167,4 +2188,16 @@ h2.ceceppaml-nav-tab {
 .ceceppaml-spinner {
   float: none !important;
   margin: 0 !important;
+}
+
+.cml-yoast {
+  position: relative;
+  padding-left: 25px;
+}
+
+.cml-yoast img {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  margin-top: -6px;
 }

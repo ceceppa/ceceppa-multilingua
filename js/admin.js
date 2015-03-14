@@ -1,4 +1,6 @@
 var _cml_searchTimeout = 0;
+var _cml_use_qem = false;
+var _cml_qed_loadajax;
 
 jQuery(document).ready( function($) {
   $( '.tipsy-me' ).tipsy( { html: true, fade: true } );
@@ -29,7 +31,7 @@ jQuery(document).ready( function($) {
     var data = $form.serialize();
     var processData = true;
     var contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
-    if( $form.data( 'use-formdata' ) != undefined ) {
+    if( $form.data( 'use-formdata' ) !== undefined ) {
       var formData = new FormData();
 
       formData.append( 'action', $form.find( 'input[name="action"]' ).val() );
@@ -64,7 +66,7 @@ jQuery(document).ready( function($) {
           return;
         }
 
-        if ( $data == null) return;
+        if ( $data === null) return;
 
         if ( $data.show ) {
             $( 'input[type="submit"]' ).animate( { opacity: 1 }, 'slow',
@@ -127,7 +129,7 @@ jQuery(document).ready( function($) {
 //          alert('Got this from the server: ' + response);
           $spinner.fadeOut();
 
-          if( response != "" ) {
+          if( response !== "" ) {
             $ul.append( $( response ) );
           }
       });
@@ -164,16 +166,51 @@ jQuery(document).ready( function($) {
     }, 300 );
   });
 
-  $( '.cml-dropdown-me > li ul li' ).click( function() {
-    $ul = $( this ).parents( 'ul.cml-dropdown-me' );
+  $( 'body' ).on( 'click', '.cml-dropdown-me > li ul li', function() {
+    var $ul = $( this ).parents( 'ul.cml-dropdown-me' );
+    var lang = $ul.find( 'input[type="text"]' ).data( 'lang' );
 
     title = $( this ).hasClass( 'no-hide' ) ? "" : $( this ).find( 'span.title' ).html();
+
+    //Is quick edit mode enabled?
+    if( title === "" && _cml_use_qem ) {
+      //Inform the user that this action will clear the current content
+      var c = confirm( 'Do you want to clear the content for the selected language?' );
+
+      //Clean up the title and the content for the current language
+      if( c ) {
+
+        //Clear the title && the content
+        $( '#title_' + lang ).val( '' );
+        tinyMCE.get('ceceppaml_content_' + lang ).setContent('');
+      }
+    } else {
+      //Selected a different post?
+      var old_id = $ul.find( 'input[name="linked_post[' + lang + ']"]').val();
+      var id = $( this ).attr( 'cml-trans' );
+
+      //Load the new content?
+      if( old_id !== id ) {
+        //Is the title empty?
+        if( $( '#title_' + lang ).val() !== "" ) {
+          //Inform the user that I'm going to replace the content with the new one...
+
+          //Load the new content
+          $ul.next( 'a' ).addClass( 'disabled' );
+          $ul.next( 'a' ).next( '.spinner' ).fadeIn();
+
+          cml_load_the_content( lang, id );
+        }
+      }
+    }
+
     $ul.find( 'input[type="text"]' ).val( title );
 
     $ul.find( 'input[type="text"]' ).attr( "original", title );
     $ul.find( '> li input[type="hidden"]' ).val( $( this ).attr( 'cml-trans' ) );
 
     $ul.find( 'ul' ).hide();
+
   });
 
   /*
@@ -254,7 +291,7 @@ jQuery(document).ready( function($) {
 
   //Hide label if value is not empty
   $( '.cml-title' ).each( function() {
-    if( $( this ).val() != "" ) {
+    if( $( this ).val() !== "" ) {
       $( this ).prev().fadeOut( 0 );
     }
   });
@@ -266,7 +303,7 @@ jQuery(document).ready( function($) {
   $( '.cml-titlewrap input' ).focusout( function() {
     $this = $( this );
 
-    if( $this.val() != "" ) return;
+    if( $this.val() !== "" ) return;
 
     $this.prev().fadeIn( 'fast' );
   });
@@ -283,6 +320,10 @@ jQuery(document).ready( function($) {
  * Quick edit mode
  */
 jQuery( document ).ready( function( $ ) {
+  if( $( '.ceceppaml-titlewrap' ).length > 0 ) {
+    _cml_use_qem = true;
+  }
+
   $( '.ceceppaml-titlewrap' ).insertAfter( $( '#titlediv > #titlewrap' ) );
 	$( '.ceceppaml-titlewrap' ).removeClass( 'cml-hidden' );
 
@@ -291,11 +332,59 @@ jQuery( document ).ready( function( $ ) {
 
 	//move my textarea above #postdivrich
 	$( '.ceceppaml-editor-wrapper' ).insertAfter( $( '#postdivrich' ) );
+
+  //Yoast?
+  if( $( '#wpseo_meta' ) ) {
+    $( '.ceceppaml-yoast-kw' ).insertAfter( $( '#yoast_wpseo_focuskw' ) ).removeClass( 'cml-hidden' );
+    $( '.ceceppaml-yoast-title' ).insertAfter( $( '#yoast_wpseo_title' ) ).removeClass( 'cml-hidden' );
+    $( '.ceceppaml-yoast-metadesc' ).insertAfter( $( '#yoast_wpseo_metadesc' ) ).removeClass( 'cml-hidden' );
+  }
 });
 
 function cml_move_widget_titles( ) {
   jQuery( '.widget-content' ).each(function() {
     jQuery( this ).find( 'p:first-child' ).after( jQuery( this ).find( '.cml-widget-titles' ) );
+  });
+}
+
+/**
+ * Load the content of the selected post
+ */
+function cml_load_the_content( lang, post_id ) {
+  //Stop previous request
+  if( _cml_qed_loadajax ) {
+    _cml_qed_loadajax.abort();
+  }
+
+  //Exec ajax call
+  var data = {
+      'action': 'ceceppaml_get_post_content',
+      'post_type': ceceppaml_admin.post_type,
+      'post_id': post_id,
+      'security': ceceppaml_admin.secret,
+      'lang_id': lang,
+  };
+
+  console.log( data );
+  _cml_qed_loadajax = jQuery.post(ajaxurl, data, function(response) {
+    console.log( response );
+    jQuery( '#ceceppaml-meta-box .spinner' ).fadeOut();
+    jQuery( '#ceceppaml-meta-box ul + a.button.disabled' ).removeClass( 'disabled' );
+
+    if( response !== "" ) {
+      try {
+        json = jQuery.parseJSON( response );
+      } catch(e) {
+        alert( "Something goes wrong :(.\nPost loading failed" );
+        console.log( e );
+      }
+      console.log( json );
+
+      jQuery( '#title_' + json.lang ).val( json.title );
+      tinyMCE.get('ceceppaml_content_' + json.lang ).setContent( json.content );
+    } else {
+      alert( "Something goes wrong :(.\nPost loading failed" );
+    }
   });
 }
 

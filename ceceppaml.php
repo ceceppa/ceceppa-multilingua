@@ -558,6 +558,9 @@ EOT;
     return $this->_url;
   }
 
+  /*
+	 * Rewrite rules for cpt slug translation
+	 */
 	function rewrite_rules() {
 		$slugs = get_option( "cml_translated_slugs", array() );
 		foreach( $slugs as $key => $slug ) {
@@ -575,7 +578,9 @@ EOT;
 			}
 		}
 
+	 CMLUtils::_set( '_rewrite_rules', 1 );
    flush_rewrite_rules();
+	 CMLUtils::_del( '_rewrite_rules' );
 	}
 
   /*
@@ -583,6 +588,7 @@ EOT;
    */
   function translate_home_url( $url, $path, $origin_scheme, $blog_id ) {
     if( isset( $GLOBALS[ '_cml_no_translate_home_url' ] )
+		   || CMLUtils::_get( '_rewrite_rules' ) 
        || ! apply_filters( 'cml_translate_home_url', true, $this->_url ) ) {
       return $url;
     }

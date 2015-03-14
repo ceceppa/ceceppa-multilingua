@@ -192,6 +192,9 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
         $args[ $key ] = $val;
       }
 
+      if( isset( $args[ 'lang' ] ) )
+        unset( $args[ 'lang' ] );
+
       //Avoid to calculate this array for each call...
       CMLUtils::_set( '_query_string', $args );
     } else {

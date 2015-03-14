@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 function cml_admin_post_meta_box( $tag ) {
-  global $wpdb, $pagenow, $_cml_settings;
+  global $wpdb, $pagenow, $_cml_settings, $cml_use_qem;
 
   $langs = CMLLanguage::get_all();
 
@@ -84,6 +84,7 @@ function cml_admin_post_meta_box( $tag ) {
     echo "<li class=\"$class\">";
     _cml_admin_post_meta_translation( $tag->post_type, $lang->id, $t_id, $tag->ID );
     echo "<a href=\"$link\" class=\"button cml-button-$bclass tipsy-s\" title=\"$msg\"></a>";
+    echo "<span class=\"spinner\"></span>";
     echo " </li>";
   }
 
@@ -205,6 +206,8 @@ function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id, $
 
   $notrans = "";
   $none = __( 'None', 'ceceppaml' );
+  if( $cml_use_qem ) $none = __( 'New', 'ceceppaml' );
+
   $title = ( ! empty( $linked_id ) ) ? get_the_title( $linked_id ) : $notrans;
   $src = CMLLanguage::get_flag_src( $lang );
 
@@ -268,7 +271,9 @@ function cml_admin_save_extra_post_fields( $term_id ) {
   global $wpdb, $pagenow;
 
   //quick edit mode is storing/updating a translation...do nothing :)
-  if( 1 === CMLUtils::_get( '_no_store' ) ) return;
+  if( 1 === CMLUtils::_get( '_no_store' ) ) {
+    return;
+  }
 
   //This function is also called on "comment" edit, and this will cause "language relations" lost...
   if( ! isset( $_POST[ 'post_type' ] ) ) return;
@@ -340,6 +345,24 @@ function cml_store_quick_edit_translations( $term_id ) {
   //Current post language
   $post_lang = $_POST[ 'cml-lang' ];
   if( $post_lang == 'x' ) return; //Nothing to do...
+
+  /*
+   * I need to remove all existings filters to avoid that other plugin
+   * overwrite their own values. As thei contain the ones of the original post
+   * intested of the translated one.
+   */
+  $GLOBALS['wp_filter']['post_updated'] = array();
+  $GLOBALS['wp_filter']['publish_post'] = array();
+  $GLOBALS['wp_filter']['transition_post_status'] = array();
+  $GLOBALS['wp_filter']['update_post_metadata'] = array();
+  $GLOBALS['wp_filter']['publish_my_custom_post_type'] = array();
+  $GLOBALS['wp_filter']['edit_page_form'] = array();
+  $GLOBALS['wp_filter']['edit_post'] = array();
+  $GLOBALS['wp_filter']['save_post'] = array();
+  $GLOBALS['wp_filter']['add_post_metadata'] = array();
+  $GLOBALS['wp_filter']['wp_insert_post'] = array();
+  $GLOBALS['wp_filter']['wp_update_post'] = array();
+
   foreach( CMLLanguage::get_all() as $lang ) {
     //Is this the post language?
     if( $post_lang == $lang->id ) continue;
@@ -353,9 +376,8 @@ function cml_store_quick_edit_translations( $term_id ) {
     $my_post = array(
                 'post_title'    => $_POST[ 'cml_post_title_' . $lang->id ],
                 'post_content'  => $_POST[ 'ceceppaml_content_' . $lang->id ],
-                // 'post_status'   => 'publish',
-                // 'post_author'   => 1,
-                // 'post_category' => array(8,39)
+                'post_status'   => 'draft',
+                'post_author'   => get_current_user_id(),
               );
 
     //New translation?
@@ -374,6 +396,17 @@ function cml_store_quick_edit_translations( $term_id ) {
     } else {
       $my_post[ 'ID' ] = $t_id;
       wp_update_post( $my_post );
+    }
+
+    //Yoast?
+    if( isset( $_POST[ 'ceceppaml_yoast_kw_' . $lang->id ] ) ) {
+      //The following lines doesn't works... I dont' know why, yet
+      // WPSEO_Meta::set_value( $t_id, 'focuskw', $_POST[ 'ceceppaml_yoast_kw_' . $lang->id ] );
+      // WPSEO_Meta::set_value( $t_id, 'title', $_POST[ 'ceceppaml_yoast_title_' . $lang->id ] );
+      // WPSEO_Meta::set_value( $t_id, 'metadesc', $_POST[ 'ceceppaml_yoast_metadesc_' . $lang->id ] );
+      update_post_meta( $t_id, '_yoast_wpseo_focuskw', $_POST[ 'ceceppaml_yoast_kw_' . $lang->id ] );
+      update_post_meta( $t_id, '_yoast_wpseo_title', $_POST[ 'ceceppaml_yoast_title_' . $lang->id ] );
+      update_post_meta( $t_id, '_yoast_wpseo_metadesc', $_POST[ 'ceceppaml_yoast_metadesc_' . $lang->id ] );
     }
 
     update_post_meta( $t_id, "_cml_lang_id", $lang->id );
@@ -776,12 +809,14 @@ function cml_clone_post_data( $data ) {
 /**
  * quick edit mode... allow to see and translate the current document in multiple languages
  */
-function cml_easy_edit_mode_editor( $post ) {
+function cml_quick_edit_mode_editor( $post ) {
   $tabs = "";
   $titles = "";
   $editors = "";
   $permalinks = "";
 
+  //Quick edit mode for yoast
+  $yoast = "";
   $view = __( 'View', 'ceceppaml' );
 
   $url = "";
@@ -848,6 +883,30 @@ $tabs .= <<< EOT
 		$lang->cml_language
 	</a>
 EOT;
+
+    //Yoast fields
+    if( ! $is_post_lang ) :
+        $kw = get_post_meta($t_id, '_yoast_wpseo_focuskw', true);
+        $title = get_post_meta($t_id, '_yoast_wpseo_title', true);
+        $meta = get_post_meta($t_id, '_yoast_wpseo_metadesc', true);
+$yoast .= <<<YOAST
+  <div class="cml-hidden ceceppaml-yoast-kw cml-yoast">
+    $img
+    <input type="text" name="ceceppaml_yoast_kw_{$lang->id}" autocomplete="off" value="$kw" class="large-text ui-autocomplete-input">
+  </div>
+
+  <div class="cml-hidden ceceppaml-yoast-title cml-yoast">
+    $img
+    <input type="text" id="ceceppaml_yoast_title" name="ceceppaml_yoast_title_{$lang->id}" value="$title" class="large-text" placeholder="$label">
+  </div>
+
+  <div class="cml-hidden ceceppaml-yoast-metadesc cml-yoast">
+    $img
+    <textarea class="large-text metadesc" rows="2" id="ceceppaml_yoast_metadesc_{$lang->id}" name="ceceppaml_yoast_metadesc_{$lang->id}">$meta</textarea>
+  </div>
+YOAST;
+    endif;
+
   	endforeach;
 
 		echo $titles;
@@ -860,7 +919,14 @@ EOT;
 		echo '<h2 class="nav-tab-wrapper ceceppaml-short-nav-tab ceceppaml-nav-tab cml-hidden">&nbsp;&nbsp;';
 		echo $short_tabs;
 		echo '</h2>';
+
+    if( defined( 'WPSEO_VERSION' ) ) {
+      echo $yoast;
+    }
 }
+
+//Quick edit mode
+$cml_use_qem = get_option( 'cml_qem_enabled', 1 );
 
 //Manage all posts columns
 add_action( 'admin_init', 'cml_manage_posts_columns', 10 );
@@ -869,10 +935,10 @@ add_action( 'admin_init', 'cml_manage_posts_columns', 10 );
 add_action( 'add_meta_boxes', 'cml_admin_add_meta_boxes' );
 
 //Save language & translations info
-add_action( 'save_post', 'cml_admin_save_extra_post_fields' );
-add_action( 'edit_post', 'cml_admin_save_extra_post_fields' );
-add_action( 'edit_page_form', 'cml_admin_save_extra_post_fields' );
-add_action( 'publish_my_custom_post_type', 'cml_admin_save_extra_post_fields' );
+add_action( 'save_post', 'cml_admin_save_extra_post_fields', 99 );
+add_action( 'edit_post', 'cml_admin_save_extra_post_fields', 99 );
+add_action( 'edit_page_form', 'cml_admin_save_extra_post_fields', 99 );
+add_action( 'publish_my_custom_post_type', 'cml_admin_save_extra_post_fields', 99 );
 
 //Delete
 add_action('delete_post', 'cml_admin_delete_extra_post_fields' );
@@ -891,4 +957,6 @@ add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
 add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );
 
 //Quick edit mode
-add_action( 'edit_form_after_title', 'cml_easy_edit_mode_editor', 10, 1 );
+if( $cml_use_qem ) {
+  add_action( 'edit_form_after_title', 'cml_quick_edit_mode_editor', 10, 1 );
+}

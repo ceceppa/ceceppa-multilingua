@@ -108,9 +108,9 @@ class CMLAdmin extends CeceppaML {
     }
 
     //try to fix 500 error
-    if( ! defined( 'DOING_AJAX' ) ) {
-      add_filter( 'flush_rewrite_rules_hard', array( & $this, 'no_translate_home_url' ), 10, 1 );
-    }
+    // if( ! defined( 'DOING_AJAX' ) ) {
+    add_filter( 'flush_rewrite_rules_hard', array( & $this, 'no_translate_home_url' ), 10, 1 );
+    // }
 
     if( $pagenow == "widgets.php" ) {
       require_once CML_PLUGIN_INCLUDES_PATH . "shortcodes.php";
@@ -154,6 +154,9 @@ class CMLAdmin extends CeceppaML {
 
     //Store custom posts slug
     add_action( 'wp_ajax_ceceppaml_translate_slugs', 'cml_admin_translated_slugs' );
+
+    //Get the content via qem
+    add_action( 'wp_ajax_ceceppaml_get_post_content', array( & $this, 'ceceppaml_get_post_content' ) );
 
     //Widget page
     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );
@@ -777,9 +780,28 @@ EOT;
   function ceceppaml_get_posts_list() {
     if( ! check_ajax_referer( "ceceppaml-nonce", "security" ) ) {
       echo -1;
+      die();
     }
 
     _cml_admin_post_meta_translation( $_POST[ 'post_type' ], $_POST[ 'lang_id' ], 0, 0, true );
+    die();
+  }
+
+  function ceceppaml_get_post_content() {
+    if( ! check_ajax_referer( "ceceppaml-nonce", "security" ) ) {
+      echo -1;
+      die();
+    }
+
+    $post = get_post( intval( $_POST[ 'post_id' ] ) );
+
+    $json = array(
+                  'lang' => intval( $_POST[ 'lang_id' ] ),
+                  'title' => $post->post_title,
+                  'content' => $post->post_content
+                );
+
+    echo json_encode( $json );
     die();
   }
 }

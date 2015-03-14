@@ -3,7 +3,7 @@ require_once( CML_PLUGIN_FRONTEND_PATH . "utils.php" );
 
 if( isset( $_GET[ 'cml-restore-wp' ] ) ) {
   _cml_restore_wp_pointers();
-  
+
   $msg = __( 'Helps restored succesfully', 'ceceppaml' );
 echo <<< EOT
   <div class="updated">
@@ -14,6 +14,22 @@ echo <<< EOT
 EOT;
 }
 
+
+function cml_admin_options_advanced_qem() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+      <?php $qem = __( 'Quick Edit mode', 'ceceppaml'); ?>
+      <?php echo cml_utils_create_checkbox( $qem, "cml-qem", "cml-qem", null, 1, get_option( "cml_qem_enabled", 1 ) ) ?>
+      <?php submit_button() ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+    <?php _e( 'The Quick Edit Mode allow you to esily edit you post and its translations in the same page.', 'ceceppaml' ); ?>
+  </div>
+<?php
+}
 
 function cml_admin_options_advanced_wizard() {
   ?>
@@ -125,20 +141,38 @@ function cml_admin_remove_extra_slug() {
 <?php
 }
 
+function cml_admin_force_post_redirect() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+        <?php echo cml_utils_create_checkbox( __( 'Force post redirect', 'ceceppaml' ), "cml-redirect", "cml-redirect", null, 1, get_option( "cml_force_redirect", 1 ) ) ?>
+        <?php submit_button() ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+      <?php
+      ?>
+  </div>
+<?php
+}
+
 
 $help = __( 'Show/Hide help', 'ceceppaml' );
+
+add_meta_box( 'cml-box-quick-edit', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Quick edit mode', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_qem', 'cml_box_options' );
 
 add_meta_box( 'cml-box-start-wizard', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Wizard', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_wizard', 'cml_box_options' );
 add_meta_box( 'cml-box-assign-to', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update language of existing posts', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_language', 'cml_box_options' );
 add_meta_box( 'cml-box-restore-helps', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Restore helps', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_pointers', 'cml_box_options' );
-add_meta_box( 'cml-box-update-relations', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update post relations', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_relations', 'cml_box_options' );
+// add_meta_box( 'cml-box-update-relations', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update post relations', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_relations', 'cml_box_options' );
 add_meta_box( 'cml-box-enable-static-change', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Static page', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_static_page', 'cml_box_options' );
 
 //Disable extra slug remover
 add_meta_box( 'cml-box-disable-extra-slug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Duplicated titles', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_remove_extra_slug', 'cml_box_options' );
 
 //Force post/page redirect
-add_meta_box( 'cml-box-disable-extra-slug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Force post redirect', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_force_post_redirect', 'cml_box_options' );
+add_meta_box( 'cml-box-force-redirect', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Force post redirect', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_force_post_redirect', 'cml_box_options' );
 
 if( file_exists( CML_PLUGIN_PATH . "debug.php" ) ) {
   add_meta_box( 'cml-box-enable-debug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Debug', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_enable_debug', 'cml_box_options' );

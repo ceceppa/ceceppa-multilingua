@@ -219,7 +219,7 @@ class CMLFrontend extends CeceppaML {
      * with original and translated permalink...
      * This code jst check if a redirect if required, if so force it...
      */
-     if( ! empty( $this->_permalink_structure ) ) {
+     if( ! empty( $this->_permalink_structure ) && get_option( 'cml_force_redirect', 1 ) ) {
        add_action( 'template_redirect', array( & $this, 'force_redirect' ), 99 );
      }
   }
@@ -286,8 +286,8 @@ class CMLFrontend extends CeceppaML {
     if( is_singular() ) {
       $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
 
-      if( $o == 'never' ) return $title;
-      if( $o == 'show' ) {
+      if( $o['show'] == 'never' ) return $title;
+      if( $o['show'] == 'show' ) {
         $where = $o[ 'where' ];
         $override = true;
       }
@@ -346,10 +346,12 @@ class CMLFrontend extends CeceppaML {
     if( is_singular() ) {
       $o = get_post_meta( get_the_ID(), "_cml_override_flags", true );
 
-      if( $o == 'never' ) return $title;
-      if( $o == 'show' ) {
-        $where = $o[ 'where' ];
-        $override = true;
+      if( ! empty( $o ) ) {
+        if( $o['show'] == 'never' ) return $content;
+        if( $o['show'] == 'show' ) {
+          $where = $o[ 'where' ];
+          $override = true;
+        }
       }
     }
 
