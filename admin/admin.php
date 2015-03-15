@@ -772,7 +772,7 @@ EOT;
   }
 
   function no_translate_home_url( $b ) {
-    $GLOBALS[ '_cml_no_translate_home_url' ] = 1;
+    CMLUtils::_set( '_rewrite_url', 1 );
 
     return $b;
   }
