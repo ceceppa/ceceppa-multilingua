@@ -5,19 +5,19 @@ class MyTranslations_Table extends WP_List_Table {
     private $_groups = null;
 
     /** ************************************************************************
-     * REQUIRED. Set up a constructor that references the parent constructor. We 
+     * REQUIRED. Set up a constructor that references the parent constructor. We
      * use the parent reference to set some default configs.
      ***************************************************************************/
     function __construct( $groups ){
         global $status, $page;
-                
+
         //Set parent defaults
         parent::__construct( array(
             'singular'  => 'mytranslation',     //singular name of the listed records
             'plural'    => 'mytranslations',    //plural name of the listed records
             'ajax'      => false        //does this table support ajax?
         ) );
-        
+
         $this->_groups = $groups;
     }
 
@@ -27,7 +27,7 @@ class MyTranslations_Table extends WP_List_Table {
           'edit'      => sprintf('<a href="?page=%s&action=%s&movie=%s">Edit</a>',$_REQUEST['page'],'edit',$item['ID']),
           'delete'    => sprintf('<a href="?page=%s&action=%s&movie=%s">Delete</a>',$_REQUEST['page'],'delete',$item['ID']),
       );
-      
+
       //Return the title contents
       return sprintf('%1$s <span style="color:silver">(id:%2$s)</span>%3$s',
           /*$1%s*/ $item['title'],
@@ -57,7 +57,7 @@ class MyTranslations_Table extends WP_List_Table {
 
       return $columns;
     }
-    
+
     function get_sortable_columns() {
       $sortable_columns = array(
           'group' => array( 'group', true ),
@@ -66,24 +66,24 @@ class MyTranslations_Table extends WP_List_Table {
 
       return $sortable_columns;
     }
-    
-    
+
+
     function get_bulk_actions() {
       return array();
     }
-    
+
     function process_bulk_action() {
       global $wpdb;
     }
-    
+
     function prepare_items() {
       global $wpdb;
 
       /**
        * First, lets decide how many records per page to show
        */
-      $per_page = 1;
-      
+      $per_page = 10;
+
       /**
        */
       $columns = $this->get_columns();
@@ -92,7 +92,7 @@ class MyTranslations_Table extends WP_List_Table {
 
       $this->_column_headers = array( $columns, $hidden, $sortable );
       $this->process_bulk_action();
-        
+
       /* -- Preparing your query -- */
       $search = isset( $_GET[ 's' ] ) ? mysql_real_escape_string( $_GET[ 's' ] ) : '';
 
@@ -103,20 +103,20 @@ class MyTranslations_Table extends WP_List_Table {
       $data = $wpdb->get_results( $query );
 
       $current_page = $this->get_pagenum();
-      
+
       $total_items = count( $data );
-      
+
       $data = array_slice($data,(($current_page-1)*$per_page),$per_page);
-      
+
       $this->items = $data;
-      
+
       $this->set_pagination_args( array(
           'total_items' => $total_items,                  //WE have to calculate the total number of items
           'per_page'    => $per_page,                     //WE have to determine how many items to show on a page
           'total_pages' => ceil($total_items/$per_page)   //WE have to calculate the total number of pages
       ) );
     }
-    
+
     function display_rows() {
       global $wpdb;
 
@@ -138,23 +138,23 @@ class MyTranslations_Table extends WP_List_Table {
         foreach( $records as $rec ) {
           //Open the line
           $alternate = ( empty ( $alternate ) ) ? "alternate" : "";
-          
+
           $group = $rec->cml_type;
           if( in_array( $rec->cml_text, array( "_notice_page", "_notice_post" ) ) ) {
             $group = "_cml_";
           }
           echo '<tr id="record_' . $rec->id . '" class="' . $alternate . ' row-domain string-' . $group . '">';
-          
-  
+
+
           foreach ( $columns as $column_name => $column_display_name ) {
             //Style attributes for each col
             $attributes = "class='$column_name column-$column_name'";
-    
+
             //Display the cell
             switch ( $column_name ) {
             case "remove":
               echo '<td ' . $attributes . '>';
-              
+
               if( ! in_array( $rec->cml_text, array( "_notice_page", "_notice_post" ) ) ) {
                 echo '<input type="checkbox" name="delete[]" value="' . esc_attr( $rec->cml_text ) . '" id="id-' . $rec->id . '" class="id-' . $rec->id . '" />';
               }
@@ -172,12 +172,12 @@ class MyTranslations_Table extends WP_List_Table {
               break;
             case "string":
               echo '<td ' . $attributes . '>';
-              
+
               $title = $rec->cml_text;
               if( "_notice_post" == $title ) {
                 $title = __( "Post notice:", "ceceppaml" );
               }
-              
+
               if( "_notice_page" == $title ) {
                 $title = __( "Page notice:", "ceceppaml" );
               }
@@ -205,7 +205,7 @@ class MyTranslations_Table extends WP_List_Table {
 
                 echo '<div class="cml-myt-flag ' . $class . '">';
                 echo CMLLanguage::get_flag_img( $lang->id );
-                
+
                 $value = CMLTranslations::get( $lang->id,
                                            $rec->cml_text,
                                            $rec->cml_type, true, true );
@@ -214,7 +214,7 @@ class MyTranslations_Table extends WP_List_Table {
                 $recid = $wpdb->get_var( $q );
 
                 echo '<input type="hidden" name="ids[' . $rec->id . '][' . $lang->id .  ']" value="' . intval( $recid ) . '" />';
-                echo '&nbsp;<input type="text" name="values[' . $lang->id .  '][]" value="' . $value . '" style="width: 90%" />';
+                echo '&nbsp;<input type="text" name="values[' . $lang->id .  '][]" value="' . esc_attr( $value ) . '" style="width: 90%" />';
                 echo '</div>';
               }
               echo '</td>';
@@ -223,7 +223,7 @@ class MyTranslations_Table extends WP_List_Table {
               echo $column_name;
             } //switch
           } //endforeach; 	//$columns as $column_name
-          
+
       	  echo'</tr>';
         } //foreach
       } //if
