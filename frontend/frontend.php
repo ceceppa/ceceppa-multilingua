@@ -101,6 +101,10 @@ class CMLFrontend extends CeceppaML {
 //
 //      if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "bottom" ||
 //          $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" ) {
+/*
+ * From 1.5 user can override the flag setting for a single post, so I can't
+ * check it here, as I don't know the post id, yet...
+ */
           add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
 //      } else {
           add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
@@ -298,7 +302,8 @@ class CMLFrontend extends CeceppaML {
     if( $id < 0 ) return $title;
 
     if( ! $override ) {
-      if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $title;
+      if( in_array( $_cml_settings[ 'cml_option_flags_on_pos' ], array( 'bottom', 'top' ) ) ) return $title;
+      if( ! $_cml_settings[ 'cml_option_flags_on_post' ] && is_single() ) return $title;
       if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $title;
       if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
          cml_is_custom_post_type() ) return $title;
@@ -361,6 +366,7 @@ class CMLFrontend extends CeceppaML {
     }
 
     if( ! $override ) {
+      if( ! in_array( $_cml_settings[ 'cml_option_flags_on_pos' ], array( 'bottom', 'top' ) ) ) return $content;
       if( ! $_cml_settings['cml_option_flags_on_post'] && is_single() ) return $content;
       if( ! $_cml_settings[ 'cml_option_flags_on_page' ] && is_page() ) return $content;
       if( ! $_cml_settings[ 'cml_option_flags_on_custom_type' ] &&
