@@ -10,7 +10,7 @@ $GLOBALS[ '_cml_supported_plugin' ] = array( 'all-in-one-seo-pack', 'wordpress-s
  *
  *  *) admin-texts to allow user to translate them in "My translations" page
  *  *) language-switcher-settings to extract "Combo" style :)
- * 
+ *
  */
 class CML_WPML_Parser {
   protected $values;
@@ -25,14 +25,14 @@ class CML_WPML_Parser {
     xml_parser_set_option( $parser, XML_OPTION_SKIP_WHITE, 1 );
     xml_parse_into_struct( $parser, $xml, $this->values );
     xml_parser_free( $parser );
-    
+
     $this->options = $options;
     $this->group = $group;
     $this->style = $generate_style;
 
-    $this->parse();    
+    $this->parse();
   }
-  
+
   function parse() {
     $add_text = false;
     $key = null;
@@ -53,7 +53,7 @@ class CML_WPML_Parser {
         } else {
           if( isset( $value[ 'attributes' ] ) ) {
             $name = $value[ 'attributes' ][ 'name' ];
-            
+
 //             if( is_array( $this->options ) ) {
               if( isset( $this->options[ $name ] ) ) {
                 $v = $this->options[ $name ];
@@ -67,12 +67,12 @@ class CML_WPML_Parser {
 
 //               $add = true;
 //             }
-            
+
             if( $add ) {
               CMLTranslations::add( strtolower( $this->group ) . "_" . $name,
                                     $v,
                                     $this->group );
-              
+
               $this->names[] = $name;
             }
           }
@@ -95,7 +95,7 @@ class CML_WPML_Parser {
       if( $this->style && $is_switcher_style ) {
         if( isset( $value[ 'value' ] ) ) {
           $v = $value[ 'value' ];
-  
+
           switch( $value[ 'attributes' ][ 'name' ] ) {
           case 'font-current-normal':
             $style[] = "#cml-lang > li > a { color: $v; } ";
@@ -134,14 +134,14 @@ class CML_WPML_Parser {
           $is_switcher_style = true;
         }
       }
-      
+
       if( $is_switcher_style ) {
         //Done
         if( 'close' == $value[ 'type' ] ) {
           $is_switcher_style = false;
         }
       }
-      
+
       if( "icl_additional_css" == @$value[ 'attributes' ][ 'name' ] ) {
         $style[] = str_replace( "#cml-langlang_sel", "#cml-lang", $value[ 'value' ] );
       }
@@ -149,7 +149,7 @@ class CML_WPML_Parser {
 
     if( $this->style ) {
       file_put_contents( CML_UPLOAD_DIR . "combo_style.css", join( "\n", $style ) );
-  
+
       if( ! empty( $style ) ) {
         echo '<div class="updated"><p>';
         echo CML_UPLOAD_DIR . "combo_style.css " . __( 'generated from "wpml-config.xml"', 'ceceppaml' );
@@ -176,16 +176,16 @@ function cml_admin_scan_plugins_folders() {
   $old = get_option( '_cml_wpml_config_paths', "" );
 
   $xmls = @glob( "$plugins/*/wpml-config.xml" );
-  
+
   //nothing to do?
   if( empty( $xmls ) ) {
       return;
   }
-  
+
   $link = add_query_arg( array( "lang" => "ceceppaml-translations-page" ), admin_url() );
   $txt  = __( "Current plugins contains WPML Language Configuration Files ( wpml-config.xml )", 'ceceppaml' );
   $txt .= '<br /><ul class="cml-ul-list">';
-  
+
   $not = array();
 
   foreach( $xmls as $file ) {
@@ -245,7 +245,7 @@ function cml_yoast_seo_strings( $types ) {
 
     $types[ "_YOAST" ] = "YOAST";
   }
-  
+
   return $types;
 }
 
@@ -287,7 +287,7 @@ function cml_yoast_translate_home_url( $translate, $url ) {
 
     return false;
   }
-  
+
   //Nothing to do
   remove_filter( 'cml_yoast_translate_home_url', 10, 2 );
 
@@ -317,7 +317,7 @@ add_action( 'admin_notices', 'cml_yoast_message' );
  * https://wordpress.org/plugins/all-in-one-seo-pack/
  */
 function cml_aioseo_strings( $groups ) {
-  //Nothing to do  
+  //Nothing to do
   if( ! defined( 'AIOSEOP_VERSION' ) ) return $groups;
 
   global $aioseop_options;
@@ -326,16 +326,16 @@ function cml_aioseo_strings( $groups ) {
   new CML_WPML_Parser( $xml, "_AIOSEO", $aioseop_options );
 
   $groups[ "_AIOSEO" ] = "All in one SEO";
-  
+
   return $groups;
 }
 
 function cml_aioseo_translate_options() {
-  //Nothing to do  
+  //Nothing to do
   if( ! defined( 'AIOSEOP_VERSION' ) || is_admin() ) return;
 
   global $aioseop_options;
-  
+
   $names = get_option( "cml_translated_fields_aioseo", array() );
   if( empty( $names ) ) return;
 
@@ -346,9 +346,9 @@ function cml_aioseo_translate_options() {
                                                            "_aioseo_$key",
                                                            "_AIOSEO",
                                                            true);
-      
+
       if( empty( $value ) ) return;
-      
+
       $aioseop_options[ $key ] = $value;
     }
   }
@@ -408,20 +408,20 @@ function cml_get_strings_from_wpml_config( $groups ) {
     echo '</p></div>';
 
     update_option( "cml_theme_${name}_use_wpml_config", 1 );
-    
+
     $groups[ "_$name" ] = sprintf( "%s: %s", __( 'Theme' ), $theme->get( 'Name' ) );
   }
-  
+
   //Look for unsupported plugins
   $plugins = get_option( '_cml_wpml_config_paths', "" );
   if( empty( $plugins ) ) return $groups;
 
-  $plugins = explode( ",", $plugins );  
+  $plugins = explode( ",", $plugins );
   foreach( $plugins as $plugin ) {
     $path = str_replace( WP_CONTENT_DIR . "/plugins/", "", $plugin);
 
     new CML_WPML_Parser( "$plugin/wpml-config.xml", "_$path", null );
-    
+
     $groups[ "_$path"] = sprintf( "%s: %s", __( 'Plugin' ), $path );
   }
 
@@ -436,16 +436,20 @@ function cml_translate_wpml_strings() {
 
   $theme = wp_get_theme();
   $name = strtolower( $theme->get( 'Name' ) );
-  
+
+  CMLUtils::_set( '_theme_group', strtolower( $theme ) );
   CMLUtils::_set( "theme-name", $name );
 
   if( get_option( "cml_theme_${name}_use_wpml_config", 0 ) ) {
-    cml_change_wpml_settings_values( $theme, $name );
+    add_filter( "option_{$theme}_options", 'cml_translate_theme_strings', 0, 1 );
+
+    //Old method
+    cml_change_wpml_settings_values( strtolower( $theme ), $name );
   }
-  
+
   //Not officially supported plugin
   $plugins = get_option( '_cml_wpml_config_paths', "" );
-  $plugins = explode( ",", $plugins );  
+  $plugins = explode( ",", $plugins );
   foreach( $plugins as $plugin ) {
     $path = str_replace( WP_CONTENT_DIR . "/plugins/", "", $plugin);
 
@@ -457,12 +461,13 @@ function cml_change_wpml_settings_values( $group, $name ) {
   $names = get_option( "cml_translated_fields_{$name}", array() );
   if( empty( $names ) ) return;
 
-  $options = get_option( "cml_translated_fields_{$name}_key", "" );
-  if( empty( $options ) ) {
+  $options_key = get_option( "cml_translated_fields_{$name}_key", "" );
+  if( empty( $options_key ) ) {
     return;
   }
 
-  $options = & $GLOBALS[ $options ];
+  //Overwrite the settings?
+  $options = & $GLOBALS[ $options_key ];
   if( ! is_array( $options ) ) return;
 
   $names = explode( "/", $names );
@@ -479,7 +484,29 @@ function cml_change_wpml_settings_values( $group, $name ) {
   }
 }
 
-add_filter( 'cml_my_translations', 'cml_get_strings_from_wpml_config', 99 );
-add_action( 'wp_loaded', 'cml_translate_wpml_strings', 10 );
+function cml_translate_theme_strings( $values ) {
+  $group = CMLUtils::_get( '_theme_group' );
+  $name = CMLUtils::_get( "theme-name" );
 
-?>
+  $names = get_option( "cml_translated_fields_{$name}", array() );
+  if( empty( $names ) ) return $values;
+
+  $names = explode( ',', $names );
+  foreach( $values as $key => $value ) {
+    if( ! in_array( $key, $names ) ) continue;
+
+    $v = CMLTranslations::get( CMLLanguage::get_current_id(),
+                              "_{$group}_{$key}",
+                              "_{$group}" );
+    if( empty( $v ) ) continue;
+
+    $values[ $key ] = $v;
+  }
+
+  return $values;
+}
+
+add_filter( 'cml_my_translations', 'cml_get_strings_from_wpml_config', 99 );
+// add_action( 'wp_loaded', 'cml_translate_wpml_strings', 10 );
+// add_action( 'plugins_loaded', 'cml_translate_wpml_strings', 1 );
+cml_translate_wpml_strings();
