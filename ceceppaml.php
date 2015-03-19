@@ -363,6 +363,7 @@ EOT;
       if( $lang_id == 0 ) $lang_id = CMLLanguage::get_current_id();
 
       $this->_force_category_lang = $lang_id;
+			CMLUtils::_set( '_force_post_link', $lang_id );
     } else {
       /*
        * already forced by cml_get_the_link
@@ -421,6 +422,7 @@ EOT;
     $this->unset_category_lang();
     unset( $this->_force_post_lang );
     unset( $GLOBALS[ '_cml_force_home_slug' ] );
+		CMLUtils::_del( '_force_post_link' );
 
     return CMLPost::remove_extra_number( $permalink, $post );
   }
@@ -588,7 +590,7 @@ EOT;
    */
   function translate_home_url( $url, $path, $origin_scheme, $blog_id ) {
     if( isset( $GLOBALS[ '_cml_no_translate_home_url' ] )
-		   || CMLUtils::_get( '_rewrite_rules' ) 
+		   || CMLUtils::_get( '_rewrite_rules' )
        || ! apply_filters( 'cml_translate_home_url', true, $this->_url ) ) {
       return $url;
     }
@@ -604,7 +606,10 @@ EOT;
       $slug = CMLLanguage::get_slug( $this->_force_category_lang );
     } else if( isset( $this->_force_language_slug ) ) {
       $slug = $this->_force_language_slug;
-    }
+    } else if( CMLUtils::_get( '_force_post_link' ) ) {
+			$slug = CMLLanguage::get_slug( CMLUtils::_get( '_force_post_link' ) );
+			CMLUtils::_del( '_force_post_link' );
+		}
 
     if( $this->_url_mode == PRE_PATH ) {
       /*

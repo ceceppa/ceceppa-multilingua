@@ -2105,7 +2105,7 @@ EOT;
 
     //Remove all the parameters ?###
     $original = preg_replace( '/\?.*/', '', $original );
-    $translated = preg_replace( '/\?.*/', '', $original );
+    $translated = preg_replace( '/\?.*/', '', $translated );
 
     if( $original != $translated ) {
       wp_redirect($translated, 301);
