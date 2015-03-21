@@ -1830,16 +1830,34 @@ EOT;
       }
     }
 
+    /**
+     * On some website happens that wp ignore the limit...
+     * This is due because the plugin set the parameter post__in with all
+     * the posts available, ignoring the current post type...
+     * To avoid this I just change method.. Instead to set which posts belongs
+     * to the current language, I do the opposite. So I set which ones doesn't..
+     */
     //Get all posts by language
-    if( ! is_array( $use_language ) ) {
-      $posts = CMLPost::get_posts_by_language( $use_language );
-    } else {
-      $posts = array();
+    if( ! is_array( $use_language ) ) $use_language = array( $use_language );
 
-      foreach( $use_language as $lang ) {
-        $posts = array_merge( $posts, CMLPost::get_posts_by_language( $lang ) );
-      }
+    $posts = array();
+    foreach( CMLLanguage::get_all() as $lang ) {
+      //Ignore the use language...
+      $key = array_search( $lang->id, $use_language );
+      if( $key !== FALSE ) continue;
+
+      $posts = array_merge( $posts, CMLPost::get_posts_by_language( $lang ) );
     }
+
+    // if( ! is_array( $use_language ) ) {
+    //   $posts = CMLPost::get_posts_by_language( $use_language );
+    // } else {
+    //   $posts = array();
+    //
+    //   foreach( $use_language as $lang ) {
+    //     $posts = array_merge( $posts, CMLPost::get_posts_by_language( $lang ) );
+    //   }
+    // }
 
     /*
      * If lang=## parameter exists in $_GET, probably I'm forcing language for current
@@ -1866,7 +1884,9 @@ EOT;
      */
     if ( $wp_query->query_vars[ 'post__not_in' ] &&
           is_array( $wp_query->query_vars[ 'post__not_in' ] ) ) {
-      $posts = array_diff( $posts,
+      // $posts = array_diff( $posts,
+      //                     $wp_query->query_vars[ 'post__not_in' ] );
+      $posts = array_merge( $posts,
                           $wp_query->query_vars[ 'post__not_in' ] );
     }
 
@@ -1894,7 +1914,8 @@ EOT;
     }
 
     if( ! empty ( $posts ) ) {
-      $wp_query->query_vars[ 'post__in' ] = $posts;
+      // $wp_query->query_vars[ 'post__in' ] = $posts;
+      $wp_query->query_vars[ 'post__not_in' ] = $posts;
     }
 
     if( $wp_query->is_main_query() ) {

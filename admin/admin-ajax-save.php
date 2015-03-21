@@ -193,6 +193,8 @@ function cml_admin_save_options_actions() {
   $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
 
   if( $tab == 2 ) {
+    //Enable/Disable quick edit mode for each post type
+    update_option( "cml_qem_enabled_post_types", @$_POST[ 'cml-qem-posttypes' ] );
     update_option( "cml_qem_enabled", intval( @$_POST[ 'cml-qem' ] ) );
     update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
     update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );

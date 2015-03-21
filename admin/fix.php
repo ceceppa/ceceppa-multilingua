@@ -8,7 +8,7 @@ function cml_do_update() {
   global $wpdb;
 
   $dbVersion = & $GLOBALS[ 'cml_db_version' ];
-  
+
   if( $dbVersion <= 24 ) {
     $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL",
                        CECEPPA_ML_TABLE );
@@ -17,7 +17,7 @@ function cml_do_update() {
 
     $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_flag_path cml_custom_flag INT(1) NULL DEFAULT NULL",
                        CECEPPA_ML_TABLE );
-    
+
     //Store NOTICE translations to CECEPPA_ML_TRANSLATIONS table
     CMLTranslations::delete( "N" );
     $notices = array( "_notice_post", "_notice_page" );
@@ -43,19 +43,19 @@ function cml_do_update() {
     $menu = get_option( 'cml_add_items_to' );
     if( ! is_array( $menu ) ) {
       update_option( "cml_add_items_to", array( $menu ) );
-      
+
       cml_generate_settings_php();
     }
   }
 
   if( $dbVersion <= 26 ) {
-    
+
     $rows = $wpdb->get_results( "SELECT *, unhex( cml_cat_translation ) as translation FROM " . CECEPPA_ML_CATS );
     foreach( $rows as $row ) {
       //In CECEPPA_ML_CATS categories are stored in lowercase, I update them from wp options
       $cat = get_option( "cml_category_" . $row->cml_cat_id . "_lang_" . $row->cml_cat_lang_id, $row->translation );
       delete_option( "cml_category_" . $row->cml_cat_id . "_lang_" . $row->cml_cat_lang_id );
-      
+
       if( empty( $cat ) ) continue;
 
       $wpdb->update( CECEPPA_ML_CATS,
@@ -69,7 +69,7 @@ function cml_do_update() {
                     array( "%d" ) );
     }
   }
-  
+
   if( $dbVersion < 27 ) {
     $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_translation_slug` VARCHAR( 100 ) NOT NULL",
                      CECEPPA_ML_CATS );
@@ -96,7 +96,7 @@ function cml_do_update() {
     $results = $wpdb->get_results( $query, ARRAY_N );
 
     /*
-     * Remove "_cml_meta", becase for CML <= 1.4.9, meta tags will be updated only to 
+     * Remove "_cml_meta", becase for CML <= 1.4.9, meta tags will be updated only to
      * edited page/post not its translations :(
      * They will be rebuilded when "get_translations" will be called
      */
@@ -125,11 +125,11 @@ function cml_do_update() {
     require_once( "admin-taxonomies.php" );
 
     $wpdb->query(  "ALTER TABLE  " . CECEPPA_ML_CATS . " ADD  `cml_taxonomy` TEXT NOT NULL ;" );
-    
-    $query = "UPDATE " . CECEPPA_ML_CATS . " a 
-		JOIN $wpdb->term_taxonomy b ON a.cml_cat_id = b.term_id 
+
+    $query = "UPDATE " . CECEPPA_ML_CATS . " a
+		JOIN $wpdb->term_taxonomy b ON a.cml_cat_id = b.term_id
 		SET a.cml_taxonomy = b.taxonomy";
-    
+
     _cml_copy_taxonomies_to_translations();
 
     $wpdb->query( $query );
@@ -169,7 +169,7 @@ function cml_do_update_old() {
   if( $dbVersion < 20 ) {
       $wpdb->query(  "ALTER TABLE  " . CECEPPA_ML_TABLE . " ADD  `cml_rtl` INT NOT NULL ;" );
   }
-  
+
   //Rimuovo le colonne non più necessarie
   if( $dbVersion <= 9 ) :
     $wpdb->query("ALTER table " . CECEPPA_ML_TABLE . " DROP cml_category_name, DROP cml_category_id, DROP cml_category_slug, DROP cml_page_id, DROP cml_page_slug");
@@ -219,7 +219,7 @@ function cml_do_update_old() {
   if(get_option("cml_db_version", CECEPPA_DB_VERSION) <= 14) :
     $args = array('hide_empty' => 0);
     $cats = get_categories($args);
-    
+
     $langs = cml_get_languages(0, 0);
     foreach($cats as $cat) :
   foreach($langs as $lang) :
@@ -246,7 +246,7 @@ function cml_do_update_old() {
   //if($dbVersion <= 15) :
     //cml_fix_widget_titles();
   //endif;
-  
+
   //Controllo se esiste una pagina con lo slug "/##/", perché nelle versioni < 1.2.6
   //per avere la pagina iniziale in stile www.example.com/it dovevo modificare lo slug della
   //pagina in "it", dalla 1.2.6 basta mettere una pagina statica come iniziale, il plugin
@@ -260,11 +260,11 @@ function cml_do_update_old() {
 
     if( $the_id ) update_option( 'cml_need_use_static_page', 1 );
   endif;
-  
+
   if( $dbVersion <= 17 ) :
   add_action( 'plugins_loaded', 'cml_fix_rebuild_posts_info' );
   endif;
-  
+
   if( $dbVersion <= 18 ) :
     $wpdb->query( "ALTER TABLE  " . CECEPPA_ML_TABLE . " ADD  `cml_flag_path` TEXT" );
     endif;
@@ -280,7 +280,7 @@ function cml_fix_update_post_meta() {
   //Scorro gli articoli
   while( $posts->have_posts() ) {
     $posts->next_post();
-    
+
     $post = $posts->post;
 
     delete_option( "cml_page_{$post->ID}" );
@@ -299,7 +299,7 @@ function cml_fix_update_post_meta() {
  * il che richiedeva una serie di elaborazioni che potrebbero ripercuotersi sulla velocità di caricamento della pagina.
  *
  * Dato che il plugin non presenta bug evidenti, con la 1.0 voglio ottimiazzare anche un po' il codice, evitando
- * "cicli" superflui memorizzando le informazioni necessarie nel momento in cui l'utente pubblica un articolo. 
+ * "cicli" superflui memorizzando le informazioni necessarie nel momento in cui l'utente pubblica un articolo.
  *
  * Memorizzo per ogni lingua gli id dei rispettivi post.
  *
@@ -356,14 +356,14 @@ function cml_fix_rebuild_posts_info() {
 
       $langs = $_cml_language_columns;
       unset( $langs[ $lang ] );
-      
+
       foreach( $langs as $k => $l ) {
         if( $hideall &&
             $result[ $l ] > 0 &&
             $result[ $l ] != $result[ $lang ] ) {
           $hide[ $key ][] = $result[ $l ];
         }
-        
+
         if( $result[ $l ] > 0 )
           $hideall = true;
       }

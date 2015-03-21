@@ -2201,3 +2201,25 @@ h2.ceceppaml-nav-tab {
   top: 50%;
   margin-top: -6px;
 }
+
+.cml-publish-ul {
+  margin-left: 33px;
+}
+
+#cml-box-quick-edit .inside.disabled .cml-checkbox {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+#cml-box-quick-edit .inside.disabled label {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.cml-publish-title {
+  font-weight: bold;
+  border-top: 1px solid #eee;
+  display: block;
+  width: 100%;
+  padding-top: 10px;
+}

@@ -185,6 +185,8 @@ function cml_admin_post_meta_box( $tag ) {
 }
 
 function _cml_admin_post_meta_translation( $type, $lang, $linked_id, $post_id, $ajax = false ) {
+  global $cml_use_qem;
+
   CMLUtils::_set( '_cml_no_filter_query', 1 );
 
   //In ajax display 20 items
@@ -340,6 +342,9 @@ function cml_admin_save_extra_post_fields( $term_id ) {
 }
 
 function cml_store_quick_edit_translations( $term_id ) {
+  global $cml_use_qem;
+  if( ! $cml_use_qem || ! isset( $_POST[ 'cml-use-qem' ] ) ) return;
+
   CMLUtils::_set( '_no_store', 1 );
 
   //Current post language
@@ -376,12 +381,13 @@ function cml_store_quick_edit_translations( $term_id ) {
     $my_post = array(
                 'post_title'    => $_POST[ 'cml_post_title_' . $lang->id ],
                 'post_content'  => $_POST[ 'ceceppaml_content_' . $lang->id ],
-                'post_status'   => 'draft',
                 'post_author'   => get_current_user_id(),
               );
 
     //New translation?
     if( $t_id == 0 ) {
+      $my_post['post_status'] = 'draft';
+
       $t_id = wp_insert_post( $my_post );
 
       //Clone the categories
@@ -412,6 +418,9 @@ function cml_store_quick_edit_translations( $term_id ) {
     update_post_meta( $t_id, "_cml_lang_id", $lang->id );
 
     CMLPost::set_translation( $term_id, $lang->id, $t_id );
+
+    //I'll use this in the "publish" function
+    CMLUtils::_set( '_translation_' . $lang->id, $t_id );
   }
 }
 
@@ -810,6 +819,10 @@ function cml_clone_post_data( $data ) {
  * quick edit mode... allow to see and translate the current document in multiple languages
  */
 function cml_quick_edit_mode_editor( $post ) {
+  //Is qem enable for current post type?
+  $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
+  if( ! in_array( $post->post_type, $enabled ) ) return;
+
   $tabs = "";
   $titles = "";
   $editors = "";
@@ -824,6 +837,9 @@ function cml_quick_edit_mode_editor( $post ) {
   //Translations
   $translations = CMLPost::get_translations( $post->ID );
   $post_lang = CMLLanguage::get_id_by_post_id( $post->ID );
+
+  //Store the post language id
+  CMLUtils::_set('post_lang', $post_lang);
 
   //This post exists in all languages?
   if( CMLPost::is_unique( $post->ID ) ) $post_lang = CMLLanguage::get_default_id();
@@ -844,6 +860,7 @@ function cml_quick_edit_mode_editor( $post ) {
       $t = get_post( $t_id );
   		$title = $t->post_title;
   		$content = $t->post_content;
+      CMLUtils::_set( '_forced_language_slug', $lang->cml_language_slug );
     }
 
 		if( ! $is_post_lang ) :
@@ -916,13 +933,52 @@ YOAST;
 		echo $tabs;
 		echo '</h2>';
 
-		echo '<h2 class="nav-tab-wrapper ceceppaml-short-nav-tab ceceppaml-nav-tab cml-hidden">&nbsp;&nbsp;';
-		echo $short_tabs;
-		echo '</h2>';
+    echo '<input type="hidden" name="cml-use-qem" value="1" />';
 
     if( defined( 'WPSEO_VERSION' ) ) {
       echo $yoast;
     }
+
+    //
+    CMLUtils::_set( '_forced_language_slug', $post_lang );
+}
+
+/**
+ * Allow the users to publish the translation, as well, from the quick edit mode
+ */
+function cml_qem_publish_box( $p ) {
+  echo '<div class="misc-pub-section cml-publish">';
+  echo '<span class="cml-publish-title">' . __ ( 'Publish translations:', 'ceceppaml' ) . '</span>';
+
+  echo '<ul class="cml-publish-ul">';
+  foreach( CMLLanguage::get_all() as $lang ) {
+    if( $lang->id == CMLUtils::_get( 'post_lang' ) ) continue;
+
+    echo '<li>';
+    echo cml_utils_create_checkbox( $lang->cml_language, "cml-publish-" . $lang->id, "cml-publish-" . $lang->id, null, 1, null );
+    echo '</li>';
+  }
+
+  echo '</ul></div>';
+}
+
+//Publish the translation?
+function cml_qem_set_publish_parameter($location, $post_id = null) {
+  $posts = array();
+
+  foreach( CMLLanguage::get_all() as $lang ) {
+    if( isset( $_POST['cml-publish-' . $lang->id] ) ) {
+      $tid = CMLUtils::_get( '_translation_' . $lang->id, 0 );
+
+      if( $tid > 0 ) $posts[] = $tid;
+    }
+  }
+
+  if( ! empty( $posts ) ) {
+    $location = add_query_arg( array( 'publish' => $posts ), $location );
+  }
+
+  return $location;
 }
 
 //Quick edit mode
@@ -959,4 +1015,21 @@ add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );
 //Quick edit mode
 if( $cml_use_qem ) {
   add_action( 'edit_form_after_title', 'cml_quick_edit_mode_editor', 10, 1 );
+
+  //Add the publish checkbox for the translated posts
+  add_action( 'post_submitbox_misc_actions', 'cml_qem_publish_box', 99 );
+
+  //Publish the translations...
+  add_filter( 'redirect_post_location', 'cml_qem_set_publish_parameter', 99 );
+}
+
+//If the publis parameter set?
+if( isset( $_GET[ 'publish' ] ) ) {
+  $posts = $_GET[ 'publish' ];
+
+  foreach( $posts as $post ) {
+    $tid = intval( $post );
+
+    wp_publish_post( $tid );
+  }
 }

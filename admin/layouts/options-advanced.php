@@ -18,9 +18,32 @@ EOT;
 function cml_admin_options_advanced_qem() {
   ?>
   <div id="minor-publishing">
-    <div>
-      <?php $qem = __( 'Quick Edit mode', 'ceceppaml'); ?>
-      <?php echo cml_utils_create_checkbox( $qem, "cml-qem", "cml-qem", null, 1, get_option( "cml_qem_enabled", 1 ) ) ?>
+    <div class="inside <?php echo get_option( "cml_qem_enabled", 1 ) ? '' : 'disabled'; ?>">
+      <ul>
+      <?php
+
+        //I don't need all the builtin post type, like media...
+        $post_types = get_post_types( array( '_builtin' => FALSE ), 'names');
+        $post_types[] = "post";
+        $post_types[] = "page";
+
+        //Enabled post types ( by default all )
+        $enabled = get_option( 'cml_qem_enabled_post_types', $post_types );
+        foreach( $post_types as $post_type ) {
+
+          $checked = checked( in_array( $post_type, $enabled ), 1, false );
+echo <<< LI
+  <li>
+    <div class="cml-checkbox">
+      <input type="checkbox" id="cml-qem-{$post_type}" name="cml-qem-posttypes[]" value="$post_type" $checked />
+      <label for="cml-qem-{$post_type}"><span>||</span></label>
+    </div>
+    <label for="cml-qem-{$post_type}">$post_type</label>
+  </li>
+LI;
+      }
+      ?>
+      </ul>
       <?php submit_button() ?>
     </div>
   </div>
@@ -160,7 +183,7 @@ function cml_admin_force_post_redirect() {
 
 $help = __( 'Show/Hide help', 'ceceppaml' );
 
-add_meta_box( 'cml-box-quick-edit', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Quick edit mode', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_qem', 'cml_box_options' );
+add_meta_box( 'cml-box-quick-edit', cml_utils_create_checkbox( '', "cml-qem", "cml-qem", null, 1, get_option( "cml_qem_enabled", 1 ) ) . '<label for="cml-qem">' . __( 'Quick edit mode', 'ceceppaml' ) . "</label>:<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_qem', 'cml_box_options' );
 
 add_meta_box( 'cml-box-start-wizard', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Wizard', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_advanced_wizard', 'cml_box_options' );
 add_meta_box( 'cml-box-assign-to', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Update language of existing posts', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_update_language', 'cml_box_options' );

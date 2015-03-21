@@ -1,13 +1,15 @@
 <?php
 
 class CMLDebug {
+  private $temp = 1;
+
   public function __construct() {
     //add_action( 'admin_menu', array( &$this, 'debug' ) );
     add_action( 'wp_footer', array( &$this, 'footer' ) );
     add_action( 'admin_footer', array( &$this, 'footer' ) );
-    //add_filter( 'query', array( & $this, 'query' ), 10, 1 );
+    add_filter( 'query', array( & $this, 'query' ), 10, 1 );
   }
-  
+
   public function query( $query ) {
    // $traces = debug_backtrace();
     // foreach( $traces as $trace ) {
@@ -20,7 +22,10 @@ class CMLDebug {
         // break;
       // }
     // }
-  
+
+    // echo "qq $query\n";
+    // if( $this->temp++ > 100 ) die();
+
     return $query;
   }
 
@@ -37,7 +42,7 @@ class CMLDebug {
       for( $i = 0; $i < $tipi; $i++ ) {
 	$id = $_POST[ 'id' ][ $i ];
 	$tipo = $_POST[ 'tipo' ][ $i ];
-	
+
 	$wpdb->update( CECEPPA_ML_TRANS,
 			array( "cml_type" => $tipo ),
 			array( "id" => $id ),
@@ -70,7 +75,7 @@ EOT;
     case 0:
 //       echo "<h2>CECEPPA_ML_TABLE</h2>";
       $this->table( $wpdb->get_results( "SELECT id, cml_default, cml_flag, cml_language, cml_language_slug, cml_locale,cml_enabled,cml_sort_id,cml_flag_path,cml_rtl,cml_date_format  FROM " . CECEPPA_ML_TABLE  ) );
-    
+
       break;
     case 1:
 //       echo "<h2>CECEPPA_ML_RELATIONS</h2>";
@@ -90,10 +95,10 @@ EOT;
       break;
     }
   }
-  
+
   function table( $results, $titles = array(), $edit = array() ) {
     $head = $results[ 0 ];
-    
+
     if( !empty( $edit ) ) {
       $page = $_GET[ 'page' ];
 echo <<< EOT
@@ -109,7 +114,7 @@ EOT;
 <?php
 	foreach( $head as $key => $val ) {
 	  echo "<th>" . str_replace( "cml_", "", $key ) . "</th>";
-	  
+
 	  //Titolo del post/page
 	  if( in_array( $key, $titles ) ) echo "<th>Title</th>";
 
@@ -134,9 +139,9 @@ EOT;
 	    $td .= "<input type=\"text\" name=\"" . $key . "[]\" value=\"$value\" size=5 />";
 	    $td .= "</td>";
 	  }
-	  
+
 	  echo $td;
-	  
+
 	  if( in_array( $key, $titles ) ) {
 	    $title = ( $value > 0 ) ? get_the_title( $value ) : "";
 	    echo "<th>" . $title . "</th>";
@@ -168,7 +173,7 @@ EOT;
       echo '<div class="title">CML Debug</div>';
       echo '<div class="content">';
       echo "This output is visible only to logged user...";
-      
+
       $pfile = trailingslashit( dirname( __FILE__) ) . "ceceppaml.php";
       if( function_exists( 'get_plugin_data' ) ) {
         $pdata = get_plugin_data( $pfile );
@@ -187,13 +192,13 @@ EOT;
 
       echo "\n wpCeceppaML->_homeUrl: ";
       print_r( CMLUtils::home_url() );
-      
+
       echo "\n wpCeceppaML->_request_url: ";
 //       print_r( $wpCeceppaML->_request_url );
-      
+
       echo "\n wpCeceppaML->_permalink_structure: ";
       print_r( CMLUtils::get_permalink_structure() );
-      
+
       echo "\nhomeUrl(): " . home_url();
       echo "\nMode: " . CMLUtils::get_url_mode();
       echo "\nSettings: " . _CML_SETTINGS_PHP;
@@ -208,20 +213,20 @@ EOT;
           echo "<b>Post by lang: " . $lang->cml_language . " ( " . count( $posts ) . " ) </b>\n";
           echo "\t" . join( ",", $posts ) . "\n\n";
         }
-      
+
         echo "\n\n<b>Static page:</b>\n";
         echo "cml_use_static_page: " . intval( cml_use_static_page() );
         echo "\npage_for_posts: " . get_option( "page_for_posts" );
         echo "\npage_on_front: " . get_option( "page_on_front" );
         echo "\ncml_is_homepage: " . intval( cml_is_homepage() );
         echo "\nthe_id: " . get_the_ID();
-  
+
         echo "\n\n<b>Static page:</b>\n";
         echo "is_single(): " . is_single();
         echo "\nis_page(): " . is_page();
         echo "\nis_category(): " . is_category();
         echo "\nis_archive(): " . is_archive();
-        
+
         echo "\n\n<b>Linked pages:</b>\n";
         print_r( CMLPost::get_translations( get_the_ID() ) );
       }
@@ -231,7 +236,7 @@ EOT;
       echo "</pre></div></div>";
     }
   }
-  
+
 }
 
 $cmlDebug = new CMLDebug();

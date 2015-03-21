@@ -324,6 +324,10 @@ jQuery( document ).ready( function( $ ) {
     _cml_use_qem = true;
   }
 
+  //Quick edit advanced optiions
+  $( 'input#cml-qem' ).change(function() {
+    $( this ).closest( '.meta-box-sortables' ).find( '#minor-publishing > .inside' ).toggleClass( 'disabled' );
+  });
   $( '.ceceppaml-titlewrap' ).insertAfter( $( '#titlediv > #titlewrap' ) );
 	$( '.ceceppaml-titlewrap' ).removeClass( 'cml-hidden' );
 
