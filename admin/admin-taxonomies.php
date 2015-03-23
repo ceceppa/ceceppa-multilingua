@@ -1,5 +1,5 @@
 <?php
-//if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
+if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 //die();
 function cml_admin_taxonomy_add_form_fields( $tag ) {
@@ -211,4 +211,3 @@ function cml_admin_taxonomy_disable_quickedit( $actions, $tag ) {
 if( ! CMLLanguage::is_default() ) {
   add_filter( 'tag_row_actions', 'cml_admin_taxonomy_disable_quickedit', 10, 2 );
 }
-?>

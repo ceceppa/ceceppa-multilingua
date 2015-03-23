@@ -189,6 +189,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * various bug fixes
 * Now you can easily translate any custom post slug
 * forced redirect for translated post/page permalink
+* Added compatibility with WPML icl_get_languages function
 
 = 1.4.37 =
 * Added warning in languages page if all the changes are not saved yet

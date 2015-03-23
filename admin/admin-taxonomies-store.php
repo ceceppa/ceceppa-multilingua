@@ -44,7 +44,7 @@ function cml_admin_taxonomy_edit_form_fields( $tag ) {
     foreach( $langs as $lang ) {
       if( ! $lang->cml_default ) {
         $id = $lang->id;
-        
+
         $img = CMLLanguage::get_flag_img( $lang->id );
 
         //$value = get_option( "cml_category_" . $t_id . "_lang_$id", $tag->name );
@@ -112,7 +112,7 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
                                                                   'parent' => $parent,
                                                                   )
         );
-        
+
 
         $class = @get_class( $term );
         if( $class == "WP_Error" ) {
@@ -125,7 +125,7 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
       }
     } else {
       $tterm = $exists->term_id;
-      
+
       $update = true;
     }
 
@@ -154,7 +154,7 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
   }
 
   update_option( 'cml_categories', $cmlcats );
-  
+
   cml_fix_update_post_categories();
 }
 
@@ -180,7 +180,7 @@ function _cml_admin_quickedit_taxonomy( $term_id ) {
   //restore original category name
   $query = sprintf( "SELECT UNHEX( cml_cat_name ) FROM %s WHERE cml_cat_id = %d",
                     CECEPPA_ML_CATS, $term_id );
-  
+
   $name = $wpdb->get_var( $query );
 
   _cml_copy_taxonomies_to_translations();
@@ -226,7 +226,7 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $tax
             ),
 		  array('%s', '%d', '%s', '%s', '%d', '%s', '%d' ) );
   }
-  
+
   _cml_copy_taxonomies_to_translations();
 
   //Update translations :)
@@ -249,11 +249,11 @@ function _cml_copy_taxonomies_to_translations() {
 
 function cml_admin_delete_extra_taxonomy_fields( $term_id ) {
   global $wpdb;
-  
+
   //Cancello la voce dal database
   $query = sprintf( "DELETE FROM %s WHERE cml_cat_id = %d", CECEPPA_ML_CATS, $term_id );
   $wpdb->query($query);
-  
+
   _cml_copy_taxonomies_to_translations();
 }
 
@@ -284,11 +284,10 @@ function cml_admin_taxonomy_flag_columns( $columns ) {
 
 function cml_admin_taxonomy_disable_quickedit( $actions, $tag ) {
   unset( $actions['inline hide-if-no-js'] );
-  
+
   return $actions;
 }
 
 if( ! CMLLanguage::is_default() ) {
   add_filter( 'tag_row_actions', 'cml_admin_taxonomy_disable_quickedit', 10, 2 );
 }
-?>

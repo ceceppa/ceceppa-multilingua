@@ -167,6 +167,49 @@ class CML_WPML_Parser {
   }
 }
 
+/**
+ * WPML language switcher
+ */
+if( ! function_exists( 'st_is_wpml' ) ) {
+  function st_is_wpml() {
+    return true;
+  }
+}
+
+/**
+ * https://wpml.org/documentation/getting-started-guide/language-setup/custom-language-switcher/
+ */
+if( ! function_exists( 'icl_get_languages' ) ) {
+  function icl_get_languages( $params ) {
+    //Convert parameters into associative array
+    wp_parse_str( $params, $args );
+
+    //array to be returned
+    $array = array();
+
+    foreach( CMLLanguage::get_all() as $lang ) {
+      $link = cml_get_the_link( $lang, true, $args[ 'skip_missing' ] == 0 );
+
+      if( empty( $link ) && $args[ 'skip_missing' ] == 1 ) continue;
+
+      $data = array(
+                    'id' => $lang->id,
+                    'active' => $lang->cml_enabled,
+                    'native_name' => $lang->cml_language,
+                    'missing' => (empty( $link ) ),
+                    'translated_name' => $lang->cml_language,
+                    'language_code' => $lang->cml_language_slug,
+                    'country_flag_url' => CMLLanguage::get_flag_src( $lang ),
+                    'url' => link
+      );
+
+      $array[ $lang->cml_language_slug ] = $data;
+    }
+
+    return $array;
+  }
+}
+
 /*
  * Scan plugins folders to search "wpml-config.xml"
  */

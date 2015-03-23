@@ -906,10 +906,13 @@ EOT;
         $kw = get_post_meta($t_id, '_yoast_wpseo_focuskw', true);
         $title = get_post_meta($t_id, '_yoast_wpseo_title', true);
         $meta = get_post_meta($t_id, '_yoast_wpseo_metadesc', true);
+
+        $kw_label = sprintf( __( 'Keyword in: %s', 'ceceppaml' ), $lang->cml_language );
+        $meta_label = sprintf( __( 'Meta description in: %s', 'ceceppaml' ), $lang->cml_language );
 $yoast .= <<<YOAST
   <div class="cml-hidden ceceppaml-yoast-kw cml-yoast">
     $img
-    <input type="text" name="ceceppaml_yoast_kw_{$lang->id}" autocomplete="off" value="$kw" class="large-text ui-autocomplete-input">
+    <input type="text" name="ceceppaml_yoast_kw_{$lang->id}" autocomplete="off" value="$kw" class="large-text ui-autocomplete-input" placeholder="$kw_label">
   </div>
 
   <div class="cml-hidden ceceppaml-yoast-title cml-yoast">
@@ -919,7 +922,7 @@ $yoast .= <<<YOAST
 
   <div class="cml-hidden ceceppaml-yoast-metadesc cml-yoast">
     $img
-    <textarea class="large-text metadesc" rows="2" id="ceceppaml_yoast_metadesc_{$lang->id}" name="ceceppaml_yoast_metadesc_{$lang->id}">$meta</textarea>
+    <textarea class="large-text metadesc" rows="2" id="ceceppaml_yoast_metadesc_{$lang->id}" name="ceceppaml_yoast_metadesc_{$lang->id}" placeholder="$meta_label">$meta</textarea>
   </div>
 YOAST;
     endif;
@@ -1012,17 +1015,6 @@ add_filter( 'cml_manage_post_types', 'cml_disable_filtering' );
 //Clone the post date
 add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );
 
-//Quick edit mode
-if( $cml_use_qem ) {
-  add_action( 'edit_form_after_title', 'cml_quick_edit_mode_editor', 10, 1 );
-
-  //Add the publish checkbox for the translated posts
-  add_action( 'post_submitbox_misc_actions', 'cml_qem_publish_box', 99 );
-
-  //Publish the translations...
-  add_filter( 'redirect_post_location', 'cml_qem_set_publish_parameter', 99 );
-}
-
 //If the publis parameter set?
 if( isset( $_GET[ 'publish' ] ) ) {
   $posts = $_GET[ 'publish' ];
@@ -1032,4 +1024,17 @@ if( isset( $_GET[ 'publish' ] ) ) {
 
     wp_publish_post( $tid );
   }
+}
+
+//Quick edit mode
+if( $cml_use_qem ) {
+  add_action( 'edit_form_after_title', 'cml_quick_edit_mode_editor', 10, 1 );
+
+  //Add the publish checkbox for the translated posts
+  add_action( 'post_submitbox_misc_actions', 'cml_qem_publish_box', 99 );
+
+  //Publish the translations...
+  add_filter( 'redirect_post_location', 'cml_qem_set_publish_parameter', 99 );
+
+  add_action( 'admin_notices', 'cml_show_qem_notice' );
 }
