@@ -971,7 +971,7 @@ class CMLPost {
       $row = ""; //get_post_meta( $post_id, "_cml_meta", true );
 
       if( empty( $row ) || empty( $row[ 'lang' ] ) || $force ) {
-        if( empty( $GLOBALS[ '_cml_language_columns' ] ) ) {
+        if( empty( $GLOBALS[ '_cml_language_columns' ] ) || $force ) {
           require_once ( CML_PLUGIN_ADMIN_PATH . 'admin-settings-gen.php' );
 
           cml_generate_lang_columns();

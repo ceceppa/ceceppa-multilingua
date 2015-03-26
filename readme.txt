@@ -17,6 +17,7 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 
 = Features =
 
+- Quick Edit mode. Allow you to edit the main content and its translations easily from one page/
 - Separated posts and pages for each languages, so you can use different SEO and url for each languages.
 - Translate your theme ( Plugin let you translate strings and will generate the .mo file for wordpress )
 - URLs pretty and SEO-friendly. ?lang=en, /en/foo/ or en.yoursite.com
@@ -38,6 +39,7 @@ With "Ceceppa Multilingua" you can write your posts and pages in multiple langua
 - Redirects the browser depending on the user's language.
 - Different post filter method
 - Filter search in according to current language
+- Allow you to translate your own custom post type slugs
 - Compatible with wpml-config.xml ( experimental )
 
 = Widgets =

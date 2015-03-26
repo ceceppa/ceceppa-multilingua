@@ -2108,7 +2108,7 @@ EOT;
      * For the custom post types the function get_permalink is not called, or anyway
      * it isn't before this one...
      */
-    if( ! is_singular() ) return;
+    if( ! is_singular() || cml_is_homepage() ) return;
 
     if ( !$requested_url ) {
   		// build the URL in the address bar
@@ -2128,7 +2128,7 @@ EOT;
     $original = preg_replace( '/\?.*/', '', $original );
     $translated = preg_replace( '/\?.*/', '', $translated );
 
-    if( $original != $translated ) {
+    if( trailinghslashit( $original ) != trailinghslashit( $translated ) ) {
       wp_redirect($translated, 301);
     }
   }

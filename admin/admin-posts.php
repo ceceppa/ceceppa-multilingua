@@ -333,9 +333,6 @@ function cml_admin_save_extra_post_fields( $term_id ) {
 
   CMLPost::set_translations( $post_id, $linkeds, $post_lang );
 
-  //Quick edit mode, store the translations
-  cml_store_quick_edit_translations( $term_id );
-
   update_post_meta( $post_id, "_cml_lang_id", $post_lang );
 
   CMLUtils::_del( '_no_store' );
@@ -382,6 +379,7 @@ function cml_store_quick_edit_translations( $term_id ) {
                 'post_title'    => $_POST[ 'cml_post_title_' . $lang->id ],
                 'post_content'  => $_POST[ 'ceceppaml_content_' . $lang->id ],
                 'post_author'   => get_current_user_id(),
+                'post_type'     => $_POST[ 'post_type' ]
               );
 
     //New translation?
@@ -417,7 +415,7 @@ function cml_store_quick_edit_translations( $term_id ) {
 
     update_post_meta( $t_id, "_cml_lang_id", $lang->id );
 
-    CMLPost::set_translation( $term_id, $lang->id, $t_id );
+    CMLPost::set_translation( $term_id, $lang->id, $t_id, $post_lang );
 
     //I'll use this in the "publish" function
     CMLUtils::_set( '_translation_' . $lang->id, $t_id );
@@ -819,9 +817,14 @@ function cml_clone_post_data( $data ) {
  * quick edit mode... allow to see and translate the current document in multiple languages
  */
 function cml_quick_edit_mode_editor( $post ) {
+  global $pagenow;
+
   //Is qem enable for current post type?
   $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
   if( ! in_array( $post->post_type, $enabled ) ) return;
+
+  //is a new document?
+  $is_new_post = ( $pagenow == "post-new.php" );
 
   $tabs = "";
   $titles = "";
@@ -835,8 +838,11 @@ function cml_quick_edit_mode_editor( $post ) {
   $url = "";
 
   //Translations
-  $translations = CMLPost::get_translations( $post->ID );
+  $translations = CMLPost::get_translations( $post->ID, true );
   $post_lang = CMLLanguage::get_id_by_post_id( $post->ID );
+  if( $is_new_post ) {
+    $post_lang = CMLLanguage::get_default_id();
+  }
 
   //Store the post language id
   CMLUtils::_set('post_lang', $post_lang);
@@ -850,12 +856,13 @@ function cml_quick_edit_mode_editor( $post ) {
     $is_post_lang = $lang->id == $post_lang;
 
     //Translated id
-    $t_id = $translations[ $lang->cml_language_slug ];
+    $t_id = @$translations[ $lang->cml_language_slug ];
 
 		$label = sprintf( __( 'Title in %s', 'ceceppaml' ), $lang->cml_language );
 
 		$img = CMLLanguage::get_flag_src( $lang->id );
 
+    //The title and the permalink
     if( $t_id > 0 && $t_id != $post->ID ) {
       $t = get_post( $t_id );
   		$title = $t->post_title;
@@ -967,6 +974,14 @@ function cml_qem_publish_box( $p ) {
 
 //Publish the translation?
 function cml_qem_set_publish_parameter($location, $post_id = null) {
+  //Quick edit mode, store the translations
+  /**
+   * Why now? Because the function clear the all filters related to the post save.
+   * So, I need to be sure that I'm the last one that is executing the "update"
+   */
+  cml_store_quick_edit_translations( $term_id );
+
+
   $posts = array();
 
   foreach( CMLLanguage::get_all() as $lang ) {
@@ -982,6 +997,17 @@ function cml_qem_set_publish_parameter($location, $post_id = null) {
   }
 
   return $location;
+}
+
+//Public the posts with the new ui
+function cml_publish_posts() {
+  $posts = $_GET[ 'publish' ];
+
+  foreach( $posts as $post ) {
+    $tid = intval( $post );
+
+    wp_publish_post( $tid );
+  }
 }
 
 //Quick edit mode
@@ -1017,13 +1043,8 @@ add_filter( 'wp_insert_post_data', 'cml_clone_post_data', 99 );
 
 //If the publis parameter set?
 if( isset( $_GET[ 'publish' ] ) ) {
-  $posts = $_GET[ 'publish' ];
-
-  foreach( $posts as $post ) {
-    $tid = intval( $post );
-
-    wp_publish_post( $tid );
-  }
+  //I need to once the function is_user_logged is available
+  add_action( 'init', 'cml_publish_posts' );
 }
 
 //Quick edit mode
