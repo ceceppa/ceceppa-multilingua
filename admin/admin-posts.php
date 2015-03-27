@@ -979,8 +979,7 @@ function cml_qem_set_publish_parameter($location, $post_id = null) {
    * Why now? Because the function clear the all filters related to the post save.
    * So, I need to be sure that I'm the last one that is executing the "update"
    */
-  cml_store_quick_edit_translations( $term_id );
-
+  cml_store_quick_edit_translations( $_POST['post_ID'] );
 
   $posts = array();
 
