@@ -2128,7 +2128,7 @@ EOT;
     $original = preg_replace( '/\?.*/', '', $original );
     $translated = preg_replace( '/\?.*/', '', $translated );
 
-    if( trailinghslashit( $original ) != trailinghslashit( $translated ) ) {
+    if( trailingslashit( $original ) != trailingslashit( $translated ) ) {
       wp_redirect($translated, 301);
     }
   }
