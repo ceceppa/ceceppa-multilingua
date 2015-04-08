@@ -223,7 +223,7 @@ class CMLFrontend extends CeceppaML {
      * with original and translated permalink...
      * This code jst check if a redirect if required, if so force it...
      */
-     if( ! empty( $this->_permalink_structure ) && get_option( 'cml_force_redirect', 1 ) ) {
+     if( ! empty( $this->_permalink_structure ) && get_option( 'cml_force_redirect', 0 ) ) {
        add_action( 'template_redirect', array( & $this, 'force_redirect' ), 99 );
      }
   }
@@ -1057,8 +1057,10 @@ EOT;
 
           $url = get_term_link( $term );
 
+          //Original category title
+          $title = ( empty( $item->post_title ) ) ? $term->name : $item->post_title;
           $item->title = ( ! @empty( $customs[ 'title' ] ) ) ? $customs[ 'title' ] :
-                                                $term->name;
+                                                $title;
           $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
                                                 $item->attr_title;
 
@@ -1795,8 +1797,13 @@ EOT;
     if( @$wp_query->query_vars[ 'post_type' ] == 'attachment' ||
         @$wp_query->query_vars[ 'post_type' ] == 'nav_menu_item' ) return $wp_query;
 
-    if( is_search() && $wp_query->is_main_query() ) {
-      if( ! $this->_filter_search ) {
+    // if( is_search() && $wp_query->is_main_query() ) {
+    if( $wp_query->is_main_query() ) {
+      if( is_search() && ! $this->_filter_search ) {
+        return;
+      }
+
+      if( is_singular() ) {
         return;
       }
     }
@@ -1837,16 +1844,17 @@ EOT;
      * To avoid this I just change method.. Instead to set which posts belongs
      * to the current language, I do the opposite. So I set which ones doesn't..
      */
-    //Get all posts by language
+    //Get all posts by language except the ones that exists in the use_language array
     if( ! is_array( $use_language ) ) $use_language = array( $use_language );
 
     $posts = array();
     foreach( CMLLanguage::get_all() as $lang ) {
       //Ignore the use language...
-      $key = array_search( $lang->id, $use_language );
+      $id = is_object( $lang ) ? $lang->id : $lang;
+      $key = array_search( $id, $use_language );
       if( $key !== FALSE ) continue;
 
-      $posts = array_merge( $posts, CMLPost::get_posts_by_language( $lang ) );
+      $posts = array_merge( $posts, CMLPost::get_posts_by_language( $id ) );
     }
 
     // if( ! is_array( $use_language ) ) {

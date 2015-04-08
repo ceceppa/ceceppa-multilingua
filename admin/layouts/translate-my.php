@@ -70,7 +70,8 @@ EOT;
   <div class="cml-left-items">
     <div id="cml-search">
       <input type="search" name="s" id="filter" placeholder="<?php _e( 'Text to search', 'ceceppaml' ) ?>" value="" size="30" />
-      <input type="button" name="search" class="button cml-button-search" value="<?php _e( 'Search', 'ceceppaml' ) ?>" />
+      <!-- <input type="button" name="search" class="button cml-button-search" value="<?php _e( 'Search', 'ceceppaml' ) ?>" />
+      <span class="spinner"></span> -->
     </div>
   </div>
   <div class="cml-right-items">

@@ -352,8 +352,8 @@ EOT;
                                      'parent' => $parent ) );
   }
 
-  function pre_post_link( $permalink, $post, $leavename ) {
-    if( is_preview() ) {
+  function pre_post_link( $permalink, $post = null, $leavename = null ) {
+    if( is_preview() || null == $post ) {
       return $permalink;
     }
 

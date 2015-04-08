@@ -158,6 +158,9 @@ class CMLAdmin extends CeceppaML {
     //Get the content via qem
     add_action( 'wp_ajax_ceceppaml_get_post_content', array( & $this, 'ceceppaml_get_post_content' ) );
 
+    //My translations load strings from dbs
+    add_action( 'wp_ajax_ceceppaml_get_my_translations', array( & $this, 'ceceppaml_get_my_translations' ) );
+
     //Widget page
     add_action( 'load-widgets.php', array( & $this, 'page_widgets' ), 10 );
 

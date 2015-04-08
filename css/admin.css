@@ -2223,3 +2223,7 @@ h2.ceceppaml-nav-tab {
   width: 100%;
   padding-top: 10px;
 }
+
+.cml-tab-strings .spinner.visible {
+  visibility: visible;
+}

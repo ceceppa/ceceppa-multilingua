@@ -167,8 +167,7 @@ EOT;
   public function footer () {
     global $wpCeceppaML, $wpdb;
 
-      return;
-    if( is_user_logged_in() || isset( $_GET[ "cdb" ] ) ) {
+    if( is_user_logged_in() ) {
       echo '<div id="cml-debug">';
       echo '<div class="title">CML Debug</div>';
       echo '<div class="content">';
@@ -231,8 +230,8 @@ EOT;
         print_r( CMLPost::get_translations( get_the_ID() ) );
       }
 
-      //echo "\nQueries: " . count( $this->queries ) . "\n";
-      //echo join( "\n", $this->queries );
+      echo "\nQueries: " . count( $this->queries ) . "\n";
+      echo join( "\n", $this->queries );
       echo "</pre></div></div>";
     }
   }
