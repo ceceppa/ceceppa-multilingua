@@ -94,22 +94,12 @@ class CMLFrontend extends CeceppaML {
     }
 
     //Show flags on
-//    if( $_cml_settings[ 'cml_option_flags_on_post' ] ||
-//        $_cml_settings[ 'cml_option_flags_on_page' ] ||
-//        $_cml_settings[ 'cml_option_flags_on_custom_type' ] ||
-//        $_cml_settings[ 'cml_option_flags_on_the_loop' ] ) {
-//
-//      if( $_cml_settings[ 'cml_option_flags_on_pos' ] == "bottom" ||
-//          $_cml_settings[ 'cml_option_flags_on_pos' ] == "top" ) {
-/*
- * From 1.5 user can override the flag setting for a single post, so I can't
- * check it here, as I don't know the post id, yet...
- */
-          add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
-//      } else {
-          add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
-//      }
-//    } //endif;
+    /*
+     * From 1.5 user can override the flag setting for a single post, so I can't
+     * check it here, as I don't know the post id, yet...
+     */
+    add_filter( "the_content", array( & $this, 'add_flags_on_content' ), 10, 1 );
+    add_filter( "the_title", array( &$this, 'add_flags_on_title' ), 10, 2 );
 
     /*
      * filter search by language
@@ -334,9 +324,11 @@ class CMLFrontend extends CeceppaML {
 
       if( 'after' == $where ) {
         return $title . $flags;
-      }
-      else
+      } else {
         return $flags . $title;
+      }
+
+      die();
     } //endif;
 
     return $title;

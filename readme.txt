@@ -196,6 +196,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * Fixed issue with menu custom navigation label
 * Fixed category translation issue when the names containing html special chars
 * Added possibility to search in all rows in my translations pages
+* Fixed issue with YOAST 2.x
 
 = 1.4.37 =
 * Added warning in languages page if all the changes are not saved yet

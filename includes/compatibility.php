@@ -322,6 +322,7 @@ function cml_yoast_translate_options() {
   $names = get_option( "cml_translated_fields_yoast", array() );
   if( empty( $names ) ) return;
 
+  $seo = WPSEO_Frontend::get_instance();
   $names = explode( ",", $names );
   foreach( WPSEO_Options::get_all() as $key => $opt ) {
     if( in_array( $key, $names ) ) {
@@ -331,7 +332,10 @@ function cml_yoast_translate_options() {
 
       if( empty( $value ) ) continue;
 
-      $wpseo_front->options[ $key ] = $value;
+      if( ! empty( $wpseo_front ) )
+        $wpseo_front->options[ $key ] = $value;
+      else
+        $seo->options[$key] = $value;
     }
   }
 }
