@@ -183,6 +183,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 == Changelog ==
 
 = 1.5.0 =
+* Added function icl_get_languages
 * Added serbian thanks to ( http://www.webhostinghub.com )
 * Added support to hreflang tag
 * Fixed feed when "Do nothing" filter is selected

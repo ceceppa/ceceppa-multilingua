@@ -170,10 +170,25 @@ class CML_WPML_Parser {
 /**
  * WPML language switcher
  */
-if( ! function_exists( 'st_is_wpml' ) ) {
-  function st_is_wpml() {
-    return true;
+if( ! function_exists( 'icl_get_languages' ) ) {
+  function icl_get_languages( $params ) {
+    parse_str( $params );
+    $langs = CMLLanguage::get_all();
+    $return = array();
+
+    foreach( $langs as $lang ) {
+      $return[$lang->cml_language_slug]['id'] = $lang->id;
+      $return[$lang->cml_language_slug]['active'] = $lang->cml_enabled;
+      $return[$lang->cml_language_slug]['native_name'] = $lang->cml_language;
+      $return[$lang->cml_language_slug]['translated_name'] = $lang->cml_language;
+      $return[$lang->cml_language_slug]['missing'] = 0;
+      $return[$lang->cml_language_slug]['country_flag_url'] = CMLLanguage::get_flag_src( $lang );
+      $return[$lang->cml_language_slug]['url'] = cml_get_the_link( $lang );
+    }
+
+    return $return;
   }
+
 }
 
 /**
