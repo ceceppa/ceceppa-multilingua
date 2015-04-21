@@ -13,8 +13,8 @@ jQuery( document ).ready( function( $ ) {
     var $val = $( this ).val().toLowerCase();
 
     $table.find( 'tr' ).removeClass( 'match' );
-    $table.find( 'tr > td input[type="text"], tr > td input.original' ).each( function() {
-      var html = $( this ).val();
+    $table.find( 'tr > td input[type="text"], tr > td input.original, tr > td span' ).each( function() {
+      var html = $( this ).val() || $( this ).html();
       var $tr = $( this ).closest( 'tr' );
 
       var display = html.toLowerCase().indexOf( $val );
@@ -41,7 +41,7 @@ jQuery( document ).ready( function( $ ) {
 
     var from = page * itemsPerPage;
     var to = page * itemsPerPage + itemsPerPage;
-    console.log( page, from, to );
+    // console.log( page, from, to );
 
     //Show all the items between $from and $to
     var $table = $( 'table.mytranslations tbody' );

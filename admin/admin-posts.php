@@ -821,7 +821,7 @@ function cml_quick_edit_mode_editor( $post ) {
 
   //Is qem enable for current post type?
   $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
-  if( ! in_array( $post->post_type, $enabled ) ) return;
+  if( is_array( $enabled ) && ! in_array( $post->post_type, $enabled ) ) return;
 
   //is a new document?
   $is_new_post = ( $pagenow == "post-new.php" );

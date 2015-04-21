@@ -192,7 +192,7 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * Now you can easily translate any custom post slug
 * forced redirect for translated post/page permalink
 * Added compatibility with WPML icl_get_languages function
-* Fixed issue with menu custom navigatio label
+* Fixed issue with menu custom navigation label
 * Fixed category translation issue when the names containing html special chars
 * Added possibility to search in all rows in my translations pages
 
