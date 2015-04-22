@@ -168,7 +168,7 @@ function cml_admin_force_post_redirect() {
   ?>
   <div id="minor-publishing">
     <div>
-        <?php echo cml_utils_create_checkbox( __( 'Force post redirect', 'ceceppaml' ), "cml-redirect", "cml-redirect", null, 1, get_option( "cml_force_redirect", 1 ) ) ?>
+        <?php echo cml_utils_create_checkbox( __( 'Force post redirect', 'ceceppaml' ), "cml-redirect", "cml-redirect", null, 1, get_option( "cml_force_redirect", false ) ) ?>
         <?php submit_button() ?>
     </div>
   </div>

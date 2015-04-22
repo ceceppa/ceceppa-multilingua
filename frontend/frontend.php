@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 require_once CML_PLUGIN_FRONTEND_PATH . "utils.php";
+require_once CML_PLUGIN_FRONTEND_PATH . "deprecated.php";
 
 //Shortcodes & Widgets
 require_once CML_PLUGIN_INCLUDES_PATH . "shortcodes.php";
@@ -213,7 +214,7 @@ class CMLFrontend extends CeceppaML {
      * with original and translated permalink...
      * This code jst check if a redirect if required, if so force it...
      */
-     if( ! empty( $this->_permalink_structure ) && get_option( 'cml_force_redirect', 0 ) ) {
+     if( ! empty( $this->_permalink_structure ) && get_option( 'cml_force_redirect', false ) ) {
        add_action( 'template_redirect', array( & $this, 'force_redirect' ), 99 );
      }
   }
