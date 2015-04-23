@@ -9,7 +9,7 @@ if( isset( $_GET[ 'download-lang' ] ) ) {
   global $wpdb;
 
   $id = intval( $_GET[ 'download-lang' ] );
-  
+
   $lang = CMLLanguage::get_by_id( $id );
   if( ! empty( $lang ) ) {
     cml_download_mo_file( $lang->cml_locale );
@@ -52,15 +52,15 @@ function cml_admin_box_languages() {
     if( substr( $lang->cml_locale, 0, 2 ) != "en" ) {
       $alternate = @empty( $alternate ) ? "alternate" : "";
       echo "<tr class=\"${alternate}\">";
-  
+
       echo "<td>" . CMLLanguage::get_flag_img( $lang->id ) . "</td>";
       echo "<td>$lang->cml_locale</td>";
-  
+
       //Esiste il file della lingua?
       $exists = cml_download_mo_file_check( $lang->cml_locale );
       $link = "#";
       if( ! $exists ) {
-        $link = add_query_arg( array( "download-lang" => $lang->id ) );
+        $link = esc_url( add_query_arg( array( "download-lang" => $lang->id ) ) );
       }
 
       $title = ( $exists ) ? "&#x2713;" : "&#x25BC;";
@@ -72,7 +72,7 @@ echo <<< EOT
     </a>
   </td>
 EOT;
-  
+
       echo "</tr>";
     }
   }

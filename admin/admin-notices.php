@@ -4,7 +4,7 @@ add_action( 'admin_notices', 'cml_show_admin_notices' );
 function cml_show_admin_notices() {
   global $wpdb;
 
-  if( ! current_user_can( 'manage_optios' ) ) {
+  if( ! current_user_can( 'manage_options' ) ) {
     return;
   }
 
@@ -21,7 +21,7 @@ function cml_show_admin_notices() {
   $sql = "SHOW COLUMNS FROM  " . CECEPPA_ML_CATS . " LIKE  'cml_cat_translation_slug'";
   $exists = $wpdb->get_row( $sql );
   if( null == $exists ) {
-    $link = add_query_arg( array( "fix-upgrade" => 1 ) );
+    $link = esc_url( add_query_arg( array( "fix-upgrade" => 1 ) ) );
 
 ?>
     <div class="error">
@@ -35,7 +35,6 @@ function cml_show_admin_notices() {
 <?php
   }
 }
-
 
 /*
  * Quick edit mode notices
@@ -72,7 +71,7 @@ function cml_show_qem_notice() {
   </p>
   <br />
   <p class="submit">
-      <a class="button button-primary" style="float: right" href="<?php echo add_query_arg( array( 'qem-hide' => 1 ) ); ?>">
+      <a class="button button-primary" style="float: right" href="<?php echo esc_url( add_query_arg( array( 'qem-hide' => 1 ) ) ); ?>">
         <?php _e( 'Hide', 'ceceppaml' ); ?>
       </a>
   </p>

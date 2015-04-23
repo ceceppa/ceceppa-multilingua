@@ -451,7 +451,7 @@ function cml_backup_do() {
     $tab = isset( $_POST[ 'tab' ] ) ? intval( $_POST[ 'tab' ] ) : 1;
 
     $status = "1";
-    if( !_cml_check_backup_folder() ) {
+    if( ! _cml_check_backup_folder() ) {
         $status = "-2";
     } else {
         //Backup file
@@ -502,14 +502,15 @@ function cml_backup_export() {
                                       " WHERE option_name LIKE 'cml_%' OR option_name LIKE '_cml_%' " );
     }
 
-    $json = array( 'url' => add_query_arg(
-                                    array(
-                                            'page' => 'ceceppaml-backup-page',
-                                            'tab' => 2,
-                                            'download' => 1,
-                                         ),
-                                    admin_url() . "admin.php"
-                                    ),
+    $url = add_query_arg(
+                          array(
+                                  'page' => 'ceceppaml-backup-page',
+                                  'tab' => 2,
+                                  'download' => 1,
+                               ),
+                          admin_url() . "admin.php"
+                        );
+    $json = array( 'url' => esc_url( $url ),
                    'show' => 1,
                  );
 
@@ -556,9 +557,10 @@ function cml_backup_import() {
   //I need to force the settings.php re-generation
   update_option('cml_use_settings_gen', 0);
 
-  $json = array( 'url' => add_query_arg( $url,
-                                         admin_url() . "admin.php?cml-settings-updated=1"
-                                       ) );
+  $url = add_query_arg( $url,
+                         admin_url() . "admin.php?cml-settings-updated=1"
+                       );
+  $json = array( 'url' => esc_url( $url ) );
 
   die( json_encode( $json ) );
 }
@@ -586,9 +588,10 @@ function cml_admin_translated_slugs() {
                 'page' => $_POST[ 'page' ],
              );
 
-  $json = array( 'url' => add_query_arg( $url,
-                                         admin_url() . "admin.php"
-                                       ) );
+  $url = add_query_arg( $url,
+                           admin_url() . "admin.php"
+                         );
+  $json = array( 'url' => esc_url( $url ) );
 
   die( json_encode( $json ) );
 }

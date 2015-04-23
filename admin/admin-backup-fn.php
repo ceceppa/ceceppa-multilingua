@@ -80,7 +80,7 @@ function _cml_backup_folder_failed( $show_hide = true ) {
     $title = __( 'Backup not available', 'ceceppaml' );
     $msg = sprintf( __( 'Failed to create the backup folder: %s', 'ceceppaml' ), CECEPPAML_BACKUP_PATH );
 
-    $link = add_query_arg( array( 'hide-backup-warning' => 1 ) );
+    $link = esc_url( add_query_arg( array( 'hide-backup-warning' => 1 ) ) );
     $close = __( 'Hide', 'ceceppaml' );
 
     $button = "";

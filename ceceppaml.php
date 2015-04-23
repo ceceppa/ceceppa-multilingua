@@ -3,7 +3,7 @@
 Plugin Name: Ceceppa Multilingua
 Plugin URI: http://www.alessandrosenese.eu/portfolio/ceceppa-multilingua
 Description: Adds userfriendly multilingual content management and translation support into WordPress.
-Version: 1.5.0
+Version: 1.5.2
 Author: Alessandro Senese aka Ceceppa
 Author URI: http://www.alessandrosenese.eu/
 License: GPL3
@@ -325,7 +325,7 @@ class CeceppaML {
       $wp_admin_bar->add_menu( array(
                                      'id' => "cml_manage_lang",
                                      'title' => __( 'Manage languages', 'ceceppaml' ),
-                                     'href' => $url,
+                                     'href' => esc_url( $url ),
                                      'parent' => "cml_lang_sel",
                                      )
                               );
@@ -348,7 +348,7 @@ EOT;
                             cml_get_the_link( $lang, true, false, true );
 
     $wp_admin_bar->add_menu( array( 'id' => $id,
-                                     'title' => $content, 'href' => $url,
+                                     'title' => $content, 'href' => esc_url( $url ),
                                      'parent' => $parent ) );
   }
 
@@ -404,10 +404,12 @@ EOT;
       //Language slug
       $slug = CMLPost::get_language_slug_by_id( $post->ID );
 
-      return add_query_arg( array(
+      $url = add_query_arg( array(
                                   "lang" => $slug,
                                   ),
                             "$permalink/$page/" );
+
+			return esc_url( $url );
     }
 
     if( $this->_url_mode == PRE_LANG ) {
@@ -463,7 +465,7 @@ EOT;
 			//Translating?
 			// $lang_id = ( empty( $lang ) ) ? CMLLanguage::get_default_id() : $lang->id;
 			$lang_id = CMLUtils::_get( "_forced_language_id", CMLLanguage::get_current_id() );
-			if( $slugs[ $type ]['enabled'] ) {
+			if( isset( $slugs[ $type ] ) && $slugs[ $type ]['enabled'] ) {
 				$trans = $slugs[$type][$lang_id];
 
 				if( ! empty( $trans ) ) {
@@ -484,6 +486,14 @@ EOT;
     $slug = ( empty( $lang ) ) ? CMLLanguage::get_default_slug() : $lang->cml_language_slug;
     $permalink = CMLPost::remove_extra_number( $permalink, $page );
 
+		/**
+		 * If the page is "unique" I need to get the slug in according to current language,
+		 * otherwise the default one will be always used...
+		 */
+		if( CMLPost::is_unique( $page_id ) ) {
+			$slug = CMLUtils::_get( '_forced_language_slug' );
+		}
+
     return $this->convert_url( $permalink, $slug );
   }
 
@@ -493,7 +503,8 @@ EOT;
   function convert_url( $permalink, $slug ) {
     switch( $this->_url_mode ) {
     case PRE_LANG:
-      return add_query_arg( array( "lang" => $slug ), $permalink );
+      $url = add_query_arg( array( "lang" => $slug ), $permalink );
+			return esc_url( $url );
       break;
     case PRE_PATH:
       $url = CMLUtils::home_url();
@@ -503,7 +514,6 @@ EOT;
       $link = str_replace( trailingslashit( $url ), "", $clean_url );
 
       $home = CMLUtils::get_home_url( $slug );
-
       return trailingslashit( $home ) . $link;
       break;
     case PRE_DOMAIN:
@@ -621,9 +631,11 @@ EOT;
     }
 
     if( $this->_url_mode == PRE_LANG ) {
-      return add_query_arg( array(
+      $url = add_query_arg( array(
                             'lang' => $slug,
                             ), $url );
+
+			return esc_url( $url );
     }
 
     if( $this->_url_mode == PRE_DOMAIN ) {

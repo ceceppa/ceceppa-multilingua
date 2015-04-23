@@ -20,7 +20,7 @@ function cml_install_create_tables() {
     *  cml_flag        - bandiera della lingua
     *  cml_language    - nome della nuova lingua
     *  cml_category_id - categoria base a cui è collegata la nuova lingua
-    *  cml_category    - descrizione della categoria a cui è collegata la lingua 
+    *  cml_category    - descrizione della categoria a cui è collegata la lingua
     */
     $sql = "CREATE TABLE $table_name (
     id INT(11) NOT NULL AUTO_INCREMENT,
@@ -41,7 +41,7 @@ function cml_install_create_tables() {
   }
 
   /**
-   * Translations are stored in CECEPPA_ML_TRANS table. 
+   * Translations are stored in CECEPPA_ML_TRANS table.
    */
   $table_name = CECEPPA_ML_TRANSLATIONS;
   if( $GLOBALS[ 'cml_db_version' ] <= 9 ) {
@@ -72,7 +72,7 @@ function cml_install_create_tables() {
   if( get_option( "cml_db_version", CECEPPA_DB_VERSION ) <= 14 ) {
     $wpdb->query("DROP TABLE $table_name");
   }
-  
+
   if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     $query = "CREATE TABLE  $table_name (
               `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -85,7 +85,7 @@ function cml_install_create_tables() {
 
     dbDelta($query);
   }
-  
+
   if( $first_time ) {
     update_option( "cml_db_version", CECEPPA_DB_VERSION );
 
@@ -112,12 +112,12 @@ function cml_install_first_time() {
   if( ! empty( $wplang ) ) {
     $language = _cml_first_install_search( $wplang );
   }
-  
+
   //not found, look for locale
   if( empty( $language ) ) {
     $language = _cml_first_install_search( $locale );
   }
-  
+
   if( empty( $language ) ) {
     $language = __( "Default language" );
   }
@@ -173,7 +173,7 @@ function _cml_first_install_search( $locale ) {
     if( $lang[ 0 ] == $locale ) {
       $language = end( $lang );
     }
-    
+
     if( $lang[ 1 ] == $locale ) {
       $language = end( $lang );
     }
@@ -188,7 +188,7 @@ function _cml_first_install_search( $locale ) {
     foreach( $_langs as $key => $value ) {
       if( $key == $locale ) {
         $language = preg_replace( "/\(.*\)/", "", $value );
-  
+
         break;
       }
     }
@@ -202,7 +202,7 @@ function _cml_first_install_search( $locale ) {
 function cml_do_install() {
   //Check if I have to create plugin tables
   cml_install_create_tables();
-  
+
   //First time? I show wizard
   if( get_option( "cml_is_first_time" ) ) {
     cml_install_first_time();

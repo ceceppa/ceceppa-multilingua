@@ -18,14 +18,13 @@ function cml_frontend_hide_translations_for_tags($wp_query) {
   if( ! is_object( $wpCeceppaML ) || ! is_array( $wpCeceppaML->_hide_posts ) ) return;
   foreach( $wpCeceppaML->_hide_posts as $id ) :
     $tags = wp_get_post_tags($id);
-    $lang_id = $wpCeceppaML->get_language_id_by_post_id($id);
+    $lang_id = CMLLanguage::get_id_by_post_id($id);
 
     foreach($tags as $tag) :
-      if($tag->name == $tag_name && $lang_id != $wpCeceppaML->get_current_lang_id(false)) :
+      if($tag->name == $tag_name && CMLLanguage::is_current( $lang_id ) ) :
 
 	//Controllo che per questa articolo non esista nessuna traduzione nella lingua corrente con la stessa categoria
-	$nid = cml_get_linked_post($lang_id, null, $id, $wpCeceppaML->get_current_lang_id(false));
-	echo $nid . ", " . $id;
+	$nid = cml_get_linked_post($lang_id, null, $id, CMLLanguage::get_current_id());
 	if(!empty($nid)) :
 	  //Verifico le categorie dell'articolo collegato
 	  $_tags = wp_get_post_tags($nid);
@@ -36,7 +35,7 @@ function cml_frontend_hide_translations_for_tags($wp_query) {
 	      break;
 	    endif;
 	  endforeach;
-	  
+
 	  if(!$found) :
 	    unset($wpCeceppaML->_hide_posts[$i]);
 	    break;
@@ -44,7 +43,7 @@ function cml_frontend_hide_translations_for_tags($wp_query) {
 	endif;
       endif;
     endforeach;
-    
+
     $i++;
   endforeach;
 }

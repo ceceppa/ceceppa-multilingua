@@ -190,7 +190,7 @@ function cml_admin_taxonomy_flag_columns( $columns ) {
   foreach( $langs as $lang ) {
     $class = ( $lang->id == $clang ) ? "cml-filter-current" : "";
 
-    $a = add_query_arg( array( "cml-lang" => $lang->id ) );
+    $a = esc_url( add_query_arg( array( "cml-lang" => $lang->id ) ) );
     $img .= "<a class=\"$class tipsy-me\" href=\"$a\" title=\"" . __('Language: ', 'ceceppaml') . "<b>$lang->cml_language</b>\"><img src=\"" . cml_get_flag_by_lang_id( $lang->id, CML_FLAG_TINY ) . "\" alt=\"$lang->cml_language\" /></a>";
   }
 

@@ -58,7 +58,7 @@ function cml_admin_options_advanced_wizard() {
   ?>
   <div id="minor-publishing">
     <div>
-      <a href="<?php echo add_query_arg( array ( "cml-restore-wizard" => 1 ) ); ?>">
+      <a href="<?php echo esc_url( add_query_arg( array ( "cml-restore-wizard" => 1 ) ) ); ?>">
         <?php _e( 'Start wizard', 'ceceppaml') ?>
       </a>
     </div>
@@ -74,7 +74,7 @@ function cml_admin_options_advanced_pointers() {
   ?>
   <div id="minor-publishing">
     <div>
-      <a href="<?php echo add_query_arg( array ( "cml-restore-wp" => 1 ) ); ?>">
+      <a href="<?php echo esc_url( add_query_arg( array ( "cml-restore-wp" => 1 ) ) ); ?>">
         <?php _e( 'Restore helps', 'ceceppaml') ?>
       </a>
     </div>
@@ -93,7 +93,7 @@ function cml_admin_options_update_language() {
     <div>
       <?php
         printf( __( "Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages.", "ceceppaml" ),
-                add_query_arg( array( 'cml_update_existings_posts' => 1 ) ),
+                esc_url( add_query_arg( array( 'cml_update_existings_posts' => 1 ) ) ),
                 CMLLanguage::get_default()->cml_language ); ?>
     </div>
   </div>

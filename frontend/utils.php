@@ -230,7 +230,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
         CMLUtils::get_url_mode() == PRE_PATH ) {
 
       $args[ 'lang' ] = $lang->cml_language_slug;
-      $link = add_query_arg( $args, trailingslashit( $link ) );
+      $link = esc_url( add_query_arg( $args, trailingslashit( $link ) ) );
     }
     if( is_search() ) {
       if( isset( $_GET[ 's' ] ) ) {
@@ -241,7 +241,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
         $args[ 'lang' ] = $lang->cml_language_slug;
       }
 
-      $link = add_query_arg( $args, trailingslashit( $link ) );
+      $link = esc_url( add_query_arg( $args, trailingslashit( $link ) ) );
     }
   } else {
     $GLOBALS[ '_cml_force_home_slug' ] = $lang->cml_language_slug;
@@ -374,7 +374,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
 
       if( CMLUtils::get_category_url_mode() == PRE_LANG &&
           CMLUtils::get_url_mode() == PRE_NONE ) {
-        $link = add_query_arg( array( 'lang' => $lang->cml_language_slug ), $link );
+        $link = esc_url( add_query_arg( array( 'lang' => $lang->cml_language_slug ), $link ) );
       }
     }
 
@@ -395,11 +395,11 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
     }
 
     if( is_paged() ) {
-      $link = add_query_arg( array( "lang" => $lang->cml_language_slug ) );
+      $link = esc_url( add_query_arg( array( "lang" => $lang->cml_language_slug ) ) );
 
       // it the language is pre_path there is no need to add the query string. This will fix 404 when navigating between post pages
       if( CMLUtils::get_url_mode() != PRE_PATH ) {
-        $link = add_query_arg( array( "lang" => $lang->cml_language_slug ) );
+        $link = esc_url( add_query_arg( array( "lang" => $lang->cml_language_slug ) ) );
       }
     }
 
@@ -432,7 +432,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
           if( $l == $the_id ) {
             $lang = array( "lang" => $lang->cml_language_slug );
             $args = array_merge( $lang, $args );
-            return add_query_arg( $args, get_permalink( $l ) );
+            return esc_url( add_query_arg( $args, get_permalink( $l ) ) );
           }
         }
 
@@ -483,7 +483,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
     }
   }
 
-  return add_query_arg( $args, $link );
+  return esc_url( add_query_arg( $args, $link ) );
 }
 
 /**

@@ -148,10 +148,10 @@ class MyBackups_Table extends WP_List_Table {
                 $link = "#";
 
                 if( $rec[ 'database' ] == 1 ) {
-                  $link = add_query_arg( array(
+                  $link = esc_url( add_query_arg( array(
                                                 'download' => 1,
                                                 'file' => $rec[ 'filename' ] . ".db"
-                  ) );
+                  ) ) );
                 }
 
                 echo '<a class="switch-me tipsy-me restore-' . $icon . '" href="' . $link . '" title="' . $title . '">';
@@ -167,10 +167,10 @@ class MyBackups_Table extends WP_List_Table {
                 $link = "#";
 
                 if( $rec[ 'settings' ] == 1 ) {
-                  $link = add_query_arg( array(
+                  $link = esc_url( add_query_arg( array(
                                                 'download' => 1,
                                                 'file' => $rec[ 'filename' ] . ".settings"
-                  ) );
+                  ) ) );
                 }
 
                 echo '<a class="switch-me tipsy-me restore-' . $icon . '" href="' . $link . '" title="' . $title . '">';
@@ -181,10 +181,10 @@ class MyBackups_Table extends WP_List_Table {
               case "delete":
                 echo '<td>';
 
-                $link = add_query_arg( array(
+                $link = esc_url( add_query_arg( array(
                                             'delete' => 1,
                                             'file' => $rec[ 'filename' ]
-                                    )
+                                    ) )
                  );
 
                 echo '<a class="switch-me tipsy-me icon-delete" title="' . __( 'Delete', 'ceceppaml' ) . '" href="' . $link . '">';

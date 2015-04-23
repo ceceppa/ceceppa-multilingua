@@ -436,7 +436,7 @@ function cml_admin_add_flag_columns( $columns ) {
   foreach( $langs as $lang ) {
     $class = ( $lang->id == $clang ) ? "cml-filter-current" : "";
 
-    $a = add_query_arg( array( "cml-lang" => $lang->id ) );
+    $a = esc_url( add_query_arg( array( "cml-lang" => $lang->id ) ) );
     $img .= "<a class=\"$class tipsy-me\" href=\"$a\" title=\"" . __('Language: ', 'ceceppaml') . "<b>$lang->cml_language</b>\"><img src=\"" . cml_get_flag_by_lang_id( $lang->id, CML_FLAG_TINY ) . "\" alt=\"$lang->cml_language\" /></a>";
   }
 
@@ -675,7 +675,7 @@ function _cml_show_filtering_notice() {
     $msg .= __( 'using the "Enable language filtering" in the "Screen Option" section', 'ceceppaml' );
     $close = __( 'Close', 'ceceppaml' );
 
-    $link = add_query_arg( array( "hide-filtering-notice" => 1 ) );
+    $link = esc_url( add_query_arg( array( "hide-filtering-notice" => 1 ) ) );
 
 echo <<< NOTICE
     <div class="updated cml-notice">
@@ -821,6 +821,7 @@ function cml_quick_edit_mode_editor( $post ) {
 
   //Is qem enable for current post type?
   $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
+  $enabled = apply_filters( 'cml_manage_post_types', $enabled );
   if( is_array( $enabled ) && ! in_array( $post->post_type, $enabled ) ) return;
 
   //is a new document?
@@ -957,6 +958,10 @@ YOAST;
  * Allow the users to publish the translation, as well, from the quick edit mode
  */
 function cml_qem_publish_box( $p ) {
+  $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
+  $enabled = apply_filters( 'cml_manage_post_types', $enabled );
+  if( is_array( $enabled ) && ! in_array( $post->post_type, $enabled ) ) return;
+
   echo '<div class="misc-pub-section cml-publish">';
   echo '<span class="cml-publish-title">' . __ ( 'Publish translations:', 'ceceppaml' ) . '</span>';
 
@@ -992,7 +997,7 @@ function cml_qem_set_publish_parameter($location, $post_id = null) {
   }
 
   if( ! empty( $posts ) ) {
-    $location = add_query_arg( array( 'publish' => $posts ), $location );
+    $location = esc_url( add_query_arg( array( 'publish' => $posts ), $location ) );
   }
 
   return $location;

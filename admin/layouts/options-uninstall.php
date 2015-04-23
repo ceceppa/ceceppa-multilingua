@@ -30,7 +30,7 @@ function cml_admin_options_uninstall() {
         <?php echo CECEPPA_ML_TRANSLATIONS ?>
       </li>
     </ul>
-    
+
     <p>
       <span class="cml-uninstall">
         <?php _e( 'This procedure cannot be undone!!!', 'ceceppaml' ); ?>
@@ -48,7 +48,7 @@ function cml_admin_options_uninstall() {
 
     <br />
     <p style="text-align: right">
-      <a href="<?php echo add_query_arg( array( "erase" => 1 ) ) ?>">
+      <a href="<?php echo esc_url( add_query_arg( array( "erase" => 1 ) ) ) ?>">
         <?php _e( "Yes, I read and I want to erase all data", "ceppaml" ); ?>
       </a>
     </p>
@@ -63,7 +63,7 @@ function cml_admin_options_uninstall_sure() {
     <p>
     <p>
       <?php if( $_GET[ 'erase' ] == 1 ) : ?>
-      <a href="<?php echo add_query_arg( array( "erase" => 2 ) ) ?>"  class="cml-uninstall">
+      <a href="<?php echo esc_url( add_query_arg( array( "erase" => 2 ) ) ) ?>"  class="cml-uninstall">
         <?php _e( "Yes, I'm sure. DO IT!", "ceppaml" ); ?>
       </a>
       <?php

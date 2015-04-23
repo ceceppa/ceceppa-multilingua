@@ -1194,6 +1194,19 @@ class CMLPost {
   }
 
   /**
+   * return all posts by languages.
+   *
+   * The key of array is the language id
+   *
+   * @return array
+   */
+  public static function get_unique_posts() {
+    if( empty( self::$_indexes ) ) self::_load_indexes();
+
+    return self::$_uniques;
+  }
+
+  /**
    * check if $post_id has translation in selected language.
    *
    * @param int/string $lang - language id/slug
@@ -1312,9 +1325,9 @@ class CMLPost {
           $lang = CMLLanguage::get_current();
         }
 
-        $permalink = add_query_arg( array(
+        $permalink = esc_url( add_query_arg( array(
                                           "lang" => $lang->cml_language_slug,
-                                          ), $permalink );
+                                        ), $permalink ) );
       }
     }
 

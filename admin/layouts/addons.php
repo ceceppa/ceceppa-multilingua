@@ -7,7 +7,7 @@ function cml_admin_box_addons() {
   <div id="minor-publishing">
 	<?php _e( 'Available addons', 'ceceppaml' ) ?>
 	<div class="cml-box-right" style="padding-top: 5px">
-		<a href="<?php echo add_query_arg( array( "update" => 1 ) ) ?>">
+		<a href="<?php echo esc_url( add_query_arg( array( "update" => 1 ) ) ) ?>">
 			<?php _e( 'Update available addons list', 'ceceppaml' ); ?>
 		</a>
 	</div>

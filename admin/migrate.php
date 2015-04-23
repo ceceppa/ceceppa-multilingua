@@ -6,10 +6,10 @@
  *
  * I changed the structure of _ceceppa_ml_posts that contains 4 ( +1 ) columns...
  *
- * From 1.4 
- * 
+ * From 1.4
+ *
  * id, lang_xx
- * 
+ *
  * xx - are the id of language
  *
  * relations are stored in _ceceppa_ml_relations, and all language has their own column...
@@ -25,7 +25,7 @@
  *
  * Why that?
  * Becase is most simple, for me, get relations between posts, because they are all on same row :)
- * 
+ *
  */
 global $_cml_settings, $pagenow;
 
@@ -41,7 +41,7 @@ add_action( 'admin_notices', 'cml_migrate_notice' );
 
 function cml_migrate_database() {
   global $wpdb, $wpCeceppaML;
-  
+
   //Create table?
   $table_name = CECEPPA_ML_RELATIONS;
   if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
@@ -62,9 +62,9 @@ function cml_migrate_database() {
   /*
    * Parse the _ml_posts
    */
-  $types = array_merge( array( 'post' => 'post', 'page' => 'page' ), 
+  $types = array_merge( array( 'post' => 'post', 'page' => 'page' ),
 				get_post_types( array( '_builtin' => false ), 'names' ) );
-				
+
   $args = array('numberposts' => -1, 'posts_per_page' => 999999,
 		  'post_type' => $types,
 		  'status' => 'publish,draft,private,future' );
@@ -94,14 +94,14 @@ function cml_migrate_database() {
       foreach( $linked as $result ) {
         $lpid = ( $result->cml_post_id_1 == $pid ) ? $result->cml_post_id_2 : $result->cml_post_id_1;
         $llang = ( $result->cml_post_id_1 == $pid ) ? $result->cml_post_lang_2 : $result->cml_post_lang_1;
-        
+
         cml_migrate_database_add_item( $lang, $pid, $llang, $lpid );
       }
     }
   }
-  
+
   update_option( "cml_migration_done", 3 );
-  
+
   cml_fix_rebuild_posts_info();
 }
 
@@ -170,7 +170,7 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
          *  IT     EN      E0
          *   1      0       3
          *
-         *  I cannot set EN = 0 or I'll lost information about post_id "2", so I 
+         *  I cannot set EN = 0 or I'll lost information about post_id "2", so I
          *  add new record for post_id = 1 :)
          */
         if( $record[ "lang_$llang" ] != $pid ) {
@@ -179,7 +179,7 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
           $wpdb->update( CECEPPA_ML_RELATIONS,
                           array( "lang_$llang" => 0 ),
                           array( "id" => $record[ 'id' ] ),
-                          array( "%d" ), array( "%d" ) 
+                          array( "%d" ), array( "%d" )
                         );
         }
       } else if( $lpid > 0 ) {
@@ -221,19 +221,19 @@ function _cml_migrate_set_language( $lang, $pid, $llang, $lpid ) {
       $wpdb->update( CECEPPA_ML_RELATIONS,
                       array( "lang_$llang" => $lpid ),
                       array( "id" => $record[ 'id' ] ),
-                      array( "%d" ), array( "%d" ) 
+                      array( "%d" ), array( "%d" )
                     );
   }
 }
 
 /*
- * get record of 
+ * get record of
  */
 function _cml_migrate_get_record( $lang, $pid ) {
   global $wpdb;
 
   if( $lang == 0 ) $lang = CMLLanguage::get_current_id();
-  $query = sprintf( "SELECT * FROM %s WHERE lang_%d = %d", 
+  $query = sprintf( "SELECT * FROM %s WHERE lang_%d = %d",
           CECEPPA_ML_RELATIONS,
           $lang,
           $pid );
@@ -267,7 +267,7 @@ function _cml_migrate_set_pids_to_zero( $lpid, $rl ) {
       $wpdb->update( CECEPPA_ML_RELATIONS,
                       array( $lang_key => 0 ),
                       array( $lang_key => $lpid ),
-                      array( "%d" ), array( "%d" ) 
+                      array( "%d" ), array( "%d" )
                     );
     }
   }
@@ -298,7 +298,7 @@ function _cml_migrate_add_record( $lang, $pid, $linked = 0 ) {
   foreach( $_cml_language_columns as $col ) {
     $values[ $col ] = $linked;
   }
-  
+
   if( $lang > 0 ) {
     $values[ "lang_$lang" ] = $pid;
   }
@@ -343,7 +343,7 @@ function cml_migrate_notice( $force = false ) {
 
     update_option( "cml_migration_done", 3 );
   }
-  
+
   if( CECEPPA_ML_MIGRATED < 2 || $force ) {
     if( ! $force ) {
       echo '<div class="updated">';
@@ -353,7 +353,7 @@ function cml_migrate_notice( $force = false ) {
         Ceceppa Multilingua
       </strong>
       <br /><br />
-      <a href="<?php echo add_query_arg( array( 'cml-migrate' => 1 ) ) ?>">
+      <a href="<?php echo esc_url( add_query_arg( array( 'cml-migrate' => 1 ) ) ) ?>">
         <?php _e('Update required, click here for update posts relations', 'ceceppaml') ?>
       </a>
 <?php

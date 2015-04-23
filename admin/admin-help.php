@@ -33,7 +33,7 @@ function cml_admin_help_options_reading() {
   $text .= "get_bloginfo( 'name' );";
   $text .= __( 'Or Site/Tagline will not be translated!', 'ceceppaml' );
   $text .= '<span style="color: red"><strongs>' . __('N.B.: When make changes to Site Title or Tagline you have to update translations', 'ceceppaml') . "<br />";
-  
+
   return $text;
 }
 
@@ -47,7 +47,7 @@ function cml_admin_help_options_flags() {
   $text .= "<br />\n";
   $text .= __( "Each option will generate &lt;ul&gt; list and current language will have \"current\" class", "ceceppaml" );
   $text .= __( "Class used by options:", "ceceppaml" );
-  
+
   $show_flags = __( 'Show flags:', 'ceceppaml' );
   $add  = __( 'Add float div to website:', 'ceceppaml' );
   $option = __( 'This option will generate &lt;div&gt; with id #flying-flags that will contain the &lt;ul&gt; list', 'ceceppaml' );
@@ -62,7 +62,7 @@ function cml_admin_help_options_flags() {
       <dd>
         .cml_flags_on
       </dd>
-      
+
     <dt>
       $add
     </dt>
@@ -147,13 +147,13 @@ function cml_admin_print_notice( $key, $text ) {
     return;
   }
 
-  $link = add_query_arg( array( $key => 0 ) );
+  $link = esc_url( add_query_arg( array( $key => 0 ) ) );
   $dismiss = __( 'Hide this message', 'ceceppaml' );
 echo <<< EOT
   <div class="updated">
     <p>
     $text
-    
+
     <div class="cml-dismiss">
       <a href="$link" class="button">$dismiss</a>
     </div>
@@ -167,13 +167,13 @@ function cml_admin_add_notices() {
 
   if( $pagenow == "nav-menus.php" )
     cml_admin_print_notice( 'cml_show_notice_nav_menus', cml_admin_help_menu() );
-    
+
   if( $pagenow == "widgets.php" )
     cml_admin_print_notice( "cml_show_widget_notice", cml_admin_help_widgets() );
-    
+
   if( $pagenow == "options-general.php" && ! isset( $_GET[ 'page' ] ) )
     cml_admin_print_notice( "cml_show_widget_notice", cml_admin_help_options_reading() );
-    
+
   if( $pagenow == 'admin.php' && 'ceceppaml-flags-page' == @$_GET[ 'page' ] )
     cml_admin_print_notice( "cml_show_flags_notice", cml_admin_help_options_flags() );
 
@@ -190,28 +190,28 @@ function cml_admin_add_notices() {
 function cml_admin_add_help_tab() {
   global $pagenow;
   $screen = get_current_screen();
-  
+
   if( $pagenow == 'nav-menus.php' ) {
     $screen->add_help_tab( array(
             'id'       => 'cml_nav_menu_help',
             'title'    => 'Ceceppa Multilingua',
             'content'  => "<p>" . cml_admin_help_menu() . "</p>" ) );
   }
-  
+
   if( $pagenow == 'options-general.php' ) {
     $screen->add_help_tab( array(
             'id'       => 'cml_nav_menu_help',
             'title'    => 'Ceceppa Multilingua',
             'content'  => "<p>" . cml_admin_help_options_reading() . "</p>" ) );
   }
-  
+
   if( $pagenow == 'admin.php' && 'ceceppaml-flags-page' == @$_GET[ 'page' ] ) {
     $screen->add_help_tab( array(
             'id'       => 'cml_nav_menu_help',
             'title'    => 'Ceceppa Multilingua',
             'content'  => "<p>" . cml_admin_help_options_flags() . "</p>" ) );
   }
-  
+
   if( $pagenow == 'admin.php' && 'ceceppaml-language-page' == @$_GET[ 'page' ] && intval( @$_GET[ 'tab' ] ) <= 0 ) {
     $screen->add_help_tab( array(
             'id'       => 'cml_help_language_setup',

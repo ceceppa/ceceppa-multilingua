@@ -240,7 +240,7 @@ function cml_admin_scan_plugins_folders() {
       return;
   }
 
-  $link = add_query_arg( array( "lang" => "ceceppaml-translations-page" ), admin_url() );
+  $link = esc_url( add_query_arg( array( "lang" => "ceceppaml-translations-page" ), admin_url() ) );
   $txt  = __( "Current plugins contains WPML Language Configuration Files ( wpml-config.xml )", 'ceceppaml' );
   $txt .= '<br /><ul class="cml-ul-list">';
 
