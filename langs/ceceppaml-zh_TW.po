@@ -1,0 +1,2182 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Prova\n"
+"POT-Creation-Date: 2014-10-21 23:23+0100\n"
+"PO-Revision-Date: 2015-04-24 09:14+0800\n"
+"Last-Translator: Henry Siu <henry.siu@qq.com>\n"
+"Language-Team: Henry.Siu <henry.siu@qq.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
+"X-Poedit-SearchPath-0: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/"
+"ceceppa-multilingua\n"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/debug.php:63
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-languages.php:22
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:86
+msgid "Languages"
+msgstr "語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/debug.php:64
+msgid "Post relations"
+msgstr "文章關聯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/debug.php:65
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:35
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:415
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:418
+msgid "Translations"
+msgstr "翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/ceceppaml.php:314
+msgid "Manage languages"
+msgstr "管理語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:11
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:255
+msgid "Shortcodes"
+msgstr "簡碼"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:15
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:23
+msgid "Translate strings in different languages"
+msgstr "不同語言翻譯的字串"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:16
+msgid "How to use the translations saved in \"My Translations\" page"
+msgstr "如何使用保存在“我的翻譯”頁面的翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:17
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:95
+msgid ""
+"Execute another shortcode and pass parameters in according to current "
+"language"
+msgstr "執行另外一個簡碼，並根據當前語言傳遞參數"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:18
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:122
+msgid "How to show all available languages"
+msgstr "如何顯示所有可用語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:19
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:170
+msgid "How to show in which language is available current page/post"
+msgstr "如何顯示當前頁面/文章的可用語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:20
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:196
+msgid "How to show flags only when translation exists"
+msgstr "僅在翻譯存在時顯示旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:29
+msgid "Where ## is the language slug"
+msgstr "## 是語言別名"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:56
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:82
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:114
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:160
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:187
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:214
+msgid "Example:"
+msgstr "示例："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:46
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:72
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:102
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:131
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:178
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:204
+msgid "Usage:"
+msgstr "用途："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:65
+msgid "How to use the translations stored in \"My Translations\" page"
+msgstr "如何使用保存在“我的翻譯”頁面的翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:84
+msgid ""
+"Suppose that our default language is <strong>\"English\"</strong>, and we "
+"have:"
+msgstr "假設我們的預設語言是<strong>\"English\"</strong>，並且我們有："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:86
+msgid ""
+"If we want to translate the word <strong>\"Hello\"</strong> in \"Italian\", "
+"we have to write:"
+msgstr ""
+"如果我們希望翻譯單詞<strong>\"Hello\"</strong> 為 \"Italian\"，我們必須寫下："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:127
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:175
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:201
+msgid "This shortcode return an &lt;ul&gt;...&lt;/ul&gt; list"
+msgstr "這個簡碼返回一個 &lt;ul&gt;...&lt;/ul&gt; 列表"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/doc/shortcodes.php:128
+msgid ""
+"This shortcode is available also as function with same name and paramaters"
+msgstr "這個簡碼也與相同名稱和參數的功能一致"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-addons.php:17
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:232
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/addons.php:8
+msgid "Available addons"
+msgstr "可用外掛程式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:14
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:66
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:72
+msgid "Manage your languages"
+msgstr "管理您的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:20
+msgid "Choose filter and url style"
+msgstr "選擇篩檢程式和連結風格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:26
+msgid "Translate your site"
+msgstr "翻譯您的網站"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:35
+msgid "Welcome to Ceceppa Multilingua"
+msgstr "歡迎來到Ceceppa多國語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:37
+msgid "These wizard will guides you in basic configure of the plugin"
+msgstr "這些嚮導會指引您外掛程式的基本配置"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:52
+msgid "Update your posts language"
+msgstr "更新您的文章語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:54
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:56
+#, php-format
+msgid ""
+"Click <a href=\"%s\">here</a> to assign \"%s\" to existing posts and pages."
+msgstr "點擊 <a href=\"%s\">這裡</a> 分配 \"%s\" 到現存的文章和頁面。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:59
+msgid "detected language"
+msgstr "檢測到的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:62
+msgid "was automatically added to your languages"
+msgstr "已自動添加到您的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:67
+#, php-format
+msgid "Click <%s>here</a> to manage languages"
+msgstr "點擊 <%s>這裡</a> 管理語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:73
+msgid "Add your languages"
+msgstr "添加您的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:80
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:128
+msgid "go to step"
+msgstr "轉到步驟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:89
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:94
+msgid "Filters"
+msgstr "篩檢程式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:92
+msgid "Customize which posts show in according to current language"
+msgstr "根據當前語言自訂顯示的文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:96
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:95
+msgid "Actions"
+msgstr "動作"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:99
+msgid "Choose the style of your"
+msgstr "選擇風格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:103
+msgid "Homepage"
+msgstr "主頁"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:104
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:373
+msgid "Detect browser language and:"
+msgstr "檢測流覽器語言並："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:107
+msgid "Links"
+msgstr "連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:108
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:374
+msgid "Url Modification mode:"
+msgstr "連結修改模式："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:111
+msgid "Enable notices"
+msgstr "啟用通知"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:112
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:375
+msgid "Show notice"
+msgstr "顯示通知"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:119
+msgid ""
+"During Wizard will be shown only basic settings, click on \"Ceceppa "
+"Multilingua\" -> \"Settings\" for see all available options"
+msgstr ""
+"在嚮導中僅顯示基本配置，點擊 \"Ceceppa 多國語言\" -> \"設置\" 查看所有可用選"
+"項"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:124
+msgid "Don't forget to click on \"Save\" button before change tab."
+msgstr "切換標籤前請不要忘記點擊 \"保存\" 按鈕。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:138
+msgid "Now you can start to translate"
+msgstr "現在您可以開始翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:143
+msgid "Your posts"
+msgstr "您的文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:148
+msgid "Site Title/Tagline"
+msgstr "網站標題/標籤行"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:154
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:216
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:16
+msgid "Widget titles"
+msgstr "小工具標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:160
+msgid "Current theme"
+msgstr "當前主題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:166
+msgid "This plugin"
+msgstr "這個外掛程式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:175
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:108
+msgid "or"
+msgstr "或"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:180
+msgid "Enable flags on your site/pages"
+msgstr "在您的網站/頁面啟用旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:185
+msgid "Filter widgets by language"
+msgstr "按語言的篩檢程式小部件"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:190
+msgid "See all available options"
+msgstr "查看所有可用選項"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/wizard.php:198
+msgid "Done, close wizard"
+msgstr "完成，關閉嚮導"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:21
+msgid "Language"
+msgstr "語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:405
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:16
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:23
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:26
+msgid "All languages"
+msgstr "所有語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:105
+msgid "Add translation"
+msgstr "添加翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:105
+msgid "Edit"
+msgstr "編輯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:128
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:223
+msgid "Show flags"
+msgstr "顯示旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:135
+msgid "Use default 'Show flags' settings"
+msgstr "使用預設“顯示旗幟”設置"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:137
+msgid "default"
+msgstr "默認"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:140
+msgid "Always show flags in current page"
+msgstr "總是在當前頁面顯示旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:142
+msgid "always"
+msgstr "總是"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:145
+msgid "Don't show flags in this page"
+msgstr "不在此頁面顯示旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:147
+msgid "never"
+msgstr "從不"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:152
+msgid "Size"
+msgstr "大小"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:160
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:366
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:280
+msgid "Small"
+msgstr "小"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:167
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:373
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:286
+msgid "Tiny"
+msgstr "微小"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:177
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:103
+msgid "Where:"
+msgstr "位置："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:181
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:109
+msgid "Before the title"
+msgstr "標題之前"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:189
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:115
+msgid "After the title"
+msgstr "標題之後"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:197
+msgid "Before content"
+msgstr "內容之前"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:205
+msgid "After content"
+msgstr "內容之後"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:229
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:127
+msgid "None"
+msgstr ""
+"<strong>主專案/次專案</strong> - 這些能標識創建活動的物件。例如，該欄位能夠引"
+"用在一個特定的網站裡的評論。某些類型活動可能只使用這些欄位裡的一個或者一個也"
+"沒有。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:263
+#, php-format
+msgid "current %s"
+msgstr "當前 %s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:354
+msgid "Enable language filtering"
+msgstr "啟用語言篩選"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:359
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-taxonomies-store.php:275
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-taxonomies-string.php:194
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-taxonomies.php:195
+msgid "Language: "
+msgstr "語言："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:394
+msgid "Edit post: "
+msgstr "編輯文章："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:399
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:124
+msgid "Translate in:"
+msgstr "翻譯為："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:417
+msgid ""
+"This post is a translations, you have to translate existing tag instead of "
+"add new one."
+msgstr "此文章是一個翻譯，您必須翻譯現有而不是添加一個新的標籤"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:419
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:344
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:392
+msgid "Help"
+msgstr "幫助"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:423
+msgid "Search existing tag:"
+msgstr "搜索現有的標籤："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:425
+msgid "Add new tag"
+msgstr "添加新標籤"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:434
+msgid "Confirm translation"
+msgstr "確認翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:435
+msgid "Click to translate"
+msgstr "點擊翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:501
+msgid "Post data"
+msgstr "文章資料"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:546
+msgid "Language:"
+msgstr "語言："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:547
+msgid "Show all languages"
+msgstr "顯示所有語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:593
+msgid ""
+"You can easily disable/enable language filtering for current post type, "
+msgstr "您可以輕鬆的為當前文章類型禁用/啟用語言過濾，"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:594
+msgid ""
+"using the \"Enable language filtering\" in the \"Screen Option\" section"
+msgstr "請在 \"螢幕選項\" 區塊使用 \"啟用語言篩選\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-posts.php:595
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:141
+msgid "Close"
+msgstr "關閉"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-notices.php:31
+#, php-format
+msgid "Something goes wrong during upgrade, click <%s>here</a> to fix "
+msgstr "升級過程出現問題，點擊 <%s>此處</a>進行修復"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-settings-gen.php:109
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:338
+#, php-format
+msgid "Error writing file: %s"
+msgstr "寫入檔 %s 時發生錯誤"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-utils.php:45
+msgid "No tables found!"
+msgstr "找不到表格！"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-utils.php:46
+msgid ""
+"If you have uninstalled the plugin, you can remove the plugin now, or "
+"deactivate and activete it again to rebuild tables."
+msgstr ""
+"如果您已經卸載外掛程式，您現在可以移除外掛程式，或者再次停用/啟用它來重建表"
+"格。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-utils.php:48
+#, php-format
+msgid ""
+"If you haven't uninstalled the plugin, something goes wrong, please contact "
+"me <%s>here"
+msgstr "如果您還沒有卸載外掛程式，發生了錯誤，請在這裡與我聯繫 <%s>"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:98
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:353
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:82
+msgid "Advanced"
+msgstr "高級"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-options.php:99
+msgid "Uninstall"
+msgstr "卸載"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:193
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr "如果離開這個頁面，您所做的更改將丟失。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:194
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:146
+msgid "Less"
+msgstr "收起"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:195
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:146
+msgid "More"
+msgstr "更多"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:196
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:141
+msgid "Delete"
+msgstr "刪除"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:197
+msgid "Restore"
+msgstr "還原"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:198
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:110
+msgid "Custom"
+msgstr "自訂"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:211
+msgid "Ceceppa Multilingua"
+msgstr "Ceceppa 多國語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:213
+msgid "Translate"
+msgstr "翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:215
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:15
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:14
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:33
+msgid "My translations"
+msgstr "我的翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:217
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:17
+msgid "Site Title"
+msgstr "網站標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:217
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:17
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-sitename.php:21
+msgid "Tagline"
+msgstr "標籤行"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:218
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:425
+msgid "Plugin"
+msgstr "外掛程式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:219
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-translations.php:18
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:412
+msgid "Theme"
+msgstr "主題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:221
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-flags.php:12
+msgid "Flags"
+msgstr "旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:225
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:227
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:357
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:84
+msgid "Settings"
+msgstr "設置"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:230
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/addons.php:98
+msgid "Addons"
+msgstr "外掛程式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:254
+msgid "Documentation"
+msgstr "文檔"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:255
+msgid "Shortcode"
+msgstr "簡碼"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:256
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:90
+msgid "Api"
+msgstr "API"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:345
+msgid "Click here to show the meaning of language fields"
+msgstr "按一下此處顯示語言欄位的含義"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:351
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:80
+msgid "Basic"
+msgstr "基本"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:351
+msgid "You can order languages, set the default one, enable/disable them "
+msgstr "您可以調用的語言，設置預設，啟用/禁用它們"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:352
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:81
+msgid "Intermediate"
+msgstr "中級"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:352
+msgid "You can also edit language name and date format"
+msgstr "您還可以編輯語言名稱和日期格式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:353
+msgid "You can change flag and edit all language fields"
+msgstr "您可以更改標誌和編輯所有的語言欄位"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:356
+msgid "Choose settings level"
+msgstr "選擇設置級別"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:360
+msgid "This is the list of your languages."
+msgstr "這是你的語言的清單。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:361
+msgid "Drag items for change its order."
+msgstr "拖動專案更改其順序。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:363
+msgid "Flag"
+msgstr "旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:364
+msgid "Click on flag for change or customize"
+msgstr "點擊更改和自訂旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:367
+msgid "Click on heart for set default language"
+msgstr "點擊心形標記設置預設語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:370
+msgid "Click on &#10004; for set enable/disable language"
+msgstr "點擊 &#10004；啟用/禁用語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:372
+msgid "Your languages"
+msgstr "您的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:375
+msgid "Add language"
+msgstr "添加語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:375
+msgid ""
+"List of all available languages.<br /> Click on item to choose flag and add "
+"it to your languages"
+msgstr "所有可用語言的清單。<br>按一下項目選擇的旗幟，並將其添加到您的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:378
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:106
+msgid "Search language"
+msgstr "搜索語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:378
+msgid "Search the language from the availables and click for add it"
+msgstr "在可用清單內搜索和添加語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:381
+msgid "Add custom language"
+msgstr "添加自訂語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:381
+msgid "Click here for add custom language"
+msgstr "點擊此處添加自訂語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:384
+msgid "Save languages"
+msgstr "保存語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:384
+msgid "Click here for save changes"
+msgstr "點擊此處保存更改"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:387
+msgid "Theme language"
+msgstr "主題語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:387
+msgid "Choose in which languages translate:"
+msgstr "選擇語言翻譯："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:392
+msgid "Click here for show/hide help"
+msgstr "點擊此處顯示/隱藏説明"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:397
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:398
+msgid "Filter list"
+msgstr "篩檢程式列表"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:397
+msgid "Filter list by language"
+msgstr "語言篩檢程式清單"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:398
+msgid "Click here to filter list by language"
+msgstr "點擊此處按語言篩選清單"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:399
+msgid "Active language"
+msgstr "啟動的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:399
+msgid "This is the style of current language"
+msgstr "這是當前語言的風格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:404
+msgid "Choose the language of current post/page."
+msgstr "選擇當前文章/頁面的語言。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:406
+msgid "means that post/page will available in all languages"
+msgstr "意味著該文章/頁面在所有語言可用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:408
+msgid "Post/Page language"
+msgstr "文章/頁面語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:411
+msgid "Assign translations"
+msgstr "指定翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:412
+msgid "Assign the same post to multiple languages."
+msgstr "指定相同文章給多國語言。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:413
+msgid "If you need you can assign post to multiple language"
+msgstr "如果需要您可以指定文章給多國語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:414
+msgid ""
+"In this case you can't choose the option \"All languages\" from \"Language\" "
+"combo, so you have to choose one of it existing languages, isn't important "
+"which one."
+msgstr ""
+"在這種情況下，你不能在\"語言\"組合內選擇\"所有語言\"，所以你必須都選擇一個它"
+"現有的語言，無論是哪一個。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:418
+msgid "Click here Add/Edit translation"
+msgstr "按一下此處添加/編輯翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:421
+msgid ""
+"Permalink will modified in according to current \"Url modification mode\" "
+"setting."
+msgstr "固定連結將根據當前的\"連結修改模式\"設置修改。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:422
+msgid ""
+"When two post/page has same title Wordpress automatically append a number -"
+"## to permalink, don't worry the plugin will remove it in fronted."
+msgstr ""
+"如果兩篇文章/頁面標題相同，Wordpress將為固定連接自動附加一個數字--##，不必擔"
+"心外掛程式會在前臺把它移除。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:423
+msgid "Permalink"
+msgstr "固定連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:427
+msgid ""
+"For each languages you can customize \"Navigation label\" or url, but you "
+"have to save menu first"
+msgstr "您可以為每種語言自訂“導航標籤”或連結，但您必須先保存菜單"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:430
+msgid "Customize labels"
+msgstr "自訂標籤"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:435
+msgid "Set menu to switch"
+msgstr "設置菜單切換"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:436
+msgid ""
+"Your theme support multiple menus, if you need to use different menu for "
+"each language you have to choose witch one switch"
+msgstr ""
+"你的主題支援多個功能表，如果需要為每個語言使用不同功能表，您必須選擇一個切換"
+"器"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:660
+msgid "No tables found, Ceceppa Multilingua can't works correctly."
+msgstr "找不到表格，Ceceppa多國語言不能正常使用。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin.php:661
+msgid "Disable and enable again the plugin for rebuild tables."
+msgstr "停用/啟用外掛程式來重建表格。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:5
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:12
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:28
+msgid "Tip"
+msgstr "提示"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:6
+msgid "You can translate widget titles, or filter its visibility by language"
+msgstr "您可以翻譯小工具標題，或者按語言篩選它的可見性"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:13
+msgid ""
+"All items will be automatically translated when user switch between "
+"languages."
+msgstr "使用者切換語言時所有專案將被自動翻譯。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:14
+msgid ""
+"Add only pages existing in your default language, not their translation."
+msgstr "僅添加您預設語言內現存的頁面，而不是它們的翻譯。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:16
+msgid ""
+"You can customize navigation label in all language, or, for custom link, set "
+"different url for each language"
+msgstr "您可以在所有語言中自訂導航，或者為每種語言自訂不同連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:19
+msgid ""
+"If you need different items for each languages, you can create menu for each "
+"language"
+msgstr "如果您需要每種語言中的不同專案，您可以為每種語言創建功能表"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:29
+msgid ""
+"Clicke here for translate the \"Site Title\" and \"Tagline\" in other "
+"languages"
+msgstr "點擊此處在其他語言中翻譯“網站標題”和“標籤行”"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:30
+msgid "Your theme must use the function: "
+msgstr "您的主題必須使用功能："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:32
+msgid "not: "
+msgstr "不是："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:34
+msgid "Or Site/Tagline will not be translated!"
+msgstr "否則網站/標籤行不會被翻譯！"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:35
+msgid ""
+"N.B.: When make changes to Site Title or Tagline you have to update "
+"translations"
+msgstr "附注：當更改網站標題或標籤行時您必須更新翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:42
+#, php-format
+msgid ""
+"You can override flags style by creating new file in: <i>%s</i> named: <b>"
+"\"ceceppaml.css\"</b>"
+msgstr ""
+"您可以通過在<i>%s</i>內創建新的檔：<b>\"ceceppaml.css\"</b>來改寫旗幟風格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:46
+msgid ""
+"The class base is \"cml_flags\", and second class is added by each option"
+msgstr "基礎類是\"cml_flags\"，第二類由每個選項添加"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:48
+msgid ""
+"Each option will generate &lt;ul&gt; list and current language will have "
+"\"current\" class"
+msgstr "每個選項將生成&lt;ul&gt; 清單，且當前語言將擁有\"current\"類"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:49
+msgid "Class used by options:"
+msgstr "選項使用的類："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:51
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:421
+msgid "Show flags:"
+msgstr "顯示旗幟："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:52
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:423
+msgid "Add float div to website:"
+msgstr "添加浮動div到網站："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:53
+msgid ""
+"This option will generate &lt;div&gt; with id #flying-flags that will "
+"contain the &lt;ul&gt; list"
+msgstr "此選項將生成&lt;div&gt;，id為#flying-flags，包含&lt;ul&gt;列表"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:54
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:427
+msgid "Append flag to html element:"
+msgstr "附加旗幟到HTML元素："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:55
+msgid ""
+"Don't overwrite \"ceceppaml.css\" in plugin path, because it will be "
+"overwritten by next update"
+msgstr "不要再外掛程式路徑內重寫\"ceceppaml.css\"，因為它將會被下一個更新覆蓋"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:94
+msgid "In \"My Languages\" box are listed your languages."
+msgstr "“我的語言”框內列出了您的語言。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:95
+msgid ""
+"For add new language click on item listed in \"Available languages\", and "
+"click on wanted flag to add it."
+msgstr "點擊“可用語言”內列出的專案來添加新語言，點擊需要的旗幟來添加它。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:96
+msgid ""
+"You can also use search box to search a language, or click on \"Add custon\" "
+"button to add custom one."
+msgstr "您也可以使用搜索框來搜索語言，或者點擊“添加自訂”來添加自訂語言。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:98
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:123
+msgid "Name"
+msgstr "名稱"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:99
+msgid "it is the name of language."
+msgstr "這是語言的名稱。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:101
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:125
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:379
+msgid "Date format"
+msgstr "日期格式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:102
+msgid "you can use different date format for language."
+msgstr "您可以為語言使用不同的日期格式。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:104
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:131
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:348
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:252
+msgid "Language slug"
+msgstr "語言別名"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:105
+msgid "this code will be used to build url. Example: it, en, ch, de"
+msgstr "這個編碼用於構建連結。例如：it，en，ch，de"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:107
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:133
+msgid "WP Locale"
+msgstr "WP 當地語系化"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:108
+msgid "it is the code used by WordPress for each language."
+msgstr "這是WordPress為每種語言使用的編碼。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:110
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:135
+msgid "Right to left"
+msgstr "從右到左"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:111
+msgid "it is used for right to left languages like Arabian, Hebrew and others."
+msgstr "它用於右到左語言，如阿拉伯、 希伯來語和其他語種。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:115
+msgid "The order of language items will be used for sort generated flags."
+msgstr "語言專案的順序用於排序生成的旗幟。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:121
+msgid ""
+"When you choose to upload custom flags the plugin will create two copy of "
+"image Small ( 32x23 ) and Tiny ( 16x11 )."
+msgstr ""
+"當選擇上傳自訂外掛程式時，外掛程式將創建小(32x23)和微小(16x11)兩種圖像副本。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:123
+#, php-format
+msgid ""
+"If you don't like the quality of genearted images you can do manually for "
+"both size, and store it in %s, and later choose it from list."
+msgstr ""
+"如果不喜歡生成的圖像品質，您可以手動定義兩種尺寸，保存在 %s中，並在之後的列表"
+"中選擇。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:127
+#, php-format
+msgid "Custom flags will be stored in: %s path."
+msgstr "自訂旗幟將保存在路徑：%s 中。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:133
+msgid "You are using IE <= 9"
+msgstr "您正在使用IE<=9版本的流覽器"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:135
+#, php-format
+msgid ""
+"If you need to use custom flags you hate to <%s>upload them manually</a>."
+msgstr "如果您需要使用自訂旗幟，您必須<%s>手動上傳</a>。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-help.php:151
+msgid "Hide this message"
+msgstr "隱藏此消息"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-ajax-save.php:29
+msgid "Security error"
+msgstr "安全性錯誤"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-ajax-save.php:152
+msgid "Invalid image: "
+msgstr "無效的圖像："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/install.php:122
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:60
+msgid "Default language"
+msgstr "預設語言："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-languages.php:25
+msgid "Language files"
+msgstr "語言檔"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-languages.php:26
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:53
+msgid "Ceceppa Multilingua in your language"
+msgstr "你語言中的 Ceceppa 多國語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:77
+msgid "Remove translation"
+msgstr "移除翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:182
+msgid "Edit this item inline"
+msgstr "編輯此內嵌專案"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-quickedit.php:184
+msgid "Quick&nbsp;Edit"
+msgstr "快速編輯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:19
+msgid "Thanks for using Ceceppa Multilingua"
+msgstr "感謝您使用Ceceppa 多國語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:27
+msgid ""
+"If you like this plugin, please donate to support development and maintenance"
+msgstr "如果你喜歡這個外掛程式，請捐贈以支持開發和維護"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:47
+#, php-format
+msgid "Rate Ceceppa Multilingua 5%s's on WordPress.org"
+msgstr "在WordPress.org 上投票 Ceceppa 多國語言 5%s's"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:49
+msgid "Talk about it on your site and link back to the"
+msgstr "在您的網站上提到它，並交換連結到"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:50
+msgid "plugin page."
+msgstr "外掛程式頁面"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:53
+msgid "I use Ceceppa Multilingua for WordPress and you should too"
+msgstr "我在 WordPress 中使用Ceceppa 多國語言，你也應該使用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:54
+msgid "Tweet about it."
+msgstr "分享到推特。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:59
+msgid "Translate it in your language."
+msgstr "翻譯成您的語言。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:63
+#, php-format
+msgid ""
+"Don't hesitate to report bugs or ask for new features on the <%s>support "
+"forum.</a>"
+msgstr "不要猶豫在<%s>支持論壇</a>上報告bug和提出新功能的要求。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:66
+#, php-format
+msgid "Subscribe to official <%s>Google + page</a>,"
+msgstr "訂閱官方<%s>Google + page</a>，"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:67
+msgid ""
+"I use to announce development versions and then, test the new versions and "
+"report bugs before the final release."
+msgstr "我用於公佈開發版本，然後在最終發佈前測試新版本和報告bug。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:71
+msgid "Development code is available on github"
+msgstr "開發代碼在Github可用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:85
+msgid "Setting up a WordPress multilingual site with Ceceppa Multilingua"
+msgstr "使用Ceceppa多國語言設置一個WordPress多語言網站"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:98
+msgid "About Ceceppa:"
+msgstr "關於Ceceppa："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:100
+msgid "Donate:"
+msgstr "捐贈："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:101
+msgid "Contribute:"
+msgstr "貢獻："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/donate.php:103
+msgid "Documentation:"
+msgstr "文檔："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:53
+#, php-format
+msgid "No .po files found for %s"
+msgstr "找不到 %s 的.po文件"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:123
+msgid "Available languages: "
+msgstr "可用的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:125
+msgid "Choose in which languages you want to translate: "
+msgstr "選擇您要翻譯的語言："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:163
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:32
+msgid "All strings"
+msgstr "所有字串"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:164
+msgid "To translate"
+msgstr "待翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:165
+msgid "Incomplete"
+msgstr "未完成"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:166
+msgid "Translated"
+msgstr "已完成"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:169
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:151
+msgid "Save Changes"
+msgstr "保存更改"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:175
+msgid "You have to choose in which language you want to translate: "
+msgstr "您需要選擇要翻譯的語言："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:183
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:257
+msgid "Search"
+msgstr "搜索"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:190
+msgid "Text"
+msgstr "文本"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:191
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:53
+msgid "Translation"
+msgstr "翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:254
+msgid "fuzzy"
+msgstr "模糊"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:287
+#, php-format
+msgid "Failed to open stream %s: Permission denied"
+msgstr "打開資料流程 %s 時失敗：訪問被拒絕"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:302
+msgid "Something goes wrong :'(. I don't know where to store .mo file"
+msgstr "出岔子了:'(。我不知道在哪裡保存.mo文件"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:308
+#, php-format
+msgid "Failed to create folder: %s"
+msgstr "創建資料夾：%s 失敗"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:314
+#, php-format
+msgid "tmp.pot not found: %s"
+msgstr "tmp.pot 沒有找到：%s"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/po-parser.php:395
+msgid "Generated files:"
+msgstr "生成檔："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:79
+msgid "Translate title in:"
+msgstr "翻譯標題為："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:104
+msgid "Filter widget"
+msgstr "篩檢程式小工具"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:110
+msgid "Show"
+msgstr "顯示"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:111
+msgid "Hide"
+msgstr "隱藏"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-widgets.php:113
+msgid "If current language is: "
+msgstr "如果當前語言為："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:26
+msgid "Alternative Text"
+msgstr "替代文本"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:26
+msgid "Alt Text"
+msgstr "替換文本"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:29
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:40
+msgid "Title"
+msgstr "標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/admin-media.php:126
+#, php-format
+msgid "Title in %s"
+msgstr "%s 內的標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/migrate.php:357
+msgid "Update required, click here for update posts relations"
+msgstr "需要更新，點擊此處更新文章關聯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:51
+msgid "Group name"
+msgstr "分組名稱"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:52
+msgid "String"
+msgstr "字串"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:177
+msgid "Post notice:"
+msgstr "文章通知："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/class-mytranslations.php:181
+msgid "Page notice:"
+msgstr "頁面通知："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:15
+msgid "Notice"
+msgstr "通知"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:24
+msgid "You can use this translation with shortcode \"cml_translate\"."
+msgstr "您可以使用簡碼\"cml_translate\"來使用此翻譯。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:25
+msgid "Click here to see the shortcode page"
+msgstr "點擊此處查看簡碼頁"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:34
+msgid "Plugin strings"
+msgstr "外掛程式字串"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:65
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:144
+msgid "Add"
+msgstr "添加"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-my.php:67
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:84
+msgid "Update"
+msgstr "更新"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:62
+msgid "Show only posts in current language"
+msgstr "僅以當前語言顯示文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:38
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:69
+msgid "Show all posts, but hide their translation"
+msgstr "顯示所有文章，但隱藏它們的翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:44
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:76
+msgid "Hide empty translations of posts and show in default language"
+msgstr "隱藏文章的空白翻譯並以預設語言顯示"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:51
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:84
+msgid "Don't filter"
+msgstr "不過濾"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:59
+msgid "Choose which posts show"
+msgstr "選擇要顯示的文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:65
+msgid "Show only the posts that exists in current language"
+msgstr "僅顯示當前語言現有的文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:72
+msgid "Show also posts that has no translation in current language."
+msgstr "同時顯示沒有當前語言翻譯的文章。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:79
+msgid ""
+"If a post doesn't have a translation in current language, post in \"default "
+"language\" will be shown"
+msgstr "如果文章沒有當前語言的翻譯，將顯示以“預設語言”發佈"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:87
+msgid "Don't filter wordpress queries, useful for one page themes"
+msgstr "不要過濾wordpress查詢，對於單頁面主題有用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:101
+msgid ""
+"Allows you to filter the result of some widgets to display only those "
+"records relating to the current language."
+msgstr "允許您過濾某些小工具的結果，顯示與當前語言相關的記錄。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:103
+msgid "Supported widgets:"
+msgstr "支援的小工具："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:105
+msgid "Least reads posts"
+msgstr "最少閱讀的文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:106
+msgid "Most commented"
+msgstr "最多評論"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:114
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:134
+msgid "Enable"
+msgstr "啟用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:118
+msgid ""
+"If enabled the plugin filter the query of Least reads posts and Most "
+"commented"
+msgstr "如果啟用，外掛程式將過濾最少閱讀和最多評論的查詢"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:120
+msgid "The others widget will be filtered only if they use the WP_Query class."
+msgstr "其他的小工具將被過濾，如果它們只使用了WP_Query類。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:139
+msgid "Filter wordpress search query"
+msgstr "過濾wordpress搜索查詢"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:153
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:169
+msgid "Group"
+msgstr "分組"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:159
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:176
+msgid "Ungroup"
+msgstr "未分組"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:166
+msgid "When use is viewing a single post/page"
+msgstr "當使用者查看單個文章/頁面時"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:172
+msgid "Show also comments of its translation"
+msgstr "同時顯示評論的翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:179
+msgid "Each post shown only its comments"
+msgstr "每個文章僅顯示評論"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:197
+msgid "Translate menu items"
+msgstr "翻譯功能表項目"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:205
+msgid "Force language of items"
+msgstr "每個專案的強制語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:213
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:233
+msgid "Hide items that doesn't exists in current language"
+msgstr "隱藏當前語言中不存在的專案"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:219
+msgid "Items will be changed with their translation"
+msgstr "專案將根據它們的翻譯變化"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:222
+msgid "Page and category items will replace with their translation, if exists"
+msgstr "如果存在，頁面和分類專案將被它們的翻譯替換"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:226
+msgid "Force items language "
+msgstr "強制專案語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:229
+msgid ""
+"If an item doesn't exists in current language, the plugin will add ?lang "
+"parameter to force item in current language"
+msgstr "如果一個專案沒有當前語言，外掛程式將添加?lang參數來強制為當前語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:236
+msgid ""
+"If the plugin doesn't translate correctly menu items when switching "
+"language, "
+msgstr "切換語言時如果外掛程式沒有正確翻譯功能表項目，"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:237
+msgid "add items in all languages to menu and enable this option"
+msgstr "在所有語言中添加專案並啟用此選項"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:238
+msgid ""
+"The plugin will remove elements that doesn't exists in current language from "
+"menu"
+msgstr "此外掛程式將移除功能表中不存在當前語言的元素"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:245
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:369
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:418
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:110
+msgid "Show/Hide help"
+msgstr "顯示/隱藏説明"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:250
+msgid "Filter posts:"
+msgstr "過濾文章："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:253
+msgid "Filter widgets"
+msgstr "過濾小工具"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:260
+msgid "Comments"
+msgstr "評論"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-filters.php:261
+msgid "Translate menu"
+msgstr "翻譯菜單"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:13
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:16
+msgid "Current language"
+msgstr "當前語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:33
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/menu.php:36
+msgid "All languages except current"
+msgstr "除當前的所有語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:14
+msgid "Something goes wrong, cannot generate .mo files :("
+msgstr "出現問題，不能生成.mo文件:("
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:16
+#, php-format
+msgid "Ensure that folder <b>%s</b> is writable"
+msgstr "確保資料夾 <b>%s</b> 可以寫入"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:20
+msgid "Thanks for translated Ceceppa Multilingua in your language."
+msgstr "感謝翻譯 Ceceppa多國語言為您的語言。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:21
+msgid ""
+"If translation is complete and you want to share it with us, download it:"
+msgstr "完成翻譯時如果想要分享給我們，請下載它："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:34
+#, php-format
+msgid "and send it <%s>to me</a>, add also your name or nickname"
+msgstr "並把它發送<%s>給我</a>，加上您的姓名或者昵稱"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:39
+msgid ""
+"If you like the plugin and you want translate it in your language, you can "
+"do from this page."
+msgstr "如果喜歡這個外掛程式並想將它翻譯為您的語言，您可以在這個頁面操作"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-cml.php:40
+msgid ""
+"After clicked on \"Save Changes\" button, follow the instructions and send "
+"me the translation, thanks"
+msgstr "點擊“保存更改”按鈕後，請根據提示把翻譯發送給我，謝謝！"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/addons.php:11
+msgid "Update available addons list"
+msgstr "更新可用的外掛程式列表"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:29
+msgid ""
+"If you want to customize widget titles you have to assign a title for each "
+"of them in \"Appearance\" -> \"Widgets\""
+msgstr "如果需要自訂小工具標題，您必須為每個“外觀” -> “小工具” 指定一個標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-widget-titles.php:83
+msgid "Reset titles"
+msgstr "重置標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-sitename.php:14
+msgid "Site title"
+msgstr "網站標題"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:12
+msgid "This procedure will erase all plugin data from database"
+msgstr "這個過程將從資料庫刪除所有外掛程式資料"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:13
+msgid "Following tables will be dropped"
+msgstr "以下的表格將會被刪除"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:36
+msgid "This procedure cannot be undone!!!"
+msgstr "此過程不能撤銷！"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:41
+msgid ""
+"This procedure will remove ONLY plugin data, posts and other data will NOT "
+"be erased."
+msgstr "此過程將只移除外掛程式資料，文章和其他資料不會被刪除。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:46
+msgid "For recreate tables you have to disable and enable the plugin."
+msgstr "為重建表格，您必須再次禁用/啟用該外掛程式。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:52
+msgid "Yes, I read and I want to erase all data"
+msgstr "是的，我已瞭解並需要刪除所有資料"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:67
+msgid "Yes, I'm sure. DO IT!"
+msgstr "是的，我已確認，執行！"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:71
+msgid ""
+"Uninstall completed. Deactivate and activate the plugin to rebuild tables"
+msgstr "卸載完成。禁用/啟用外掛程式重建表格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:81
+msgid "Uninstall the plugin:"
+msgstr "卸載外掛程式："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-uninstall.php:83
+msgid "Are you sure?"
+msgstr "您確認嗎？"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:71
+msgid "You can change the flag only after adding language."
+msgstr "您只可以在添加語言後更改旗幟。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:93
+msgid "Show help"
+msgstr "顯示説明"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:98
+msgid "Save"
+msgstr "保存"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:102
+msgid "My languages"
+msgstr "我的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:109
+msgid "Add custom"
+msgstr "添加自訂"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages.php:112
+msgid "Available languages"
+msgstr "可用語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-theme.php:10
+msgid "Translations generated succesfully"
+msgstr "翻譯已成功生成"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/translate-theme.php:27
+#, php-format
+msgid "Error generating translations, ensure that the folder %s is writable"
+msgstr "生成翻譯時發生錯誤，請確保資料夾 %s 可寫入"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:33
+msgid "Oops, something goes wrong"
+msgstr "哦，出岔子了"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:54
+msgid "Click for change or upload custom flag"
+msgstr "點擊更改或上傳自訂旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:61
+msgid "Enable/Disable language"
+msgstr "啟用/禁用語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:118
+msgid "Upload custom image"
+msgstr "上傳自訂圖像"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/languages-item.php:127
+#, php-format
+msgid "Date format: %s. <br /> Click for edit"
+msgstr "日期格式：%s。<br /> 點擊編輯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:20
+msgid ""
+"Automatically redirects the browser depending on the visitor's language."
+msgstr "根據訪客的語言自動重定向流覽器"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:26
+msgid "Automatically redirects the default language."
+msgstr "自動重定向到預設語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:32
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:61
+msgid "Redirect only if visitor language is different from default one"
+msgstr "僅在訪客語言和預設語言不同時重定向"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:38
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:68
+msgid "Do nothing"
+msgstr "什麼都不做"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:45
+msgid "Choose what to do when user visit your homepage"
+msgstr "當用戶訪問您的主頁時選擇的動作"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:48
+msgid "Redirects the browser depending on the user's language."
+msgstr "根據使用者的語言重定向流覽器"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:51
+msgid "User will be redirected to their language, otherwise to default one"
+msgstr "使用者將被重定向到他們的語言，否則為預設語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:54
+msgid "Automatically redirects to default language."
+msgstr "自動重定向到預設語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:57
+msgid "The plugin add the slug of default language"
+msgstr "外掛程式添加預設語言的別名"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:64
+msgid "The plugin doesn't add language slug to url for default language"
+msgstr "外掛程式不會為預設語言添加別名到連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:71
+msgid ""
+"The plugin does nothing, doesn't modify the home url.<br /> The content of "
+"site will be in default language"
+msgstr "外掛程式什麼都不做，不修改首頁連結。<br /> 網站內容將按預設語言顯示"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:77
+msgid "Default language will be used if visitor language isn't available"
+msgstr "訪客語言不可用時使用預設語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:95
+msgid "Use Pre-Path Mode"
+msgstr "使用預設路徑模式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:98
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:139
+msgid "This mode doesn't work with default permalink!!!"
+msgstr "此模式在預設固定連結下不可用！！！"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:107
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:152
+msgid "Ignore for default language"
+msgstr "忽略預設語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:115
+msgid "Use Pre-Domain Mode"
+msgstr "使用預設功能變數名稱模式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:121
+msgid "Append the suffix <strong>&amp;lang=</strong> to the url"
+msgstr "附加尾碼<strong>&amp;lang=</strong>到連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:134
+msgid "Choose the style of your links. Example:"
+msgstr "選擇您的連結的風格。例如："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:137
+msgid "Pre-Path"
+msgstr "預設路徑"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:143
+msgid "Default, puts /[language slug]/ in front of URL"
+msgstr "預設，在連結前放置/[language slug]/ "
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:152
+msgid "If you enable the option: "
+msgstr "如果啟用選項："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:153
+msgid "language slug will be added only to translations"
+msgstr "語言別名將只被添加到翻譯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:159
+msgid "Default"
+msgstr "默認"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:168
+msgid "Pre-Domain"
+msgstr "預設功能變數名稱"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:171
+msgid "Append suffix"
+msgstr "附加尾碼"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:194
+msgid "Translate categoriy url"
+msgstr "翻譯分類連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:198
+msgid "Translate the url for category links."
+msgstr "翻譯分類連結URL"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:199
+msgid "Example"
+msgstr "示例"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:225
+msgid "When the post/page is available in visitor language:"
+msgstr "當文章/頁面在訪客語言中可用："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:232
+msgid "Add notice to:"
+msgstr "添加通知到："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:239
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:74
+msgid "Posts"
+msgstr "文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:246
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:81
+msgid "Pages"
+msgstr "頁面"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:254
+msgid "Ignore"
+msgstr "忽略"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:260
+msgid "Where to show the alert"
+msgstr "在何處顯示警告"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:264
+msgid "On the top of page/post"
+msgstr "在文章/頁面的頂部"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:268
+msgid "On the bottom of page/post"
+msgstr "在文章/頁面的底部"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:274
+msgid "Cusomize notice:"
+msgstr "自訂通知："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:278
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:303
+msgid "Click here for translate notice"
+msgstr "點擊此處翻譯通知"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:284
+msgid "Before:"
+msgstr "之前："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:290
+msgid "After:"
+msgstr "之後："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:300
+msgid ""
+"Notice visitor that post/page that is visiting is available in his language"
+msgstr "通知訪客正在訪問的文章/頁面在他的語言中可用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:320
+msgid "Change date format"
+msgstr "更改日期格式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:324
+msgid "Apply date format defined in language item"
+msgstr "應用語言專案中定義的日期格式"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:340
+msgid "Set the language of wordpress, in according of selected language"
+msgstr "根據選中的語言設置wordpress的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:344
+msgid "Change wordpress locale in according to current language."
+msgstr "根據當前語言更改wordpress當地語系化"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:345
+msgid ""
+"If enabled language of all plugins and theme will switch in current "
+"language, if a translation exists"
+msgstr "如果啟用，翻譯存在時所有外掛程式和主題將會切換為當前語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:359
+msgid "Add [cml_media] shortcode to media inserted in editor"
+msgstr "添加 [cml_media] 簡碼到插入編輯器中的媒體"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:363
+msgid ""
+"If enabled the plugin will insert inside [cml_media] shortcode to allow \"alt"
+"\" attribute to be translated in frontend"
+msgstr "如果啟用，外掛程式將插入 [cml_media] 簡碼來允許前臺中翻譯的 “alt” 屬性"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:378
+msgid "Categories & Tags"
+msgstr "分類和標籤"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:380
+msgid "Change wordpress language:"
+msgstr "更改wordpress語言："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-actions.php:381
+msgid "Translate media in Editor:"
+msgstr "在編輯器中翻譯媒體："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:25
+msgid ""
+"When you add a language the plugin will try to download corresponding "
+"WordPress language files. If for, some reason, it fails you can try to "
+"download them at: "
+msgstr ""
+"當添加一個語言時，外掛程式將嘗試下載相應的WordPress語言檔。如果由於某些原因失"
+"敗，您可以嘗試在以下位置下載："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:30
+msgid ""
+"You then would have to upload these files to the '/wp-content/languages/' "
+"directory"
+msgstr "您將必須上傳這些檔到 '/wp-content/languages/' 目錄"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/language-files.php:33
+msgid ""
+"If your language is not available on previous link you have to install it "
+"manually. For more information"
+msgstr "如果您的語言在之前的連結內不可用，您可以手動安裝它。要獲取更多資訊"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:16
+msgid "If translation of current post/page doesn't exists in flag language:"
+msgstr "如果當前文章/頁面的翻譯在旗幟語言中不存在："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:24
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:40
+msgid "Switch always to flag language"
+msgstr "總是切換到旗幟語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:30
+msgid "Go to homepage"
+msgstr "返回主頁"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:37
+msgid ""
+"Set the behavior of the flags when current page doesn't exists in flag "
+"language"
+msgstr "單簽頁面在氣質語言中不存在時，設置旗幟的外觀"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:44
+msgid ""
+"The plugin will add language slug ( ?lang=## ) to url when translation "
+"doesn't exists in flag language"
+msgstr "當翻譯在旗幟語言內不存在時，外掛程式將添加語言別名（?lang=##）到連結"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:63
+msgid "Show flags on:"
+msgstr "顯示旗幟："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:88
+msgid "Custom posts"
+msgstr "自訂文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:96
+msgid "Loop"
+msgstr "迴圈"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:121
+msgid "Before post/page content"
+msgstr "文章/頁面內容之前"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:126
+msgid "After post/page content"
+msgstr "文章/頁面內容之後"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:137
+msgid "When:"
+msgstr "當："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:144
+msgid "Show flags only on translated page."
+msgstr "僅在已翻譯頁面顯示旗幟。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:149
+msgid "Choose where show flags"
+msgstr "選擇旗幟的顯示位置"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:174
+msgid " Custom css:"
+msgstr "自訂CSS"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:184
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:222
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:301
+msgid " Display items as:"
+msgstr "顯示專案為："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:198
+msgid "Add a div, with #flying-flags, after the footer of the page."
+msgstr "在頁面頁腳之後添加一個div，含#flying-flags。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:199
+msgid "Use the textarea for customize the style."
+msgstr "使用多行文本自訂風格。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:213
+msgid "Id or class of element to add flags:"
+msgstr "id或class元素來添加旗幟："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:217
+msgid "use # for id, or . for class"
+msgstr "為id使用“#”，或class使用“.”"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:236
+msgid ""
+"Create a div with id #cml-lang, and append it to desired element throught "
+"append method of jQuery"
+msgstr "創建一個div，id為#cml-lang，並通過附加jQuery方法將它附加到需要的元素"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:252
+msgid "Style"
+msgstr "風格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:258
+msgid "Add an item for each language"
+msgstr "為每個語言添加專案"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:264
+msgid "Add items in submenu"
+msgstr "在子功能表添加項目"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:271
+msgid "Add to"
+msgstr "添加到"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:311
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:45
+msgid ""
+"You can add flags to menu throught <b>Aspect -> Menu page</b>, or enabling "
+"this option."
+msgstr "您可以通過<b>外觀 -> 主頁面</b>添加旗幟到功能表，或者啟用此選項。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:312
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:46
+msgid ""
+"Use this box for also customize the style of items added throught <b>Aspect -"
+"> Menu page</b>"
+msgstr "使用此框通過<b>外觀 -> 主頁面</b>添加自訂專案風格"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:324
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:246
+msgid "Flag + name"
+msgstr "旗幟+名稱"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:330
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:240
+msgid "Name only"
+msgstr "僅名稱"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:336
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:234
+msgid "Flag only"
+msgstr "僅旗幟"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:342
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:258
+msgid "Flag + Language slug"
+msgstr "旗幟+語言別名"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:360
+msgid "Flags size:"
+msgstr "旗幟大小："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:385
+msgid " Style:"
+msgstr "風格："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:391
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:264
+msgid "List"
+msgstr "列表"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:406
+msgid "Combo"
+msgstr "組合"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:420
+msgid "Translation not available:"
+msgstr "翻譯不可用："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-flags.php:431
+msgid "Add flags to menu:"
+msgstr "添加旗幟到菜單："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:7
+msgid "Helps restored succesfully"
+msgstr "幫助成功還原"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:23
+msgid "Start wizard"
+msgstr "開始嚮導"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:29
+msgid "Start wizard againg. Current settings will not be erased"
+msgstr "再次開始嚮導。當前設置將不會被刪除"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:39
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:114
+msgid "Restore helps"
+msgstr "還原幫助"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:63
+msgid "Automatically assign default language to existing posts"
+msgstr "自動指定預設語言到現有文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:99
+msgid "Update static page"
+msgstr "更新靜態頁面"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:105
+msgid ""
+"Update Wordpress static page settings. If the plugin set random page as "
+"homepage try to deactivat this option"
+msgstr ""
+"更新Wordpress靜態頁面設置。如果外掛程式設置了隨機頁面作為首頁，請嘗試停用這個"
+"選項"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:112
+msgid "Wizard"
+msgstr "嚮導"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:113
+msgid "Update language of existing posts"
+msgstr "更新現有文章的語言"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:115
+msgid "Update post relations"
+msgstr "更新文章關聯"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:116
+msgid "Static page"
+msgstr "靜態頁面"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/admin/layouts/options-advanced.php:119
+msgid "Debug"
+msgstr "調試"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/frontend/utils.php:628
+#, php-format
+msgid "%1$ flag"
+msgstr "%1$ flag"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:155
+msgid "generated from \"wpml-config.xml\""
+msgstr "從\"wpml-config.xml\"生成"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:186
+msgid ""
+"Current plugins contains WPML Language Configuration Files ( wpml-config."
+"xml )"
+msgstr "當前外掛程式包含WPML語言設定檔 ( wpml-config.xml )"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:193
+msgid "officially supported"
+msgstr "官方支持"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:213
+#, php-format
+msgid ""
+"Now you can translate Admin texts / wp_options in <%s>\"My Translations\"</"
+"a> page"
+msgstr "現在您可以在<%s>\"我的翻譯\"</a>頁面翻譯管理文本 / wp_options"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:216
+msgid ""
+"Support to wpml-config.xml is experimental and could not works correctly"
+msgstr "wpml-config.xml的支援是實驗性的，可能不能正常使用"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:302
+#, php-format
+msgid "Go to <%s>My Translations</a> page to translate \"Titles & Metadata\""
+msgstr "轉到<%s>我的翻譯</a>頁面，翻譯 \"標題和中繼資料\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:377
+#, php-format
+msgid "Go to <%s>My Translations</a> page to translate \"Title Settings\""
+msgstr "轉到<%s>我的翻譯</a> 頁面，翻譯 \"標題設置\""
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:406
+msgid "Your theme is designed for WPML"
+msgstr "您的主題是為WPML設計的"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/compatibility.php:407
+msgid ""
+"Support for theme compatible with WPML is experimental and could not works "
+"correctly, if you need help contact me."
+msgstr ""
+"對於WPML相容的主題的支援是實驗性的，可能不能正常工作，如果您需要請與我聯繫。"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:22
+msgid "CML: Recent Posts"
+msgstr "CML：最新文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:23
+msgid "The most recent posts on your site"
+msgstr "您網站上的最新文章"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:109
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:220
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:366
+msgid "Title:"
+msgstr "標題："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:114
+msgid "Number of posts to show:"
+msgstr "要顯示的文章數量："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:126
+msgid "CML: Language Chooser"
+msgstr "CML：語言選擇器"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:127
+msgid "Show the list of available languages"
+msgstr "顯示可用的語言清單"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:226
+msgid "Show:"
+msgstr "顯示："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:272
+msgid "Flag's size:"
+msgstr "旗幟大小："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:294
+msgid "Css ClassName:"
+msgstr "CSS類名："
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:308
+msgid "CML: Text"
+msgstr "CML：文本"
+
+#: /home/ceceppa/Progetti/www/wp_beta/wp-content/plugins/ceceppa-multilingua/includes/widgets.php:309
+msgid "You can write arbitrary text or HTML separately for each language"
+msgstr "您可以為每種語言分開編寫任意文本或者HTML代碼"

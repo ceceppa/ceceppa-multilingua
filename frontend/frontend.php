@@ -935,7 +935,7 @@ EOT;
     if( CMLLanguage::is_default( CMLUtils::_get( '_real_language' ) )
         || ( isset( $this->_force_category_lang ) &&
         $this->_force_category_lang == CMLLanguage::get_default_id() ) )
-      return remove_query_arg( "lang", $link );
+      return esc_url( remove_query_arg( "lang", $link ) );
 
     $slug = CMLLanguage::get_slug( CMLUtils::_get( '_real_language' ) );
     return esc_url( add_query_arg( array( "lang" => $slug ),
@@ -1189,7 +1189,7 @@ EOT;
       $this->clear_url();
     }
 
-    $url = remove_query_arg( "lang", $this->_clean_url );
+    $url = esc_url( remove_query_arg( "lang", $this->_clean_url ) );
     if( $this->_url_mode != PRE_LANG ) {
       $id = @url_to_postid( $url );
     }
@@ -1499,7 +1499,7 @@ EOT;
 
           if( ! isset( $this->_clean_applied ) ) {
             if( PRE_LANG == $this->_url_mode ) {
-              $url = remove_query_arg( "lang", $this->_request_url );
+              $url = esc_url( remove_query_arg( "lang", $this->_request_url ) );
             } else {
               $this->clear_url();
 
@@ -2169,7 +2169,7 @@ EOT;
 
   //is_homepage?
   function is_homepage() {
-    $url = remove_query_arg( "lang", $this->_url );
+    $url = esc_url( remove_query_arg( "lang", $this->_url ) );
     return $url == $this->_homeUrl;
   }
 
@@ -2302,6 +2302,21 @@ EOT;
     //Non ho trovato niente (Nothing to do)
     return $query;
   }
+
+  /*
+   * Filtro l'archivio
+   */
+  function filter_archives($query, $pos) {
+    //Recupero tutti i post collegati alla lingua corrente
+    $posts = $this->get_posts_for_language();
+
+    $where = " AND id IN (" . implode(", ", $posts) . ") ";
+
+    //Aggiungo il $where prima della clausula ORDER
+    $query = substr($query, 0, $pos) . $where . substr($query, $pos);
+    return $query;
+  }
+
 
   /**
    * For info about why this function have a look above, in the construct one
