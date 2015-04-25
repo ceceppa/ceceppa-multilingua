@@ -2,11 +2,21 @@
 add_action( 'admin_notices', 'cml_show_admin_notices' );
 
 function cml_show_admin_notices() {
-  global $wpdb;
-
   if( ! current_user_can( 'manage_options' ) ) {
     return;
   }
+
+  cml_notice_add_column_translation_slug();
+
+  /*
+   * In CML < 1.5.5 category name were stored in lowercase, I don't remeber why about this choises.
+   * But now, after a full rewrite and a lot of improvements, it's time to store them as they are...
+   */
+   cml_notice_update_taxonomies_translations();
+}
+
+function cml_notice_add_column_translation_slug() {
+  global $wpdb;
 
   if( isset( $_GET[ 'fix-upgrade' ] ) ) {
     update_option( "cml_db_version", 22 );
@@ -77,6 +87,24 @@ function cml_show_qem_notice() {
   </p>
   <div style="clear:both"></div>
   <br />
+</div>
+<?php
+}
+
+function cml_notice_update_taxonomies_translations() {
+  if( isset( $_GET[ 'cml_fix_taxonomies' ] ) ) cml_update_taxonomies_translations();
+
+  if( get_option( 'cml_taxonomies_updated', 0 ) ) return;
+
+  $link = esc_url( add_query_arg( 'cml_fix_taxonomies', 1 ) );
+?>
+<div class="updated">
+  <p>
+    <strong>Ceceppa Multilingua</strong>
+    <br /><br />
+    <?php printf( __( 'Update required. Click <%s>here</a> to fix taxonomies translation', 'ceceppaml' ),
+                 'a href="' . $link . '"' ) ?>
+  </p>
 </div>
 <?php
 }

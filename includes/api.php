@@ -390,8 +390,9 @@ class CMLLanguage {
     $url = self::get_flag_src( $lang, $size );
     $name = self::get_name( $lang );
     $slug = self::get_slug( $lang );
-
-    return "<img src='$url' border='0' alt='$slug' title='$name' />";
+    $width = ( $size == CML_FLAG_TINY ) ? 16 : 32;
+    $height = ( $size == CML_FLAG_TINY ) ? 11 : 23;
+    return "<img src='$url' border='0' alt='$slug' title='$name' width='$width' height='$height'/>";
   }
 
    /**
@@ -1625,5 +1626,36 @@ class CMLUtils {
     }
 
     return null;
+  }
+}
+
+
+
+/**
+* This class provide information about translated taxonomies
+*
+* @api
+*
+*/
+class CMLTaxonomies {
+  /** @ignore */
+  private static $_taxonomies = array();
+
+  public static function get( $lang, $term ) {
+    global $wpdb;
+
+    $term_id = ( is_object( $term ) ) ? $term->term_id : intval( $term );
+    $lang = is_object( $lang ) ? $lang->id : intval( $lang );
+
+    if( isset( self::$_taxonomies[$lang][ $term_id ] ) ) {
+      return self::$_taxonomies[$lang][ $term_id ];
+    }
+
+    $query = "SELECT id, cml_cat_id, UNHEX(cml_cat_name) as original, UNHEX(cml_cat_translation) as name, UNHEX(cml_cat_translation_slug) as slug, cml_taxonomy FROM " . CECEPPA_ML_CATS . " WHERE cml_cat_id = $term_id AND cml_cat_lang_id = $lang";
+
+    $row = $wpdb->get_row( $query );
+
+    self::$_taxonomies[$lang][ $term_id ] = $row;
+    return $row;
   }
 }

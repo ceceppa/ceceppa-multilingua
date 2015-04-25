@@ -743,9 +743,10 @@ function _cml_clone_taxonomies( $from, $to, $post_lang ) {
   if( ! empty( $tags ) ) {
     $ltags = array();
     foreach( $tags as $t ) {
-      $ltags[] = ( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
-                    $t->name :
-                    CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
+      // $ltags[] = ( CML_STORE_CATEGORY_AS == CML_CATEGORY_AS_STRING ) ?
+      //               $t->name :
+      //               CMLTranslations::get( $lang, $t->taxonomy . "_" . $t->name, "C", true );
+      $ltags[] = $t->name;
     }
 
     wp_set_post_tags( $ID, $ltags );
@@ -823,6 +824,8 @@ function cml_quick_edit_mode_editor( $post ) {
   $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
   $enabled = apply_filters( 'cml_manage_post_types', $enabled );
   if( is_array( $enabled ) && ! in_array( $post->post_type, $enabled ) ) return;
+
+  CMLUtils::_set( 'use_qem', 1 );
 
   //is a new document?
   $is_new_post = ( $pagenow == "post-new.php" );
@@ -958,9 +961,10 @@ YOAST;
  * Allow the users to publish the translation, as well, from the quick edit mode
  */
 function cml_qem_publish_box( $p ) {
-  $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
-  $enabled = apply_filters( 'cml_manage_post_types', $enabled );
-  if( is_array( $enabled ) && ! in_array( $post->post_type, $enabled ) ) return;
+  // $enabled = get_option( 'cml_qem_enabled_post_types', get_post_types() );
+  // $enabled = apply_filters( 'cml_manage_post_types', $enabled );
+  // if( is_array( $enabled ) && ! in_array( $post->post_type, $enabled ) ) return;
+  if( CMLUtils::_get( 'use_qem', 0 ) === 0 ) return;
 
   echo '<div class="misc-pub-section cml-publish">';
   echo '<span class="cml-publish-title">' . __ ( 'Publish translations:', 'ceceppaml' ) . '</span>';

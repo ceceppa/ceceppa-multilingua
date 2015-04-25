@@ -14,6 +14,12 @@ function cml_admin_taxonomy_add_form_fields( $tag ) {
           <?php echo $lang->cml_language ?>
         </label>
         <input type="text" name="cat_name[<?php echo $lang->id ?>]" id="cat_name[<?php echo $lang->id ?>]" size="40" />
+        <blockquote>
+          <label>
+            <?php _e( 'Slug' ); ?>
+            <input type="text" name="cat_slug[<?php echo $lang->id ?>]" id="cat_slug[<?php echo $lang->id ?>]" size="40" />
+          </label>
+        </blockquote>
     <?php endforeach; ?>
   </div>
 <?php
@@ -23,12 +29,13 @@ function cml_admin_taxonomy_add_form_fields( $tag ) {
  * category translations form
  */
 function cml_admin_taxonomy_edit_form_fields( $tag ) {
+  global $wpdb;
   wp_enqueue_script('ceceppaml-cat');
 
   $t_id = $tag->term_id;
 ?>
   <?php
-    $langs = cml_get_languages( false );
+    $langs = CMLLanguage::get_no_default();
 
     foreach( $langs as $lang ) {
       if( ! $lang->cml_default ) {
@@ -37,11 +44,17 @@ function cml_admin_taxonomy_edit_form_fields( $tag ) {
         $img = CMLLanguage::get_flag_img( $lang->id );
 
         //$value = get_option( "cml_category_" . $t_id . "_lang_$id", $tag->name );
-        $tag->name = html_entity_decode( $tag->name );
-        $tname = strtolower( $tag->taxonomy . "_" . $tag->name );
-        $value = CMLTranslations::get( $lang->id, $tname, "C", true );
+        // $tag->name = html_entity_decode( $tag->name );
+        // $tname = strtolower( $tag->taxonomy . "_" . $tag->name );
+        // $value = CMLTranslations::get( $lang->id, $tname, "C", true );
+        $row = CMLTaxonomies::get( $lang, $t_id );
 
-        if( empty( $value ) ) $value = $tag->name;
+        $name = is_object( $row ) ? $row->name : "";
+        $slug = is_object( $row ) ? $row->slug : "";
+        if( empty( $name ) ) $name = $tag->name;
+        if( empty( $slug ) ) $slug = $tag->slug;
+
+        $slug_label = __( 'Slug' );
 echo <<< EOT
   <tr class="form-field cml-form-field">
   <td>
@@ -49,7 +62,13 @@ echo <<< EOT
       $lang->cml_language
   </td>
   <td>
-      <input type="text" name="cat_name[$lang->id]" id="cat_name_{$lang->id}" size="40" value="$value"/>
+      <input type="text" name="cat_name[$lang->id]" id="cat_name_{$lang->id}" size="40" value="$name"/>
+      <blockquote>
+        <label>
+          <b>$slug_label</b>
+          <input type="text" name="cat_slug[$lang->id]" id="cat_slug[$lang->id]" size="30" value="$slug" />
+        </label>
+      </blockquote>
   </td>
   </tr>
 EOT;
@@ -78,7 +97,10 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
   $cats = $_POST[ 'cat_name' ];
   $name = isset( $_POST[ 'name' ] ) ? $_POST[ 'name' ] : $_POST[ 'tag-name' ];
   foreach( $cats as $key => $cat ) {
-    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $_POST[ 'taxonomy' ] );
+    $slug = $_POST['cat_slug'][$key];
+    if( empty ( $slug ) ) $slug = $name;
+
+    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $slug, $_POST[ 'taxonomy' ] );
   }
 }
 
@@ -113,7 +135,7 @@ function _cml_admin_quickedit_taxonomy( $term_id ) {
   cml_generate_mo_from_translations( "_X_", false );
 }
 
-function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $taxonomy ) {
+function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $translation_slug, $taxonomy ) {
   global $wpdb;
 
   $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d",
@@ -130,7 +152,7 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $tax
             "cml_cat_name" => bin2hex( $name ),
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
-			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
+			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation_slug ) ) ),
       "cml_taxonomy" => $taxonomy,
             ),
 		  array( "id" => $r_id ),

@@ -161,6 +161,7 @@ function cml_install_first_time() {
                   array( "%s", "%s", "%d" ) );
 
   update_option( '_cml_installed_language', $wpdb->get_var( "SELECT cml_language FROM " . CECEPPA_ML_TABLE ) );
+  update_option( 'cml_taxonomies_updated', 1 );
 }
 
 function _cml_first_install_search( $locale ) {

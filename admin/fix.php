@@ -135,6 +135,10 @@ function cml_do_update() {
     $wpdb->query( $query );
   }
 
+  if( $dbVersion < 32 ) {
+    cml_update_taxonomies_translations();
+  }
+
   //CML < 1.4
   cml_do_update_old();
 
@@ -399,4 +403,12 @@ function cml_update_all_posts_language() {
                           $post->ID );
   } //endforeach;
 }
-?>
+
+function cml_update_taxonomies_translations() {
+  global $wpdb;
+
+  $query = sprintf( "UPDATE %s as t1 INNER JOIN %s as t2 ON HEX(CONCAT(cml_taxonomy, '_', UNHEX(cml_cat_name))) = cml_text AND cml_cat_lang_id = cml_lang_id AND t2.cml_type = 'C' SET t1.cml_cat_translation = t2.cml_translation", CECEPPA_ML_CATS, CECEPPA_ML_TRANSLATIONS );
+  $wpdb->query( $query );
+
+  update_option( 'cml_taxonomies_updated', 1 );
+}

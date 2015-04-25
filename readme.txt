@@ -187,6 +187,12 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
+= 1.5.5 =
+* Added ability to translate category slug as well
+* Added CMLTaxonomies api
+* Updated documentation
+* Added code to fix the 500 Internal Server Error
+
 = 1.5.4 =
 * Security update
 * Added the missing Function CMLFrontend::filter_archives

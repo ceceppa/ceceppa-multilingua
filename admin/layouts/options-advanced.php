@@ -26,6 +26,7 @@ function cml_admin_options_advanced_qem() {
         $post_types = get_post_types( array( '_builtin' => FALSE ), 'names');
         $post_types[] = "post";
         $post_types[] = "page";
+        $post_types = apply_filters( 'cml_manage_post_types', $post_types );
 
         //Enabled post types ( by default all )
         $enabled = get_option( 'cml_qem_enabled_post_types', $post_types );
@@ -35,7 +36,7 @@ function cml_admin_options_advanced_qem() {
 echo <<< LI
   <li>
     <div class="cml-checkbox">
-      <input type="checkbox" id="cml-qem-{$post_type}" name="cml-qem-posttypes[]" value="$post_type" $checked />
+      <input type="checkbox" id="cml-qem-{$post_type}" name="cml-qem-posttypes[$post_type]" value="$post_type" $checked />
       <label for="cml-qem-{$post_type}"><span>||</span></label>
     </div>
     <label for="cml-qem-{$post_type}">$post_type</label>
@@ -180,6 +181,25 @@ function cml_admin_force_post_redirect() {
 <?php
 }
 
+function cml_admin_fix_htaccess() {
+  ?>
+  <div id="minor-publishing">
+    <div>
+        <?php echo cml_utils_create_checkbox( __( 'Fix 500 Internal Server Error', 'ceceppaml' ), "cml-fix-500", "cml-fix-500", null, 1, get_option( "cml_fix_htaccess", false ) ) ?>
+        <?php submit_button() ?>
+    </div>
+  </div>
+
+  <div id="major-publishing-actions" class="cml-description">
+        <?php _e( 'Something could happen that you got a 500 Internal Server Error, after saved some options from the admin panel.', 'ceceppaml' ); ?>
+        <br />
+        <strong><?php _e( "I know, it's no nice when happens and I'm trying all my best to avoid it.", 'ceceppaml' ) ?>;</strong>
+        <br /><br />
+        <?php _e( 'But if unfortunatelly it happend to you, just click select the option and click the button, and fix it.', 'ceceppaml' ); ?>
+  </div>
+<?php
+}
+
 
 $help = __( 'Show/Hide help', 'ceceppaml' );
 
@@ -196,6 +216,9 @@ add_meta_box( 'cml-box-disable-extra-slug', '<span class="cml-icon cml-icon-redi
 
 //Force post/page redirect
 add_meta_box( 'cml-box-force-redirect', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Force post redirect', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_force_post_redirect', 'cml_box_options' );
+
+//Force post/page redirect
+add_meta_box( 'cml-box-fix-500-error', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Fix 500 Server error', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_fix_htaccess', 'cml_box_options' );
 
 if( file_exists( CML_PLUGIN_PATH . "debug.php" ) ) {
   add_meta_box( 'cml-box-enable-debug', '<span class="cml-icon cml-icon-redirect "></span>' . __( 'Debug', 'ceceppaml' ) . ":<span class=\"cml-help cml-help-wp tipsy-w\" title=\"$help\"></span>", 'cml_admin_options_enable_debug', 'cml_box_options' );

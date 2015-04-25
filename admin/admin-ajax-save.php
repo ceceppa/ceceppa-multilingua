@@ -200,6 +200,13 @@ function cml_admin_save_options_actions() {
     update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );
     update_option( "cml_remove_extra_slug", intval( @$_POST[ 'cml-extra' ] ) );
     update_option( "cml_force_redirect", intval( @$_POST[ 'cml-redirect' ] ) );
+
+    if( isset( $_POST[ 'cml-fix-500' ] ) ) {
+      global $wp_rewrite;
+
+      CMLUtils::_set( '_rewrite_rules', 1 );
+      $wp_rewrite->flush_rules( true );
+    }
   } else {
     //Redirect
     $redirect = array( "auto", "default", "others", "nothing" );

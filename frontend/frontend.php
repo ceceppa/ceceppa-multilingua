@@ -793,10 +793,13 @@ EOT;
   /*
    * translate single category name
    */
-  function translate_term_name( $term_name, $lang_id = null, $post_id = null, $taxonomy = "" ) {
+  // function translate_term_name( $term_name, $lang_id = null, $post_id = null, $taxonomy = "" ) {
+  function get_translated_term( $term, $lang_id = null, $post_id = null, $taxonomy = "" ) {
     if( 1 === CMLUtils::_get( '_no_translate_term' ) ) {
-      return $term_name;
+      return $term;
     }
+
+    $term_name = ( is_object( $term ) ) ? $term->name : $term;
 
     if( isset( $this->_force_post_lang ) ) {
       $lang_id = $this->_force_post_lang;
@@ -844,7 +847,7 @@ EOT;
       //I have not translate "slug" for default language
       CMLUtils::_set( '_no_translate_term', 1 );
 
-      return $term_name;
+      return $term;
     }
 
     if( isset( $this->_force_category_lang ) &&
@@ -856,15 +859,25 @@ EOT;
       $lang_id = CMLLanguage::get_current_id();
     }
 
-    $t_name = strtolower( $taxonomy . "_" . $term_name );
-    if( ! CMLLanguage::is_current( $lang_id ) ) {
-      //If post language != current language I can't get translation from ".mo"
-      $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true, true );
-    } else {
-      $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true );
-    }
+    if( is_object( $term ) ) {
+      $tterm = CMLTaxonomies::get( $lang_id, $term );
 
-    return ( ! empty( $t_name ) ) ? $t_name : $term_name;
+      if( empty( $term ) || ! is_object( $tterm ) )  {
+        $tterm = array( 'name' => $term->name, 'slug' => $term->slug );
+        $tterm = ( object ) $tterm;
+      }
+      return $tterm;
+    } else {
+      $t_name = strtolower( $taxonomy . "_" . $term_name );
+      if( ! CMLLanguage::is_current( $lang_id ) ) {
+        //If post language != current language I can't get translation from ".mo"
+        $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true, true );
+      } else {
+        $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true );
+      }
+
+      return ( ! empty( $t_name ) ) ? $t_name : $term_name;
+    }
   }
 
   /*
@@ -885,12 +898,18 @@ EOT;
        * Because if wp added -## to it I'll get an 404 page :(
        */
       $oname = $term->name;
-      $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
+      $tterm = $this->get_translated_term( $term, $lang_id, $post_id, $term->taxonomy );
+
+      $term->name = $tterm->name;
+      // $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
 
       if( $this->_category_url_mode != PRE_LANG &&
           null === CMLUtils::_get( '_no_translate_term' ) &&
-          $term->name != $oname ) {
-        $term->slug = sanitize_title( strtolower( $term->name ) );
+          $term->slug != $tterm->slug ) {
+          // $term->name != $oname ) {
+
+          $term->slug = $tterm->slug;
+        // $term->slug = sanitize_title( strtolower( $term->name ) );
       }
 
       CMLUtils::_del( '_no_translate_term' );
@@ -916,7 +935,8 @@ EOT;
     unset( $this->_force_post_lang );
     unset( $this->_force_category_lang );
 
-    return $this->translate_term_name( $title, null, null, $term->taxonomy );
+    return $this->get_translated_term( $title, null, null, $term->taxonomy );
+    // return $this->translate_term_name( $title, null, null, $term->taxonomy );
   }
 
 
@@ -1018,7 +1038,7 @@ EOT;
         }
 
         if( ! empty( $page_id ) ) {
-          $title = get_the_title( $page_id );
+          $title = ( CMLLanguage::is_default() ) ? $item->title : get_the_title( $page_id );
 
           // $item->ID = $page_id;
           $item->title = ( @empty( $customs[ 'title' ] ) ) ? $title : $customs[ 'title' ];
@@ -1668,7 +1688,7 @@ EOT;
          * I have to convert HEX in lowercase before compare
          */
         $cat = strtolower( str_replace("-", " ", $cat) );
-        $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE cml_cat_translation_slug IN ('%s', '%s')",
+        $query = sprintf( "SELECT *, UNHEX( cml_cat_name ) as cml_cat_name FROM %s WHERE LOWER(cml_cat_translation_slug) IN ('%s', '%s')",
                          CECEPPA_ML_CATS, strtolower( bin2hex( $cat ) ),
                          strtolower( bin2hex( sanitize_title( $cat ) ) ) );
 
@@ -1679,7 +1699,8 @@ EOT;
       }
 
       if( ! empty( $name ) ) {
-        $where = is_category() ? "category" : "post_tag";
+        // $where = is_category() ? "category" : "post_tag";
+        $where = $row->cml_taxonomy;
         CMLUtils::_set( '_no_translate_term', 1 );
         $term = get_term_by( 'id', $row->cml_cat_id, $where );
 
@@ -2331,25 +2352,32 @@ EOT;
      if( ! preg_match( "/t.slug = '[^']*/", $query, $slug ) ) return $query;
      if( ! preg_match( "/tt.taxonomy = '[^']*/", $query, $taxonomy ) ) return $query;
 
-     $slug = str_replace( "t.slug = '", '', $slug[0] );
+     //For non UTF 8 language ( like cyrillic )
+     $slug = urldecode( str_replace( "t.slug = '", '', $slug[0] ) );
      if( ! array_key_exists( $slug, $_terms ) ) {
        $taxonomy = str_replace( "tt.taxonomy = '", '', $taxonomy[0] );
 
        //Retrive the original slug
        /**
         * The slug could be different by category name, so I can't just sanitize my original name
-        * I have to get the right slug from the database
+        * I have to get the right slug from the database.
+        * I need to check both cml_cat_translation_slug and cml_cat_translation, because of the slug
         */
-       $search = sprintf( "SELECT slug FROM %s INNER JOIN $wpdb->terms t2 ON cml_cat_id = t2.term_id WHERE cml_cat_translation_slug IN ('%s', '%s') AND cml_taxonomy = '%s' AND cml_cat_lang_id = %d",
-                        CECEPPA_ML_CATS, strtolower( bin2hex( $slug ) ),
+       $search = sprintf( "SELECT slug FROM %s INNER JOIN $wpdb->terms t2 ON cml_cat_id = t2.term_id WHERE ( LOWER(cml_cat_translation_slug) IN ('%s', '%s') OR LOWER(cml_cat_translation) IN ('%s', '%s') ) AND cml_taxonomy = '%s' AND cml_cat_lang_id = %d",
+                        CECEPPA_ML_CATS,
+                        strtolower( bin2hex( $slug ) ),
                         strtolower( bin2hex( sanitize_title( $slug ) ) ),
-                        $taxonomy, CMLLanguage::get_current_id() );
+                        strtolower( bin2hex( $slug ) ),
+                        strtolower( bin2hex( sanitize_title( $slug ) ) ),
+                        $taxonomy,
+                        CMLLanguage::get_current_id() );
 
        $original = $wpdb->get_var( $search );
        $_terms[ $slug ] = $original;
      } else {
        $original = $_terms[ $slug ];
      }
+
      if( empty( $original ) ) return $query;
 
      $query = preg_replace( "/t.slug = '[^']*/", "t.slug = '" . $original, $query );
