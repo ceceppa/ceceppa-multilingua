@@ -326,7 +326,7 @@ class CMLFrontend extends CeceppaML {
          cml_is_custom_post_type() ) return $title;
     }
 
-    if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
+    if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( cml_is_homepage() ) )
           || is_category() ) return $title;
 
     global $post;
@@ -390,7 +390,7 @@ class CMLFrontend extends CeceppaML {
          cml_is_custom_post_type() ) return $content;
     }
 
-    if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( in_the_loop() || is_home() ) )
+    if( ( ! $_cml_settings[ 'cml_option_flags_on_the_loop' ] && ( cml_is_homepage() ) )
           || is_category() ) return $content;
 
     $size = $_cml_settings['cml_option_flags_on_size'];
@@ -399,6 +399,7 @@ class CMLFrontend extends CeceppaML {
                   "size" => $size,
                   "sort" => true,
                   );
+    print_r( $flags );
     $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
                           cml_shortcode_other_langs_available( $args ) :
                           cml_show_available_langs( $args );
@@ -2351,7 +2352,7 @@ EOT;
    */
   function filter_archives($query, $pos) {
     //Recupero tutti i post collegati alla lingua corrente
-    $posts = $this->get_posts_for_language();
+    $posts = $this->get_posts_by_language();
 
     $where = " AND id IN (" . implode(", ", $posts) . ") ";
 

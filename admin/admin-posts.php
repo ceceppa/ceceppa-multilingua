@@ -800,6 +800,8 @@ function cml_disable_filtering( $types ) {
     $list = get_option( "_cml_ignore_post_type", array() );
   }
 
+  if( ! is_array( $types ) ) return $list;
+
   return array_diff( $types, $list );
 }
 
