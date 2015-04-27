@@ -50,6 +50,9 @@ function cml_notice_add_column_translation_slug() {
  * Quick edit mode notices
  */
 function cml_show_qem_notice() {
+  global $pagenow;
+  if( $pagenow != "post.php" ) return;
+
   if( isset( $_GET[ 'qem-hide' ] ) ) {
     update_option( 'cml_hide_qem_notice', 1 );
   }

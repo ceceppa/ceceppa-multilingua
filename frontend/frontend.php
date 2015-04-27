@@ -354,8 +354,6 @@ class CMLFrontend extends CeceppaML {
       } else {
         return $flags . $title;
       }
-
-      die();
     } //endif;
 
     return $title;
@@ -1032,16 +1030,19 @@ EOT;
           $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
         }
 
+        $custom_title = "";
         if(  isset( $customs[ 'title' ] ) &&
             ! empty( $customs[ 'title' ] ) ) {
           $item->title = $customs[ 'title' ];
+
+          $custom_title = $item->title;
         }
 
         if( ! empty( $page_id ) ) {
           $title = ( CMLLanguage::is_default() ) ? $item->title : get_the_title( $page_id );
 
           // $item->ID = $page_id;
-          $item->title = ( @empty( $customs[ 'title' ] ) ) ? $title : $customs[ 'title' ];
+          $item->title = ( empty( $custom_title ) ) ? $title : $custom_title;
           $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
                                                 $item->attr_title;
           $item->post_title = $title;
@@ -1081,15 +1082,23 @@ EOT;
       case 'category':
         $id = $item->object_id;
 
+        //custom label for
+        $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
+
+        if( null == $customs ) {
+          $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        }
+
+        $custom_title = "";
+        if(  isset( $customs[ 'title' ] ) &&
+            ! empty( $customs[ 'title' ] ) ) {
+          $item->title = $customs[ 'title' ];
+
+          $custom_title = $item->title;
+        }
+
         if( ! empty( $id ) ) {
           $lang = $lang_id;
-
-          //custom label for
-          $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
-
-          if( null == $customs ) {
-            $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
-          }
 
           //Get term
           $term = get_term( $item->object_id, $item->object );
@@ -1098,10 +1107,8 @@ EOT;
 
           //Original category title
           $title = ( empty( $item->post_title ) ) ? $term->name : $item->post_title;
-          $item->title = ( ! @empty( $customs[ 'title' ] ) ) ? $customs[ 'title' ] :
-                                                $title;
-          $item->attr_title = ( ! @empty( $customs[ 'attr_title' ] ) ) ? $customs[ 'attr_title' ] :
-                                                $item->attr_title;
+          $item->title = ( empty( $custom_title ) ) ? $title : $custom_title;
+          $item->attr_title = ( empty( $customs[ 'attr_title' ] ) ) ? $item->attr_title : $customs[ 'attr_title' ];
 
           $item->url = $url;
 
@@ -1137,6 +1144,21 @@ EOT;
 
         break;
       default:
+        $id = $item->object_id;
+
+        //custom label for
+        $customs = CMLUtils::_get_translation( "_cml_menu_meta_{$slug}_{$item->ID}" );
+
+        if( null == $customs ) {
+          $customs = get_post_meta( $item->ID, "_cml_menu_meta_" . $slug, true );
+        }
+
+        $custom_title = "";
+        if(  isset( $customs[ 'title' ] ) &&
+            ! empty( $customs[ 'title' ] ) ) {
+          $item->title = $customs[ 'title' ];
+        }
+
         return $item;
       } //endswitch;
     //} //endif;
