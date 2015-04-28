@@ -7,11 +7,12 @@ function cml_admin_taxonomy_add_form_fields( $tag ) {
   <div class="form-field cml-form-field">
   <?php
       $langs = cml_get_languages( false, true );
+      $desc = "";
 
       foreach($langs as $lang) : ?>
         <label for="cat_name[ <?php echo $lang->id ?> ]">
-          <?php echo CMLLanguage::get_flag_img( $lang->id ); ?>
           <?php echo $lang->cml_language ?>
+          <?php echo CMLLanguage::get_flag_img( $lang->id ); ?>
         </label>
         <input type="text" name="cat_name[<?php echo $lang->id ?>]" id="cat_name[<?php echo $lang->id ?>]" size="40" />
         <blockquote>
@@ -20,9 +21,23 @@ function cml_admin_taxonomy_add_form_fields( $tag ) {
             <input type="text" name="cat_slug[<?php echo $lang->id ?>]" id="cat_slug[<?php echo $lang->id ?>]" size="40" />
           </label>
         </blockquote>
+
+        <?php
+          $img = CMLLanguage::get_flag_img( $lang->id );
+          $id = $lang->id;
+$desc .= <<< DESC
+      <div class="cml-tag-desc">
+          $img
+          <blockquote>
+            <textarea name="cml_desc[$id]" id="tag-description-$id" rows="5" cols="40"></textarea>
+          </blockquote>
+      </div>
+DESC;
+        ?>
     <?php endforeach; ?>
   </div>
 <?php
+    echo $desc;
 }
 
 /**

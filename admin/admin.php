@@ -99,9 +99,10 @@ class CMLAdmin extends CeceppaML {
           CMLUtils::_set( '_forced_language_slug', CMLLanguage::get_slug( $lang ) );
         }
 
-        if( 'options-permalink.php' != $pagenow &&
-            'themes.php' != $pagenow &&
-            ! defined( 'DOING_AJAX' ) ) {
+        // if( 'options-permalink.php' != $pagenow &&
+        //     'themes.php' != $pagenow &&
+        //     ! defined( 'DOING_AJAX' )  ) {
+        if( in_array( $pagenow, array( 'edit.php', 'post.php', 'edit-tags.php' ) ) && ! defined( 'DOING_AJAX' ) ) {
           add_filter( 'home_url', array( & $this, 'translate_home_url' ), 0, 4 );
         }
       }
