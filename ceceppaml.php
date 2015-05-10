@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $wpdb;
 
-define( 'CECEPPA_DB_VERSION', 32 );
+define( 'CECEPPA_DB_VERSION', 33 );
 
 define( 'CECEPPA_ML_TABLE', $wpdb->base_prefix . 'ceceppa_ml' );
 define( 'CECEPPA_ML_CATS', $wpdb->base_prefix . 'ceceppa_ml_cats' );

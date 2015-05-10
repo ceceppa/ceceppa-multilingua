@@ -10,5 +10,7 @@ jQuery(document).ready(function( $ ) {
       $tag = $("#edittag").find("table tbody tr")[index + 1];
       $(this).insertAfter($tag);
     });
+
+    $( '.cml-tag-desc' ).appendTo( $( '#description + p' ) ).removeClass( 'cml-hidden' );
   }
 });

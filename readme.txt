@@ -189,6 +189,8 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 = 1.5.6 =
 * Try to fix the 500 Internal Server Error
+* Added auto backup on plugin update
+* Fixed static page changing with random One
 
 = 1.5.5 =
 * Added ability to translate category slug as well

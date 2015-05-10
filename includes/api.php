@@ -1651,7 +1651,7 @@ class CMLTaxonomies {
       return self::$_taxonomies[$lang][ $term_id ];
     }
 
-    $query = "SELECT id, cml_cat_id, UNHEX(cml_cat_name) as original, UNHEX(cml_cat_translation) as name, UNHEX(cml_cat_translation_slug) as slug, cml_taxonomy FROM " . CECEPPA_ML_CATS . " WHERE cml_cat_id = $term_id AND cml_cat_lang_id = $lang";
+    $query = "SELECT id, cml_cat_id, UNHEX(cml_cat_name) as original, UNHEX(cml_cat_translation) as name, UNHEX(cml_cat_translation_slug) as slug, cml_taxonomy, UNHEX(cml_cat_description) as description FROM " . CECEPPA_ML_CATS . " WHERE cml_cat_id = $term_id AND cml_cat_lang_id = $lang";
 
     $row = $wpdb->get_row( $query );
 

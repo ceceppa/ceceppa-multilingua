@@ -29,7 +29,7 @@ $desc .= <<< DESC
       <div class="cml-tag-desc">
           $img
           <blockquote>
-            <textarea name="cml_desc[$id]" id="tag-description-$id" rows="5" cols="40"></textarea>
+            <textarea name="cat_desc[$id]" id="tag-description-{$id}" rows="5" cols="40"></textarea>
           </blockquote>
       </div>
 DESC;
@@ -86,6 +86,13 @@ echo <<< EOT
       </blockquote>
   </td>
   </tr>
+
+<div class="cml-tag-desc cml-hidden">
+  $img
+  <blockquote>
+    <textarea name="cat_desc[$lang->id]" id="tag-description-{$lang->id}" rows="5" cols="40">{$row->description}</textarea>
+  </blockquote>
+</div>
 EOT;
       }
     }
@@ -113,9 +120,10 @@ function cml_admin_save_extra_taxonomy_fileds( $term_id ) {
   $name = isset( $_POST[ 'name' ] ) ? $_POST[ 'name' ] : $_POST[ 'tag-name' ];
   foreach( $cats as $key => $cat ) {
     $slug = $_POST['cat_slug'][$key];
+    $desc = $_POST['cat_desc'][$key];
     if( empty ( $slug ) ) $slug = $name;
 
-    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $slug, $_POST[ 'taxonomy' ] );
+    _cml_add_taxonomy_translation( $term_id, $name, $key, $cat, $slug, $desc, $_POST[ 'taxonomy' ] );
   }
 }
 
@@ -150,7 +158,7 @@ function _cml_admin_quickedit_taxonomy( $term_id ) {
   cml_generate_mo_from_translations( "_X_", false );
 }
 
-function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $translation_slug, $taxonomy ) {
+function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $translation_slug, $desc_translation, $taxonomy ) {
   global $wpdb;
 
   $query = sprintf( "SELECT * FROM %s WHERE cml_cat_id = %d AND cml_cat_lang_id = %d",
@@ -168,10 +176,11 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $tra
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
 			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation_slug ) ) ),
+			"cml_cat_description" => bin2hex( $desc_translation ),
       "cml_taxonomy" => $taxonomy,
             ),
 		  array( "id" => $r_id ),
-		  array( '%s', '%d', '%s', '%s' ),
+		  array( '%s', '%d', '%s', '%s', '%s' ),
 		  array( "%d" ) );
   } else {
     $wpdb->insert( CECEPPA_ML_CATS,
@@ -180,10 +189,11 @@ function _cml_add_taxonomy_translation( $id, $name, $lang_id, $translation, $tra
 			"cml_cat_lang_id" => $lang_id,
 			"cml_cat_translation" => bin2hex( $translation ),
 			"cml_cat_translation_slug" => bin2hex( strtolower( sanitize_title( $translation ) ) ),
+			"cml_cat_description" => bin2hex( $desc_translation ),
 			"cml_cat_id" => $id,
       "cml_taxonomy" => $taxonomy,
             ),
-		  array('%s', '%d', '%s', '%s', '%d') );
+		  array('%s', '%d', '%s', '%s', '%s', '%d', '%s' ) );
   }
 
   _cml_copy_taxonomies_to_translations();

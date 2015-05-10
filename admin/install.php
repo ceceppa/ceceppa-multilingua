@@ -81,6 +81,7 @@ function cml_install_create_tables() {
               `cml_cat_lang_id` INT NOT NULL ,
               `cml_cat_translation` VARCHAR(1000),
               `cml_cat_translation_slug` VARCHAR(1000),
+              `cml_cat_translation_slug` LONGTEXT,
               `cml_taxonomy` VARCHAR( 1000 ) ) ENGINE=InnoDB CHARACTER SET=utf8;";
 
     dbDelta($query);
@@ -208,6 +209,16 @@ function cml_do_install() {
   if( get_option( "cml_is_first_time" ) ) {
     cml_install_first_time();
   }
+
+  //Backup file
+  $backup_file = date( 'Ymd-His' );
+  $db_backup = $backup_file . '.db';
+  $settings_backup = $backup_file . '.settings';
+
+  _cml_backup_do_tables( "DB", CECEPPAML_BACKUP_PATH . $db_backup );
+  _cml_backup_do_tables( "SETTINGS", CECEPPAML_BACKUP_PATH . $settings_backup,
+                              " option_name, option_value, autoload ",
+                              " WHERE option_name LIKE 'cml_%' OR option_name LIKE '_cml_%' " );
 
   //Do fixes
   cml_do_update();

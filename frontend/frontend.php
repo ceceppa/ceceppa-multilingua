@@ -26,7 +26,6 @@ class CMLFrontend extends CeceppaML {
     //Change wordpress locale & right to left
     add_filter( 'locale', array( & $this, 'setlocale' ), 0, 1 );
     add_action( 'plugins_loaded', array( &$this, 'setup_rtl' ), 1 );
-    add_action( 'plugins_loaded', array( &$this, 'register_translated_taxonomies' ), 1 );
 
     //redirect browser
     $this->_redirect_browser = $_cml_settings[ 'cml_option_redirect' ];
@@ -240,9 +239,9 @@ class CMLFrontend extends CeceppaML {
       * I'll intercept all "queries" and wherever I'll find the string t.slug, I'm gonna replace
       * the value with the untranslated ones, so everybody we'll be happy :)
       */
-      if( ! CMLLanguage::is_default() ) {
+      // if( ! CMLLanguage::is_default() ) {
         add_filter( 'query', array( &$this, 'change_get_term_by_query' ) );
-      }
+      // }
   }
 
   /*
@@ -399,7 +398,7 @@ class CMLFrontend extends CeceppaML {
                   "size" => $size,
                   "sort" => true,
                   );
-    print_r( $flags );
+
     $flags = ( $_cml_settings[ 'cml_options_flags_on_translations' ] ) ?
                           cml_shortcode_other_langs_available( $args ) :
                           cml_show_available_langs( $args );
@@ -647,7 +646,7 @@ EOT;
 
     if( isset( $this->_static_page ) ) return $this->_static_page;
     if( ! $query->is_main_query() || ! isset( $query->query_vars[ 'page_id' ] ) ) return;
-    if( is_search() ) return;
+    if( ! cml_is_homepage() || is_search() ) return;
 
     //Recupero l'id della lingua
     $lang_id = CMLLanguage::get_current_id();
@@ -2269,13 +2268,6 @@ EOT;
    */
   function setup_rtl() {
     $GLOBALS[ 'text_direction' ] = ( CMLLanguage::get_current()->cml_rtl == 1 ) ? 'rtl' : 'ltr';
-  }
-
-  function register_translated_taxonomies() {
-    global $wp_taxonomies;
-
-    // print_r( $wp_taxonomies );
-    // die();
   }
 
   /**

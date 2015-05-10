@@ -139,6 +139,13 @@ function cml_do_update() {
     cml_update_taxonomies_translations();
   }
 
+  if( $dbVersion < 33 ) {
+    $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_description` LONGTEXT",
+                     CECEPPA_ML_CATS );
+    error_log( $query );
+    $wpdb->query( $query );
+  }
+
   //CML < 1.4
   cml_do_update_old();
 
