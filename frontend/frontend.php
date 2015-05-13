@@ -651,11 +651,8 @@ EOT;
     //Recupero l'id della lingua
     $lang_id = CMLLanguage::get_current_id();
 
-    //Page id
-    $id = $query->query_vars[ 'page_id' ];
-
-    //uhm... on website happend that page_id is always empty when use static page
-    if( $id == 0 ) $id = get_option( 'page_on_front' );
+    //Static page id
+    $id = get_option("page_on_front");
 
     //Id of linked post
     $nid = CMLPost::get_translation( $lang_id, $id );
