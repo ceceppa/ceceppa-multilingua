@@ -142,7 +142,7 @@ function cml_do_update() {
   if( $dbVersion < 33 ) {
     $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_description` LONGTEXT",
                      CECEPPA_ML_CATS );
-    error_log( $query );
+    // error_log( $query );
     $wpdb->query( $query );
   }
 

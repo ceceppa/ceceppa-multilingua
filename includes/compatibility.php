@@ -1,6 +1,8 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
+require_once CML_PLUGIN_FRONTEND_PATH . "utils.php";
+
 $GLOBALS[ '_cml_supported_plugin' ] = array( 'all-in-one-seo-pack', 'wordpress-seo' );
 
 /*

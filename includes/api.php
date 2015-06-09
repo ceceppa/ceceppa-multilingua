@@ -206,6 +206,7 @@ class CMLLanguage {
    */
   public static function get_current() {
     if( empty( self::$_all_languages ) ) self::get_all();
+    if( empty( self::$_current_id ) ) self::$_current_id = self::get_default_id();
 
     return self::$_all_languages[ self::$_current_id ];
   }
@@ -886,6 +887,7 @@ class CMLPost {
     global $wpdb;
 
     if( is_numeric( $lang ) ) $lang = CMLLanguage::get_slug( $lang );
+    if( is_object( $lang ) ) $lang = $lang->cml_language_slug;
     if( empty( $post_id ) ) return 0;
 
     //if( ! CECEPPA_ML_MIGRATED ) {
@@ -1252,7 +1254,7 @@ class CMLPost {
   public static function is_translation( $post1, $post2 ) {
     $translations = CMLPost::get_translations( $post1 );
 
-    return in_array( $post2, $translations[ 'indexes' ] );
+    return @in_array( $post2, $translations[ 'indexes' ] );
   }
 
   /** @ignore */

@@ -10,7 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
  * @param string $url - ( optional ) url to check
  *
  */
-function cml_is_homepage( $url = null ) {
+function cml_is_homepage( $url = null, $the_id = null ) {
+  static $static_id = null;
+
   global $wpdb;
 
   if( ! empty( $wpdb ) && method_exists( $wpdb, 'is_category' ) ) {
@@ -21,9 +23,23 @@ function cml_is_homepage( $url = null ) {
   if( cml_use_static_page() ) {
     global $wp_query;
 
-    $static_id = array( get_option( "page_for_posts" ), get_option( "page_on_front" ) );
+    if( $static_id == null ) {
+      $pfp = get_option( "page_for_posts" );
+      $pof = get_option( "page_on_front" );
+
+      $static_id = array( $pfp, $pof );
+
+      foreach( array( $pfp, $pof ) as $id ) {
+        $t = CMLPost::get_translations( $pfp );
+
+        foreach( $t['indexes'] as $tid ) {
+          $static_id[] = $tid;
+        }
+      }
+    }
 
     $lang_id = CMLLanguage::get_current_id();
+
 
     /*
      * on some site get_queried_object_id isn't available on start
@@ -37,21 +53,27 @@ function cml_is_homepage( $url = null ) {
      * queried_object_id is different from "real" queried_object,
      * so I store that info in $GLOBALS to avoid this problem :)
      */
-    if( ! isset( $GLOBALS[ '_cml_get_queried_object_id' ] ) ) {
-      if( ! empty( $wpdb ) && method_exists( $wpdb, 'get_queried_object' ) ) {
-        $GLOBALS[ '_cml_get_queried_object_id' ] = get_queried_object()->ID;
-        $GLOBALS[ '_cml_get_queried_object' ] = get_queried_object();
+    /**
+     * TODO: figure out why get_queried_object() return the id of the first post
+     * in the page_for_posts page...
+     */
+    if( null == $the_id ) {
+      if( ! isset( $GLOBALS[ '_cml_get_queried_object_id' ] ) ) {
+        if( ! empty( $wpdb ) && method_exists( $wpdb, 'get_queried_object' ) ) {
+          $GLOBALS[ '_cml_get_queried_object_id' ] = get_queried_object()->ID;
+          $GLOBALS[ '_cml_get_queried_object' ] = get_queried_object();
 
-        $the_id = & $GLOBALS[ '_cml_get_queried_object_id' ];
-      } else {
-        if( is_object( get_post() ) ) {
-          $the_id = get_the_ID();
+          $the_id = & $GLOBALS[ '_cml_get_queried_object_id' ];
+        } else {
+          if( is_object( get_post() ) ) {
+            $the_id = get_the_ID();
 
-          $GLOBALS[ '_cml_get_queried_object_id' ] = $the_id;
+            // $GLOBALS[ '_cml_get_queried_object_id' ] = $the_id;
+          }
         }
+      } else {
+        $the_id = $GLOBALS[ '_cml_get_queried_object_id' ];
       }
-    } else {
-      $the_id = $GLOBALS[ '_cml_get_queried_object_id' ];
     }
 
     if( ! empty( $the_id ) ) {

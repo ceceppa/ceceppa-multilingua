@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) die( "Access denied" );
 
 define( 'CECEPPAML_BACKUP_PATH', CML_UPLOAD_DIR . trailingslashit( 'backup' ) );
 
-function &_cml_backup_tables( $select = "*", $where = "" ) {
+function _cml_backup_tables( $select = "*", $where = "" ) {
     global $wpdb;
 
     $data = "\n/*---------------------------------------------------------------".
@@ -57,7 +57,8 @@ function &_cml_backup_tables( $select = "*", $where = "" ) {
       $data .= "  ".implode(";\nINSERT INTO `{$table}` {$fields} VALUES ", $vals).";\n";
     }
   }
-  mysql_close( $link );
+
+  // mysql_close( $link );
   return $data;
 }
 
@@ -215,7 +216,7 @@ function _cml_download_backup() {
 
     readfile( "{$file}1" );
 
-  error_log( $file );
+    // error_log( $file );
     //remove temp file
     if( $remove ) {
       readfile( "{$file}2" );

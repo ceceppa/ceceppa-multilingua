@@ -128,8 +128,8 @@ class CMLFrontend extends CeceppaML {
      * Used static page?
      * If yes I change the id of page with its translation
      */
-    if( cml_is_homepage() && cml_use_static_page() && ! isset( $_GET[ 'preview' ] ) ) {
       add_filter( 'pre_get_posts', array( & $this, 'change_static_page' ), 0 );
+    if( cml_is_homepage() && cml_use_static_page() && ! isset( $_GET[ 'preview' ] ) ) {
     }
 
     //Archive links
@@ -646,16 +646,25 @@ EOT;
 
     if( isset( $this->_static_page ) ) return $this->_static_page;
     if( ! $query->is_main_query() || ! isset( $query->query_vars[ 'page_id' ] ) ) return;
-    if( ! cml_is_homepage() || is_search() ) return;
+
+    //TODO: remove get_queried_object()->ID and try to fix the cml_is_homepage()
+    $queried = get_queried_object();
+    if( is_object( $queried ) ) {
+      if( ! cml_is_homepage( null, $queried->ID ) || is_search() ) return;
+    } else {
+      if( ! cml_is_homepage() || is_search() ) return;
+    }
 
     //Recupero l'id della lingua
     $lang_id = CMLLanguage::get_current_id();
 
     //Static page id
     $id = get_option("page_on_front");
+    $pid = get_option("page_for_posts");
 
     //Id of linked post
     $nid = CMLPost::get_translation( $lang_id, $id );
+    $npid = CMLPost::get_translation( $lang_id, $pid );
 
     /*
      * Change the id of "page_on_front", so wordpress will add "home" to body_class :)
@@ -672,7 +681,22 @@ EOT;
       $nid = $id;
     }
 
-    $query->query_vars[ 'page_id' ] = $nid;
+    if( $npid > 0 ) {
+      if( $_cml_settings[ 'cml_update_static_page' ] == 1 ) {
+        update_option( 'page_for_posts', $npid );
+      }
+    } else {
+      $npid = $pid;
+    }
+
+    $page_id = $query->query_vars[ 'page_id' ];
+
+    if( CMLPost::is_translation ( $page_id, $nid ) ) {
+      $query->query_vars[ 'page_id' ] = $nid;
+    } else {
+      $query->query_vars[ 'page_id' ] = $npid;
+    }
+
     $query->query_vars[ 'is_home' ] = 1;
 
     $this->_static_page = $nid;
@@ -735,7 +759,7 @@ EOT;
         $this->_clean_url = $this->_url;
       }
 
-      return;
+      return null;
     }
 
     $id = CMLUtils::clear_url();
@@ -746,6 +770,8 @@ EOT;
     }
 
     $this->_clean_applied = true;
+
+    return $id;
   }
 
   /*
@@ -858,9 +884,10 @@ EOT;
       $tterm = CMLTaxonomies::get( $lang_id, $term );
 
       if( empty( $term ) || ! is_object( $tterm ) )  {
-        $tterm = array( 'name' => $term->name, 'slug' => $term->slug );
+        $tterm = array( 'name' => $term->name, 'slug' => $term->slug, 'description' => $term->description );
         $tterm = ( object ) $tterm;
       }
+
       return $tterm;
     } else {
       $t_name = strtolower( $taxonomy . "_" . $term_name );
@@ -896,6 +923,7 @@ EOT;
       $tterm = $this->get_translated_term( $term, $lang_id, $post_id, $term->taxonomy );
 
       $term->name = $tterm->name;
+      $term->description = $tterm->description;
       // $term->name = $this->translate_term_name( $term->name, $lang_id, $post_id, $term->taxonomy );
 
       if( $this->_category_url_mode != PRE_LANG &&
@@ -1441,10 +1469,14 @@ EOT;
 
     $this->_language_detected = 1;
 
+    $request_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     //Ajax?
     if( ! isset( $_REQUEST[ 'lang' ] ) &&
-       defined( 'DOING_AJAX' ) ) {
-      define( 'CML_NOUPDATE', 1 );
+       defined( 'DOING_AJAX' ) ||
+      stripos( $request_url, '/wp-content/' ) !== false ||
+      stripos( $request_url, '.php' ) !== false ) {
+      if( ! defined( 'CML_NOUPDATE' ) )
+        define( 'CML_NOUPDATE', 1 );
     } else {
       $lang = CMLUtils::clear_url();
 
@@ -1452,6 +1484,7 @@ EOT;
       if( empty( $lang ) && cml_is_homepage() ) $lang = CMLLanguage::get_default_id();
     }
 
+    // error_log("Request: $request_url");
     if( isset( $_REQUEST[ 'lang' ] ) ) {
       $l = CMLLanguage::get_id_by_slug( $_REQUEST[ 'lang' ] );
 
@@ -1471,7 +1504,8 @@ EOT;
     if( ! empty( $lang ) ) {
       CMLLanguage::set_current( $lang );
     } else {
-      define( 'CML_NOUPDATE', 1 );
+      if( ! defined( 'CML_NOUPDATE' ) )
+        define( 'CML_NOUPDATE', 1 );
     }
 
     //Translate widget title
@@ -1484,9 +1518,11 @@ EOT;
     }
 
     if( ! defined( 'CML_NOUPDATE' ) ) {
-      setcookie( '_cml_language', CMLLanguage::get_current_id(), 0, COOKIEPATH, COOKIE_DOMAIN, false );
+      $cookie = setcookie( '_cml_language', CMLLanguage::get_current_id(), 0, COOKIEPATH, COOKIE_DOMAIN, false );
+
+      // error_log( 'cookie: ' . $cookie . ', ' . CMLLanguage::get_current_id() );
     } else {
-      $lang = $_COOKIE[ '_cml_language' ];
+      $lang = @$_COOKIE[ '_cml_language' ];
 
       if( null !== CMLLanguage::get_by_id( $lang ) ) {
         CMLLanguage::set_current( $lang );
@@ -1500,6 +1536,9 @@ EOT;
                                             $this->_fake_language_id );
 
     do_action( 'cml_language_detected', CMLUtils::_get( "_real_language" ) );
+
+    // error_log( 'id: ' . defined('CML_NOUPDATE') . ', ' . CMLLanguage::get_current_id() );
+    // error_log( 'updating' );
 
     //Switch wordpress menu
     $this->change_menu();
@@ -2226,6 +2265,8 @@ EOT;
     $this->update_current_language();
 
     if( ! $_cml_settings[ "cml_option_change_locale" ] ) {
+      $this->_locale_applied = true;
+
       return $locale;
     }
 
@@ -2248,7 +2289,7 @@ EOT;
     if( ! defined( 'CML_NOUPDATE' ) ) {
       setcookie( '_cml_language', CMLLanguage::get_current_id(), 0, COOKIEPATH, COOKIE_DOMAIN, false );
     } else {
-      $lang = $_COOKIE[ '_cml_language' ];
+      $lang = @$_COOKIE[ '_cml_language' ];
 
       if( null !== CMLLanguage::get_by_id( $lang ) ) {
         CMLLanguage::set_current( $lang );
@@ -2257,6 +2298,7 @@ EOT;
       }
     }
 
+    // error_log( $locale );
     return $locale;
   }
 
