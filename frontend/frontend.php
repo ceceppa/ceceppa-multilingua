@@ -128,8 +128,8 @@ class CMLFrontend extends CeceppaML {
      * Used static page?
      * If yes I change the id of page with its translation
      */
-      add_filter( 'pre_get_posts', array( & $this, 'change_static_page' ), 0 );
     if( cml_is_homepage() && cml_use_static_page() && ! isset( $_GET[ 'preview' ] ) ) {
+      add_filter( 'pre_get_posts', array( & $this, 'change_static_page' ), 0 );
     }
 
     //Archive links
@@ -649,7 +649,7 @@ EOT;
 
     //TODO: remove get_queried_object()->ID and try to fix the cml_is_homepage()
     $queried = get_queried_object();
-    if( is_object( $queried ) ) {
+    if( is_object( $queried ) && isset( $queried->ID ) ) {
       if( ! cml_is_homepage( null, $queried->ID ) || is_search() ) return;
     } else {
       if( ! cml_is_homepage() || is_search() ) return;
