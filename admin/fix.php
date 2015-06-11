@@ -139,7 +139,7 @@ function cml_do_update() {
     cml_update_taxonomies_translations();
   }
 
-  if( $dbVersion < 33 ) {
+  if( $dbVersion < 34 ) {
     $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_description` LONGTEXT",
                      CECEPPA_ML_CATS );
     // error_log( $query );
