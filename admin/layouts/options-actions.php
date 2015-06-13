@@ -192,6 +192,14 @@ function cml_admin_options_categories_tags() {
       <label for="categories"><span>||</span></label>
     </div>
     <label for="categories"><?php _e('Translate categoriy url', 'ceceppaml') ?>&nbsp;</label>
+
+    <br />
+    <div class="cml-checkbox">
+      <input type="checkbox" id="category-slug" name="category-slug" value="1" <?php checked( $_cml_settings[ 'cml_option_translate_category_slug' ], true ) ?> />
+      <label for="category-slug"><span>||</span></label>
+    </div>
+    <label for="category-slug"><?php _e('Translate category slug', 'ceceppaml') ?>&nbsp;</label>
+
   </div>
 
   <div id="major-publishing-actions" class="cml-description">

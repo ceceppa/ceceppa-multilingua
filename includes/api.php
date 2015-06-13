@@ -451,11 +451,13 @@ class CMLLanguage {
    *                        current language will be assumed
    * @return boolean
    */
-  public static function is_default( $lang = null) {
+  public static function is_default( $lang = null ) {
     if( null == $lang ) {
       $lang = CMLUtils::_get( '_real_language');
     } else {
-      if( ! is_numeric( $lang ) ) {
+      if( is_object( $lang ) ) {
+        $lang = $lang->id;
+      } else if( ! is_numeric( $lang ) ) {
         $lang = CMLLanguage::get_id_by_slug( $lang );
       }
     }
@@ -1283,6 +1285,8 @@ class CMLPost {
     $removed = false;
 
     if( is_object( $post ) ) {
+      if( get_option( '_cml_no_remove_extra_' . $post->ID, false ) ) return $permalink;
+
       //Remove last "/"
       $url = untrailingslashit( $permalink );
       $url = str_replace( CMLUtils::home_url(), "", $url );
@@ -1642,6 +1646,8 @@ class CMLUtils {
 class CMLTaxonomies {
   /** @ignore */
   private static $_taxonomies = array();
+  /** @ignore */
+  private static $_translations = array();
 
   public static function get( $lang, $term ) {
     global $wpdb;
@@ -1659,5 +1665,22 @@ class CMLTaxonomies {
 
     self::$_taxonomies[$lang][ $term_id ] = $row;
     return $row;
+  }
+
+  public static function get_translation( $lang, $original ) {
+    global $wpdb;
+
+    $original = strtolower( $original );
+    if( isset( self::$_translations[ $lang ][ $original ] ) ) {
+      return self::$_translations[ $lang ][ $original ];
+    }
+
+    $query = sprintf(" SELECT UNHEX(cml_cat_translation) FROM %s WHERE cml_cat_name = '%s' AND cml_cat_lang_id = %d",
+                                    CECEPPA_ML_CATS, bin2hex( $original ), $lang );
+echo $query;
+    $val = $wpdb->get_var( $query );
+
+    self::$_translations[ $lang ][ $original ] = $val;
+    return $val;
   }
 }

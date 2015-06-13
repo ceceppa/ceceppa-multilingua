@@ -219,6 +219,7 @@ function cml_admin_save_options_actions() {
 
     //Translate category url
     @update_option( 'cml_option_translate_category_url', @intval( $_POST[ 'categories' ] ) );
+    @update_option( 'cml_option_translate_category_slug', @intval( $_POST[ 'category-slug' ] ) );
 
     //Notices
     @update_option("cml_option_notice", sanitize_title( $_POST['notice'] ) );

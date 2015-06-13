@@ -690,7 +690,7 @@ function cml_show_flags( $args ) {
     }
 
     $class = ( $result->id == CMLLanguage::get_current_id() ) ? "current" : "";
-    $slug = ( CMLLanguage::is_default( $result ) ) ? "x-default" : str_replace( "_", "-", $result->cml_language_slug() );
+    $slug = ( CMLLanguage::is_default( $result ) ) ? "x-default" : str_replace( "_", "-", $result->cml_language_slug );
     $li = "<li class=\"$class\"><a rel=\"alternate\" href=\"$link\" hreflang=\"{$slug}\">{$img}{$lang}</a></li>";
     if( $sort && is_array( $items ) && $result->id == $lang_id ) {
       array_unshift( $items, $li );

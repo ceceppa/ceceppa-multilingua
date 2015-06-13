@@ -36,11 +36,12 @@
   $_cml_settings[ 'cml_option_comments' ] = get_option('cml_option_comments', 'group');
   $_cml_settings[ 'cml_option_action_menu' ] = get_option( "cml_option_action_menu", true);
   $_cml_settings[ 'cml_option_action_menu_force' ] = get_option( "cml_option_action_menu_force", false );
-  $_cml_settings[ 'cml_option_menu_hide_items' ] = get_option( "cml_option_menu_hide_items", false );  
+  $_cml_settings[ 'cml_option_menu_hide_items' ] = get_option( "cml_option_menu_hide_items", false );
   $_cml_settings[ 'cml_add_flags_to_menu' ] = get_option("cml_add_flags_to_menu", 0);
   $_cml_settings[ 'cml_append_flags' ] = get_option("cml_append_flags", false);
   $_cml_settings[ 'cml_add_float_div' ] = get_option("cml_add_float_div", false);
   $_cml_settings[ 'cml_option_translate_category_url' ] = get_option( "cml_option_translate_category_url", 1 );
+  $_cml_settings[ 'cml_option_translate_category_slug' ] = get_option( "cml_option_translate_category_slug", 0 );
   $_cml_settings[ 'cml_option_filter_translations' ] = get_option( "cml_option_filter_translations", true );
   $_cml_settings[ 'cml_option_change_locale' ] = get_option( "cml_option_change_locale", 1);
   $_cml_settings[ 'cml_option_translate_media' ] = get_option( "cml_option_translate_media", 1);
@@ -59,16 +60,16 @@
   $_cml_settings[ 'cml_show_float_items_as' ] = get_option("cml_show_float_items_as", 1);
   $_cml_settings[ 'cml_show_float_items_size' ] = get_option("cml_show_float_items_size", "small");
   $_cml_settings[ 'cml_add_items_to' ] = get_option( 'cml_add_items_to', array() );
-  
+
   $_cml_settings[ 'cml_force_languge' ] = get_option( "cml_force_languge", 1 );
-  
+
   $_cml_language_columns = get_option( "cml_languages_ids", array() );
   $_cml_language_keys = get_option( "cml_languages_ids_keys", array() );
-  
+
   $_cml_settings[ 'cml_change_date_format' ] = get_option( "cml_change_date_format", 1 );
   $_cml_settings[ 'cml_show_float_items_style' ] = get_option( "cml_show_float_items_style", 1 );
   $_cml_settings[ 'cml_show_html_items_style' ] = get_option( "cml_show_html_items_style", 1 );
-  
+
   $_cml_settings[ 'cml_update_static_page' ] = get_option( "cml_update_static_page", 1 );
   $_cml_settings[ 'cml_remove_extra_slug' ] = get_option( "cml_remove_extra_slug", 1 );
 
@@ -76,5 +77,3 @@
   $_cml_settings[ 'cml_translated_slugs' ] = get_option( "cml_translated_slugs", array() );
 
   $GLOBALS[ '_cml_settings' ] = & $_cml_settings;
-
-

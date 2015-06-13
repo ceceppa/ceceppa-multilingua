@@ -294,10 +294,6 @@ function cml_admin_save_extra_post_fields( $term_id ) {
     $post_lang = intval( $_POST[ 'cml-lang' ] );
   }
 
-//  if( CML_STORE_CATEGORY_AS == CML_CATEGORY_CREATE_NEW ) {
-//    cml_fix_update_post_categories();
-//  }
-
   /*
    * Normal edit or quickedit?
    */
@@ -320,20 +316,45 @@ function cml_admin_save_extra_post_fields( $term_id ) {
                     );
     update_post_meta( $post_id, "_cml_override_flags", $override );
   } else {
+    $linkeds = array();
     $langs = CMLLanguage::get_all();
 
     $current = CMLPost::get_language_id_by_id( $post_id );
-    foreach( $langs as $lang ) {
-      if( $lang->id == $current ) continue;
+    $post_lang = @$_POST['cml-lang'];
 
-      $key = "linked_$lang->cml_language_slug";
+    foreach( $langs as $lang ) {
+      // if( $lang->id == $current ) continue;
+
+      $key = "linked_{$lang->cml_language_slug}";
       $linkeds[ $lang->id ] = intval( @$_POST[ $key ] );
     }
+
   }
 
   CMLPost::set_translations( $post_id, $linkeds, $post_lang );
-
   update_post_meta( $post_id, "_cml_lang_id", $post_lang );
+
+  //If the post slug is not equal to the original translation one, I don't have
+  //to remove the autoinserted number from the slug
+  $trans = CMLPost::get_translations( $post_id );
+  if( isset( $trans['indexes' ] ) ) {
+    $indexes = $trans['indexes' ];
+    $main = get_post( $indexes[ CMLLanguage::get_default_slug() ] );
+    $main_id = $main->ID;
+
+    foreach( $indexes as $i ) {
+      if( $i == $main_id ) continue;
+
+      $liked = get_post( $i );
+      $name = preg_replace( "/-\d+$/", '', $liked->post_name );
+
+      if( $main->post_name != $name ) {
+          update_option( '_cml_no_remove_extra_' . $liked->ID, 1 );
+      } else {
+        delete_option( '_cml_no_remove_extra_' . $liked->ID );
+      }
+    }
+  }
 
   CMLUtils::_del( '_no_store' );
 }
@@ -720,20 +741,22 @@ function cml_admin_delete_extra_post_fields( $id ) {
  * Clone the taxonomies from original post to its translation
  */
 function _cml_clone_taxonomies( $from, $to, $post_lang ) {
+  global $wpdb;
+
   /* recover category from linked id */
-  $categories = wp_get_post_categories( $link_id );
+  $categories = wp_get_post_categories( $from );
   if( ! empty( $categories ) ) {
-    $c = array();
-    foreach( $categories as $cat ) {
-      $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
-                            CECEPPA_ML_CATS, $post_lang, $cat );
-
-      $c[] = $wpdb->get_var( $query );
-    } //endforeach;
-
-    if( ! empty( $c ) ) {
-      $categories = $c;
-    }
+    // $c = array();
+    // foreach( $categories as $cat ) {
+    //   $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
+    //                         CECEPPA_ML_CATS, $post_lang, $cat );
+    //
+    //   $c[] = $wpdb->get_var( $query );
+    // } //endforeach;
+    //
+    // if( ! empty( $c ) ) {
+    //   $categories = $c;
+    // }
 
     wp_set_post_categories( $to, $categories );
   } // ! empty
@@ -873,7 +896,7 @@ function cml_quick_edit_mode_editor( $post ) {
       $t = get_post( $t_id );
   		$title = $t->post_title;
   		$content = $t->post_content;
-      CMLUtils::_set( '_forced_language_slug', $lang->cml_language_slug );
+      CMLUtils::_set( '_forced_language_slug', $lang->id );
     }
 
 		if( ! $is_post_lang ) :
@@ -956,7 +979,8 @@ YOAST;
     }
 
     //
-    CMLUtils::_set( '_forced_language_slug', $post_lang );
+    CMLUtils::_del( '_forced_language_slug' );
+    // CMLUtils::_set( '_forced_language_slug', $post_lang );
 }
 
 /**

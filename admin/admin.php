@@ -96,7 +96,7 @@ class CMLAdmin extends CeceppaML {
           $post = intval( $_GET[ 'post' ] );
           $lang = CMLLanguage::get_id_by_post_id( $post );
 
-          CMLUtils::_set( '_forced_language_slug', CMLLanguage::get_slug( $lang ) );
+          CMLUtils::_set( '_forced_language_slug', $lang );
         }
 
         // if( 'options-permalink.php' != $pagenow &&
@@ -115,6 +115,13 @@ class CMLAdmin extends CeceppaML {
 
     if( $pagenow == "widgets.php" ) {
       require_once CML_PLUGIN_INCLUDES_PATH . "shortcodes.php";
+    }
+
+    /*
+     * Ability to translate the "category" slug
+     */
+    if( 'options-permalink.php' == $pagenow ) {
+      require_once CML_PLUGIN_ADMIN_PATH . "admin-permalink.php";
     }
 
     /*
@@ -556,22 +563,27 @@ class CMLAdmin extends CeceppaML {
     add_filter( 'get_term', array( & $this, 'translate_term' ), 0, 2 );
     add_filter( 'get_terms', array( & $this, 'translate_terms' ), 0, 3 );
     add_filter( 'get_the_terms', array( & $this, 'translate_terms' ), 0, 3 );
+    add_filter( 'the_category', array( & $this, 'translate_the_category' ), 0, 3 );
   }
 
   function translate_term( $term, $taxonomy ) {
-    global $pagenow;
+    global $pagenow, $wpdb;
+
+    CMLUtils::_del( '_rewrite_rules' );
+    CMLUtils::_del( '_rewrite_url' );
+    unset( $GLOBALS[ '_cml_no_translate_home_url' ] );
 
     if( ! is_object( $term ) ) {
       return $term;
     }
 
-    if( CMLLanguage::is_current( CMLUtils::_get( '_forced_language_slug', CMLLanguage::get_default_id() ) ) ) {
-      return $term;
-    }
-
     if( in_array( $pagenow, array( "edit.php", "post.php" ) ) ) {
-      //&& ! isset( $_REQUEST[ 'taxonomy' ] ) ) {
-      $lang = CMLPost::get_language_id_by_id( get_the_ID() );
+      if( method_exists( $wpdb, 'get_the_ID' ) )
+        $lang = CMLPost::get_language_id_by_id( get_the_ID() );
+      else
+        $lang = CMLLanguage::get_current_id();
+
+      $lang = CMLUtils::_get( '_forced_language_slug', $lang );
     } else {
       if( "edit-tags.php" == $pagenow && isset( $_GET[ 'action' ] ) ) {
         $lang = CMLLanguage::get_default_id();
@@ -580,9 +592,19 @@ class CMLAdmin extends CeceppaML {
       }
     }
 
-    $name = CMLTranslations::get( $lang, $term->taxonomy . "_" . $term->name, "C", true );
-    if( ! empty( $name ) ) {
-      $term->name = $name;
+    $tterm = $this->get_translated_term( $term, $lang );
+
+    // $name = CMLTranslations::get( $lang, $term->taxonomy . "_" . $term->name, "C", true );
+    if( is_object( $tterm ) && ! empty( $tterm->name ) ) {
+      $term->name = $tterm->name;
+
+      /*
+       * Translate the slug only in 'edit-tags.php' main page, as I need the
+       * url in according to the current language.
+       */
+      if( "edit-tags.php" != $pagenow || ( "edit-tags.php" == $pagenow && ! isset( $_GET[ 'action' ] ) ) ) {
+        $term->slug = $tterm->slug;
+      }
     }
 
     return $term;
@@ -601,6 +623,25 @@ class CMLAdmin extends CeceppaML {
     }
 
     return $t;
+  }
+
+  /*
+   * translate category name
+   */
+  function translate_the_category( $name ) {
+    global $pagenow;
+
+    if( 'post.php' !== $pagenow && ! isset( $_GET['action'] ) ) return $name;
+
+    $lang = CMLLanguage::get_id_by_post_id( get_the_ID() );
+
+    //Default language? no translation required ;)
+    if( CMLLanguage::is_default( $lang ) ) return $name;
+
+    $name = CMLTaxonomies::get_translation( $lang, $name );
+
+    // $category = $this->translate_terms( array( 0 => $category ), null, null, $lang );
+    return $name;
   }
 
   function taxonomies_extra_fields() {
@@ -642,7 +683,10 @@ class CMLAdmin extends CeceppaML {
     $slug = $lang->cml_language_slug;
 
     $logged_in = function_exists( 'is_user_logged_in' ) && is_user_logged_in();
-    if( isset( $_COOKIE[ '_cml_language' ] ) ) {
+    $user = get_current_user_id();
+    if( ! defined( 'DOING_AJAX' ) && $logged_in ) {
+      $slug = get_option( "cml_${user}_locale", CMLLanguage::get_current() );
+    } else if( isset( $_COOKIE[ '_cml_language' ] ) ) {
       $lang = $_COOKIE[ '_cml_language' ];
 
       $slug = CMLLanguage::get_slug( $lang );
@@ -655,7 +699,7 @@ class CMLAdmin extends CeceppaML {
     $locale = $lang->cml_locale;
 
     //Set current user language;
-    if( ! defined( 'DOING_AJAX' ) && isset( $user ) ) {
+    if( ! defined( 'DOING_AJAX' ) && isset( $logged_in ) && isset( $user ) ) {
       update_option( "cml_${user}_locale", $lang->cml_language_slug );
     }
 
@@ -671,6 +715,14 @@ class CMLAdmin extends CeceppaML {
     CMLLanguage::set_current( $lang );
     CMLUtils::_set( '_real_language', $lang->id );
     CMLLanguage::set_current( CMLLanguage::get_id_by_locale( $locale ) );
+
+    if( empty( $_POST ) && 'options-permalink.php' != $pagenow && $this->_translate_category_slug && ! isset( $this->_translated_slug ) ) {
+      $permalinks = get_option( "cml_category_slugs", array() );
+
+      update_option( 'category_base', $permalinks[ CMLLanguage::get_current_id() ] );
+
+      $this->_translated_slug = true;
+    }
 
     return $locale;
   }
@@ -765,7 +817,9 @@ EOT;
   }
 
   function no_translate_home_url( $b ) {
-    CMLUtils::_set( '_rewrite_url', 1 );
+    if( $b ) {
+      CMLUtils::_set( '_rewrite_url', 1 );
+    }
 
     return $b;
   }

@@ -13,6 +13,9 @@ function cml_show_admin_notices() {
    * But now, after a full rewrite and a lot of improvements, it's time to store them as they are...
    */
    cml_notice_update_taxonomies_translations();
+
+   //Ability to translate category tag
+   cml_notice_category_translations();
 }
 
 function cml_notice_add_column_translation_slug() {
@@ -117,6 +120,34 @@ function cml_notice_update_taxonomies_translations() {
     <?php printf( __( 'Update required. Click <%s>here</a> to fix taxonomies translation', 'ceceppaml' ),
                  'a href="' . $link . '"' ) ?>
   </p>
+</div>
+<?php
+}
+
+function cml_notice_category_translations() {
+  if( isset( $_GET['cml_hide_category_notice'] ) ) {
+    update_option( 'cml_notice_category_translation', 1 );
+  }
+
+  if( get_option( 'cml_notice_category_translation', 0 ) ) return;
+
+  $link = admin_url() . '/options-permalink.php';
+?>
+<div class="updated">
+  <p>
+    <strong>Ceceppa Multilingua</strong>
+    <br /><br />
+    <?php printf( __( 'Now, from Settings -> <%s>Permalinks</a> page, you can translate the category slug for each languages', 'ceceppaml' ),
+                 'a href="' . $link . '" class="button"' ) ?>
+  </p>
+
+  <p class="submit">
+      <a class="button button-primary" style="float: right" href="<?php echo esc_url( add_query_arg( array( 'cml_hide_category_notice' => 1 ) ) ); ?>">
+        <?php _e( 'Hide', 'ceceppaml' ); ?>
+      </a>
+  </p>
+  <div style="clear:both"></div>
+  <br />
 </div>
 <?php
 }

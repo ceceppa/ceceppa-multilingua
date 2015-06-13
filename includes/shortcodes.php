@@ -94,6 +94,7 @@ function cml_show_available_langs( $args ) {
   $args[ 'only_existings' ] = true;
   $args[ 'sort' ] = false;
   $args[ 'queried' ] = true;
+  $args[ 'echo' ] = false;
 
   return cml_show_flags( $args );
 }

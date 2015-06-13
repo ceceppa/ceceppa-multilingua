@@ -190,6 +190,9 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 = 1.5.10 =
 * Fixed table cml category structure
 * Added a fix when the field cml_cat_description is not created by the updating script
+* Fixed issue when assign language in "quick edit"
+* Auto disabled extra number removal when the post slug doesn't match the original one
+* Fixed various bugs
 
 = 1.5.9 =
 * Fixed table structure

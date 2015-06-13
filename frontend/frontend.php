@@ -795,7 +795,7 @@ EOT;
       $name = CMLTranslations::get( $lang, $name, "C" );
     }
 
-    $category = $this->translate_terms( array( 0 => $category ), null, null, $lang );
+    // $category = $this->translate_terms( array( 0 => $category ), null, null, $lang );
 
     return $name;
   }
@@ -809,97 +809,6 @@ EOT;
     $terms = $this->translate_terms( array( 0 => $term ), $id, null );
 
     return $terms[0];
-  }
-
-  /*
-   * translate single category name
-   */
-  // function translate_term_name( $term_name, $lang_id = null, $post_id = null, $taxonomy = "" ) {
-  function get_translated_term( $term, $lang_id = null, $post_id = null, $taxonomy = "" ) {
-    if( 1 === CMLUtils::_get( '_no_translate_term' ) ) {
-      return $term;
-    }
-
-    $term_name = ( is_object( $term ) ) ? $term->name : $term;
-
-    if( isset( $this->_force_post_lang ) ) {
-      $lang_id = $this->_force_post_lang;
-    }
-
-    if( empty( $lang_id ) ) {
-      if( null === $post_id || is_array( $post_id ) ) {
-        $lang_id = CMLLanguage::get_current_id();
-      } else {
-        $lang_id = CMLPost::get_language_id_by_id( $post_id );
-      }
-
-      if( isset( $this->_fake_language_id ) &&
-          $lang_id > 0 &&
-          $lang_id != $this->_fake_language_id ) {
-        $this->_force_category_lang = $lang_id;
-      }
-
-      if( empty( $lang_id ) &&
-          isset( $this->_fake_language_id ) ) {
-        $lang_id = $this->_fake_language_id;
-      }
-
-      if( ! isset( $this->_fake_language_id )
-         && isset( $this->_force_category_lang ) ) {
-        $lang_id = $this->_force_category_lang;
-      }
-    }
-
-    if( null !== CMLUtils::_get( '_force_category_lang' ) ) {
-      $lang_id = CMLUtils::_get( '_force_category_lang' );
-
-      unset( $this->_force_category_lang );
-      unset( $this->_force_post_lang );
-    }
-
-    $lang_id = CMLUtils::_get( '_forced_language_id', $lang_id );
-
-    /*
-     * I need to force category language when I retrive category
-     * from "cml_get_the_link", because I need category term in post language,
-     * not current
-     */
-    if( CMLLanguage::is_default( $lang_id ) ) {
-      //I have not translate "slug" for default language
-      CMLUtils::_set( '_no_translate_term', 1 );
-
-      return $term;
-    }
-
-    if( isset( $this->_force_category_lang ) &&
-        ! isset( $this->_force_post_lang ) ) {
-      $lang_id = $this->_force_category_lang;
-    }
-
-    if( 0 == $lang_id ) {
-      $lang_id = CMLLanguage::get_current_id();
-    }
-
-    if( is_object( $term ) ) {
-      $tterm = CMLTaxonomies::get( $lang_id, $term );
-
-      if( empty( $term ) || ! is_object( $tterm ) )  {
-        $tterm = array( 'name' => $term->name, 'slug' => $term->slug, 'description' => $term->description );
-        $tterm = ( object ) $tterm;
-      }
-
-      return $tterm;
-    } else {
-      $t_name = strtolower( $taxonomy . "_" . $term_name );
-      if( ! CMLLanguage::is_current( $lang_id ) ) {
-        //If post language != current language I can't get translation from ".mo"
-        $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true, true );
-      } else {
-        $t_name = CMLTranslations::get( $lang_id, $t_name, "C", true );
-      }
-
-      return ( ! empty( $t_name ) ) ? $t_name : $term_name;
-    }
   }
 
   /*
@@ -962,7 +871,6 @@ EOT;
     // return $this->translate_term_name( $title, null, null, $term->taxonomy );
   }
 
-
   /*
    * add language slug ?lang=## at end of category link for non default languages
    * or site will return in default one
@@ -984,6 +892,7 @@ EOT;
     return esc_url( add_query_arg( array( "lang" => $slug ),
                                 $link ) );
   }
+
   /*
    * translate blog title and tagline
    *

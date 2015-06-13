@@ -81,6 +81,13 @@ jQuery(document).ready( function($) {
   } );
 
   /*
+   * Custom category permalink structure
+   */
+   //Move fields in permalink options
+   $( '.cml_category_slug' ).insertAfter( $( 'input[name="category_base"]' ) );
+   $( '.cml_category_slug' ).removeClass( 'cml-hidden' );
+
+  /*
    * Widgets page
    */
   //Move "custom titles after "Widget title"
@@ -179,10 +186,16 @@ jQuery(document).ready( function($) {
 
       //Clean up the title and the content for the current language
       if( c ) {
-
         //Clear the title && the content
         $( '#title_' + lang ).val( '' );
-        tinyMCE.get('ceceppaml_content_' + lang ).setContent('');
+
+        //tinyMCE.get return an object only if the
+        var tiny = tinyMCE.get('ceceppaml_content_' + lang );
+        if( tiny ) {
+          tiny.setContent('');
+        } else {
+          $( 'textarea#ceceppaml_content_' + lang ).val( '' );
+        }
       }
     } else {
       //Selected a different post?
