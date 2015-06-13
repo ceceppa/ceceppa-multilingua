@@ -8,6 +8,7 @@ function cml_do_update() {
   global $wpdb;
 
   $dbVersion = & $GLOBALS[ 'cml_db_version' ];
+  $fix = isset( $_GET['fix-upgrade'] ) ? intval( $_GET['fix-upgrade'] ) : 0;
 
   if( $dbVersion <= 24 ) {
     $queries[] = sprintf( "ALTER TABLE  %s CHANGE cml_language cml_language TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL",
@@ -70,7 +71,7 @@ function cml_do_update() {
     }
   }
 
-  if( $dbVersion < 27 ) {
+  if( $dbVersion < 27 || $fix == 27 ) {
     $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_translation_slug` VARCHAR( 100 ) NOT NULL",
                      CECEPPA_ML_CATS );
     $wpdb->query( $query );
@@ -139,7 +140,7 @@ function cml_do_update() {
     cml_update_taxonomies_translations();
   }
 
-  if( $dbVersion < 34 ) {
+  if( $dbVersion < 34 || $fix == 34 ) {
     $query = sprintf( "ALTER TABLE %s ADD  `cml_cat_description` LONGTEXT",
                      CECEPPA_ML_CATS );
     // error_log( $query );

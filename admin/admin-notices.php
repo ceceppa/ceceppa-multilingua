@@ -19,31 +19,40 @@ function cml_notice_add_column_translation_slug() {
   global $wpdb;
 
   if( isset( $_GET[ 'fix-upgrade' ] ) ) {
-    update_option( "cml_db_version", 22 );
-
-    $GLOBALS[ 'cml_db_version' ] = 22;
+    // update_option( "cml_db_version", 22 );
+    //
+    // $GLOBALS[ 'cml_db_version' ] = 22;
 
     require_once( CML_PLUGIN_ADMIN_PATH . "fix.php" );
     cml_do_update();
   }
 
   /* check if column cml_cat_translation_slug exists in ceceppa_ml_cats, otherwise something goes wrong during update */
-  $sql = "SHOW COLUMNS FROM  " . CECEPPA_ML_CATS . " LIKE  'cml_cat_translation_slug'";
-  $exists = $wpdb->get_row( $sql );
-  if( null == $exists ) {
-    $link = esc_url( add_query_arg( array( "fix-upgrade" => 1 ) ) );
+  // $sql = "SHOW COLUMNS FROM  " . CECEPPA_ML_CATS . " LIKE  'cml_cat_translation_slug'";
+  $cat_slug = _cml_check_if_column_exists( CECEPPA_ML_CATS, 'cml_cat_translation_slug' );
+  $cat_description = _cml_check_if_column_exists( CECEPPA_ML_CATS, 'cml_cat_description' );
+  if( null == $cat_slug || null == $cat_description ) {
+    $fix = ( null == $cat_slug ) ? 27 : 34;
+    $link = esc_url( add_query_arg( array( "fix-upgrade" => $fix ) ) );
 
 ?>
     <div class="error">
       <p>
         <strong>Ceceppa Multilingua</strong>
         <br /><br />
-        <?php printf( __( 'Something goes wrong during upgrade, click <%s>here</a> to fix ', 'ceceppaml' ),
+        <?php printf( __( 'Something went wrong during upgrade, click <%s>here</a> to fix ', 'ceceppaml' ),
                      'a href="' . $link . '"' ) ?>
       </p>
     </div>
 <?php
   }
+}
+
+function _cml_check_if_column_exists( $table, $column ) {
+  global $wpdb;
+
+  $sql = "SHOW COLUMNS FROM  $table LIKE  '$column'";
+  return $wpdb->get_row( $sql );
 }
 
 /*

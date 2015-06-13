@@ -81,7 +81,6 @@ function cml_install_create_tables() {
               `cml_cat_lang_id` INT NOT NULL ,
               `cml_cat_translation` VARCHAR(1000),
               `cml_cat_translation_slug` VARCHAR(1000),
-              `cml_cat_translation_slug` LONGTEXT,
               `cml_taxonomy` VARCHAR( 1000 ),
               `cml_cat_description` LONGTEXT ) ENGINE=InnoDB CHARACTER SET=utf8;";
 
