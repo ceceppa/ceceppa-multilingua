@@ -3,7 +3,7 @@ Contributors: ceceppa
 Tags: multilingual, language, admin, tinymce, bilingual, widget, switcher, i18n, l10n, multilanguage, professional, translation, service, human, qtranslate, wpml, ztranslate, xtranslate, international, .mo file, .po file, localization, widget, post
 Requires at least: 3.4.1
 Tested up to: 4.2
-Stable tag: 1.5.10
+Stable tag: 1.5.12
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G22CM5RA4G4KG
@@ -186,6 +186,12 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 9. Translate your theme
 
 == Changelog ==
+
+= 1.5.12 =
+* Added tag translation in wp_title
+
+= 1.5.11 =
+* Added missing file
 
 = 1.5.10 =
 * Fixed table cml category structure

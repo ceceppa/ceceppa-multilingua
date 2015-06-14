@@ -596,12 +596,14 @@ class CMLTranslations {
                              "cml_lang_id" => $lang ),
                       array( "%s", "%s", "%d" ) );
 
-      return $wpdb->insert( CECEPPA_ML_TRANSLATIONS,
+      $id = $wpdb->insert( CECEPPA_ML_TRANSLATIONS,
                             array( 'cml_text' => bin2hex( $original ),
                                   'cml_lang_id' => $lang,
                                   'cml_translation' => bin2hex( $translated ),
                                   'cml_type' => $type ),
                             array( '%s', '%d', '%s', '%s' ) );
+
+      return $id;
     } else {
       $wpdb->update( CECEPPA_ML_TRANSLATIONS,
                     array( 'cml_text' => bin2hex( $original ),
@@ -1396,6 +1398,7 @@ class CMLUtils {
     $_cml_settings = & $GLOBALS[ '_cml_settings' ];
 
     if( null === $slug ) $slug = CMLLanguage::get_current()->cml_language_slug;
+    if( is_numeric( $slug ) ) $slug = CMLLanguage::get_slug( $slug );
 
     switch( CMLUtils::get_url_mode() ) {
     case PRE_PATH:
@@ -1677,7 +1680,7 @@ class CMLTaxonomies {
 
     $query = sprintf(" SELECT UNHEX(cml_cat_translation) FROM %s WHERE cml_cat_name = '%s' AND cml_cat_lang_id = %d",
                                     CECEPPA_ML_CATS, bin2hex( $original ), $lang );
-echo $query;
+// echo $query;
     $val = $wpdb->get_var( $query );
 
     self::$_translations[ $lang ][ $original ] = $val;

@@ -3,7 +3,7 @@
 Plugin Name: Ceceppa Multilingua
 Plugin URI: http://www.alessandrosenese.eu/portfolio/ceceppa-multilingua
 Description: Adds userfriendly multilingual content management and translation support into WordPress.
-Version: 1.5.9
+Version: 1.5.12
 Author: Alessandro Senese aka Ceceppa
 Author URI: http://www.alessandrosenese.eu/
 License: GPL3
@@ -716,7 +716,7 @@ EOT;
     } else if( CMLUtils::_get( '_force_post_link' ) ) {
 			$slug = CMLLanguage::get_slug( CMLUtils::_get( '_force_post_link' ) );
 			CMLUtils::_del( '_force_post_link' );
-		}
+    }
 
     if( $this->_url_mode == PRE_PATH ) {
       /*

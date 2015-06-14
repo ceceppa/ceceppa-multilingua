@@ -60,7 +60,7 @@ EOT;
     $i++;
   }
 
-  echo "<li>" . join( ' |</li><li>', $items );
+  echo "<li>" . @join( ' |</li><li>', $items );
   $types = array_merge( $types, $others );
   ?>
   </ul>

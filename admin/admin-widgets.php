@@ -69,7 +69,6 @@ function cml_admin_in_widget_form( $widget, $return, $instance ) {
       $conditions['rules'][] = array( 'major' => '', 'minor' => '' );
 
   //cml_widget_add_available_flags( $conditions );
-
 ?>
   <div class="cml-widget-titles">
     <!-- avoid that ajax call change language inside widget -->
@@ -78,7 +77,11 @@ function cml_admin_in_widget_form( $widget, $return, $instance ) {
     <p>
       <?php _e( 'Translate title in:', 'ceceppaml' ) ?>
     </p>
+    <p class="warning">
+      <strong><?php _e( "Widget title cannot be empty, otherwise following translations will not be stored.", 'ceceppaml' ) ?></strong>
+    </p>
     <input type="hidden" name="cml-widget-name" value="<?php echo $widget->option_name ?>" />
+    <div class="fields">
     <?php
       foreach( CMLLanguage::get_no_default() as $lang ) {
         if( isset( $instance[ 'title' ] ) )
@@ -95,6 +98,7 @@ echo <<< EOT
 EOT;
       }
      ?>
+    </div>
   </div>
   <div class="cml-widget-conditional">
     <div class="cml-filter-widget">

@@ -68,6 +68,8 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'list_cats', array(&$this, 'translate_category' ), 10, 2 ); //for translate categories widget
     add_filter( 'post_link_category', array( & $this, 'post_link_category' ), 10, 3 );
     add_filter( 'single_cat_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
+    add_filter( 'single_tag_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
+    add_filter( 'single_term_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
     // add_filter( 'single_term_title', array( & $this, 'translate_sintle_term_title' ), 10, 1 );
     // add_filter( 'single_tag_title', array( & $this, 'translate_single_cat_title' ), 10, 1 );
 
@@ -868,7 +870,6 @@ EOT;
     unset( $this->_force_category_lang );
 
     return $this->get_translated_term( $title, null, null, $term->taxonomy );
-    // return $this->translate_term_name( $title, null, null, $term->taxonomy );
   }
 
   /*
