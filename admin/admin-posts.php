@@ -421,6 +421,10 @@ function cml_store_quick_edit_translations( $term_id ) {
     } else {
       $my_post[ 'ID' ] = $t_id;
       wp_update_post( $my_post );
+
+      if( get_option( 'cml_qem_match_categories', false ) ) {
+        _cml_clone_taxonomies( $term_id, $t_id, $lang->id, true );
+      }
     }
 
     //Yoast?
@@ -740,26 +744,16 @@ function cml_admin_delete_extra_post_fields( $id ) {
 /*
  * Clone the taxonomies from original post to its translation
  */
-function _cml_clone_taxonomies( $from, $to, $post_lang ) {
+function _cml_clone_taxonomies( $from, $to, $post_lang, $categories_only = false ) {
   global $wpdb;
 
   /* recover category from linked id */
   $categories = wp_get_post_categories( $from );
   if( ! empty( $categories ) ) {
-    // $c = array();
-    // foreach( $categories as $cat ) {
-    //   $query = sprintf( "SELECT cml_translated_cat_id FROM %s WHERE cml_cat_lang_id = %d AND cml_cat_id = %d",
-    //                         CECEPPA_ML_CATS, $post_lang, $cat );
-    //
-    //   $c[] = $wpdb->get_var( $query );
-    // } //endforeach;
-    //
-    // if( ! empty( $c ) ) {
-    //   $categories = $c;
-    // }
-
     wp_set_post_categories( $to, $categories );
   } // ! empty
+
+  if( $categories_only ) return;
 
   /* recover tags */
   $tags = wp_get_post_tags( $from );

@@ -45,6 +45,14 @@ LI;
       }
       ?>
       </ul>
+      <br>
+      <strong>Categories</strong>
+      <br>
+      <div class="cml-checkbox">
+        <input type="checkbox" id="cml-qem-match" name="cml-qem-match" value="1" <?php checked( get_option( 'cml_qem_match_categories', false ) ) ?> />
+        <label for="cml-qem-match"><span>||</span></label>
+      </div>
+      <label for="cml-qem-match"><?php _e( "Update translation's categories on save", 'ceceppaml' ); ?></label>
       <?php submit_button() ?>
     </div>
   </div>

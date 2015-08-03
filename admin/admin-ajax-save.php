@@ -195,6 +195,7 @@ function cml_admin_save_options_actions() {
   if( $tab == 2 ) {
     //Enable/Disable quick edit mode for each post type
     update_option( "cml_qem_enabled_post_types", @$_POST[ 'cml-qem-posttypes' ] );
+    update_option( "cml_qem_match_categories", @$_POST[ 'cml-qem-match' ] );
     update_option( "cml_qem_enabled", intval( @$_POST[ 'cml-qem' ] ) );
     update_option( "cml_debug_enabled", intval( @$_POST[ 'cml-debug' ] ) );
     update_option( "cml_update_static_page", intval( @$_POST[ 'cml-static' ] ) );
