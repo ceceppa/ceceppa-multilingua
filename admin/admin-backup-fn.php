@@ -28,6 +28,9 @@ function _cml_backup_tables( $select = "*", $where = "" ) {
     if( empty( $where ) ) {
       $data.= "DROP TABLE IF EXISTS `{$table}`;\n";
       $res = mysql_query("SHOW CREATE TABLE `{$table}`", $link);
+
+      //Table doesn't exists
+      if( ! $res ) continue;
       $row = mysql_fetch_row($res);
       $data.= $row[1].";\n";
     }

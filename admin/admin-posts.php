@@ -75,7 +75,12 @@ function cml_admin_post_meta_box( $tag ) {
     $img = CMLLanguage::get_flag_img( $lang->id );
     $title = empty( $class ) ? get_the_title( $t_id ) : "";
 
-    $href = admin_url() . "post-new.php?post_type={$tag->post_type}&link-to={$tag->ID}&post-lang={$lang->id}";
+    //If QEM is enabled I'm gonna add the post parameter, otherwsie a blank page will be shown
+    if( $cml_use_qem ) {
+      $href = admin_url() . "post-new.php?post_type={$tag->post_type}&link-to={$tag->ID}&post={$tag->ID}";
+    } else {
+      $href = admin_url() . "post-new.php?post_type={$tag->post_type}&link-to={$tag->ID}&post-lang={$lang->id}";
+    }
 
     $GLOBALS[ '_cml_no_translate_home_url' ] = 1;
     $link = empty( $t_id ) ? $href : get_edit_post_link( $t_id );
@@ -476,6 +481,7 @@ function cml_admin_add_flag_columns( $columns ) {
  * add flags to single item
  */
 function cml_admin_add_flag_column( $col_name, $id ) {
+  global $cml_use_qem;
   if( $col_name !== "cml_flags" ) return;
 
   if ( ! isset( $_GET[ 'post_type' ] ) )
@@ -501,7 +507,13 @@ function cml_admin_add_flag_column( $col_name, $id ) {
       echo '</a>';
 
     } else {
-      echo '<a href="' . get_bloginfo( "wpurl" ) . '/wp-admin/post-new.php?post_type=' . $post_type . '&link-to=' . $id . '&post-lang=' . $lang->id . '">';
+      if( $cml_use_qem ) {
+        $href = admin_url() . "post.php?post_type={$post_type}&link-to={$id}&post={$id}&action=edit";
+      } else {
+        $href = admin_url() . "post-new.php?post_type={$post_type}&link-to={$id}&post-lang={$lang->id}";
+      }
+
+      echo '<a href="' . $href . '">';
       echo '    <img class="add tipsy-me" src="' . CML_PLUGIN_URL . 'images/edit.png" title="' . __( 'Translate in:', 'ceceppaml' ) . ' ' . $lang->cml_language . '" />';
       echo '</a>';
     }

@@ -70,6 +70,7 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'single_cat_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
     add_filter( 'single_tag_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
     add_filter( 'single_term_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
+    add_filter( 'wp_get_object_terms', array( & $this, 'translate_terms' ), 10, 2 );
     // add_filter( 'single_term_title', array( & $this, 'translate_sintle_term_title' ), 10, 1 );
     // add_filter( 'single_tag_title', array( & $this, 'translate_single_cat_title' ), 10, 1 );
 
@@ -816,7 +817,7 @@ EOT;
   /*
    * translate term name and slug
    */
-  function translate_terms( $terms, $post_id, $taxonomy, $lang_id = null ) {
+  function translate_terms( $terms, $post_id, $taxonomy = null, $lang_id = null ) {
     global $_cml_settings;
 
     $t = array();

@@ -370,8 +370,8 @@ class CMLLanguage {
     $lang = self::$_all_languages[ $lang ];
     $flag = $lang->cml_flag;
 
-    if( $lang->cml_custom_flag == 1 && file_exists( CML_UPLOAD_DIR . "/$size/$flag.png" ) )
-      $url = CML_UPLOAD_URL . "/$size/$flag.png";
+    if( $lang->cml_custom_flag == 1 && file_exists( CML_UPLOAD_DIR . "$size/$flag.png" ) )
+      $url = CML_UPLOAD_URL . "$size/$flag.png";
     else
       $url = CML_PLUGIN_URL . "flags/$size/$flag.png";
 
@@ -1670,18 +1670,19 @@ class CMLTaxonomies {
     return $row;
   }
 
-  public static function get_translation( $lang, $original ) {
+  public static function get_translation( $lang, $term_name ) {
     global $wpdb;
 
-    $original = strtolower( $original );
+    $original = strtolower( $term_name );
     if( isset( self::$_translations[ $lang ][ $original ] ) ) {
       return self::$_translations[ $lang ][ $original ];
     }
 
     $query = sprintf(" SELECT UNHEX(cml_cat_translation) FROM %s WHERE cml_cat_name = '%s' AND cml_cat_lang_id = %d",
                                     CECEPPA_ML_CATS, bin2hex( $original ), $lang );
-// echo $query;
+
     $val = $wpdb->get_var( $query );
+    if( empty( $val ) ) $val = $term_name;
 
     self::$_translations[ $lang ][ $original ] = $val;
     return $val;

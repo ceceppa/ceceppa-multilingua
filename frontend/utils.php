@@ -30,7 +30,7 @@ function cml_is_homepage( $url = null, $the_id = null ) {
       $static_id = array( $pfp, $pof );
 
       foreach( array( $pfp, $pof ) as $id ) {
-        $t = CMLPost::get_translations( $pfp );
+        $t = CMLPost::get_translations( $id );
 
         if( isset( $t['indexes'] ) ) {
           foreach( $t['indexes'] as $tid ) {

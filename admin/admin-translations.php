@@ -37,7 +37,7 @@ $page = $_GET[ 'page' ];
 
           $strings = $_POST[ 'strings' ];
           $count = count( $strings );
-          
+
           foreach( CMLLanguage::get_all() as $lang ) {
             $key = "lang_$lang->id";
             if( ! isset( $_POST[ $key ] ) ) continue;
@@ -69,14 +69,14 @@ EOT;
         foreach( CMLLanguage::get_no_default() as $lang ) {
           do_meta_boxes( 'cml_box_options_' . $lang->id, 'advanced', $lang );
         }
-        
+
 echo <<< EOT
           <div class="cml-submit-button">
             <div class="wpspinner">
               <span class="spinner"></span>
             </div>
 EOT;
-            submit_button(); 
+            submit_button();
           echo '</div>';
         echo '</form>';
         break;
@@ -94,5 +94,5 @@ EOT;
       </div>
     </div>
   </div>
-  
+
 </div>
