@@ -15,10 +15,13 @@ class CMLFrontend extends CeceppaML {
   protected $_filter_form_class = "#searchform";
   protected $_no_translate_menu_item = false;
 
+  //Is wp >= 4.2.0?
+  protected $is_42 = false;
+
   public function __construct() {
     parent::__construct();
 
-    global $_cml_settings;
+    global $_cml_settings, $wp_version;
 
     //Frontend scripts and style
     add_action( 'wp_enqueue_scripts', array( &$this, 'frontend_scripts' ) );
@@ -70,7 +73,14 @@ class CMLFrontend extends CeceppaML {
     add_filter( 'single_cat_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
     add_filter( 'single_tag_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
     add_filter( 'single_term_title', array( & $this, 'translate_single_taxonomy_title' ), 10, 1 );
-    add_filter( 'wp_get_object_terms', array( & $this, 'translate_terms' ), 10, 2 );
+
+    //Since WP > 4.2.0
+    $this->is_42 = $wp_version > '4.2.0';
+    if( $this->is_42 )
+      add_filter( 'get_object_terms', array( & $this, 'translate_terms' ), 10, 2 );
+    else
+      add_filter( 'wp_get_object_terms', array( & $this, 'translate_terms' ), 10, 2 );
+
     // add_filter( 'single_term_title', array( & $this, 'translate_sintle_term_title' ), 10, 1 );
     // add_filter( 'single_tag_title', array( & $this, 'translate_single_cat_title' ), 10, 1 );
 
@@ -823,7 +833,12 @@ EOT;
     $t = array();
     foreach( $terms as $term ) {
       if( ! is_object( $term ) ) {
-        $t[] = $term;
+        if( $this->is_42 ) {
+          $t[] = $this->get_translated_term( $term, $lang_id, $post_id, $post_id[0] );
+        } else {
+          $tp[] = $term;
+        }
+
         continue;
       }
 

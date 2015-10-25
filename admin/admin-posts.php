@@ -815,7 +815,7 @@ function cml_manage_posts_columns() {
    * on it own posts.
    * I need to cycle $all because I need to show up the filtering option :)
    */
-  foreach ($all as $type ) {
+  foreach ($post_types as $type ) {
     add_action( "manage_${type}_posts_custom_column", 'cml_admin_add_flag_column', 10, 2);
     add_filter( "manage_${type}_posts_columns" , 'cml_admin_add_flag_columns' );
   }

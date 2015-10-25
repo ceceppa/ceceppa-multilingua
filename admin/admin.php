@@ -557,6 +557,7 @@ class CMLAdmin extends CeceppaML {
       }
 
       add_action( 'load-edit-tags.php', array( & $this, 'taxonomies_extra_fields' ) , 10 );
+      add_action( 'cml_taxonomies_extra_fields', array( & $this, 'taxonomies_extra_fields' ) , 10 );
     }
 
     //Translate term
