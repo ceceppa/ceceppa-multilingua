@@ -187,6 +187,10 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 
 == Changelog ==
 
+= 1.5.13 =
+* Improved woocommerce compatibility
+* Fixed adding items on each submenu
+
 = 1.5.12 =
 * Added tag translation in wp_title
 

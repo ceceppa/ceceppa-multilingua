@@ -428,15 +428,16 @@ class CMLFrontend extends CeceppaML {
   function add_flags_to_menu( $items, $args ) {
     global $_cml_settings;
 
+    //In which menu add flags?
+    $to = @$_cml_settings[ 'cml_add_items_to' ];
+    if( ! is_array( $to ) ) $to = array( $to );
+    if( empty( $to ) || ! in_array( $args->theme_location, $to ) ) return $items;
+
     //Add flags in submenu?
     if( $_cml_settings[ "cml_add_items_as" ] == 2 )
       return $this->add_flags_in_submenu( $items, $args );
 
-    //In which menu add flags?
-    $to = @$_cml_settings[ 'cml_add_items_to' ];
-
-    if( ! empty( $to ) && ! is_array( $to ) ) $to = array( $to );
-    if( ! empty( $to ) && ! in_array( $args->theme_location, $to ) ) return $items;
+    // if( ! in_array( $args->theme_location, $to ) ) return $items;
 
     $langs = CMLLanguage::get_enableds();
     $size = $_cml_settings[ "cml_show_in_menu_size" ];
