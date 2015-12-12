@@ -859,6 +859,7 @@ EOT;
           $term->slug != $tterm->slug ) {
           // $term->name != $oname ) {
 
+          //For Woocommerce I don't have to translate
           $term->slug = $tterm->slug;
         // $term->slug = sanitize_title( strtolower( $term->name ) );
       }
@@ -872,7 +873,6 @@ EOT;
      * required to allow force language post
      */
     //unset( $this->_force_post_lang );
-
     return $t;
   }
 

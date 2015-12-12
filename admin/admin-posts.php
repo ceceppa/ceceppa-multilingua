@@ -39,7 +39,7 @@ function cml_admin_post_meta_box( $tag ) {
     $link_id = intval( $_GET[ 'link-to' ] );
 
     //Clone categories & tags
-    _cml_clone_taxonomies( $linked_id, $tag->ID, $post_lang );
+    _cml_clone_taxonomies( $link_id, $tag->ID, $post_lang );
 
     //for page get parent
     $post = get_post( $link_id );
@@ -507,7 +507,8 @@ function cml_admin_add_flag_column( $col_name, $id ) {
       echo '</a>';
 
     } else {
-      if( $cml_use_qem ) {
+      //Is qem enable for current post type?
+      if( $cml_use_qem && isset( $enabled[ $post_type ]) ) {
         $href = admin_url() . "post.php?post_type={$post_type}&link-to={$id}&post={$id}&action=edit";
       } else {
         $href = admin_url() . "post-new.php?post_type={$post_type}&link-to={$id}&post-lang={$lang->id}";
