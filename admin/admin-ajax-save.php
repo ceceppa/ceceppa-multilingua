@@ -395,7 +395,7 @@ function cml_admin_save_site_title() {
 
   cml_generate_mo_from_translations( "_X_", false );
 
-  $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&cml-generate-settings=true' ) );
+  $return = array( "url" => esc_raw_url( admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&cml-generate-settings=true' ) ) );
 
   die( json_encode( $return ) );
 }
@@ -434,9 +434,9 @@ function cml_admin_generate_mo() {
     $generated = "[" . join( ", ", $parser->generated() ) . "]";
     $error = $parser->errors();
 
-    $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&updated=true&generated=' . $generated . '&error=' . $error ) );
+    $return = array( "url" => esc_raw_url( admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&updated=true&generated=' . $generated . '&error=' . $error ) ) );
   } else {
-    $return = array( "url" => admin_url( 'admin.php?page=' . $page . '&tab=' . $tab ) );
+    $return = array( "url" => esc_raw_url( admin_url( 'admin.php?page=' . $page . '&tab=' . $tab ) ) );
   }
 
   die( json_encode( $return ) );
@@ -488,7 +488,7 @@ function cml_backup_do() {
 
     $url = admin_url( 'admin.php?page=' . $page . '&tab=' . $tab . '&status=' . $status );
     $return = array(
-                        "url" => $url,
+                        "url" => esc_url_raw( $url ),
                     );
 
   die( json_encode( $return ) );
@@ -519,7 +519,7 @@ function cml_backup_export() {
                                ),
                           admin_url() . "admin.php"
                         );
-    $json = array( 'url' => esc_url( $url ),
+    $json = array( 'url' => esc_url_raw( $url ),
                    'show' => 1,
                  );
 
@@ -569,7 +569,7 @@ function cml_backup_import() {
   $url = add_query_arg( $url,
                          admin_url() . "admin.php?cml-settings-updated=1"
                        );
-  $json = array( 'url' => esc_url( $url ) );
+  $json = array( 'url' => esc_url_raw( $url ) );
 
   die( json_encode( $json ) );
 }
@@ -600,7 +600,7 @@ function cml_admin_translated_slugs() {
   $url = add_query_arg( $url,
                            admin_url() . "admin.php"
                          );
-  $json = array( 'url' => esc_url( $url ) );
+  $json = array( 'url' => esc_url_raw( $url ) );
 
   die( json_encode( $json ) );
 }

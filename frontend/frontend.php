@@ -1397,6 +1397,7 @@ EOT;
     $this->_language_detected = 1;
 
     $request_url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
     //Ajax?
     if( ! isset( $_REQUEST[ 'lang' ] ) &&
        defined( 'DOING_AJAX' ) ||
@@ -2100,7 +2101,7 @@ EOT;
     //No redirect, please :)
     if( $this->_redirect_browser == 'nothing' || isCrawler() ) return;
 
-    //Recupero info sulla disponibilità della lingua del browser
+    //Detect browser language
     global $wpdb;
 
     $lang = cml_get_browser_lang();
@@ -2108,7 +2109,7 @@ EOT;
                                   CMLLanguage::get_slug( $lang );
 
     /*
-     * is dafault language and I haven't add slug for it?
+     * is default language and I dont have to add slug for it?
      * Ok, nothing to do :)
      */
     if( CMLLanguage::is_default( $slug ) &&
@@ -2120,13 +2121,15 @@ EOT;
     //Redirect abilitato?
     if($this->_redirect_browser == 'auto') {
       $location = CMLUtils::get_home_url( $slug );
-    }
-
-    if( $this->_redirect_browser == 'default' ) {
+    } else if( $this->_redirect_browser == 'default' ) {
       $location = CMLUtils::get_home_url( CMLLanguage::get_default_slug() );
-    }
 
-    if( $this->_redirect_browser == "others" ) {
+      //if $location == current url, need to force tha language in the url,
+      //otherwise I'll have a redirect loop...
+      if( $_cml_settings[ 'url_mode_remove_default' ] == 1 ) {
+        $location = esc_url_raw( add_query_arg( array( 'lang' => CMLLanguage::get_default_slug() ), $location ) );
+      }
+    } else if( $this->_redirect_browser == "others" ) {
       if( $lang == CMLLanguage::get_default_id() ) return;	//Default language, do nothing
 
       $location = CMLUtils::get_home_url( $slug );
@@ -2310,7 +2313,7 @@ EOT;
    */
   function filter_archives($query, $pos) {
     //Recupero tutti i post collegati alla lingua corrente
-    $posts = $this->get_posts_by_language();
+    $posts = CMLPost::get_posts_by_language();
 
     $where = " AND id IN (" . implode(", ", $posts) . ") ";
 

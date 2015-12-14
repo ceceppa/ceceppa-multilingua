@@ -697,10 +697,8 @@ EOT;
 		   || CMLUtils::_get( '_rewrite_rules' )
 			 || CMLUtils::_get( '_rewrite_url' )
        || ! apply_filters( 'cml_translate_home_url', true, $this->_url ) ) {
-
       return $url;
     }
-
 
     if( is_admin() && "?p=" == substr( $path, 0, 3 ) ) {
       return $url;
@@ -724,18 +722,16 @@ EOT;
        */
       if( ! empty( $path ) && "/" != $path[ 0 ] ) $path = "/$path";
 
-      return CMLUtils::get_home_url( $slug ) . $path;
-    }
+			$url = CMLUtils::get_home_url( $slug ) . $path;
 
-    if( $this->_url_mode == PRE_LANG ) {
+      return $url;
+    } else if( $this->_url_mode == PRE_LANG ) {
       $url = add_query_arg( array(
                             'lang' => $slug,
                             ), $url );
 
 			return esc_url( $url );
-    }
-
-    if( $this->_url_mode == PRE_DOMAIN ) {
+    } else if( $this->_url_mode == PRE_DOMAIN ) {
       if( preg_match( "/^(.*\/\/)([a-z]{2})\./", $url, $match ) ) {
         $url = preg_replace( "/^(.*\/\/)([a-z]{2})\./", $match[1] . "$slug.", $url );
       } else {
