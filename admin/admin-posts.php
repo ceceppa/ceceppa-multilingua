@@ -404,7 +404,7 @@ function cml_store_quick_edit_translations( $term_id ) {
     $my_post = array(
                 'post_title'    => $_POST[ 'cml_post_title_' . $lang->id ],
                 'post_content'  => $_POST[ 'ceceppaml_content_' . $lang->id ],
-                'post_author'   => get_current_user_id(),
+                'post_author'   => $_POST[ 'post_author' ],
                 'post_type'     => $_POST[ 'post_type' ]
               );
 
