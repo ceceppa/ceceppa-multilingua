@@ -191,6 +191,8 @@ For Problems visits the [Support page](http://www.alessandrosenese.eu/en/ceceppa
 * Improved woocommerce compatibility
 * Fixed adding items on each submenu
 * Fixed redirect loop
+* Fixed double redirect, after added language slug for the homepage
+* Fixed uncheckable option in the settings page
 
 = 1.5.12 =
 * Added tag translation in wp_title

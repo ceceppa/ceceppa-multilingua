@@ -327,6 +327,15 @@ jQuery(document).ready( function($) {
   $( '.cml-override-flags.cml-override input' ).click( function() {
     $( '.cml-show-always' ).attr( 'class', 'cml-show-always' ).addClass( $( this ).val() ) ;
   });
+
+  //Settings metabox
+  /**
+   * WP add a button, for accessibility reason, before the metabox "header".
+   * This cause the checkbox option stopping to work, so need to remove the duplicated
+   * <input> element.
+   */
+
+  $( '.handlediv.button-link .cml-checkbox' ).remove();
 });
 
 /**
