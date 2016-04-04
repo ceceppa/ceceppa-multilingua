@@ -2138,7 +2138,7 @@ EOT;
     if( ! empty( $location ) ) {
       $this->_redirect_browser = 'nothing';
 
-      wp_redirect( $location );
+      wp_redirect( trailingslashit( $location ) );
       exit;
     }
   }
