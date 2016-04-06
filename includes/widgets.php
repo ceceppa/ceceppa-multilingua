@@ -63,10 +63,10 @@ class CeceppaMLWidgetRecentPosts extends WP_Widget {
       echo "<ul>\n";
       while( $the_query->have_posts() ) {
         $the_query->next_post();
-    
+
         if( in_array( $the_query->post->ID, $ids ) ) {
           echo '<li><a href="' . get_permalink( $the_query->post->ID ) . '" title="' . get_the_title( $the_query->post->ID ) . '">' . get_the_title($the_query->post->ID) . '</a></li>';
-    
+
           $i++;
           if($i > $number) break;
         } //endif;
@@ -107,12 +107,12 @@ class CeceppaMLWidgetRecentPosts extends WP_Widget {
     <p>
     <label for="<?php echo $this->get_field_id('title'); ?>">
       <?php _e('Title:'); ?>
-    </label> 
+    </label>
     <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
     <br />
     <label for="<?php echo $this->get_field_id('number'); ?>">
       <?php _e('Number of posts to show:'); ?>
-    </label> 
+    </label>
     <input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3"/>
     <br />
 <?php
@@ -145,6 +145,7 @@ class CeceppaMLWidgetChooser extends WP_Widget {
     $title = apply_filters( 'widget_title', $instance[ 'title' ] );
     $hide_title = array_key_exists( 'hide-title', $instance ) ? intval( $instance[ 'hide-title' ] ) : 0;
     $classname = array_key_exists( 'classname', $instance ) ? ($instance['classname']) : 'cml_widget_flag';
+    $only_existings = array_key_exists( 'only_existings', $instance ) ? ($instance['only_existings']) : false;
 
     echo $before_widget;
     if (!empty($title) && $hide_title != 1)
@@ -168,8 +169,8 @@ class CeceppaMLWidgetChooser extends WP_Widget {
                     "size" => $size,
                     "class_name" => $classname,
                     "image_class" => "cml_widget_$display",
+                    "only_existings" => $only_existings,
                     "queried" => true,
-                    "debug" => true,
                     );
 
       cml_show_flags( $args );
@@ -195,7 +196,7 @@ class CeceppaMLWidgetChooser extends WP_Widget {
 
     return $new_instance;
   }
-  
+
   /**
   * Back-end widget form.
   *
@@ -214,11 +215,12 @@ class CeceppaMLWidgetChooser extends WP_Widget {
     $size = isset( $instance['size'] ) ? $instance['size'] : "small";
     $hide_title = array_key_exists( 'hide-title', $instance) ? $instance['hide-title'] : 0;
     $classname = array_key_exists( 'classname', $instance) ? $instance['classname'] : 'cml_widget_flag';
+    $only_existings = array_key_exists( 'only_existings', $instance) ? $instance['only_existings'] : 0;
 ?>
     <p>
       <label for="<?php echo $this->get_field_id('title'); ?>">
         <strong><?php _e('Title:'); ?></strong>
-      </label> 
+      </label>
       <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 <!-- Visualizza -->
       <p>
@@ -288,6 +290,20 @@ class CeceppaMLWidgetChooser extends WP_Widget {
           </li>
         </ul>
       </p>
+      <!-- Hide flag if translation doesn't exists -->
+      <p>
+        <strong><?php _e('When:', 'ceceppaml'); ?></strong>
+      </p>
+      <p>
+        <ul style="margin-left: 10px">
+          <li>
+            <label>
+              <input type="checkbox" id="<?php echo $this->get_field_id('only_existings'); ?>" name="<?php echo $this->get_field_name('only_existings'); ?>" value="1" <?php checked( $only_existings, 1 ); ?>/>
+              <?php _e('Show flags only on translated page.', 'ceceppaml') ?>
+            </label>
+          </li>
+        </ul>
+      </p>
 <!-- Classe css -->
       <p>
         <label for="<?php echo $this->get_field_id('classname'); ?>">
@@ -297,7 +313,7 @@ class CeceppaMLWidgetChooser extends WP_Widget {
       <p>
           <input type="text" id="<?php echo $this->get_field_id('classname'); ?>" name="<?php echo $this->get_field_name('classname'); ?>" value="<?php echo $classname ?>" />
       </p>
-<?php 
+<?php
 	}
 };
 
@@ -364,7 +380,7 @@ class CeceppaMLWidgetText extends WP_Widget {
     <p>
     <label for="<?php echo $this->get_field_id('title'); ?>">
       <?php _e('Title:'); ?>
-    </label> 
+    </label>
     <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
     <br />
 
@@ -378,7 +394,7 @@ class CeceppaMLWidgetText extends WP_Widget {
     <label for="<?php echo $this->get_field_id('text-' . $lang->id); ?>">
       <?php echo $lang->cml_default ? "<strong>" : "" ?><img src="<?php echo cml_get_flag($lang->cml_flag) ?>" />&nbsp;<?php echo $lang->cml_language ?>:<?php echo $lang->cml_default ? "</strong>" : "" ?><br />
       <textarea id="<?php echo $this->get_field_id( 'text-' . $lang->id ); ?>" name="<?php echo $this->get_field_name('text-' . $lang->id); ?>" type="text" style="width: 100%; min-height: 80px"><?php echo $text; ?></textarea>
-    </label> 
+    </label>
 <?php endforeach; ?>
     <br />
 <?php
