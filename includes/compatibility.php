@@ -317,12 +317,11 @@ function cml_yoast_translate_options() {
 
   if( ! defined( 'WPSEO_VERSION' ) || is_admin() ) return;
 
-  if( is_admin() ) { //|| CMLUtils::_get( "_real_language" ) == CMLLanguage::get_default_id() ) {
-    return;
-  }
-
   $names = get_option( "cml_translated_fields_yoast", array() );
-  if( empty( $names ) ) return;
+  // if( empty( $names ) ) return;
+
+  if( ! class_exists('WPSEO_Frontend') ||
+      ! method_exists(WPSEO_Frontend, 'get_instance' ) ) return;
 
   $seo = WPSEO_Frontend::get_instance();
   $names = explode( ",", $names );

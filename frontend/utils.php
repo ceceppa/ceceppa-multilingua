@@ -356,7 +356,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
       }
     }
 
-    if( is_archive() && ! $is_category ) { //&& ! is_post_type_archive() ) {
+    if( $is_archive && ! $is_category ) { //&& ! is_post_type_archive() ) {
       global $wp;
 
       $link = trailingslashit( home_url( $wp->request ) );
@@ -489,6 +489,10 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
         $link = str_replace( $url, "", $clean );
         $link = CMLUtils::get_home_url( $lang->cml_language_slug ) . $link;
       }
+    }
+
+    if( empty( $link ) && $only_existings ) {
+      return '';
     }
 
     $link = apply_filters( 'cml_get_the_link', $link, array(

@@ -960,7 +960,7 @@ class CMLPost {
    *
    * return Array
    */
-  public static function get_translations( $post_id, $force = false ) {
+  public static function get_translations( $post_id, $force = true ) {
     global $wpdb;
 
     if( empty( $post_id ) ) return array();
