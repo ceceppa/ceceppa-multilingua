@@ -62,8 +62,7 @@ function cml_admin_post_meta_box( $tag ) {
   }
 
   $translations = CMLPost::get_translations( ( $link_id > 0 ) ? $link_id : $tag->ID, true );
-print_r( $translations );
-die();
+
   echo '<ul class="cml-post-translations">';
   foreach( CMLLanguage::get_all() as $lang ) {
     if( $lang->id == $post_lang ) continue;

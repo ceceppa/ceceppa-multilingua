@@ -53,17 +53,28 @@ Enable flags on your site/pages
 Filter widgets by language
 See all available options
 Done, close wizard
-Navigation Label
-Title Attribute
-Select the name of your primary menu:
-Save
-Flags
 Language
 All languages
 Add translation
 Edit
+Show flags
+Use default 'Show flags' settings
+default
+Always show flags in current page
+always
+Don't show flags in this page
+never
+Size
+Small
+Tiny
+Where:
+Before the title
+After the title
+Before content
+After content
 None
 current %s
+Enable language filtering
 Language: 
 Edit post: 
 Translate in:
@@ -74,33 +85,16 @@ Add new tag
 Confirm translation
 Click to translate
 Post data
-Page data
 Language:
 Show all languages
+You can easily disable/enable language filtering for current post type, 
+using the \"Enable language filtering\" in the \"Screen Option\" section
+Close
 Something goes wrong during upgrade, click <%s>here</a> to fix 
 Error writing file: %s
 No tables found!
 If you have uninstalled the plugin, you can remove the plugin now, or deactivate and activete it again to rebuild tables.
 If you haven't uninstalled the plugin, something goes wrong, please contact me <%s>here
-No translable strings founds in %s
-Failed to open %s path
-Available languages: 
-Choose in which languages you want to translate: 
-All strings
-To translate
-Incomplete
-Translated
-Save Changes
-You have to choose in which language you want to translate: 
-Search
-Text
-Translation
-Translation complete
-Translation not complete
-Failed to open stream %s: Permission denied
-Something goes wrong :'(. I don't know where to store .mo file
-Failed to create folder: %s
-Generated files:
 Advanced
 Uninstall
 The changes you made will be lost if you navigate away from this page.
@@ -116,7 +110,7 @@ Site Title
 Tagline
 Plugin
 Theme
-Show flags
+Flags
 Settings
 Addons
 Documentation
@@ -235,8 +229,23 @@ Donate:
 Contribute:
 Documentation:
 No .po files found for %s
+Available languages: 
+Choose in which languages you want to translate: 
+All strings
+To translate
+Incomplete
+Translated
+Save Changes
+You have to choose in which language you want to translate: 
+Search
+Text
+Translation
 fuzzy
+Failed to open stream %s: Permission denied
+Something goes wrong :'(. I don't know where to store .mo file
+Failed to create folder: %s
 tmp.pot not found: %s
+Generated files:
 Translate title in:
 Filter widget
 Show
@@ -260,10 +269,12 @@ Update
 Show only posts in current language
 Show all posts, but hide their translation
 Hide empty translations of posts and show in default language
+Don't filter
 Choose which posts show
 Show only the posts that exists in current language
 Show also posts that has no translation in current language.
 If a post doesn't have a translation in current language, post in \"default language\" will be shown
+Don't filter wordpress queries, useful for one page themes
 Allows you to filter the result of some widgets to display only those records relating to the current language.
 Supported widgets:
 Least reads posts
@@ -317,6 +328,7 @@ Uninstall the plugin:
 Are you sure?
 You can change the flag only after adding language.
 Show help
+Save
 My languages
 Add custom
 Available languages
@@ -327,7 +339,6 @@ Click for change or upload custom flag
 Enable/Disable language
 Upload custom image
 Date format: %s. <br /> Click for edit
-Close
 Automatically redirects the browser depending on the visitor's language.
 Automatically redirects the default language.
 Redirect only if visitor language is different from default one
@@ -390,9 +401,6 @@ The plugin will add language slug ( ?lang=## ) to url when translation doesn't e
 Show flags on:
 Custom posts
 Loop
-Where:
-Before the title
-After the title
 Before post/page content
 After post/page content
 When:
@@ -416,8 +424,6 @@ Name only
 Flag only
 Flag + Language slug
 Flags size:
-Small
-Tiny
  Style:
 List
 Combo
@@ -428,9 +434,12 @@ Start wizard
 Start wizard againg. Current settings will not be erased
 Restore helps
 Automatically assign default language to existing posts
+Update static page
+Update Wordpress static page settings. If the plugin set random page as homepage try to deactivat this option
 Wizard
 Update language of existing posts
 Update post relations
+Static page
 Debug
 %1\$ flag
 generated from \"wpml-config.xml\"
@@ -453,6 +462,14 @@ Flag's size:
 Css ClassName:
 CML: Text
 You can write arbitrary text or HTML separately for each language
+Navigation Label
+Title Attribute
+Select the name of your primary menu:
+Page data
+No translable strings founds in %s
+Failed to open %s path
+Translation complete
+Translation not complete
 Translate to:
 tmp.pot doesn't found: %s
 Plugin will automatically filter search in according to current language.

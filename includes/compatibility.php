@@ -317,7 +317,7 @@ function cml_yoast_translate_options() {
 
   if( ! defined( 'WPSEO_VERSION' ) || is_admin() ) return;
 
-  $names = get_option( "cml_translated_fields_yoast", array() );
+  $names = get_option( "cml_translated_fields_yoast", '' );
   // if( empty( $names ) ) return;
 
   if( ! class_exists('WPSEO_Frontend') ||

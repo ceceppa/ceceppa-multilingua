@@ -59,7 +59,7 @@ function cml_dropdown_langs( $className, $selected, $link = false, $none = false
     if( $none )
       echo _cml_dropdown_lang_li( "#", $none_text, ( $selected == "0" ) ? "x" : "", 0, false, $style );
   }
-  
+
 echo <<< EOT
     </li>
   </ul>
@@ -96,5 +96,3 @@ return <<< EOT
   $close
 EOT;
 }
-
-?>
