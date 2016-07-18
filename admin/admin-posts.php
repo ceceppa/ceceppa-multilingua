@@ -1034,7 +1034,7 @@ function cml_qem_set_publish_parameter($location, $post_id = null) {
   }
 
   if( ! empty( $posts ) ) {
-    $location = esc_url( add_query_arg( array( 'publish' => $posts ), $location ) );
+    $location = add_query_arg( array( 'publish' => $posts ), $location );
   }
 
   return $location;
