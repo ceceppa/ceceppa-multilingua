@@ -758,7 +758,7 @@ if( is_admin() ) {
 
   $table_name = CECEPPA_ML_TABLE;
   $first_time = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name;
-  if( $wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name &&
+  if( $first_time &&
       $pagenow != "plugins.php" ) {
     require_once( CML_PLUGIN_ADMIN_PATH . 'admin-utils.php' );
 
