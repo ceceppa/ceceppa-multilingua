@@ -321,7 +321,7 @@ function cml_yoast_translate_options() {
   // if( empty( $names ) ) return;
 
   if( ! class_exists('WPSEO_Frontend') ||
-      ! method_exists(WPSEO_Frontend, 'get_instance' ) ) return;
+      ! method_exists('WPSEO_Frontend', 'get_instance' ) ) return;
 
   $seo = WPSEO_Frontend::get_instance();
   $names = explode( ",", $names );
