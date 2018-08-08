@@ -303,6 +303,7 @@ function cml_get_the_link( $lang, $linked = true, $only_existings = false, $quer
       if( empty( $q ) ) {
         $is_404 = is_404();
       }
+      $is_archive = false;
     } else {
       $q = null;
 
